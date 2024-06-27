@@ -1,0 +1,7 @@
+### GET request with a header
+GET http://localhost:9010/staterule/all
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:9010/wip/reserved/filter?site=SVM&eqpId=AP-RD-04-01&portId=AP-RD-04-01-BP01
+Accept: application/json

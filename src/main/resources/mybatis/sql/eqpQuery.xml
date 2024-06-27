@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.abs.wfs.workman.dao.query.eqp.mapper.EqpMapper">
+    <update id="updateTnPosPort" parameterType="com.abs.wfs.workman.dao.query.eqp.vo.TnPosPortDto">
+        UPDATE TN_POS_PORT
+        <set>
+            <if test="acesModeCd != null">ACES_MODE_CD = #{acesModeCd},</if>
+            <if test="statCd != null">STAT_CD = #{statCd},</if>
+            <if test="statCd != null">PREV_STAT_CD = STAT_CD,</if>
+            <if test="trsfStatCd != null">TRSF_STAT_CD = #{trsfStatCd},</if>
+            <if test="carrId != null">CARR_ID = #{carrId},</if>
+            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+            <if test="true">MDFY_DT = SYSDATE,</if>
+            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
+            <if test="tid != null">TID = #{tid},</if>
+            <if test="ctrlModeCd != null">CTRL_MODE_CD = #{ctrlModeCd},</if>
+        </set>
+        <where>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+            <if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+        <selectKey keyProperty="objId" resultType="String" order="AFTER">
+            SELECT OBJ_ID as objId
+            FROM TN_POS_PORT
+            <where>
+                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+                <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+                <if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
+                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+            </where>
+        </selectKey>
+    </update>
+
+    <insert id="createThPosPort" parameterType="String">
+        INSERT INTO TH_POS_PORT (
+        OBJ_ID
+        ,REF_OBJ_ID
+        ,SITE_ID
+        ,EQP_ID
+        ,PORT_ID
+        ,ACES_MODE_CD
+        ,STAT_CD
+        ,PREV_STAT_CD
+        ,TRSF_STAT_CD
+        ,CARR_ID
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,CTRL_MODE_CD
+
+        )
+        SELECT (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+        ,OBJ_ID AS REF_OBJ_ID
+        ,SITE_ID
+        ,EQP_ID
+        ,PORT_ID
+        ,ACES_MODE_CD
+        ,STAT_CD
+        ,PREV_STAT_CD
+        ,TRSF_STAT_CD
+        ,CARR_ID
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,CTRL_MODE_CD
+        FROM TN_POS_PORT
+        WHERE OBJ_ID = #{objId}
+    </insert>
+
+    <update id="updateTnPosEqp" parameterType="com.abs.wfs.workman.dao.query.eqp.vo.TnPosEqpDto">
+        UPDATE TN_POS_EQP
+        <set>
+            <if test="sorterModeYn != null">SORTER_MODE_YN = #{sorterModeYn},</if>
+            <if test="statCd != null">STAT_CD = #{statCd},</if>
+            <if test="prevStatCd != null">PREV_STAT_CD = #{prevStatCd},</if>
+            <if test="statCdDt != null">STAT_CD_DT = #{statCdDt},</if>
+            <if test="prevStatDt != null">PREV_STAT_DT = #{prevStatDt},</if>
+            <if test="procStatCd != null">PROC_STAT_CD = #{procStatCd},</if>
+            <if test="prevProcStatCd != null">PREV_PROC_STAT_CD = #{prevProcStatCd},</if>
+            <if test="procStatCdDt != null">PROC_STAT_CD_DT = #{procStatCdDt},</if>
+            <if test="prevProcStatDt != null">PREV_PROC_STAT_DT = #{prevProcStatDt},</if>
+            <if test="ctrlModeCd != null">CTRL_MODE_CD = #{ctrlModeCd},</if>
+            <if test="prevCtrlModeCd != null">PREV_CTRL_MODE_CD = #{prevCtrlModeCd},</if>
+            <if test="ctrlModeDt != null">CTRL_MODE_DT = #{ctrlModeDt},</if>
+            <if test="prevCtrlModeDt != null">PREV_CTRL_MODE_DT = #{prevCtrlModeDt},</if>
+            <if test="oprtnModeCd != null">OPRTN_MODE_CD = #{oprtnModeCd},</if>
+            <if test="prevOprtnModeCd != null">PREV_OPRTN_MODE_CD = #{prevOprtnModeCd},</if>
+            <if test="oprtnModeDt != null">OPRTN_MODE_DT = #{oprtnModeDt},</if>
+            <if test="prevOprtnModeDt != null">PREV_OPRTN_MODE_DT = #{prevOprtnModeDt},</if>
+            <if test="procLotCnt != null">PROC_LOT_CNT = #{procLotCnt},</if>
+            <if test="cpct != null">CPCT = #{cpct},</if>
+            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+            <if test="prevEvntNm != null">PREV_EVNT_NM = #{prevEvntNm},</if>
+            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+            <if test="prevCstmEvntNm != null">PREV_CSTM_EVNT_NM = #{prevCstmEvntNm},</if>
+            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+            <if test="crtUserId != null">CRT_USER_ID = #{crtUserId},</if>
+            <if test="crtDt != null">CRT_DT = #{crtDt},</if>
+            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+            <if test="mdfyDt != null">MDFY_DT = #{mdfyDt},</if>
+            <if test="fnlEvntDt != null">FNL_EVNT_DT = #{fnlEvntDt},</if>
+            <if test="tid != null">TID = #{tid},</if>
+            <if test="autoDspYn != null">AUTO_DSP_YN = #{autoDspYn},</if>
+            <if test="intlkYn != null">INTLK_YN = #{intlkYn},</if>
+        </set>
+        <where>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+        <selectKey keyProperty="objId" resultType="String" order="AFTER">
+            SELECT OBJ_ID as objId
+            FROM TN_POS_EQP
+            <where>
+                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+                <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+            </where>
+        </selectKey>
+    </update>
+
+    <insert id="createThPosEqp" parameterType="String">
+        INSERT INTO TH_POS_EQP (
+        OBJ_ID
+        ,SITE_ID
+        ,EQP_ID
+        ,EQP_NM
+        ,EQP_CLS_ID
+        ,SORTER_MODE_YN
+        ,STAT_CD
+        ,PREV_STAT_CD
+        ,STAT_CD_DT
+        ,PREV_STAT_DT
+        ,PROC_STAT_CD
+        ,PREV_PROC_STAT_CD
+        ,PROC_STAT_CD_DT
+        ,PREV_PROC_STAT_DT
+        ,CTRL_MODE_CD
+        ,PREV_CTRL_MODE_CD
+        ,CTRL_MODE_DT
+        ,PREV_CTRL_MODE_DT
+        ,OPRTN_MODE_CD
+        ,PREV_OPRTN_MODE_CD
+        ,OPRTN_MODE_DT
+        ,PREV_OPRTN_MODE_DT
+        ,PROC_LOT_CNT
+        ,CPCT
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,AUTO_DSP_YN
+        ,INTLK_YN
+        )
+        SELECT (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+        ,OBJ_ID AS REF_OBJ_ID
+        ,SITE_ID
+        ,EQP_ID
+        ,EQP_NM
+        ,EQP_CLS_ID
+        ,SORTER_MODE_YN
+        ,STAT_CD
+        ,PREV_STAT_CD
+        ,STAT_CD_DT
+        ,PREV_STAT_DT
+        ,PROC_STAT_CD
+        ,PREV_PROC_STAT_CD
+        ,PROC_STAT_CD_DT
+        ,PREV_PROC_STAT_DT
+        ,CTRL_MODE_CD
+        ,PREV_CTRL_MODE_CD
+        ,CTRL_MODE_DT
+        ,PREV_CTRL_MODE_DT
+        ,OPRTN_MODE_CD
+        ,PREV_OPRTN_MODE_CD
+        ,OPRTN_MODE_DT
+        ,PREV_OPRTN_MODE_DT
+        ,PROC_LOT_CNT
+        ,CPCT
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,AUTO_DSP_YN
+        ,INTLK_YN
+        FROM TN_POS_EQP
+        WHERE OBJ_ID = #{objId}
+    </insert>
+
+    <select id="selectEqp" parameterType="hashMap" resultType="hashMap">
+        SELECT P.SITE_ID
+        ,P.EQP_ID
+        ,R.EQP_TYP
+        ,P.STAT_CD
+        ,P.PROC_STAT_CD
+        ,P.SORTER_MODE_YN
+        ,P.CTRL_MODE_CD
+        ,P.OPRTN_MODE_CD
+        ,P.INTLK_YN
+        ,P.AUTO_DSP_YN
+        ,R.INLINE_YN
+        ,R.EQP_INLINE_SEQ
+        ,R.EQP_INLINE_ID
+        ,R.MODEL_TYP
+        ,R.SORTER_MODE_AVAIL_YN
+        FROM TN_POS_EQP P, TN_RDS_EQP R
+        WHERE P.SITE_ID = R.SITE_ID
+        AND P.EQP_ID = R.EQP_ID
+        AND P.SITE_ID = #{siteId}
+        AND P.EQP_ID = #{eqpId}
+        AND P.USE_STAT_CD = #{useStatCd}
+        AND R.USE_STAT_CD = #{useStatCd}
+    </select>
+
+    <select id="selectQueryEqpVO" parameterType="hashMap" resultType="com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo">
+        SELECT
+        R.EQP_ID,
+        R.EQP_TYP,
+        R.MODEL_TYP,
+        R.BATCH_YN,
+        R.INLINE_YN,
+        R.EQP_INLINE_SEQ,
+        R.EQP_INLINE_ID,
+        R.SORTER_MODE_AVAIL_YN,
+        P.STAT_CD,
+        P.PROC_STAT_CD,
+        P.CTRL_MODE_CD,
+        P.OPRTN_MODE_CD,
+        P.SORTER_MODE_YN,
+        P.AUTO_DSP_YN,
+        P.INTLK_YN
+        FROM
+        TN_RDS_EQP R, TN_POS_EQP P
+        WHERE
+        1 = 1
+        AND R.SITE_ID = P.SITE_ID
+        AND R.EQP_ID = P.EQP_ID
+        AND R.USE_STAT_CD = P.USE_STAT_CD
+        AND R.SITE_ID = #{siteId}
+        AND R.USE_STAT_CD = #{useStatCd}
+        AND R.EQP_ID = #{eqpId}
+    </select>
+
+
+
+    <select id="selectPort" parameterType="hashMap" resultType="hashMap">
+        SELECT R.PORT_ID
+        ,R.CARR_TYP
+        ,R.PORT_TYP
+        ,P.ACES_MODE_CD
+        ,P.CTRL_MODE_CD
+        ,P.STAT_CD
+        ,P.TRSF_STAT_CD
+        ,P.CARR_ID
+        FROM TN_RDS_PORT R
+        ,TN_POS_PORT P
+        WHERE P.SITE_ID = R.SITE_ID
+        AND P.EQP_ID = R.EQP_ID
+        AND P.PORT_ID = R.PORT_ID
+        AND P.SITE_ID = #{siteId}
+        AND P.EQP_ID = #{eqpId}
+        AND P.PORT_ID = #{portId}
+        AND P.USE_STAT_CD = #{useStatCd}
+        AND R.USE_STAT_CD = #{useStatCd}
+    </select>
+
+    <select id="selectQueryPortVO" parameterType="hashMap" resultType="com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo">
+        SELECT R.PORT_ID
+        ,R.PORT_TYP
+        ,R.CARR_TYP
+        ,P.ACES_MODE_CD
+        ,P.CTRL_MODE_CD
+        ,P.STAT_CD
+        ,P.TRSF_STAT_CD
+        ,P.CARR_ID
+        FROM TN_RDS_PORT R,TN_POS_PORT P
+        WHERE R.SITE_ID = P.SITE_ID
+        AND R.EQP_ID = P.EQP_ID
+        AND R.PORT_ID = P.PORT_ID
+        AND R.SITE_ID = #{siteId}
+        AND R.USE_STAT_CD = #{useStatCd}
+        AND R.EQP_ID = #{eqpId}
+        AND R.PORT_ID = #{portId}
+    </select>
+</mapper>

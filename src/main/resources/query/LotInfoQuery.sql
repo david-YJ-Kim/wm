@@ -1,0 +1,34 @@
+-- 제품 출하 기준 (shipType Q / S / U)
+-- dimension 정보 (X, Y) X: X 방향으로 쪼개지는 개수 / Y: Y 방향으로 쪼개지는 개수
+SELECT
+    SITE_ID ,
+    PROD_DEF_ID ,
+    PROD_TYP ,
+    SHIP_UNIT_TYP ,
+    UPPER(SUBSTR(SHIP_UNIT_TYP, 1,1)) AS SHIP_UNIT_TYP_CD,
+    STRIP_X_SPEC_VAL AS DIMENSION_X,
+    STRIP_Y_SPEC_VAL AS DIMENSION_Y
+FROM TN_PPS_PROD_DEF
+WHERE 1=1
+  AND SHIP_UNIT_TYP IS NOT NULL
+  AND SITE_ID = 'SVM'
+  AND PROD_DEF_ID  = 'ED3-01-001'
+  AND USE_STAT_CD = 'Usable'
+;
+
+
+-- 검사 계측 파일 생성 Linmit 값
+SELECT
+    CODE.SITE_ID,
+    CLS.CD_CLS_ID ,
+    CODE.CD_ID ,
+    CODE.CD_NM ,
+    CODE.CD_VAL ,
+    CODE.USE_STAT_CD
+FROM TN_CDS_CODE_CLS CLS, TN_CDS_CODE CODE
+WHERE 1=1
+  AND CLS.CD_CLS_ID = CODE.CD_CLS_ID
+  AND CLS.USE_STAT_CD = CODE.USE_STAT_CD
+  AND CLS.CD_CLS_ID  = 'FileRowCountLimit'
+;
+

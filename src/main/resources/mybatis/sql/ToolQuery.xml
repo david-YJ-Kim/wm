@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abs.wfs.workman.dao.query.tool.mapper.ToolQueryMapper">
+    <select id="queryEqpCondition" parameterType="com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo" resultType="com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo">
+        SELECT
+            rds.EQP_ID,
+            rds.EQP_TYP,
+            rds.MODEL_TYP,
+            rds.BATCH_YN,
+            rds.INLINE_YN,
+            rds.EQP_INLINE_SEQ,
+            rds.EQP_INLINE_ID,
+            rds.SORTER_MODE_AVAIL_YN,
+            pos.STAT_CD,
+            pos.PROC_STAT_CD,
+            pos.CTRL_MODE_CD,
+            pos.OPRTN_MODE_CD,
+            pos.SORTER_MODE_YN,
+            pos.AUTO_DSP_YN,
+            pos.INTLK_YN
+        FROM
+            TN_RDS_EQP rds, TN_POS_EQP pos
+        WHERE
+            1 = 1
+          AND rds.SITE_ID = pos.SITE_ID
+          AND rds.EQP_ID = pos.EQP_ID
+          AND rds.USE_STAT_CD = pos.USE_STAT_CD
+          AND rds.SITE_ID = #{siteId}
+          AND rds.USE_STAT_CD = #{useStatCd}
+          AND rds.EQP_ID = #{eqpId}
+    </select>
+
+    <select id="queryPortCondition" parameterType="com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo" resultType="com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo">
+        SELECT rds.PORT_ID
+             ,rds.PORT_TYP
+             ,rds.CARR_TYP
+             ,pos.ACES_MODE_CD
+             ,pos.CTRL_MODE_CD
+             ,pos.STAT_CD
+             ,pos.TRSF_STAT_CD
+             ,pos.CARR_ID
+        FROM TN_RDS_PORT rds,TN_POS_PORT pos
+        WHERE rds.SITE_ID = pos.SITE_ID
+          AND rds.EQP_ID = pos.EQP_ID
+          AND rds.PORT_ID = pos.PORT_ID
+          AND rds.SITE_ID = #{siteId}
+          AND rds.USE_STAT_CD = #{useStatCd}
+          AND rds.EQP_ID = #{eqpId}
+          AND rds.PORT_ID = #{portId}
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- TimeOut 60 sec -->
+        <setting name="defaultStatementTimeout" value="60000"/>
+    </settings>
+
+    <mappers>
+        <mapper resource="mybatis/sql/CarrQuery.xml" />
+        <mapper resource="mybatis/sql/WipLotQuery.xml" />
+        <mapper resource="mybatis/sql/wfsQuery.xml" />
+        <mapper resource="mybatis/sql/wipStatQuery.xml" />
+        <mapper resource="mybatis/sql/sorterJobQuery.xml" />
+        <mapper resource="mybatis/sql/transferJobQuery.xml" />
+        <mapper resource="mybatis/sql/workJobQuery.xml" />
+        <mapper resource="mybatis/sql/workJobSlotInfoQuery.xml" />
+        <mapper resource="mybatis/sql/workJobCellInfoQuery.xml" />
+        <mapper resource="mybatis/sql/workStatQuery.xml" />
+        <mapper resource="mybatis/sql/eqpQuery.xml" />
+        <mapper resource="mybatis/sql/ToolQuery.xml" />
+        <mapper resource="mybatis/sql/LotQuery.xml" />
+    </mappers>
+
+</configuration>

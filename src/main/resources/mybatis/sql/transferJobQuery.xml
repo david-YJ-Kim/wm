@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.abs.wfs.workman.dao.query.transfer.mapper.TransferJobMapper">
+
+    <select id="selectWnTransferJob" parameterType="com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob" resultType="com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob">
+        SELECT OBJ_ID
+        ,SITE_ID
+        ,JOB_ID
+        ,CARR_ID
+        ,CRNT_EQP_ID
+        ,CRNT_PORT_ID
+        ,SRC_EQP_ID
+        ,SRC_PORT_ID
+        ,DEST_EQP_ID
+        ,DEST_PORT_ID
+        ,MOVE_STAT_CD
+        ,PRIRT_NO
+        ,FNL_EVNT_NM
+        ,FNL_EVNT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,CSTM_EVNT_NM
+        ,EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,PREV_EVNT_NM
+        ,RSN_CD
+        ,TID
+        ,TRNS_CM
+        ,USE_STAT_CD
+        FROM WN_TRANSFER_JOB
+        <where>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pJobId != null">AND JOB_ID = #{pJobId}</if>
+            <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+            <if test="pMoveStatCd != null">AND MOVE_STAT_CD = #{pMoveStatCd}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+    </select>
+
+    <update id="updateWnTransferJob" parameterType="com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob">
+        UPDATE WN_TRANSFER_JOB
+        <set>
+            <if test="carrId != null">CARR_ID = #{carrId},</if>
+            <if test="crntEqpId != null">CRNT_EQP_ID = #{crntEqpId},</if>
+            <if test="crntPortId != null">CRNT_PORT_ID = #{crntPortId},</if>
+            <if test="srcEqpId != null">SRC_EQP_ID = #{srcEqpId},</if>
+            <if test="srcPortId != null">SRC_PORT_ID = #{srcPortId},</if>
+            <if test="destEqpId != null">DEST_EQP_ID = #{destEqpId},</if>
+            <if test="destPortId != null">DEST_PORT_ID = #{destPortId},</if>
+            <if test="moveStatCd != null">MOVE_STAT_CD = #{moveStatCd},</if>
+            <if test="prirtNo != null">PRIRT_NO = #{prirtNo},</if>
+            <if test="fnlEvntNm != null">FNL_EVNT_NM = #{fnlEvntNm},</if>
+            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
+            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+            <if test="true">MDFY_DT = SYSDATE,</if>
+            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+            <if test="tid != null">TID = #{tid},</if>
+            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+        </set>
+        <where>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pJobId != null">AND JOB_ID = #{pJobId}</if>
+            <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+            <if test="pMoveStatCd != null">AND MOVE_STAT_CD = #{pMoveStatCd}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+        <selectKey keyProperty="objId" resultType="String" order="AFTER">
+            SELECT OBJ_ID as objId
+            FROM WN_TRANSFER_JOB
+            <where>
+                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+                <if test="pJobId != null">AND JOB_ID = #{pJobId}</if>
+                <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+                <if test="pMoveStatCd != null">AND MOVE_STAT_CD = #{pMoveStatCd}</if>
+                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+            </where>
+        </selectKey>
+    </update>
+
+    <insert id="createWnTransferJob" parameterType="com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob">
+        INSERT INTO WN_TRANSFER_JOB (
+        OBJ_ID
+        ,SITE_ID
+        ,JOB_ID
+        ,CARR_ID
+        ,CRNT_EQP_ID
+        ,CRNT_PORT_ID
+        ,SRC_EQP_ID
+        ,SRC_PORT_ID
+        ,DEST_EQP_ID
+        ,DEST_PORT_ID
+        ,MOVE_STAT_CD
+        ,PRIRT_NO
+        ,FNL_EVNT_NM
+        ,FNL_EVNT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,CSTM_EVNT_NM
+        ,EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,PREV_EVNT_NM
+        ,RSN_CD
+        ,TID
+        ,TRNS_CM
+        ,USE_STAT_CD
+        )
+        VALUES (
+        #{objId}
+        ,#{siteId}
+        ,#{jobId}
+        ,#{carrId}
+        ,#{crntEqpId}
+        ,#{crntPortId}
+        ,#{srcEqpId}
+        ,#{srcPortId}
+        ,#{destEqpId}
+        ,#{destPortId}
+        ,#{moveStatCd}
+        ,#{prirtNo}
+        ,#{fnlEvntNm}
+        ,SYSDATE
+        ,#{mdfyUserId}
+        ,SYSDATE
+        ,#{crtUserId}
+        ,SYSDATE
+        ,#{cstmEvntNm}
+        ,#{evntNm}
+        ,#{prevCstmEvntNm}
+        ,#{prevEvntNm}
+        ,#{rsnCd}
+        ,#{tid}
+        ,#{trnsCm}
+        ,#{useStatCd}
+
+        )
+        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="createWhTransferJob" parameterType="String">
+        INSERT INTO WH_TRANSFER_JOB (
+                                      OBJ_ID
+                                    ,REF_OBJ_ID
+                                    ,SITE_ID
+                                    ,JOB_ID
+                                    ,CARR_ID
+                                    ,CRNT_EQP_ID
+                                    ,CRNT_PORT_ID
+                                    ,SRC_EQP_ID
+                                    ,SRC_PORT_ID
+                                    ,DEST_EQP_ID
+                                    ,DEST_PORT_ID
+                                    ,MOVE_STAT_CD
+                                    ,PRIRT_NO
+                                    ,FNL_EVNT_NM
+                                    ,FNL_EVNT_DT
+                                    ,MDFY_USER_ID
+                                    ,MDFY_DT
+                                    ,CRT_USER_ID
+                                    ,CRT_DT
+                                    ,CSTM_EVNT_NM
+                                    ,EVNT_NM
+                                    ,PREV_CSTM_EVNT_NM
+                                    ,PREV_EVNT_NM
+                                    ,RSN_CD
+                                    ,TID
+                                    ,TRNS_CM
+                                    ,USE_STAT_CD
+        )
+        SELECT
+            (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+             ,OBJ_ID AS REF_OBJ_ID
+             ,SITE_ID
+             ,JOB_ID
+             ,CARR_ID
+             ,CRNT_EQP_ID
+             ,CRNT_PORT_ID
+             ,SRC_EQP_ID
+             ,SRC_PORT_ID
+             ,DEST_EQP_ID
+             ,DEST_PORT_ID
+             ,MOVE_STAT_CD
+             ,PRIRT_NO
+             ,FNL_EVNT_NM
+             ,FNL_EVNT_DT
+             ,MDFY_USER_ID
+             ,MDFY_DT
+             ,CRT_USER_ID
+             ,CRT_DT
+             ,CSTM_EVNT_NM
+             ,EVNT_NM
+             ,PREV_CSTM_EVNT_NM
+             ,PREV_EVNT_NM
+             ,RSN_CD
+             ,TID
+             ,TRNS_CM
+             ,USE_STAT_CD
+        FROM WN_TRANSFER_JOB
+        WHERE OBJ_ID = #{objId}
+    </insert>
+
+    <delete id="deleteTransferJob" parameterType="com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob">
+        DELETE FROM WN_TRANSFER_JOB
+        WHERE SITE_ID = #{pSiteId}
+          AND JOB_ID = #{pJobId}
+    </delete>
+</mapper>

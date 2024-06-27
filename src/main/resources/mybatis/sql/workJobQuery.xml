@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.abs.wfs.workman.dao.query.work.mapper.WorkMapper">
+
+    <select id="selectWnWorkJob" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJob" resultType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJob">
+        SELECT OBJ_ID
+        ,SITE_ID
+        ,WORK_ID
+        ,JOB_SEQ_ID
+        ,LOT_ID
+        ,BATCH_ID
+        ,CRNT_CARR_ID
+        ,IN_PORT_ID
+        ,IN_CARR_ID
+        ,IN_CARR_TYP
+        ,OUT_PORT_ID
+        ,OUT_CARR_ID
+        ,OUT_CARR_TYP
+        ,PROD_DEF_ID
+        ,PROC_DEF_ID
+        ,PROC_SGMT_ID
+        ,JOB_QTY
+        ,RCP_DEF_ID
+        ,RCP_READY_YN
+        ,JOB_STAT_CD
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,WORK_FACE_CD
+        FROM WN_WORK_JOB
+        <where>
+            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+            <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+    </select>
+
+    <update id="updateWnWorkJob" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJob">
+        UPDATE WN_WORK_JOB
+        <set>
+            <if test="jobSeqId != null">JOB_SEQ_ID = #{jobSeqId},</if>
+            <if test="lotId != null">LOT_ID = #{lotId},</if>
+            <if test="batchId != null">BATCH_ID = #{batchId},</if>
+            <if test="crntCarrId != null">CRNT_CARR_ID = #{crntCarrId},</if>
+            <if test="inPortId != null">IN_PORT_ID = #{inPortId},</if>
+            <if test="inCarrId != null">IN_CARR_ID = #{inCarrId},</if>
+            <if test="inCarrTyp != null">IN_CARR_TYP = #{inCarrTyp},</if>
+            <if test="outPortId != null">OUT_PORT_ID = #{outPortId},</if>
+            <if test="outCarrId != null">OUT_CARR_ID = #{outCarrId},</if>
+            <if test="outCarrTyp != null">OUT_CARR_TYP = #{outCarrTyp},</if>
+            <if test="prodDefId != null">PROD_DEF_ID = #{prodDefId},</if>
+            <if test="procDefId != null">PROC_DEF_ID = #{procDefId},</if>
+            <if test="procSgmtId != null">PROC_SGMT_ID = #{procSgmtId},</if>
+            <if test="jobQty != null">JOB_QTY = #{jobQty},</if>
+            <if test="rcpDefId != null">RCP_DEF_ID = #{rcpDefId},</if>
+            <if test="rcpReadyYn != null">RCP_READY_YN = #{rcpReadyYn},</if>
+            <if test="jobStatCd != null">JOB_STAT_CD = #{jobStatCd},</if>
+            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+            <if test="true">MDFY_DT = SYSDATE,</if>
+            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
+            <if test="tid != null">TID = #{tid},</if>
+            <if test="workFaceCd != null">WORK_FACE_CD = #{workFaceCd},</if>
+        </set>
+        <where>
+            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+            <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+        <selectKey keyProperty="objId" resultType="String" order="AFTER">
+            SELECT OBJ_ID AS objId
+            FROM WN_WORK_JOB
+            <where>
+                <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+                <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+                <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+            </where>
+        </selectKey>
+    </update>
+
+    <insert id="createWnWorkJob" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJob">
+        INSERT INTO WN_WORK_JOB (
+        OBJ_ID
+        ,SITE_ID
+        ,WORK_ID
+        ,JOB_SEQ_ID
+        ,LOT_ID
+        ,BATCH_ID
+        ,CRNT_CARR_ID
+        ,IN_PORT_ID
+        ,IN_CARR_ID
+        ,IN_CARR_TYP
+        ,OUT_PORT_ID
+        ,OUT_CARR_ID
+        ,OUT_CARR_TYP
+        ,PROD_DEF_ID
+        ,PROC_DEF_ID
+        ,PROC_SGMT_ID
+        ,JOB_QTY
+        ,RCP_DEF_ID
+        ,RCP_READY_YN
+        ,JOB_STAT_CD
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,WORK_FACE_CD
+        )
+        VALUES (
+        #{objId}
+        ,#{siteId}
+        ,#{workId}
+        ,#{jobSeqId}
+        ,#{lotId}
+        ,#{batchId}
+        ,#{crntCarrId}
+        ,#{inPortId}
+        ,#{inCarrId}
+        ,#{inCarrTyp}
+        ,#{outPortId}
+        ,#{outCarrId}
+        ,#{outCarrTyp}
+        ,#{prodDefId}
+        ,#{procDefId}
+        ,#{procSgmtId}
+        ,#{jobQty}
+        ,#{rcpDefId}
+        ,#{rcpReadyYn}
+        ,#{jobStatCd}
+        ,#{evntNm}
+        ,#{prevEvntNm}
+        ,#{cstmEvntNm}
+        ,#{prevCstmEvntNm}
+        ,#{useStatCd}
+        ,#{rsnCd}
+        ,#{trnsCm}
+        ,#{crtUserId}
+        ,SYSDATE
+        ,#{mdfyUserId}
+        ,SYSDATE
+        ,SYSDATE
+        ,#{tid}
+        ,#{workFaceCd}
+
+        )
+        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+        </selectKey>
+    </insert>
+
+
+    <insert id="createWhWorkJob" parameterType="String">
+        INSERT INTO WH_WORK_JOB (
+                                  OBJ_ID
+                                ,REF_OBJ_ID
+                                ,SITE_ID
+                                ,WORK_ID
+                                ,JOB_SEQ_ID
+                                ,LOT_ID
+                                ,BATCH_ID
+                                ,CRNT_CARR_ID
+                                ,IN_PORT_ID
+                                ,IN_CARR_ID
+                                ,IN_CARR_TYP
+                                ,OUT_PORT_ID
+                                ,OUT_CARR_ID
+                                ,OUT_CARR_TYP
+                                ,PROD_DEF_ID
+                                ,PROC_DEF_ID
+                                ,PROC_SGMT_ID
+                                ,JOB_QTY
+                                ,RCP_DEF_ID
+                                ,RCP_READY_YN
+                                ,JOB_STAT_CD
+                                ,EVNT_NM
+                                ,PREV_EVNT_NM
+                                ,CSTM_EVNT_NM
+                                ,PREV_CSTM_EVNT_NM
+                                ,USE_STAT_CD
+                                ,RSN_CD
+                                ,TRNS_CM
+                                ,CRT_USER_ID
+                                ,CRT_DT
+                                ,MDFY_USER_ID
+                                ,MDFY_DT
+                                ,FNL_EVNT_DT
+                                ,TID
+                                ,WORK_FACE_CD
+        )
+        SELECT
+            (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+             ,OBJ_ID AS REF_OBJ_ID
+             ,SITE_ID
+             ,WORK_ID
+             ,JOB_SEQ_ID
+             ,LOT_ID
+             ,BATCH_ID
+             ,CRNT_CARR_ID
+             ,IN_PORT_ID
+             ,IN_CARR_ID
+             ,IN_CARR_TYP
+             ,OUT_PORT_ID
+             ,OUT_CARR_ID
+             ,OUT_CARR_TYP
+             ,PROD_DEF_ID
+             ,PROC_DEF_ID
+             ,PROC_SGMT_ID
+             ,JOB_QTY
+             ,RCP_DEF_ID
+             ,RCP_READY_YN
+             ,JOB_STAT_CD
+             ,EVNT_NM
+             ,PREV_EVNT_NM
+             ,CSTM_EVNT_NM
+             ,PREV_CSTM_EVNT_NM
+             ,USE_STAT_CD
+             ,RSN_CD
+             ,TRNS_CM
+             ,CRT_USER_ID
+             ,CRT_DT
+             ,MDFY_USER_ID
+             ,MDFY_DT
+             ,FNL_EVNT_DT
+             ,TID
+             ,WORK_FACE_CD
+        FROM WN_WORK_JOB
+        WHERE OBJ_ID = #{objId}
+    </insert>
+
+    <delete id="deleteWnWorkJob" parameterType="String">
+        DELETE FROM WN_WORK_JOB
+        WHERE OBJ_ID = #{objId}
+    </delete>
+
+    <delete id="deleteWnWorkJobByWorkId" parameterType="String">
+        DELETE FROM WN_WORK_JOB
+        WHERE WORK_ID = #{workId}
+    </delete>
+
+    <select id="selectWorkJobLotQueryDto"
+            parameterType="com.abs.wfs.workman.dao.query.work.vo.WorkJobLotQueryDto"
+            resultType="com.abs.wfs.workman.dao.query.work.vo.WorkJobLotQueryDto">
+        SELECT
+            LOT.LOT_ID,
+            LOT.PRNT_LOT_ID,
+            LOT.PROD_DEF_ID,
+            LOT.PROC_DEF_ID,
+            LOT.PROC_SGMT_ID,
+            LOT.PROC_NODE_ID,
+            LOT.PREV_EQP_ID
+        FROM WN_WORK_JOB WJ, TN_POS_LOT LOT
+        WHERE 1=1
+          AND WJ.JOB_STAT_CD = #{jobStatCd}
+          AND WJ.SITE_ID = #{siteId}
+          AND WJ.LOT_ID = LOT.LOT_ID
+          AND WJ.SITE_ID = LOT.SITE_ID
+          AND WJ.WORK_ID = #{workId}
+          AND WJ.IN_CARR_ID = #{inCarrId}
+
+    </select>
+
+
+    <select id="selectWorkSlotListInfoQueryDto"
+            parameterType="com.abs.wfs.workman.dao.query.work.vo.WorkSlotListInfoQueryDto"
+            resultType="com.abs.wfs.workman.dao.query.work.vo.WorkSlotListInfoQueryDto">
+        SELECT w.PROD_MTRL_ID
+             ,max(w.SLOT_NO) SLOT_NO
+             ,max(p.SUB_MTRL_GRD_CD) SUB_MTRL_GRD_CD
+        FROM WN_WORK_JOB_SLOT_INFO w
+           ,TN_POS_PRODUCED_MATERIAL p
+        WHERE 1=1
+          AND w.SITE_ID = p.SITE_ID
+          AND w.PROD_MTRL_ID = p.PROD_MTRL_ID
+          AND w.SLOT_NO  = p.SLOT_NO
+          AND w.WORK_ID = #{workId}
+          AND p.LOT_ID = #{lotId}
+          AND p.USE_STAT_CD = #{useStatCd}
+        GROUP BY w.PROD_MTRL_ID
+        ORDER BY TO_NUMBER(max(w.SLOT_NO))
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abs.wfs.workman.dao.query.carr.mapper.CarrMapper">
+
+    <select id="carrLocationQuery" parameterType="com.abs.wfs.workman.dao.query.carr.vo.CarrLocationDto" resultType="com.abs.wfs.workman.dao.query.carr.vo.CarrLocationDto">
+        SELECT
+        WWS.CRNT_EQP_ID,
+        WWS.CRNT_PORT_ID,
+        TPL.LOT_ID,
+        TPL.HOLD_YN,
+        TPL.PROC_STAT_CD,
+        TPL.SGMT_STAT_CD,
+        WWS.WORK_STAT_CD,
+        WWS.RESV_EQP_ID,
+        WWS.RESV_PORT_ID,
+        WWS.RESV_GRP_ID,
+        E.ECO_ID,
+        E.PRNT_LOT_ID
+        FROM WN_WIP_STAT WWS, TN_POS_LOT TPL, CN_POS_ECO_LOT_INFO E
+        WHERE 1=1
+        AND WWS.SITE_ID = TPL.SITE_ID(+)
+        AND WWS.CARR_ID = TPL.CARR_ID(+)
+        AND TPL.SITE_ID = E.SITE_ID(+)
+        AND TPL.LOT_ID = E.LOT_ID(+)
+        AND TPL.PROD_DEF_ID = E.PROD_DEF_ID(+)
+        AND TPL.PROC_DEF_ID = E.PROC_DEF_ID(+)
+        AND TPL.PROC_SGMT_ID = E.PROC_SGMT_ID(+)
+        AND E.TKOUT_DT IS NULL
+
+        AND WWS.CARR_ID = #{pCarrId}
+        AND WWS.LOT_ID = #{pLotId}
+        ORDER BY E.ECO_ID, E.LOT_ID
+
+    </select>
+
+
+    <select id="carrMcsLocationQuery" parameterType="com.abs.wfs.workman.dao.query.carr.vo.CarrMcsLocationDto" resultType="com.abs.wfs.workman.dao.query.carr.vo.CarrMcsLocationDto">
+        SELECT a.machinename, a.name, a.reserved, a.occupied, a.state, a.banned, b.id  AS carr_id , c.lot_id, c.orgn_qty, c.qty
+        FROM   mcsadm.mcs_r_unit_mst a, mcsadm.mcs_m_carrier_mst b, tn_pos_lot c
+        WHERE 1 = 1
+        AND   a.machinename = b.machinename (+)
+        AND   a.name = b.unitname (+)
+        AND   a.unitkind = #{pUnitkind}
+        AND   a.MACHINENAME = #{pMachinename}
+        AND   a.NAME = #{pName}
+        AND   b.id = c.carr_id (+)
+    </select>
+</mapper>

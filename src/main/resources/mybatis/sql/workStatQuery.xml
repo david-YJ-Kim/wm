@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.abs.wfs.workman.dao.query.work.mapper.WorkMapper">
+
+    <select id="selectWnWorkStat" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkStat" resultType="com.abs.wfs.workman.dao.query.work.vo.WnWorkStat">
+        SELECT OBJ_ID
+        ,SITE_ID
+        ,WORK_ID
+        ,EQP_ID
+        ,WORK_STAT_CD
+        ,WORK_START_TM
+        ,WORK_QTY
+        ,FNL_TASK_NM
+        ,BATCH_YN
+        ,INLINE_YN
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,EQP_INLINE_ID
+        ,INLINE_STAT_CD
+        ,DSP_WORK_ID
+        FROM WN_WORK_STAT
+        <where>
+            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+            <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+            <if test="pWorkStatCd != null">AND WORK_STAT_CD = #{pWorkStatCd}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+    </select>
+
+    <update id="updateWnWorkStat" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkStat">
+        UPDATE WN_WORK_STAT
+        <set>
+            <if test="eqpId != null">EQP_ID = #{eqpId},</if>
+            <if test="workStatCd != null">WORK_STAT_CD = #{workStatCd},</if>
+            <if test="workStartTm != null">WORK_START_TM = SYSDATE,</if>
+            <if test="workQty != null">WORK_QTY = #{workQty},</if>
+            <if test="fnlTaskNm != null">FNL_TASK_NM = #{fnlTaskNm},</if>
+            <if test="batchYn != null">BATCH_YN = #{batchYn},</if>
+            <if test="inlineYn != null">INLINE_YN = #{inlineYn},</if>
+            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+            <if test="true">MDFY_DT = SYSDATE,</if>
+            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
+            <if test="tid != null">TID = #{tid},</if>
+            <if test="eqpInlineId != null">EQP_INLINE_ID = #{eqpInlineId},</if>
+            <if test="inlineStatCd != null">INLINE_STAT_CD = #{inlineStatCd},</if>
+            <if test="dspWorkId != null">DSP_WORK_ID = #{dspWorkId},</if>
+        </set>
+        <where>
+            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+            <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+            <if test="pWorkStatCd != null">AND WORK_STAT_CD = #{pWorkStatCd}</if>
+            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+        </where>
+        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
+            SELECT OBJ_ID AS objId
+            FROM WN_WORK_STAT
+            <where>
+                <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+                <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+                <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+                <if test="pWorkStatCd != null">AND WORK_STAT_CD = #{pWorkStatCd}</if>
+                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+            </where>
+        </selectKey>
+    </update>
+
+    <insert id="createWnWorkStat" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkStat">
+        INSERT INTO WN_WORK_STAT (
+        OBJ_ID
+        ,SITE_ID
+        ,WORK_ID
+        ,EQP_ID
+        ,WORK_STAT_CD
+        ,WORK_START_TM
+        ,WORK_QTY
+        ,FNL_TASK_NM
+        ,BATCH_YN
+        ,INLINE_YN
+        ,EVNT_NM
+        ,PREV_EVNT_NM
+        ,CSTM_EVNT_NM
+        ,PREV_CSTM_EVNT_NM
+        ,USE_STAT_CD
+        ,RSN_CD
+        ,TRNS_CM
+        ,CRT_USER_ID
+        ,CRT_DT
+        ,MDFY_USER_ID
+        ,MDFY_DT
+        ,FNL_EVNT_DT
+        ,TID
+        ,EQP_INLINE_ID
+        ,INLINE_STAT_CD
+        ,DSP_WORK_ID
+        )
+        VALUES (
+        #{objId}
+        ,#{siteId}
+        ,#{workId}
+        ,#{eqpId}
+        ,#{workStatCd}
+        ,#{workStartTm}
+        ,#{workQty}
+        ,#{fnlTaskNm}
+        ,#{batchYn}
+        ,#{inlineYn}
+        ,#{evntNm}
+        ,#{prevEvntNm}
+        ,#{cstmEvntNm}
+        ,#{prevCstmEvntNm}
+        ,#{useStatCd}
+        ,#{rsnCd}
+        ,#{trnsCm}
+        ,#{crtUserId}
+        ,SYSDATE
+        ,#{mdfyUserId}
+        ,SYSDATE
+        ,SYSDATE
+        ,#{tid}
+        ,#{eqpInlineId}
+        ,#{inlineStatCd}
+        ,#{dspWorkId}
+
+        )
+        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="createWhWorkStat" parameterType="String">
+        INSERT INTO WH_WORK_STAT (
+                                   OBJ_ID
+                                 ,REF_OBJ_ID
+                                 ,SITE_ID
+                                 ,WORK_ID
+                                 ,EQP_ID
+                                 ,WORK_STAT_CD
+                                 ,WORK_START_TM
+                                 ,WORK_QTY
+                                 ,FNL_TASK_NM
+                                 ,BATCH_YN
+                                 ,INLINE_YN
+                                 ,EVNT_NM
+                                 ,PREV_EVNT_NM
+                                 ,CSTM_EVNT_NM
+                                 ,PREV_CSTM_EVNT_NM
+                                 ,USE_STAT_CD
+                                 ,RSN_CD
+                                 ,TRNS_CM
+                                 ,CRT_USER_ID
+                                 ,CRT_DT
+                                 ,MDFY_USER_ID
+                                 ,MDFY_DT
+                                 ,FNL_EVNT_DT
+                                 ,TID
+                                 ,EQP_INLINE_ID
+                                 ,INLINE_STAT_CD
+                                 ,DSP_WORK_ID
+        )
+        SELECT (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+             ,OBJ_ID AS REF_OBJ_ID
+             ,SITE_ID
+             ,WORK_ID
+             ,EQP_ID
+             ,WORK_STAT_CD
+             ,WORK_START_TM
+             ,WORK_QTY
+             ,FNL_TASK_NM
+             ,BATCH_YN
+             ,INLINE_YN
+             ,EVNT_NM
+             ,PREV_EVNT_NM
+             ,CSTM_EVNT_NM
+             ,PREV_CSTM_EVNT_NM
+             ,USE_STAT_CD
+             ,RSN_CD
+             ,TRNS_CM
+             ,CRT_USER_ID
+             ,CRT_DT
+             ,MDFY_USER_ID
+             ,MDFY_DT
+             ,FNL_EVNT_DT
+             ,TID
+             ,EQP_INLINE_ID
+             ,INLINE_STAT_CD
+             ,DSP_WORK_ID
+        FROM WN_WORK_STAT
+        WHERE OBJ_ID = #{objId}
+    </insert>
+
+    <delete id="deleteWnWorkStat" parameterType="String">
+        DELETE FROM WN_WORK_STAT
+        WHERE OBJ_ID = #{objId}
+    </delete>
+
+    <delete id="deleteWnWorkStatByWorkId" parameterType="String">
+        DELETE FROM WN_WORK_STAT
+        WHERE WORK_ID = #{workId}
+    </delete>
+
+</mapper>

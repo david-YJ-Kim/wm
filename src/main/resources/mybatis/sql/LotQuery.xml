@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abs.wfs.workman.dao.query.lot.mapper.LotQueryMapper">
+    <select id="queryLotCondition" parameterType="com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo" resultType="com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo">
+        SELECT
+              posl.LOT_ID
+             ,posl.CARR_ID
+             ,posc.CARR_TYP
+             ,posc.CARR_CLS_ID
+             ,posl.HOLD_YN
+             ,posl.PROD_DEF_ID
+             ,posl.PROC_DEF_ID
+             ,posl.PROC_SGMT_ID
+             ,posl.PROC_STAT_CD
+             ,posl.STAT_CD
+             ,posl.USE_STAT_CD
+             ,posl.QTY
+             ,posl.SUB_MTRL_TYP
+             ,posl.SUB_MTRL_QTY
+             ,posl.SGMT_STAT_CD
+             ,wip.WORK_STAT_CD
+             ,wip.DTL_WORK_STAT_CD
+             ,wip.CRNT_EQP_ID
+             ,wip.CRNT_PORT_ID
+             ,wip.RESV_GRP_ID
+             ,wip.RESV_EQP_ID
+             ,wip.RESV_PORT_ID
+             ,wip.RESV_OUT_PORT_ID
+             ,wip.RESV_OUT_CARR_ID
+             ,wip.BATCH_ID
+             ,wip.BATCH_SEQ
+             ,wip.SELF_INSP_YN
+             ,wip.SELF_INSP_INFO_OBJ_ID
+             ,wip.SELF_INSP_PANEL_CNT
+        FROM WN_WIP_STAT wip
+           ,TN_POS_LOT posl
+           ,TN_POS_CARRIER posc
+        WHERE wip.SITE_ID = posl.SITE_ID
+          AND wip.SITE_ID = posc.SITE_ID(+)
+          AND wip.LOT_ID = posl.LOT_ID
+          AND posl.CARR_ID = posc.CARR_ID(+)
+          AND posl.SITE_ID = #{siteId}
+          AND posl.USE_STAT_CD = #{useStatCd}
+          AND posl.LOT_ID = #{lotId}
+    </select>
+
+</mapper>

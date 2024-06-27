@@ -1,0 +1,9 @@
+### GET request with a header
+GET http://smartfactory.absolicsinc.com:10000/wm/util/healthCheck
+Accept: application/json
+
+
+
+### GET request with a header
+GET http://10.184.50.121:15001/util/healthCheck
+Accept: application/json

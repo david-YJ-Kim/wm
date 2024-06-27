@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abs.wfs.workman.dao.query.wipLot.mapper.WipLotMapper">
+    <select id="selectWipLotInfo" parameterType="com.abs.wfs.workman.dao.query.wipLot.vo.WipLotDto" resultType="com.abs.wfs.workman.dao.query.wipLot.vo.WipLotDto">
+
+        SELECT W.LOT_ID,
+               W.CARR_ID,
+               W.WORK_STAT_CD,
+               W.SELF_INSP_YN,
+               W.SELF_INSP_INFO_OBJ_ID,
+               W.CRNT_EQP_ID,
+               w.CRNT_PORT_ID,
+               L.PROD_DEF_ID,
+               L.PROC_DEF_ID,
+               L.PROC_SGMT_ID
+        FROM WN_WIP_STAT W, TN_POS_LOT L
+        WHERE W.LOT_ID = L.LOT_ID
+          AND W.SITE_ID = #{pSiteId}
+          AND W.USE_STAT_CD = #{pUseStatCd}
+          AND W.LOT_ID = #{pLotId}
+          AND W.SELF_INSP_YN = #{pSelfInspYn}
+    </select>
+
+</mapper>
