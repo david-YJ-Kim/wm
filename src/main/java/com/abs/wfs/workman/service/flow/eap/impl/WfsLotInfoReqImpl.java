@@ -6,6 +6,7 @@ import com.abs.wfs.workman.dao.query.work.vo.WorkJobLotQueryDto;
 import com.abs.wfs.workman.service.flow.eap.WfsLotInfoReq;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.eap.WfsLotInfoReqIvo;
+import com.abs.wfs.workman.util.code.ApStringConstant;
 import com.abs.wfs.workman.util.exception.ScenarioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class WfsLotInfoReqImpl implements WfsLotInfoReq {
         Optional<WorkJobLotQueryDto> lotQueryResult = this.workService.searchWorkJobLotQueryDto(
                                                 WorkJobLotQueryDto.builder()
                                                         .siteId(body.getSiteId())
-                                                        .jobStatCd("Active")
+                                                        .jobStatCd(ApStringConstant.Active)
                                                         .workId(body.getWorkId())
                                                         .inCarrId(body.getCarrId())
                                                         .build());

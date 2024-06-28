@@ -1,444 +1,552 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.abs.wfs.workman.dao.query.common.mapper.WfsCommonMapper">
-
-    <select id = "getID" parameterType="String" resultType = "String">
-        SELECT #{name} || '_' || TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') AS ID
-        FROM DUAL
-    </select>
-
-    <select id="selectTnPosProducedMaterialByLotId" parameterType="String"  resultType="com.abs.wfs.workman.dao.query.common.vo.TnPosProducedMaterial" >
-        SELECT SLOT_NO, PROD_MTRL_ID
-        FROM TN_POS_PRODUCED_MATERIAL
-        WHERE STAT_CD = 'Active' AND USE_STAT_CD = 'Usable' AND LOT_ID = #{lotId}
-        ORDER BY SLOT_NO
-    </select>
-
-    <update id="updateTnPosCarrierMoveStatCd" parameterType="com.abs.wfs.workman.dao.query.common.vo.TnPosCarrier">
-        UPDATE TN_POS_CARRIER
-        <set>
-            <if test="moveStatCd != null">MOVE_STAT_CD = #{moveStatCd},</if>
-            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
-            <if test="true">MDFY_DT = SYSDATE,</if>
-            <if test="tid != null">TID = #{tid},</if>
-        </set>
-        <where>
-            <if test="siteId != null">AND SITE_ID = #{siteId}</if>
-            <if test="useStatCd != null">AND USE_STAT_CD = #{useStatCd}</if>
-            <if test="carrId != null">AND CARR_ID = #{carrId}</if>
-        </where>
-        <selectKey keyProperty="objId" resultType="String" order="AFTER">
-            SELECT OBJ_ID as objId
-            FROM TN_POS_CARRIER
-            <where>
-                <if test="siteId != null">AND SITE_ID = #{siteId}</if>
-                <if test="useStatCd != null">AND USE_STAT_CD = #{useStatCd}</if>
-                <if test="carrId != null">AND CARR_ID = #{carrId}</if>
-            </where>
-        </selectKey>
-    </update>
-
-    <insert id="insertThPosCarrier" parameterType="String">
-        INSERT INTO TH_POS_CARRIER (
-        OBJ_ID
-        ,SITE_ID
-        ,REF_OBJ_ID
-        ,CARR_ID
-        ,CARR_NM
-        ,CARR_DEF_ID
-        ,CARR_CLS_ID
-        ,MTRL_TYP
-        ,EQP_ID
-        ,LOAD_STAT_CD
-        ,SLOT_QTY
-        ,LOT_ASGN_QTY
-        ,MAX_CPCT
-        ,VNDR_ID
-        ,STAT_CD
-        ,PREV_STAT_CD
-        ,LCTN_NM
-        ,PREV_LCTN_NM
-        ,USG_TYP
-        ,USG_LMT_CNT
-        ,USG_CNT
-        ,USG_PRD_UNIT_CD
-        ,USG_LMT_PRD
-        ,USG_PRD
-        ,CLN_TYP
-        ,CLN_LMT_CNT
-        ,CLN_CNT
-        ,CLN_PRD_UNIT_CD
-        ,CLN_LMT_PRD
-        ,CLN_PRD
-        ,FNL_CLN_DT
-        ,NEXT_CLN_DT
-        ,RPR_TYP
-        ,RPR_LMT_CNT
-        ,RPR_CNT
-        ,RPR_PRD_UNIT_CD
-        ,RPR_LMT_PRD
-        ,RPR_PRD
-        ,FNL_RPR_DT
-        ,NEXT_RPR_DT
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,UNIT_ID
-        ,CARR_TYP
-        ,CLN_STAT_CD
-        ,SUB_MTRL_ASGN_QTY
-        ,LOAD_QTY
-        ,MTRL_ASGN_QTY
-        ,MOVE_STAT_CD)
-        SELECT
-        (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
-        ,SITE_ID
-        ,OBJ_ID AS REF_OBJ_ID
-        ,CARR_ID
-        ,CARR_NM
-        ,CARR_DEF_ID
-        ,CARR_CLS_ID
-        ,MTRL_TYP
-        ,EQP_ID
-        ,LOAD_STAT_CD
-        ,SLOT_QTY
-        ,LOT_ASGN_QTY
-        ,MAX_CPCT
-        ,VNDR_ID
-        ,STAT_CD
-        ,PREV_STAT_CD
-        ,LCTN_NM
-        ,PREV_LCTN_NM
-        ,USG_TYP
-        ,USG_LMT_CNT
-        ,USG_CNT
-        ,USG_PRD_UNIT_CD
-        ,USG_LMT_PRD
-        ,USG_PRD
-        ,CLN_TYP
-        ,CLN_LMT_CNT
-        ,CLN_CNT
-        ,CLN_PRD_UNIT_CD
-        ,CLN_LMT_PRD
-        ,CLN_PRD
-        ,FNL_CLN_DT
-        ,NEXT_CLN_DT
-        ,RPR_TYP
-        ,RPR_LMT_CNT
-        ,RPR_CNT
-        ,RPR_PRD_UNIT_CD
-        ,RPR_LMT_PRD
-        ,RPR_PRD
-        ,FNL_RPR_DT
-        ,NEXT_RPR_DT
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,UNIT_ID
-        ,CARR_TYP
-        ,CLN_STAT_CD
-        ,SUB_MTRL_ASGN_QTY
-        ,LOAD_QTY
-        ,MTRL_ASGN_QTY
-        ,MOVE_STAT_CD
-        FROM TN_POS_CARRIER
-        WHERE OBJ_ID = #{objId}
-
-    </insert>
-
-    <select id="selectWnStateRuleInfo" parameterType="com.abs.wfs.workman.dao.query.common.vo.StateRuleInfo"  resultType="com.abs.wfs.workman.dao.query.common.vo.StateRuleInfo" >
-        SELECT OBJ_ID
-        ,SITE_ID
-        ,RULE_NM
-        ,TABLE_NM
-        ,COLUMN_NM
-        ,COLUMN_VAL
-        ,COND_VAL
-        ,RULE_DESC
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        FROM WN_STATE_RULE_INFO
-        WHERE SITE_ID = #{siteId}
-        AND USE_STAT_CD = #{useStatCd}
-    </select>
-
-    <select id="selectLot" parameterType="hashMap" resultType="hashMap">
-        SELECT L.LOT_ID
-        ,L.CARR_ID
-        ,L.PROD_DEF_ID
-        ,L.HOLD_YN
-        ,L.PROC_DEF_ID
-        ,L.PROC_SGMT_ID
-        ,L.PROC_STAT_CD
-        ,L.SGMT_STAT_CD
-        ,L.USE_STAT_CD
-        ,L.QTY
-        ,L.SUB_MTRL_TYP
-        ,L.SUB_MTRL_QTY
-        ,W.WORK_STAT_CD
-        ,W.DTL_WORK_STAT_CD
-        ,W.CRNT_EQP_ID
-        ,W.CRNT_PORT_ID
-        ,W.RESV_EQP_ID
-        ,W.RESV_PORT_ID
-        FROM WN_WIP_STAT W
-        ,TN_POS_LOT L
-        WHERE W.SITE_ID = L.SITE_ID
-        AND W.LOT_ID = L.LOT_ID
-        AND L.SITE_ID = #{siteId}
-        AND L.USE_STAT_CD = #{useStatCd}
-        AND W.USE_STAT_CD = #{useStatCd}
-        AND L.STAT_CD = #{statCd}
-        <if test="lotId != null">AND L.LOT_ID = #{lotId}</if>
-        <if test="carrId != null">AND L.CARR_ID = #{carrId}</if>
-    </select>
-
-    <select id="selectQueryLotVO" parameterType="hashMap" resultType="com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo">
-        SELECT  P.LOT_ID
-        ,P.CARR_ID
-        ,C.CARR_TYP
-        ,C.CARR_CLS_ID
-        ,P.HOLD_YN
-        ,P.PROD_DEF_ID
-        ,P.PROC_DEF_ID
-        ,P.PROC_SGMT_ID
-        ,P.PROC_STAT_CD
-        ,P.STAT_CD
-        ,P.USE_STAT_CD
-        ,P.QTY
-        ,P.SUB_MTRL_TYP
-        ,P.SUB_MTRL_QTY
-        ,P.SGMT_STAT_CD
-        ,W.WORK_STAT_CD
-        ,W.DTL_WORK_STAT_CD
-        ,W.CRNT_EQP_ID
-        ,W.CRNT_PORT_ID
-        ,W.RESV_GRP_ID
-        ,W.RESV_EQP_ID
-        ,W.RESV_PORT_ID
-        ,W.RESV_OUT_PORT_ID
-        ,W.RESV_OUT_CARR_ID
-        ,W.BATCH_ID
-        ,W.BATCH_SEQ
-        ,W.SELF_INSP_YN
-        ,W.SELF_INSP_INFO_OBJ_ID
-        ,W.SELF_INSP_PANEL_CNT
-        FROM WN_WIP_STAT W
-        ,TN_POS_LOT P
-        ,TN_POS_CARRIER C
-        WHERE W.SITE_ID = P.SITE_ID
-        AND W.SITE_ID = C.SITE_ID(+)
-        AND W.LOT_ID = P.LOT_ID
-        AND P.CARR_ID = C.CARR_ID(+)
-        AND P.SITE_ID = #{siteId}
-        AND P.USE_STAT_CD = #{useStatCd}
-        AND P.LOT_ID = #{lotId}
-    </select>
-
-    <select id="selectCarrier" parameterType="hashMap" resultType="hashMap">
-        SELECT P.SITE_ID
-        ,P.CARR_ID
-        ,P.CARR_NM
-        ,P.CARR_DEF_ID
-        ,P.CARR_CLS_ID
-        ,P.STAT_CD
-        ,P.CLN_STAT_CD
-        ,P.CLN_CNT
-        ,P.CLN_LMT_CNT
-        ,P.MTRL_TYP
-        ,P.CARR_TYP
-        ,P.SLOT_QTY
-        ,P.LOT_ASGN_QTY
-        ,P.MAX_CPCT
-        ,P.SUB_MTRL_ASGN_QTY
-        ,P.LOAD_QTY
-        ,P.MTRL_ASGN_QTY
-        ,P.MOVE_STAT_CD
-        FROM TN_POS_CARRIER P, WN_WIP_STAT W
-        WHERE P.SITE_ID = W.SITE_ID
-        AND P.CARR_ID = W.CARR_ID
-        AND W.LOT_ID = '-'
-        AND P.USE_STAT_CD = #{useStatCd}
-        AND W.USE_STAT_CD = #{useStatCd}
-        AND P.SITE_ID = #{siteId}
-        AND P.CARR_ID = #{carrId}
-    </select>
-
-
-    <insert id="insertWnMtrlUsageInfo" parameterType="com.abs.wfs.workman.dao.query.common.vo.WnMtrlUsageInfo">
-        INSERT INTO WN_MTRL_USAGE_INFO (
-        OBJ_ID
-        ,SITE_ID
-        ,WORK_ID
-        ,EQP_ID
-        ,SUB_EQP_ID
-        ,LOT_ID
-        ,SPEC_ID
-        ,SPEC_TYP
-        ,SPEC_USE_CNT
-        ,SPEC_LIMIT_CNT
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID )
-        VALUES (
-        (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL)
-        ,#{siteId}
-        ,#{workId}
-        ,#{eqpId}
-        ,#{subEqpId}
-        ,#{lotId}
-        ,#{specId}
-        ,#{specTyp}
-        ,#{specUseCnt}
-        ,#{specLimitCnt}
-        ,#{evntNm}
-        ,#{prevEvntNm}
-        ,#{cstmEvntNm}
-        ,#{prevCstmEvntNm}
-        ,#{useStatCd}
-        ,#{rsnCd}
-        ,#{trnsCm}
-        ,#{crtUserId}
-        ,SYSDATE
-        ,#{mdfyUserId}
-        ,SYSDATE
-        ,SYSDATE
-        ,#{tid}
-        )
-    </insert>
-
-    <insert id="insertWhErrorInfo" parameterType="com.abs.wfs.workman.dao.query.common.vo.WhErrorInfo">
-        INSERT INTO WH_ERROR_INFO (
-        OBJ_ID
-        ,SITE_ID
-        ,MSG_ID
-        ,MSG_CTNTS_CM
-        ,WORK_STAT_CD
-        ,LOT_ID
-        ,CARR_ID
-        ,EQP_ID
-        ,PORT_ID
-        ,ERR_CD
-        ,ERR_CM
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID)
-        VALUES (
-        (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL)
-        ,#{siteId}
-        ,#{msgId}
-        ,#{msgCtntsCm}
-        ,#{workStatCd}
-        ,#{lotId}
-        ,#{carrId}
-        ,#{eqpId}
-        ,#{portId}
-        ,#{errCd}
-        ,#{errCm}
-        ,#{evntNm}
-        ,#{prevEvntNm}
-        ,#{cstmEvntNm}
-        ,#{prevCstmEvntNm}
-        ,#{useStatCd}
-        ,#{rsnCd}
-        ,#{trnsCm}
-        ,#{crtUserId}
-        ,SYSDATE
-        ,#{mdfyUserId}
-        ,SYSDATE
-        ,SYSDATE
-        ,#{tid}
-
-        )
-    </insert>
-
-    <select id="selectBatchLotList" parameterType="hashMap" resultType="hashMap">
-        SELECT
-        TN_POS_LOT.LOT_ID,
-        TN_POS_LOT.CARR_ID,
-        TN_POS_LOT.PROD_DEF_ID,
-        TN_POS_LOT.HOLD_YN,
-        TN_POS_LOT.PROC_DEF_ID,
-        TN_POS_LOT.PROC_SGMT_ID,
-        TN_POS_LOT.PROC_STAT_CD,
-        TN_POS_LOT.USE_STAT_CD,
-        TO_NUMBER(TN_POS_LOT.QTY) AS QTY,
-        TN_POS_LOT.SUB_MTRL_TYP,
-        TO_NUMBER(TN_POS_LOT.SUB_MTRL_QTY) AS SUB_MTRL_QTY,
-        WN_WIP_STAT.WORK_STAT_CD,
-        WN_WIP_STAT.DTL_WORK_STAT_CD,
-        WN_WIP_STAT.CRNT_EQP_ID,
-        WN_WIP_STAT.CRNT_PORT_ID,
-        WN_WIP_STAT.RESV_EQP_ID,
-        WN_WIP_STAT.RESV_PORT_ID,
-        WN_WIP_STAT.OBJ_ID,
-        WN_WIP_STAT.BATCH_ID,
-        WN_WIP_STAT.BATCH_SEQ,
-        WN_WIP_STAT.RCP_CHK_YN,
-        WN_WIP_STAT.TRACK_IN_CNFM_YN,
-        WN_WIP_STAT.EQP_CHK_YN
-        FROM
-        WN_WIP_STAT,
-        TN_POS_LOT
-        WHERE
-        WN_WIP_STAT.SITE_ID = TN_POS_LOT.SITE_ID
-        AND WN_WIP_STAT.LOT_ID = TN_POS_LOT.LOT_ID
-        AND WN_WIP_STAT.SITE_ID = #{siteId}
-        AND WN_WIP_STAT.USE_STAT_CD = #{useStatCd}
-        AND TN_POS_LOT.STAT_CD = #{statCd}
-        AND WN_WIP_STAT.BATCH_ID = #{batchId}
-    </select>
-
+<mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WfsMapper">
+	
+	<select id = "getID" parameterType="String" resultType = "String">
+		SELECT #{name} || '_' || TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') AS ID
+  		  FROM DUAL
+	</select>
+	
+	<select id="selectTnPosProducedMaterialByLotId" parameterType="String"  resultType="com.abs.wfs.workman.dao.query.model.TnPosProducedMaterial" >
+		SELECT SLOT_NO, PROD_MTRL_ID
+		  FROM TN_POS_PRODUCED_MATERIAL
+		 WHERE STAT_CD = 'Active' AND USE_STAT_CD = 'Usable' AND LOT_ID = #{lotId}
+		 ORDER BY TO_NUMBER(SLOT_NO)
+	</select>
+	
+	<update id="updateTnPosCarrierMoveStatCd" parameterType="com.abs.wfs.workman.dao.query.model.TnPosCarrier">
+		UPDATE TN_POS_CARRIER
+		<set>
+			<if test="moveStatCd != null">MOVE_STAT_CD = #{moveStatCd},</if>
+			<if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+			<if test="true">MDFY_DT = SYSTIMESTAMP,</if>
+			<if test="tid != null">TID = #{tid},</if>
+		</set>
+		<where>
+			<if test="siteId != null">AND SITE_ID = #{siteId}</if>
+			<if test="useStatCd != null">AND USE_STAT_CD = #{useStatCd}</if>
+			<if test="carrId != null">AND CARR_ID = #{carrId}</if>
+		</where>
+		<selectKey keyProperty="objId" resultType="String" order="AFTER">
+			SELECT OBJ_ID as objId
+			  FROM TN_POS_CARRIER
+			 <where>
+				<if test="siteId != null">AND SITE_ID = #{siteId}</if>
+				<if test="useStatCd != null">AND USE_STAT_CD = #{useStatCd}</if>
+				<if test="carrId != null">AND CARR_ID = #{carrId}</if>
+			 </where>	  
+		</selectKey>
+	</update>
+	
+	<insert id="insertThPosCarrier" parameterType="String">
+		INSERT INTO TH_POS_CARRIER (
+			 OBJ_ID
+			,SITE_ID
+			,REF_OBJ_ID
+			,CARR_ID
+			,CARR_NM
+			,CARR_DEF_ID
+			,CARR_CLS_ID
+			,MTRL_TYP
+			,EQP_ID
+			,LOAD_STAT_CD
+			,SLOT_QTY
+			,LOT_ASGN_QTY
+			,MAX_CPCT
+			,VNDR_ID
+			,STAT_CD
+			,PREV_STAT_CD
+			,LCTN_NM
+			,PREV_LCTN_NM
+			,USG_TYP
+			,USG_LMT_CNT
+			,USG_CNT
+			,USG_PRD_UNIT_CD
+			,USG_LMT_PRD
+			,USG_PRD
+			,CLN_TYP
+			,CLN_LMT_CNT
+			,CLN_CNT
+			,CLN_PRD_UNIT_CD
+			,CLN_LMT_PRD
+			,CLN_PRD
+			,FNL_CLN_DT
+			,NEXT_CLN_DT
+			,RPR_TYP
+			,RPR_LMT_CNT
+			,RPR_CNT
+			,RPR_PRD_UNIT_CD
+			,RPR_LMT_PRD
+			,RPR_PRD
+			,FNL_RPR_DT
+			,NEXT_RPR_DT
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,UNIT_ID
+			,CARR_TYP
+			,CLN_STAT_CD
+			,SUB_MTRL_ASGN_QTY
+			,LOAD_QTY
+			,MTRL_ASGN_QTY
+			,MOVE_STAT_CD)
+		SELECT
+			(SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+			,SITE_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,CARR_ID
+			,CARR_NM
+			,CARR_DEF_ID
+			,CARR_CLS_ID
+			,MTRL_TYP
+			,EQP_ID
+			,LOAD_STAT_CD
+			,SLOT_QTY
+			,LOT_ASGN_QTY
+			,MAX_CPCT
+			,VNDR_ID
+			,STAT_CD
+			,PREV_STAT_CD
+			,LCTN_NM
+			,PREV_LCTN_NM
+			,USG_TYP
+			,USG_LMT_CNT
+			,USG_CNT
+			,USG_PRD_UNIT_CD
+			,USG_LMT_PRD
+			,USG_PRD
+			,CLN_TYP
+			,CLN_LMT_CNT
+			,CLN_CNT
+			,CLN_PRD_UNIT_CD
+			,CLN_LMT_PRD
+			,CLN_PRD
+			,FNL_CLN_DT
+			,NEXT_CLN_DT
+			,RPR_TYP
+			,RPR_LMT_CNT
+			,RPR_CNT
+			,RPR_PRD_UNIT_CD
+			,RPR_LMT_PRD
+			,RPR_PRD
+			,FNL_RPR_DT
+			,NEXT_RPR_DT
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,UNIT_ID
+			,CARR_TYP
+			,CLN_STAT_CD
+			,SUB_MTRL_ASGN_QTY
+			,LOAD_QTY
+			,MTRL_ASGN_QTY
+			,MOVE_STAT_CD
+		FROM TN_POS_CARRIER
+		WHERE OBJ_ID = #{objId}
+	
+	</insert>
+	
+	<select id="selectWnStateRuleInfo" parameterType="com.abs.wfs.workman.dao.vo.rule.StateRuleInfo"  resultType="com.abs.wfs.workman.dao.vo.rule.StateRuleInfo" >
+		SELECT OBJ_ID
+			  ,SITE_ID
+			  ,RULE_NM
+			  ,TABLE_NM
+			  ,COLUMN_NM
+			  ,COLUMN_VAL
+			  ,COND_VAL
+			  ,RULE_DESC
+			  ,EVNT_NM
+			  ,PREV_EVNT_NM
+			  ,CSTM_EVNT_NM
+			  ,PREV_CSTM_EVNT_NM
+			  ,USE_STAT_CD
+			  ,RSN_CD
+			  ,TRNS_CM
+			  ,CRT_USER_ID
+			  ,CRT_DT
+			  ,MDFY_USER_ID
+			  ,MDFY_DT
+			  ,FNL_EVNT_DT
+			  ,TID
+		  FROM WN_STATE_RULE_INFO
+		 WHERE SITE_ID = #{siteId}
+		   AND USE_STAT_CD = #{useStatCd}
+	</select>
+	
+	<select id="selectLot" parameterType="hashMap" resultType="hashMap">
+		SELECT L.LOT_ID
+		 	   ,L.CARR_ID
+		 	   ,L.PROD_DEF_ID
+			   ,L.HOLD_YN
+		 	   ,L.PROC_DEF_ID
+		 	   ,L.PROC_SGMT_ID
+		 	   ,L.PROC_STAT_CD 
+			   ,L.SGMT_STAT_CD
+		 	   ,L.USE_STAT_CD
+		 	   ,L.QTY
+		 	   ,L.SUB_MTRL_TYP
+		 	   ,L.SUB_MTRL_QTY
+		 	   ,W.WORK_STAT_CD
+		 	   ,W.DTL_WORK_STAT_CD
+		 	   ,W.CRNT_EQP_ID
+		 	   ,W.CRNT_PORT_ID
+		 	   ,W.RESV_EQP_ID
+		 	   ,W.RESV_PORT_ID
+		   FROM WN_WIP_STAT W
+		       ,TN_POS_LOT L
+		  WHERE W.SITE_ID = L.SITE_ID 
+		    AND W.LOT_ID = L.LOT_ID 
+			AND L.SITE_ID = #{siteId}
+			AND L.USE_STAT_CD = #{useStatCd}
+			AND W.USE_STAT_CD = #{useStatCd}
+		    AND L.STAT_CD = #{statCd}
+		    <if test="lotId != null">AND L.LOT_ID = #{lotId}</if>
+		    <if test="carrId != null">AND L.CARR_ID = #{carrId}</if>
+	</select>
+	
+	<select id="selectQueryLotVO" parameterType="hashMap" resultType="com.abs.wfs.workman.dao.query.model.QueryLotVO">
+		SELECT  P.LOT_ID
+		 	   ,P.CARR_ID
+		 	   ,C.CARR_TYP 
+		 	   ,C.CARR_CLS_ID 
+			   ,P.HOLD_YN
+		 	   ,P.PROD_DEF_ID
+		 	   ,P.PROC_DEF_ID
+		 	   ,P.PROC_SGMT_ID
+		 	   ,P.PROC_STAT_CD 
+		 	   ,P.STAT_CD
+		 	   ,P.USE_STAT_CD
+		 	   ,P.QTY
+		 	   ,P.SUB_MTRL_TYP
+		 	   ,P.SUB_MTRL_QTY
+		 	   ,P.SGMT_STAT_CD
+		 	   ,W.WORK_STAT_CD
+		 	   ,W.DTL_WORK_STAT_CD
+		 	   ,W.CRNT_EQP_ID
+		 	   ,W.CRNT_PORT_ID
+			   ,W.RESV_GRP_ID
+		 	   ,W.RESV_EQP_ID
+		 	   ,W.RESV_PORT_ID
+		 	   ,W.RESV_OUT_PORT_ID 
+		 	   ,W.RESV_OUT_CARR_ID 
+			   ,W.BATCH_ID
+			   ,W.BATCH_SEQ
+			   ,W.SELF_INSP_YN 
+			   ,W.SELF_INSP_INFO_OBJ_ID 
+			   ,W.SELF_INSP_PANEL_CNT
+			   ,P.MTRL_FACE_CD 
+		   FROM WN_WIP_STAT W
+		       ,TN_POS_LOT P
+		       ,TN_POS_CARRIER C
+		  WHERE W.SITE_ID = P.SITE_ID 
+		    AND W.SITE_ID = C.SITE_ID(+)
+		    AND W.LOT_ID = P.LOT_ID 
+		    AND P.CARR_ID = C.CARR_ID(+)
+			AND P.SITE_ID = #{siteId}
+		    AND P.USE_STAT_CD = #{useStatCd}
+		    AND P.LOT_ID = #{lotId}
+	</select>
+	
+	<select id="selectCarrier" parameterType="hashMap" resultType="hashMap">
+		SELECT P.SITE_ID
+			  ,P.CARR_ID
+			  ,P.CARR_NM
+			  ,P.CARR_DEF_ID
+			  ,P.CARR_CLS_ID
+			  ,P.STAT_CD
+			  ,P.CLN_STAT_CD 
+			  ,P.CLN_CNT 
+			  ,P.CLN_LMT_CNT 
+			  ,P.MTRL_TYP
+			  ,P.CARR_TYP
+			  ,P.SLOT_QTY
+			  ,P.LOT_ASGN_QTY
+			  ,P.MAX_CPCT
+			  ,P.SUB_MTRL_ASGN_QTY
+			  ,P.LOAD_QTY
+			  ,P.MTRL_ASGN_QTY
+			  ,P.MOVE_STAT_CD
+		 FROM TN_POS_CARRIER P, WN_WIP_STAT W
+		WHERE P.SITE_ID = W.SITE_ID
+		  AND P.CARR_ID = W.CARR_ID 
+		  AND W.LOT_ID = '-'
+		  AND P.USE_STAT_CD = #{useStatCd}
+		  AND W.USE_STAT_CD = #{useStatCd}
+		  AND P.SITE_ID = #{siteId}
+		  AND P.CARR_ID = #{carrId}
+	</select>
+	
+	
+	<insert id="insertWnMtrlUsageInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnMtrlUsageInfo">
+		INSERT INTO WN_MTRL_USAGE_INFO (
+			 OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,EQP_ID
+			,SUB_EQP_ID
+			,LOT_ID
+			,SPEC_ID
+			,SPEC_TYP
+			,SPEC_USE_CNT
+			,SUB_SPEC_USE_CNT
+			,SPEC_LIMIT_CNT
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID 
+			,POSN_ID)
+		VALUES (
+			 #{objId}
+			,#{siteId}
+			,#{workId}
+			,#{eqpId}
+			,#{subEqpId}
+			,#{lotId}
+			,#{specId}
+			,#{specTyp}
+			,#{specUseCnt}
+			,#{subSpecUseCnt}
+			,#{specLimitCnt}
+			,#{evntNm}
+			,#{prevEvntNm}
+			,#{cstmEvntNm}
+			,#{prevCstmEvntNm}
+			,#{useStatCd}
+			,#{rsnCd}
+			,#{trnsCm}
+			,#{crtUserId}
+			,SYSTIMESTAMP
+			,#{mdfyUserId}
+			,SYSTIMESTAMP
+			,SYSTIMESTAMP
+			,#{tid}
+			,#{posnId}
+		)
+		<selectKey keyProperty="objId" resultType="String" order="BEFORE">
+			SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="insertWhMtrlUsageInfo" parameterType="String">
+		INSERT INTO WH_MTRL_USAGE_INFO (
+			 OBJ_ID
+			,REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,EQP_ID
+			,SUB_EQP_ID
+			,LOT_ID
+			,SPEC_ID
+			,SPEC_TYP
+			,SPEC_USE_CNT
+			,SUB_SPEC_USE_CNT
+			,SPEC_LIMIT_CNT
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID 
+			,POSN_ID
+		)
+		SELECT (SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,EQP_ID
+			,SUB_EQP_ID
+			,LOT_ID
+			,SPEC_ID
+			,SPEC_TYP
+			,SPEC_USE_CNT
+			,SUB_SPEC_USE_CNT
+			,SPEC_LIMIT_CNT
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID 
+			,POSN_ID
+		FROM  WN_MTRL_USAGE_INFO
+	   WHERE OBJ_ID = #{objId}
+	</insert>
+	
+	<insert id="insertWhErrorInfo" parameterType="com.abs.wfs.workman.dao.query.model.WhErrorInfo">
+		INSERT INTO WH_ERROR_INFO (
+			 OBJ_ID
+			,SITE_ID
+			,MSG_ID
+			,MSG_CTNTS_CM
+			,WORK_STAT_CD
+			,LOT_ID
+			,CARR_ID
+			,EQP_ID
+			,PORT_ID
+			,ERR_CD
+			,ERR_CM
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID)
+		VALUES (
+			 (SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL)
+			,#{siteId}
+			,#{msgId}
+			,#{msgCtntsCm}
+			,#{workStatCd}
+			,#{lotId}
+			,#{carrId}
+			,#{eqpId}
+			,#{portId}
+			,#{errCd}
+			,#{errCm}
+			,#{evntNm}
+			,#{prevEvntNm}
+			,#{cstmEvntNm}
+			,#{prevCstmEvntNm}
+			,#{useStatCd}
+			,#{rsnCd}
+			,#{trnsCm}
+			,#{crtUserId}
+			,SYSTIMESTAMP
+			,#{mdfyUserId}
+			,SYSTIMESTAMP
+			,SYSTIMESTAMP
+			,#{tid}
+						
+		)
+	</insert>
+	
+	<select id="selectBatchLotList" parameterType="hashMap" resultType="hashMap">
+		SELECT
+			TN_POS_LOT.LOT_ID,
+			TN_POS_LOT.CARR_ID,
+			TN_POS_LOT.PROD_DEF_ID,
+			TN_POS_LOT.HOLD_YN,
+			TN_POS_LOT.PROC_DEF_ID,
+			TN_POS_LOT.PROC_SGMT_ID,
+			TN_POS_LOT.PROC_STAT_CD,
+			TN_POS_LOT.USE_STAT_CD,
+			TO_NUMBER(TN_POS_LOT.QTY) AS QTY,
+			TN_POS_LOT.SUB_MTRL_TYP,
+			TO_NUMBER(TN_POS_LOT.SUB_MTRL_QTY) AS SUB_MTRL_QTY,
+			WN_WIP_STAT.WORK_STAT_CD,
+			WN_WIP_STAT.DTL_WORK_STAT_CD,
+			WN_WIP_STAT.CRNT_EQP_ID,
+			WN_WIP_STAT.CRNT_PORT_ID,
+			WN_WIP_STAT.RESV_EQP_ID,
+			WN_WIP_STAT.RESV_PORT_ID,
+			WN_WIP_STAT.OBJ_ID,
+			WN_WIP_STAT.BATCH_ID,
+			WN_WIP_STAT.BATCH_SEQ,
+			WN_WIP_STAT.RCP_CHK_YN,
+			WN_WIP_STAT.TRACK_IN_CNFM_YN,
+			WN_WIP_STAT.EQP_CHK_YN
+		FROM
+			WN_WIP_STAT,
+			TN_POS_LOT
+		WHERE
+			WN_WIP_STAT.SITE_ID = TN_POS_LOT.SITE_ID
+			AND WN_WIP_STAT.LOT_ID = TN_POS_LOT.LOT_ID
+			AND WN_WIP_STAT.SITE_ID = #{siteId}
+			AND WN_WIP_STAT.USE_STAT_CD = #{useStatCd}
+			AND TN_POS_LOT.STAT_CD = #{statCd}
+			AND WN_WIP_STAT.BATCH_ID = #{batchId}
+		ORDER BY WN_WIP_STAT.BATCH_SEQ
+	</select>
+	
+	<select id="selectEcoLotInfo" parameterType="hashMap" resultType="hashMap">
+		SELECT e.SLOT_NO, e.TOP_RCP_ID, e.BOTTOM_RCP_ID 
+		  FROM CN_POS_ECO_LOT_INFO e
+		 WHERE e.SITE_ID = #{siteId}
+		   AND e.ECO_ID = #{ecoId} 
+		   AND e.PROD_DEF_ID = #{prodDefId}
+		   AND e.PROC_DEF_ID = #{procDefId}
+		   AND e.PROC_SGMT_ID = #{procSgmtId}
+		   AND e.LOT_ID = #{lotId}
+		   AND e.EQP_ID = #{eqpId}
+	</select>
+	
+	<select id="selectProdMtrlList" parameterType="hashMap" resultType="hashMap">
+		SELECT TO_CHAR(SLOT_NO) SLOT_NO, PROD_MTRL_ID  
+		  FROM TN_POS_PRODUCED_MATERIAL
+		 WHERE SITE_ID = #{siteId}
+		   AND USE_STAT_CD = #{useStatCd}
+		   AND LOT_ID = #{lotId}
+		ORDER BY TO_NUMBER(SLOT_NO)
+	</select>
+	
+	<select id="selectTargetGlassList"  parameterType="hashMap" resultType="hashMap">
+		SELECT p.SLOT_NO
+			  ,j.MTRL_FACE_CD
+			  ,j.PROD_MTRL_ID
+		 FROM CN_POS_PROD_INSP_JDGM j
+		     ,TN_POS_PRODUCED_MATERIAL p
+		WHERE 1 = 1
+		  AND j.SITE_ID = p.SITE_ID
+		  AND j.LOT_ID = p.LOT_ID
+		  AND j.PROD_MTRL_ID = P.PROD_MTRL_ID
+		  AND p.STAT_CD = #{statCd}
+		  AND j.SITE_ID = #{siteId}
+		  AND j.USE_STAT_CD = #{useStatCd}
+		  AND j.LOT_ID = #{lotId}
+		  AND j.RPR_YN = #{rprYn}
+		  <if test="mtrlFaceCd != null">AND j.MTRL_FACE_CD = #{mtrlFaceCd}</if>
+		ORDER BY TO_NUMBER(p.SLOT_NO)
+	</select>
+	
 </mapper>

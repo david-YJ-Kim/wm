@@ -1,317 +1,327 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.abs.wfs.workman.dao.query.wip.mapper.WipStatMapper">
+<mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WipStatMapper">
 
-    <select id="selectWnWipStat" parameterType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat" resultType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat">
-        SELECT OBJ_ID
-        ,SITE_ID
-        ,LOT_ID
-        ,CARR_ID
-        ,CARR_LCTN_NM
-        ,WORK_STAT_CD
-        ,DTL_WORK_STAT_CD
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,CSTM_EVNT_NM
-        ,EVNT_NM
-        ,FNL_EVNT_DT
-        ,PREV_CSTM_EVNT_NM
-        ,PREV_EVNT_NM
-        ,RSN_CD
-        ,TID
-        ,TRNS_CM
-        ,USE_STAT_CD
-        ,CRNT_EQP_ID
-        ,CRNT_PORT_ID
-        ,BATCH_ID
-        ,RESV_EQP_ID
-        ,RESV_PORT_ID
-        ,EQP_CHK_YN
-        ,RCP_CHK_YN
-        ,TRACK_IN_CNFM_YN
-        ,RESV_GRP_ID
-        ,BATCH_SEQ
-        ,SELF_INSP_YN
-        ,SELF_INSP_INFO_OBJ_ID
-        ,SELF_INSP_PANEL_CNT
-        ,SMPL_LOT_YN
-        ,SMPL_WORK_TYP
-        ,SMPL_QTY
-        ,RESV_OUT_CARR_ID
-        ,RESV_OUT_PORT_ID
-        FROM WN_WIP_STAT
-        <where>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
-            <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
-            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-        </where>
-    </select>
-
-    <select id="selectWnWipStatByLot" parameterType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat" resultType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat">
-        SELECT OBJ_ID
-        ,SITE_ID
-        ,LOT_ID
-        ,CARR_ID
-        ,CARR_LCTN_NM
-        ,WORK_STAT_CD
-        ,DTL_WORK_STAT_CD
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,CSTM_EVNT_NM
-        ,EVNT_NM
-        ,FNL_EVNT_DT
-        ,PREV_CSTM_EVNT_NM
-        ,PREV_EVNT_NM
-        ,RSN_CD
-        ,TID
-        ,TRNS_CM
-        ,USE_STAT_CD
-        ,CRNT_EQP_ID
-        ,CRNT_PORT_ID
-        ,BATCH_ID
-        ,RESV_EQP_ID
-        ,RESV_PORT_ID
-        ,EQP_CHK_YN
-        ,RCP_CHK_YN
-        ,TRACK_IN_CNFM_YN
-        ,RESV_GRP_ID
-        ,BATCH_SEQ
-        ,SELF_INSP_YN
-        ,SELF_INSP_INFO_OBJ_ID
-        ,SELF_INSP_PANEL_CNT
-        ,SMPL_LOT_YN
-        ,SMPL_WORK_TYP
-        ,SMPL_QTY
-        ,RESV_OUT_CARR_ID
-        ,RESV_OUT_PORT_ID
-        FROM WN_WIP_STAT
-        <where>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pLotId != null">AND (LOT_ID = #{pLotId} OR LOT_ID = '-')</if>
-            <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
-            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-        </where>
-    </select>
-
-    <update id="updateWnWipStat" parameterType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat">
-        UPDATE WN_WIP_STAT
-        <set>
-            <if test="lotId != null">LOT_ID = #{lotId},</if>
-            <if test="carrId != null">CARR_ID = #{carrId},</if>
-            <if test="carrLctnNm != null">CARR_LCTN_NM = #{carrLctnNm},</if>
-            <if test="workStatCd != null">WORK_STAT_CD = #{workStatCd},</if>
-            <if test="dtlWorkStatCd != null">DTL_WORK_STAT_CD = #{dtlWorkStatCd},</if>
-            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
-            <if test="true">MDFY_DT = SYSDATE,</if>
-            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
-            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
-            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
-            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
-            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
-            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
-            <if test="tid != null">TID = #{tid},</if>
-            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
-            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
-            <if test="crntEqpId != null">CRNT_EQP_ID = #{crntEqpId},</if>
-            <if test="crntPortId != null">CRNT_PORT_ID = #{crntPortId},</if>
-            <if test="batchId != null">BATCH_ID = #{batchId},</if>
-            <if test="batchSeq != null">BATCH_SEQ = #{batchSeq},</if>
-            <if test="resvEqpId != null">RESV_EQP_ID = #{resvEqpId},</if>
-            <if test="resvPortId != null">RESV_PORT_ID = #{resvPortId},</if>
-            <if test="resvGrpId != null">RESV_GRP_ID = #{resvGrpId},</if>
-            <if test="eqpChkYn != null">EQP_CHK_YN = #{eqpChkYn},</if>
-            <if test="rcpChkYn != null">RCP_CHK_YN = #{rcpChkYn},</if>
-            <if test="trackInCnfmYn != null">TRACK_IN_CNFM_YN = #{trackInCnfmYn},</if>
-            <if test="selfInspYn != null">SELF_INSP_YN = #{selfInspYn},</if>
-            <if test="selfInspInfoObjId != null">SELF_INSP_INFO_OBJ_ID = #{selfInspInfoObjId},</if>
-            <if test="selfInspPanelCnt != null">SELF_INSP_PANEL_CNT = #{selfInspPanelCnt},</if>
-            <if test="smplLotYn != null">SMPL_LOT_YN = #{smplLotYn},</if>
-            <if test="smplWorkTyp != null">SMPL_WORK_TYP = #{smplWorkTyp},</if>
-            <if test="smplQty != null">SMPL_QTY = #{smplQty},</if>
-            <if test="resvOutCarrId != null">RESV_OUT_CARR_ID = #{resvOutCarrId},</if>
-            <if test="resvOutPortId != null">RESV_OUT_PORT_ID = #{resvOutPortId},</if>
-        </set>
-        <where>
-            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
-            <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
-            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-        </where>
-        <selectKey keyProperty="objId,lotId,carrId" resultType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat" order="AFTER">
-            SELECT OBJ_ID as objId
-            ,LOT_ID as lotId
-            ,CARR_ID as carrId
-            FROM WN_WIP_STAT
-            <where>
-                <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-                <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
-                <if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
-                <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-            </where>
-
-        </selectKey>
-    </update>
-
-    <insert id="createWnWipStat" parameterType="com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat">
-        INSERT INTO WN_WIP_STAT (
-        OBJ_ID
-        ,SITE_ID
-        ,LOT_ID
-        ,CARR_ID
-        ,CARR_LCTN_NM
-        ,WORK_STAT_CD
-        ,DTL_WORK_STAT_CD
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,CSTM_EVNT_NM
-        ,EVNT_NM
-        ,FNL_EVNT_DT
-        ,PREV_CSTM_EVNT_NM
-        ,PREV_EVNT_NM
-        ,RSN_CD
-        ,TID
-        ,TRNS_CM
-        ,USE_STAT_CD
-        ,CRNT_EQP_ID
-        ,CRNT_PORT_ID
-        ,BATCH_ID
-        ,RESV_EQP_ID
-        ,RESV_PORT_ID
-        ,EQP_CHK_YN
-        ,RCP_CHK_YN
-        ,TRACK_IN_CNFM_YN
-        ,RESV_GRP_ID
-        ,BATCH_SEQ
-        )
-        VALUES (
-        #{objId}
-        ,#{siteId}
-        ,#{lotId}
-        ,#{carrId}
-        ,#{carrLctnNm}
-        ,#{workStatCd}
-        ,#{dtlWorkStatCd}
-        ,#{mdfyUserId}
-        ,SYSDATE
-        ,#{crtUserId}
-        ,SYSDATE
-        ,#{cstmEvntNm}
-        ,#{evntNm}
-        ,SYSDATE
-        ,#{prevCstmEvntNm}
-        ,#{prevEvntNm}
-        ,#{rsnCd}
-        ,#{tid}
-        ,#{trnsCm}
-        ,#{useStatCd}
-        ,#{crntEqpId}
-        ,#{crntPortId}
-        ,#{batchId}
-        ,#{resvEqpId}
-        ,#{resvPortId}
-        ,#{eqpChkYn}
-        ,#{rcpChkYn}
-        ,#{trackInCnfmYn}
-        ,#{resvGrpId}
-        ,#{batchSeq}
-        )
-        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
-            SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
-        </selectKey>
-    </insert>
-
-    <insert id="createWhWipStat" parameterType="String">
-        INSERT INTO WH_WIP_STAT (
-                                  OBJ_ID
-                                ,REF_OBJ_ID
-                                ,SITE_ID
-                                ,LOT_ID
-                                ,CARR_ID
-                                ,CARR_LCTN_NM
-                                ,WORK_STAT_CD
-                                ,DTL_WORK_STAT_CD
-                                ,MDFY_USER_ID
-                                ,MDFY_DT
-                                ,CRT_USER_ID
-                                ,CRT_DT
-                                ,CSTM_EVNT_NM
-                                ,EVNT_NM
-                                ,FNL_EVNT_DT
-                                ,PREV_CSTM_EVNT_NM
-                                ,PREV_EVNT_NM
-                                ,RSN_CD
-                                ,TID
-                                ,TRNS_CM
-                                ,USE_STAT_CD
-                                ,CRNT_EQP_ID
-                                ,CRNT_PORT_ID
-                                ,BATCH_ID
-                                ,RESV_EQP_ID
-                                ,RESV_PORT_ID
-                                ,RESV_GRP_ID
-                                ,EQP_CHK_YN
-                                ,RCP_CHK_YN
-                                ,TRACK_IN_CNFM_YN
-                                ,SELF_INSP_YN
-                                ,SELF_INSP_INFO_OBJ_ID
-                                ,SELF_INSP_PANEL_CNT
-                                ,SMPL_LOT_YN
-                                ,SMPL_WORK_TYP
-                                ,SMPL_QTY
-                                ,RESV_OUT_CARR_ID
-                                ,RESV_OUT_PORT_ID
-        )
-        SELECT
-            (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
-             ,OBJ_ID AS REF_OBJ_ID
-             ,SITE_ID
-             ,LOT_ID
-             ,CARR_ID
-             ,CARR_LCTN_NM
-             ,WORK_STAT_CD
-             ,DTL_WORK_STAT_CD
-             ,MDFY_USER_ID
-             ,MDFY_DT
-             ,CRT_USER_ID
-             ,CRT_DT
-             ,CSTM_EVNT_NM
-             ,EVNT_NM
-             ,FNL_EVNT_DT
-             ,PREV_CSTM_EVNT_NM
-             ,PREV_EVNT_NM
-             ,RSN_CD
-             ,TID
-             ,TRNS_CM
-             ,USE_STAT_CD
-             ,CRNT_EQP_ID
-             ,CRNT_PORT_ID
-             ,BATCH_ID
-             ,RESV_EQP_ID
-             ,RESV_PORT_ID
-             ,RESV_GRP_ID
-             ,EQP_CHK_YN
-             ,RCP_CHK_YN
-             ,TRACK_IN_CNFM_YN
-             ,SELF_INSP_YN
-             ,SELF_INSP_INFO_OBJ_ID
-             ,SELF_INSP_PANEL_CNT
-             ,SMPL_LOT_YN
-             ,SMPL_WORK_TYP
-             ,SMPL_QTY
-             ,RESV_OUT_CARR_ID
-             ,RESV_OUT_PORT_ID
-        FROM WN_WIP_STAT
-        WHERE OBJ_ID = #{objId}
-    </insert>
-
+	<select id="selectWnWipStat" parameterType="com.abs.wfs.workman.dao.query.model.WnWipStat" resultType="com.abs.wfs.workman.dao.query.model.WnWipStat">
+		SELECT OBJ_ID
+			  ,SITE_ID
+			  ,LOT_ID
+			  ,CARR_ID
+			  ,CARR_LCTN_NM
+			  ,WORK_STAT_CD
+			  ,DTL_WORK_STAT_CD
+			  ,MDFY_USER_ID
+			  ,MDFY_DT
+			  ,CRT_USER_ID
+			  ,CRT_DT
+			  ,CSTM_EVNT_NM
+			  ,EVNT_NM
+			  ,FNL_EVNT_DT
+			  ,PREV_CSTM_EVNT_NM
+			  ,PREV_EVNT_NM
+			  ,RSN_CD
+			  ,TID
+			  ,TRNS_CM
+			  ,USE_STAT_CD
+			  ,CRNT_EQP_ID
+			  ,CRNT_PORT_ID
+			  ,BATCH_ID
+			  ,RESV_EQP_ID
+			  ,RESV_PORT_ID
+			  ,EQP_CHK_YN
+			  ,RCP_CHK_YN
+			  ,TRACK_IN_CNFM_YN
+			  ,RESV_GRP_ID
+			  ,BATCH_SEQ
+			  ,SELF_INSP_YN
+			  ,SELF_INSP_INFO_OBJ_ID
+			  ,SELF_INSP_PANEL_CNT
+			  ,SMPL_LOT_YN
+			  ,SMPL_WORK_TYP
+			  ,SMPL_QTY
+			  ,RESV_OUT_CARR_ID
+			  ,RESV_OUT_PORT_ID
+			  ,MOVE_STAT_CD
+			  ,MANL_LDNG_YN
+		  FROM WN_WIP_STAT
+		<where>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
+			<if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+			<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+		</where>
+	</select>
+	
+	<select id="selectWnWipStatByLot" parameterType="com.abs.wfs.workman.dao.query.model.WnWipStat" resultType="com.abs.wfs.workman.dao.query.model.WnWipStat">
+		SELECT OBJ_ID
+			  ,SITE_ID
+			  ,LOT_ID
+			  ,CARR_ID
+			  ,CARR_LCTN_NM
+			  ,WORK_STAT_CD
+			  ,DTL_WORK_STAT_CD
+			  ,MDFY_USER_ID
+			  ,MDFY_DT
+			  ,CRT_USER_ID
+			  ,CRT_DT
+			  ,CSTM_EVNT_NM
+			  ,EVNT_NM
+			  ,FNL_EVNT_DT
+			  ,PREV_CSTM_EVNT_NM
+			  ,PREV_EVNT_NM
+			  ,RSN_CD
+			  ,TID
+			  ,TRNS_CM
+			  ,USE_STAT_CD
+			  ,CRNT_EQP_ID
+			  ,CRNT_PORT_ID
+			  ,BATCH_ID
+			  ,RESV_EQP_ID
+			  ,RESV_PORT_ID
+			  ,EQP_CHK_YN
+			  ,RCP_CHK_YN
+			  ,TRACK_IN_CNFM_YN
+			  ,RESV_GRP_ID
+			  ,BATCH_SEQ
+			  ,SELF_INSP_YN
+			  ,SELF_INSP_INFO_OBJ_ID
+			  ,SELF_INSP_PANEL_CNT
+			  ,SMPL_LOT_YN
+			  ,SMPL_WORK_TYP
+			  ,SMPL_QTY
+			  ,RESV_OUT_CARR_ID
+			  ,RESV_OUT_PORT_ID
+			  ,MOVE_STAT_CD
+			  ,MANL_LDNG_YN
+		  FROM WN_WIP_STAT
+		<where>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pLotId != null">AND (LOT_ID = #{pLotId} OR LOT_ID = '-')</if>
+			<if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+			<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+		</where>
+	</select>
+	
+	<update id="updateWnWipStat" parameterType="com.abs.wfs.workman.dao.query.model.WnWipStat">
+		UPDATE WN_WIP_STAT
+		<set>
+			<if test="lotId != null">LOT_ID = #{lotId},</if>
+			<if test="carrId != null">CARR_ID = #{carrId},</if>
+			<if test="carrLctnNm != null">CARR_LCTN_NM = #{carrLctnNm},</if>
+			<if test="workStatCd != null">WORK_STAT_CD = #{workStatCd},</if>
+			<if test="dtlWorkStatCd != null">DTL_WORK_STAT_CD = #{dtlWorkStatCd},</if>
+			<if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+			<if test="true">MDFY_DT = SYSTIMESTAMP,</if>
+			<if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+			<if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+			<if test="true">FNL_EVNT_DT = SYSTIMESTAMP,</if>
+			<if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+			<if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+			<if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+			<if test="tid != null">TID = #{tid},</if>
+			<if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+			<if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+			<if test="crntEqpId != null">CRNT_EQP_ID = #{crntEqpId},</if>
+			<if test="crntPortId != null">CRNT_PORT_ID = #{crntPortId},</if>
+			<if test="batchId != null">BATCH_ID = #{batchId},</if>
+			<if test="batchSeq != null">BATCH_SEQ = #{batchSeq},</if>
+			<if test="resvEqpId != null">RESV_EQP_ID = #{resvEqpId},</if>
+			<if test="resvPortId != null">RESV_PORT_ID = #{resvPortId},</if>
+			<if test="resvGrpId != null">RESV_GRP_ID = #{resvGrpId},</if>
+			<if test="eqpChkYn != null">EQP_CHK_YN = #{eqpChkYn},</if>
+			<if test="rcpChkYn != null">RCP_CHK_YN = #{rcpChkYn},</if>
+			<if test="trackInCnfmYn != null">TRACK_IN_CNFM_YN = #{trackInCnfmYn},</if>
+			<if test="selfInspYn != null">SELF_INSP_YN = #{selfInspYn},</if>
+			<if test="selfInspInfoObjId != null">SELF_INSP_INFO_OBJ_ID = #{selfInspInfoObjId},</if>
+			<if test="selfInspPanelCnt != null">SELF_INSP_PANEL_CNT = #{selfInspPanelCnt},</if>
+			<if test="smplLotYn != null">SMPL_LOT_YN = #{smplLotYn},</if>
+			<if test="smplWorkTyp != null">SMPL_WORK_TYP = #{smplWorkTyp},</if>
+			<if test="smplQty != null">SMPL_QTY = #{smplQty},</if>
+			<if test="resvOutCarrId != null">RESV_OUT_CARR_ID = #{resvOutCarrId},</if>
+			<if test="resvOutPortId != null">RESV_OUT_PORT_ID = #{resvOutPortId},</if>
+			<if test="moveStatCd != null">MOVE_STAT_CD = #{moveStatCd},</if>
+			<if test="manlLdngYn != null">MANL_LDNG_YN = #{manlLdngYn},</if>
+		</set>
+	  	<where>
+	  		<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
+			<if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+			<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+		</where>
+	  	<selectKey keyProperty="objId,lotId,carrId" resultType="com.abs.wfs.workman.dao.query.model.WnWipStat" order="AFTER">
+	  		SELECT OBJ_ID as objId
+	  			  ,LOT_ID as lotId
+	  			  ,CARR_ID as carrId
+	  		  FROM WN_WIP_STAT
+	  		 <where>
+	  		 	<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+				<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+				<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
+				<if test="pCarrId != null">AND CARR_ID = #{pCarrId}</if>
+				<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+			</where>
+		  	   
+	  	</selectKey>
+	</update>
+	
+	<insert id="createWnWipStat" parameterType="com.abs.wfs.workman.dao.query.model.WnWipStat">
+		INSERT INTO WN_WIP_STAT (
+			 OBJ_ID
+			,SITE_ID
+			,LOT_ID
+			,CARR_ID
+			,CARR_LCTN_NM
+			,WORK_STAT_CD
+			,DTL_WORK_STAT_CD
+			,MDFY_USER_ID
+			,MDFY_DT
+			,CRT_USER_ID
+			,CRT_DT
+			,CSTM_EVNT_NM
+			,EVNT_NM
+			,FNL_EVNT_DT
+			,PREV_CSTM_EVNT_NM
+			,PREV_EVNT_NM
+			,RSN_CD
+			,TID
+			,TRNS_CM
+			,USE_STAT_CD
+			,CRNT_EQP_ID
+			,CRNT_PORT_ID
+			,BATCH_ID
+			,RESV_EQP_ID
+			,RESV_PORT_ID
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,TRACK_IN_CNFM_YN
+			,RESV_GRP_ID
+			,BATCH_SEQ
+		) 
+		VALUES (
+			 #{objId}
+			,#{siteId}
+			,#{lotId}
+			,#{carrId}
+			,#{carrLctnNm}
+			,#{workStatCd}
+			,#{dtlWorkStatCd}
+			,#{mdfyUserId}
+			,SYSTIMESTAMP
+			,#{crtUserId}
+			,SYSTIMESTAMP
+			,#{cstmEvntNm}
+			,#{evntNm}
+			,SYSTIMESTAMP
+			,#{prevCstmEvntNm}
+			,#{prevEvntNm}
+			,#{rsnCd}
+			,#{tid}
+			,#{trnsCm}
+			,#{useStatCd}
+			,#{crntEqpId}
+			,#{crntPortId}
+			,#{batchId}
+			,#{resvEqpId}
+			,#{resvPortId}
+			,#{eqpChkYn}
+			,#{rcpChkYn}
+			,#{trackInCnfmYn}
+			,#{resvGrpId}
+			,#{batchSeq}
+		)
+		<selectKey keyProperty="objId" resultType="String" order="BEFORE">
+			SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="createWhWipStat" parameterType="String">
+		INSERT INTO WH_WIP_STAT (
+			 OBJ_ID
+			,REF_OBJ_ID
+			,SITE_ID
+			,LOT_ID
+			,CARR_ID
+			,CARR_LCTN_NM
+			,WORK_STAT_CD
+			,DTL_WORK_STAT_CD
+			,MDFY_USER_ID
+			,MDFY_DT
+			,CRT_USER_ID
+			,CRT_DT
+			,CSTM_EVNT_NM
+			,EVNT_NM
+			,FNL_EVNT_DT
+			,PREV_CSTM_EVNT_NM
+			,PREV_EVNT_NM
+			,RSN_CD
+			,TID
+			,TRNS_CM
+			,USE_STAT_CD
+			,CRNT_EQP_ID
+			,CRNT_PORT_ID
+			,BATCH_ID
+			,RESV_EQP_ID
+			,RESV_PORT_ID
+			,RESV_GRP_ID
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,TRACK_IN_CNFM_YN
+			,SELF_INSP_YN
+			,SELF_INSP_INFO_OBJ_ID
+			,SELF_INSP_PANEL_CNT
+			,SMPL_LOT_YN
+			,SMPL_WORK_TYP
+		    ,SMPL_QTY
+			,RESV_OUT_CARR_ID
+			,RESV_OUT_PORT_ID
+			,MOVE_STAT_CD
+			,MANL_LDNG_YN
+		)
+		SELECT
+			(SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,SITE_ID
+			,LOT_ID
+			,CARR_ID
+			,CARR_LCTN_NM
+			,WORK_STAT_CD
+			,DTL_WORK_STAT_CD
+			,MDFY_USER_ID
+			,MDFY_DT
+			,CRT_USER_ID
+			,CRT_DT
+			,CSTM_EVNT_NM
+			,EVNT_NM
+			,FNL_EVNT_DT
+			,PREV_CSTM_EVNT_NM
+			,PREV_EVNT_NM
+			,RSN_CD
+			,TID
+			,TRNS_CM
+			,USE_STAT_CD
+			,CRNT_EQP_ID
+			,CRNT_PORT_ID
+			,BATCH_ID
+			,RESV_EQP_ID
+			,RESV_PORT_ID
+			,RESV_GRP_ID
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,TRACK_IN_CNFM_YN
+			,SELF_INSP_YN
+			,SELF_INSP_INFO_OBJ_ID
+			,SELF_INSP_PANEL_CNT
+			,SMPL_LOT_YN
+			,SMPL_WORK_TYP
+			,SMPL_QTY
+			,RESV_OUT_CARR_ID
+			,RESV_OUT_PORT_ID
+			,MOVE_STAT_CD
+			,MANL_LDNG_YN
+		 FROM WN_WIP_STAT
+		WHERE OBJ_ID = #{objId}
+	</insert>
+	
 </mapper>

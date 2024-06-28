@@ -1,272 +1,306 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.abs.wfs.workman.dao.query.work.mapper.WorkMapper">
+<mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WorkMapper">
 
-    <select id="selectWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo" resultType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo">
-        SELECT OBJ_ID
-        ,SITE_ID
-        ,WORK_ID
-        ,JOB_SEQ_ID
-        ,SLOT_NO
-        ,PROD_MTRL_ID
-        ,PROD_MTRL_STRT_TM
-        ,PROD_MTRL_END_TM
-        ,JOB_STAT_CD
-        ,SELF_INSP_YN
-        ,MTRL_FACE_CD
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,LOT_ID
-        FROM WN_WORK_JOB_SLOT_INFO
-        <where>
-            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
-            <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
-            <if test="pSlotNo != null">AND SLOT_NO = #{pSlotNo}</if>
-            <if test="pProdMtrlId != null">AND PROD_MTRL_ID = #{pProdMtrlId}</if>
-            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-        </where>
-    </select>
+	<select id="selectWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo" resultType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		SELECT OBJ_ID
+			  ,SITE_ID
+			  ,WORK_ID
+			  ,JOB_SEQ_ID
+			  ,SLOT_NO
+			  ,PROD_MTRL_ID
+			  ,PROD_MTRL_STRT_TM
+			  ,PROD_MTRL_END_TM
+			  ,JOB_STAT_CD
+			  ,SELF_INSP_YN
+			  ,MTRL_FACE_CD
+			  ,EVNT_NM
+			  ,PREV_EVNT_NM
+			  ,CSTM_EVNT_NM
+			  ,PREV_CSTM_EVNT_NM
+			  ,USE_STAT_CD
+			  ,RSN_CD
+			  ,TRNS_CM
+			  ,CRT_USER_ID
+			  ,CRT_DT
+			  ,MDFY_USER_ID
+			  ,MDFY_DT
+			  ,FNL_EVNT_DT
+			  ,TID
+			  ,LOT_ID
+			  ,SCAN_PROD_MTRL_ID
+		  FROM WN_WORK_JOB_SLOT_INFO
+		<where>
+			<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+			<if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+			<if test="pSlotNo != null">AND SLOT_NO = #{pSlotNo}</if>
+			<if test="pProdMtrlId != null">AND PROD_MTRL_ID = #{pProdMtrlId}</if>
+			<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+		</where>
+	</select>
 
-    <update id="updateWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo">
-        UPDATE WN_WORK_JOB_SLOT_INFO
-        <set>
-            <if test="prodMtrlStrtTm != null">PROD_MTRL_STRT_TM = SYSDATE,</if>
-            <if test="prodMtrlEndTm != null">PROD_MTRL_END_TM = SYSDATE,</if>
-            <if test="jobStatCd != null">JOB_STAT_CD = #{jobStatCd},</if>
-            <if test="selfInspYn != null">SELF_INSP_YN = #{selfInspYn},</if>
-            <if test="mtrlFaceCd != null">MTRL_FACE_CD = #{mtrlFaceCd},</if>
-            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
-            <if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
-            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
-            <if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
-            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
-            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
-            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
-            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
-            <if test="true">MDFY_DT = SYSDATE,</if>
-            <if test="true">FNL_EVNT_DT = SYSDATE,</if>
-            <if test="tid != null">TID = #{tid},</if>
-            <if test="lotId != null">LOT_ID = #{lotId},</if>
-        </set>
-        <where>
-            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
-            <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
-            <if test="pSlotNo != null">AND SLOT_NO = #{pSlotNo}</if>
-            <if test="pProdMtrlId != null">AND PROD_MTRL_ID = #{pProdMtrlId}</if>
-            <if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-        </where>
-    </update>
+	<update id="updateWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		UPDATE WN_WORK_JOB_SLOT_INFO
+		<set>
+			<if test="prodMtrlStrtTm != null">PROD_MTRL_STRT_TM = SYSTIMESTAMP,</if>
+			<if test="prodMtrlEndTm != null">PROD_MTRL_END_TM = SYSTIMESTAMP,</if>
+			<if test="jobStatCd != null">JOB_STAT_CD = #{jobStatCd},</if>
+			<if test="selfInspYn != null">SELF_INSP_YN = #{selfInspYn},</if>
+			<if test="mtrlFaceCd != null">MTRL_FACE_CD = #{mtrlFaceCd},</if>
+			<if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+			<if test="evntNm != null">PREV_EVNT_NM = EVNT_NM,</if>
+			<if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+			<if test="cstmEvntNm != null">PREV_CSTM_EVNT_NM = CSTM_EVNT_NM,</if>
+			<if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+			<if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+			<if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+			<if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+			<if test="true">MDFY_DT = SYSTIMESTAMP,</if>
+			<if test="true">FNL_EVNT_DT = SYSTIMESTAMP,</if>
+			<if test="tid != null">TID = #{tid},</if>
+			<if test="lotId != null">LOT_ID = #{lotId},</if>	
+			<if test="scanProdMtrlId != null">SCAN_PROD_MTRL_ID = #{scanProdMtrlId},</if>
+		</set>
+		<where>
+			<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+			<if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+			<if test="pSlotNo != null">AND SLOT_NO = #{pSlotNo}</if>
+			<if test="pProdMtrlId != null">AND PROD_MTRL_ID = #{pProdMtrlId}</if>
+			<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
+		</where>
+	</update>
 
-    <insert id="createWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo">
-        INSERT INTO WN_WORK_JOB_SLOT_INFO (
-        OBJ_ID
-        ,SITE_ID
-        ,WORK_ID
-        ,JOB_SEQ_ID
-        ,SLOT_NO
-        ,PROD_MTRL_ID
-        ,PROD_MTRL_STRT_TM
-        ,PROD_MTRL_END_TM
-        ,JOB_STAT_CD
-        ,SELF_INSP_YN
-        ,MTRL_FACE_CD
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,LOT_ID
-        )
-        VALUES (
-        #{objId}
-        ,#{siteId}
-        ,#{workId}
-        ,#{jobSeqId}
-        ,#{slotNo}
-        ,#{prodMtrlId}
-        ,#{prodMtrlStrtTm}
-        ,#{prodMtrlEndTm}
-        ,#{jobStatCd}
-        ,#{selfInspYn}
-        ,#{mtrlFaceCd}
-        ,#{evntNm}
-        ,#{prevEvntNm}
-        ,#{cstmEvntNm}
-        ,#{prevCstmEvntNm}
-        ,#{useStatCd}
-        ,#{rsnCd}
-        ,#{trnsCm}
-        ,#{crtUserId}
-        ,SYSDATE
-        ,#{mdfyUserId}
-        ,SYSDATE
-        ,SYSDATE
-        ,#{tid}
-        ,#{lotId}
-        )
-        <selectKey keyProperty="objId" resultType="String" order="BEFORE">
-            SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
-        </selectKey>
-    </insert>
-
-    <insert id="createWhWorkJobSlotInfo" parameterType="String">
-        INSERT INTO WH_WORK_JOB_SLOT_INFO (
-                                            OBJ_ID
-                                          ,REF_OBJ_ID
-                                          ,SITE_ID
-                                          ,WORK_ID
-                                          ,JOB_SEQ_ID
-                                          ,SLOT_NO
-                                          ,PROD_MTRL_ID
-                                          ,PROD_MTRL_STRT_TM
-                                          ,PROD_MTRL_END_TM
-                                          ,JOB_STAT_CD
-                                          ,SELF_INSP_YN
-                                          ,MTRL_FACE_CD
-                                          ,EVNT_NM
-                                          ,PREV_EVNT_NM
-                                          ,CSTM_EVNT_NM
-                                          ,PREV_CSTM_EVNT_NM
-                                          ,USE_STAT_CD
-                                          ,RSN_CD
-                                          ,TRNS_CM
-                                          ,CRT_USER_ID
-                                          ,CRT_DT
-                                          ,MDFY_USER_ID
-                                          ,MDFY_DT
-                                          ,FNL_EVNT_DT
-                                          ,TID
-                                          ,LOT_ID
-        )
-        SELECT
-            (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
-             ,OBJ_ID AS REF_OBJ_ID
-             ,SITE_ID
-             ,WORK_ID
-             ,JOB_SEQ_ID
-             ,SLOT_NO
-             ,PROD_MTRL_ID
-             ,PROD_MTRL_STRT_TM
-             ,PROD_MTRL_END_TM
-             ,JOB_STAT_CD
-             ,SELF_INSP_YN
-             ,MTRL_FACE_CD
-             ,EVNT_NM
-             ,PREV_EVNT_NM
-             ,CSTM_EVNT_NM
-             ,PREV_CSTM_EVNT_NM
-             ,USE_STAT_CD
-             ,RSN_CD
-             ,TRNS_CM
-             ,CRT_USER_ID
-             ,CRT_DT
-             ,MDFY_USER_ID
-             ,MDFY_DT
-             ,FNL_EVNT_DT
-             ,TID
-             ,LOT_ID
-        FROM WN_WORK_JOB_SLOT_INFO
-        WHERE OBJ_ID = #{objId}
-    </insert>
-
-    <insert id="createWhWorkJobSlotInfoAllSlot" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo">
-        INSERT INTO WH_WORK_JOB_SLOT_INFO (
-        OBJ_ID
-        ,REF_OBJ_ID
-        ,SITE_ID
-        ,WORK_ID
-        ,JOB_SEQ_ID
-        ,SLOT_NO
-        ,PROD_MTRL_ID
-        ,PROD_MTRL_STRT_TM
-        ,PROD_MTRL_END_TM
-        ,JOB_STAT_CD
-        ,SELF_INSP_YN
-        ,MTRL_FACE_CD
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,LOT_ID
-        )
-        SELECT
-        (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || OBJ_ID FROM DUAL) AS OBJ_ID
-        ,OBJ_ID AS REF_OBJ_ID
-        ,SITE_ID
-        ,WORK_ID
-        ,JOB_SEQ_ID
-        ,SLOT_NO
-        ,PROD_MTRL_ID
-        ,PROD_MTRL_STRT_TM
-        ,PROD_MTRL_END_TM
-        ,JOB_STAT_CD
-        ,SELF_INSP_YN
-        ,MTRL_FACE_CD
-        ,EVNT_NM
-        ,PREV_EVNT_NM
-        ,CSTM_EVNT_NM
-        ,PREV_CSTM_EVNT_NM
-        ,USE_STAT_CD
-        ,RSN_CD
-        ,TRNS_CM
-        ,CRT_USER_ID
-        ,CRT_DT
-        ,MDFY_USER_ID
-        ,MDFY_DT
-        ,FNL_EVNT_DT
-        ,TID
-        ,LOT_ID
-        FROM WN_WORK_JOB_SLOT_INFO
-        <where>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
-            <if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
-        </where>
-    </insert>
-
-    <delete id="deleteWnWorkJobSlotInfoALLSlot" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnWorkJobSlotInfo">
-        DELETE FROM WN_WORK_JOB_SLOT_INFO
-        WHERE SITE_ID = #{pSiteId}
-          AND WORK_ID = #{pWorkId}
-          AND JOB_SEQ_ID = #{pJobSeqId}
-    </delete>
-
-    <delete id="deleteWnWorkJobSlotInfoByWorkId" parameterType="String">
-        DELETE FROM WN_WORK_JOB_SLOT_INFO
-        WHERE WORK_ID = #{workId}
-    </delete>
-
+	<insert id="createWnWorkJobSlotInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		INSERT INTO WN_WORK_JOB_SLOT_INFO (
+			 OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,JOB_SEQ_ID
+			,SLOT_NO
+			,PROD_MTRL_ID
+			,PROD_MTRL_STRT_TM
+			,PROD_MTRL_END_TM
+			,JOB_STAT_CD
+			,SELF_INSP_YN
+			,MTRL_FACE_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,LOT_ID
+			,SCAN_PROD_MTRL_ID
+		)
+		VALUES (
+			 #{objId}
+			,#{siteId}
+			,#{workId}
+			,#{jobSeqId}
+			,#{slotNo}
+			,#{prodMtrlId}
+			,#{prodMtrlStrtTm}
+			,#{prodMtrlEndTm}
+			,#{jobStatCd}
+			,#{selfInspYn}
+			,#{mtrlFaceCd}
+			,#{evntNm}
+			,#{prevEvntNm}
+			,#{cstmEvntNm}
+			,#{prevCstmEvntNm}
+			,#{useStatCd}
+			,#{rsnCd}
+			,#{trnsCm}
+			,#{crtUserId}
+			,SYSTIMESTAMP
+			,#{mdfyUserId}
+			,SYSTIMESTAMP
+			,SYSTIMESTAMP
+			,#{tid}
+			,#{lotId}
+			,#{scanProdMtrlId}
+		)
+		<selectKey keyProperty="objId" resultType="String" order="BEFORE">
+			SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="createWhWorkJobSlotInfo" parameterType="String">
+		INSERT INTO WH_WORK_JOB_SLOT_INFO (
+			 OBJ_ID
+			,REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,JOB_SEQ_ID
+			,SLOT_NO
+			,PROD_MTRL_ID
+			,PROD_MTRL_STRT_TM
+			,PROD_MTRL_END_TM
+			,JOB_STAT_CD
+			,SELF_INSP_YN
+			,MTRL_FACE_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,LOT_ID
+			,SCAN_PROD_MTRL_ID		
+		)
+		SELECT  
+			 (SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,JOB_SEQ_ID
+			,SLOT_NO
+			,PROD_MTRL_ID
+			,PROD_MTRL_STRT_TM
+			,PROD_MTRL_END_TM
+			,JOB_STAT_CD
+			,SELF_INSP_YN
+			,MTRL_FACE_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,LOT_ID
+			,SCAN_PROD_MTRL_ID
+		FROM WN_WORK_JOB_SLOT_INFO
+	   WHERE OBJ_ID = #{objId}
+	</insert>
+	
+	<insert id="createWhWorkJobSlotInfoAllSlot" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		INSERT INTO WH_WORK_JOB_SLOT_INFO (
+			 OBJ_ID
+			,REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,JOB_SEQ_ID
+			,SLOT_NO
+			,PROD_MTRL_ID
+			,PROD_MTRL_STRT_TM
+			,PROD_MTRL_END_TM
+			,JOB_STAT_CD
+			,SELF_INSP_YN
+			,MTRL_FACE_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,LOT_ID
+			,SCAN_PROD_MTRL_ID		
+		)
+		SELECT  
+			 (SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || OBJ_ID FROM DUAL) AS OBJ_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,SITE_ID
+			,WORK_ID
+			,JOB_SEQ_ID
+			,SLOT_NO
+			,PROD_MTRL_ID
+			,PROD_MTRL_STRT_TM
+			,PROD_MTRL_END_TM
+			,JOB_STAT_CD
+			,SELF_INSP_YN
+			,MTRL_FACE_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+			,LOT_ID
+			,SCAN_PROD_MTRL_ID
+		FROM WN_WORK_JOB_SLOT_INFO
+	   <where>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pWorkId != null">AND WORK_ID = #{pWorkId}</if>
+			<if test="pJobSeqId != null">AND JOB_SEQ_ID = #{pJobSeqId}</if>
+		</where>
+	</insert>
+	
+	<delete id="deleteWnWorkJobSlotInfoALLSlot" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		DELETE FROM WN_WORK_JOB_SLOT_INFO
+		WHERE SITE_ID = #{pSiteId}
+		  AND WORK_ID = #{pWorkId}
+		  AND JOB_SEQ_ID = #{pJobSeqId}
+	</delete>
+	
+	<delete id="deleteWnWorkJobSlotInfoByWorkId" parameterType="String">
+		DELETE FROM WN_WORK_JOB_SLOT_INFO
+		WHERE WORK_ID = #{workId}
+	</delete>
+	
+	<delete id="deleteSelfInspSlot" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		DELETE FROM WN_WORK_JOB_SLOT_INFO
+		 WHERE SITE_ID = #{siteId}
+		   AND WORK_ID = #{workId}
+		   AND SELF_INSP_YN = 'Y'
+	</delete>
+	
+	<update id="updateUnUsableSelfInspSlot" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		UPDATE WN_WORK_JOB_SLOT_INFO ws
+		   SET USE_STAT_CD = 'UnUsable'
+		 WHERE SITE_ID = #{siteId}
+		   AND WORK_ID = #{workId} 
+		   AND SELF_INSP_YN = 'Y'
+	</update>
+	
+	<update id="update1MoreSlotInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo">
+		UPDATE WN_WORK_JOB_SLOT_INFO ws
+		   SET JOB_SEQ_ID = #{jobSeqId}
+		      ,SELF_INSP_YN = 'Y'
+		 WHERE SITE_ID = #{siteId}
+		   AND WORK_ID = #{workId}
+		   AND JOB_SEQ_ID = #{pJobSeqId}
+		   AND SLOT_NO = (SELECT MIN(SLOT_NO) FROM WN_WORK_JOB_SLOT_INFO wjsi WHERE ws.SITE_ID = wjsi.SITE_ID AND ws.WORK_ID = wjsi.WORK_ID AND ws.JOB_SEQ_ID = wjsi.JOB_SEQ_ID)
+	</update>
+	
+	
 </mapper>

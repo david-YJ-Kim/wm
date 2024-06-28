@@ -15,6 +15,13 @@ import com.abs.wfs.workman.dao.domain.tnLot.model.TnPosLot;
 import com.abs.wfs.workman.dao.domain.tnLot.service.TnPosLotServiceImpl;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
+import com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat;
+import com.abs.wfs.workman.dao.domain.wipStat.repository.WnWipStatRepository;
+import com.abs.wfs.workman.dao.domain.wipStat.service.WipStatServiceImpl;
+import com.abs.wfs.workman.dao.domain.workJobSlotInfo.model.WnWorkJobSlotInfo;
+import com.abs.wfs.workman.dao.domain.workJobSlotInfo.service.WnWorkJobSlotInfoServiceImpl;
+import com.abs.wfs.workman.dao.domain.workStat.model.WnWorkStat;
+import com.abs.wfs.workman.dao.domain.workStat.service.WnWorkStatServiceImpl;
 import com.abs.wfs.workman.dao.query.wipLot.vo.WipLotDto;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.netflix.discovery.converters.Auto;
@@ -49,6 +56,71 @@ public class DaoDomainController {
         return this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(ApPropertyObject.getInstance().getSiteName(),
                 UseStatCd.Usable, groupName, eqpId);
     }
+
+
+    /**
+     * wipStat
+     */
+    @Autowired
+    WipStatServiceImpl wipStatService;
+
+    @GetMapping("search/wipStat/siteId/{siteId}/lotId/{lotId}")
+    public Optional<WnWipStat> findByLotIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId) {
+
+        return this.wipStatService.findByLotIdAndSiteIdAndUseStatCd(lotId, siteId);
+    }
+
+    @GetMapping("search/wipStat/siteId/{siteId}/lotId/{lotId}/resvEqpId/{resvEqpId}/resvPortId/{resvPortId}")
+    public Optional<WnWipStat> findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId,
+                                                                                                       @PathVariable String resvEqpId, @PathVariable String resvPortId) {
+
+        return this.wipStatService.findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(lotId, siteId, resvEqpId, resvPortId);
+    }
+
+
+
+    /**
+     * workJosSlotInfo
+     */
+    @Autowired
+    WnWorkJobSlotInfoServiceImpl wnWorkJobSlotInfoService;
+
+    @GetMapping("search/workJobSlotInfo/workId/{workId}/siteId/{siteId}")
+    public Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCd(@PathVariable String workId, @PathVariable String siteId) {
+
+        return this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId);
+    }
+
+
+    @GetMapping("search/workJobSlotInfo/StrtTmIsNotNull/workId/{workId}/siteId/{siteId}")
+    public Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCdAndProdMtrlStrtTmIsNotNull(@PathVariable String workId, @PathVariable String siteId) {
+
+        return this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCdAndProdMtrlStrtTmIsNotNull(workId, siteId);
+    }
+
+
+    @GetMapping("search/workJobSlotInfo/SelfInspYn/workId/{workId}/siteId/{siteId}")
+    public Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCdAndSelfInspYn(@PathVariable String workId, @PathVariable String siteId) {
+
+        return this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCdAndSelfInspYn(workId, siteId);
+    }
+
+
+    /**
+     * workStat
+     */
+    @Autowired
+    WnWorkStatServiceImpl wnWorkStatService;
+
+    @GetMapping("search/workStat/siteId/{siteId}/workId/{workId}")
+    public Optional<WnWorkStat> findByActiveAndUsableWorkWithWorkId(@PathVariable String siteId, @PathVariable String workId) {
+
+        return this.wnWorkStatService.findByActiveAndUsableWorkWithWorkId(siteId, workId);
+    }
+
+
+
+
 
     /**
      * tnProducedMaterial

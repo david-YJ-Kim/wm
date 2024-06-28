@@ -1,18 +1,18 @@
 package com.abs.wfs.workman.dao.domain.workJobSlotInfo.model;
 
+import com.abs.wfs.workman.util.code.UseStatCd;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
-
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity(name = "WN_WORK_JOB_SLOT_INFO")
@@ -39,7 +39,12 @@ public class WnWorkJobSlotInfo {
     private String prevEvntNm;
     private String cstmEvntNm;
     private String prevCstmEvntNm;
-    private String useStatCd;
+
+
+    @Enumerated(EnumType.STRING)
+    private UseStatCd useStatCd;
+
+
     private String rsnCd;
     private String trnsCm;
     private String crtUserId;
@@ -51,4 +56,33 @@ public class WnWorkJobSlotInfo {
     private String lotId;
 
 
+
+    @Builder
+    public WnWorkJobSlotInfo(String objId, String siteId, String workId, String jobSeqId, String slotNo, String prodMtrlId, Timestamp prodMtrlStrtTm, Timestamp prodMtrlEndTm, String jobStatCd, String selfInspYn, String mtrlFaceCd, String evntNm, String prevEvntNm, String cstmEvntNm, String prevCstmEvntNm, UseStatCd useStatCd, String rsnCd, String trnsCm, String crtUserId, Timestamp crtDt, String mdfyUserId, Timestamp mdfyDt, Timestamp fnlEvntDt, String tid, String lotId) {
+        this.objId = objId;
+        this.siteId = siteId;
+        this.workId = workId;
+        this.jobSeqId = jobSeqId;
+        this.slotNo = slotNo;
+        this.prodMtrlId = prodMtrlId;
+        this.prodMtrlStrtTm = prodMtrlStrtTm;
+        this.prodMtrlEndTm = prodMtrlEndTm;
+        this.jobStatCd = jobStatCd;
+        this.selfInspYn = selfInspYn;
+        this.mtrlFaceCd = mtrlFaceCd;
+        this.evntNm = evntNm;
+        this.prevEvntNm = prevEvntNm;
+        this.cstmEvntNm = cstmEvntNm;
+        this.prevCstmEvntNm = prevCstmEvntNm;
+        this.useStatCd = useStatCd;
+        this.rsnCd = rsnCd;
+        this.trnsCm = trnsCm;
+        this.crtUserId = crtUserId;
+        this.crtDt = crtDt;
+        this.mdfyUserId = mdfyUserId;
+        this.mdfyDt = mdfyDt;
+        this.fnlEvntDt = fnlEvntDt;
+        this.tid = tid;
+        this.lotId = lotId;
+    }
 }

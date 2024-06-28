@@ -1,112 +1,212 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.abs.wfs.workman.dao.query.work.mapper.WorkMapper">
+<mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WorkMapper">
 
-    <update id="updateWnDspWorkInfo" parameterType="com.abs.wfs.workman.dao.query.work.vo.WnDspWorkInfo">
-        UPDATE WN_DSP_WORK_INFO
-        <set>
-            <if test="objId != null">OBJ_ID = #{objId},</if>
-            <if test="siteId != null">SITE_ID = #{siteId},</if>
-            <if test="dspWorkId != null">DSP_WORK_ID = #{dspWorkId},</if>
-            <if test="eqpId != null">EQP_ID = #{eqpId},</if>
-            <if test="portId != null">PORT_ID = #{portId},</if>
-            <if test="lotId != null">LOT_ID = #{lotId},</if>
-            <if test="trackInCnfmYn != null">TRACK_IN_CNFM_YN = #{trackInCnfmYn},</if>
-            <if test="eqpChkYn != null">EQP_CHK_YN = #{eqpChkYn},</if>
-            <if test="rcpChkYn != null">RCP_CHK_YN = #{rcpChkYn},</if>
-            <if test="rcpId != null">RCP_ID = #{rcpId},</if>
-            <if test="dspStatCd != null">DSP_STAT_CD = #{dspStatCd},</if>
-            <if test="evntNm != null">EVNT_NM = #{evntNm},</if>
-            <if test="prevEvntNm != null">PREV_EVNT_NM = #{prevEvntNm},</if>
-            <if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
-            <if test="prevCstmEvntNm != null">PREV_CSTM_EVNT_NM = #{prevCstmEvntNm},</if>
-            <if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
-            <if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
-            <if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
-            <if test="crtUserId != null">CRT_USER_ID = #{crtUserId},</if>
-            <if test="crtDt != null">CRT_DT = #{crtDt},</if>
-            <if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
-            <if test="mdfyDt != null">MDFY_DT = #{mdfyDt},</if>
-            <if test="fnlEvntDt != null">FNL_EVNT_DT = #{fnlEvntDt},</if>
-            <if test="tid != null">TID = #{tid},</if>
-        </set>
-        <where>
-            <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-            <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-            <if test="pDspWorkId != null">AND DSP_WORK_ID = #{pDspWorkId}</if>
-            <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
-            <if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
-            <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
-        </where>
-        <selectKey keyProperty="objId" resultType="String" order="AFTER">
-            SELECT OBJ_ID AS objId
-            FROM WN_DSP_WORK_INFO
-            <where>
-                <if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
-                <if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
-                <if test="pDspWorkId != null">AND DSP_WORK_ID = #{pDspWorkId}</if>
-                <if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
-                <if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
-                <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
-            </where>
-        </selectKey>
-    </update>
-
-    <insert id="createWhDspWorkInfo" parameterType="String">
-        INSERT INTO WH_DSP_WORK_INFO (
-                                       OBJ_ID
-                                     ,REF_OBJ_ID
-                                     ,SITE_ID
-                                     ,DSP_WORK_ID
-                                     ,EQP_ID
-                                     ,PORT_ID
-                                     ,LOT_ID
-                                     ,TRACK_IN_CNFM_YN
-                                     ,EQP_CHK_YN
-                                     ,RCP_CHK_YN
-                                     ,RCP_ID
-                                     ,DSP_STAT_CD
-                                     ,EVNT_NM
-                                     ,PREV_EVNT_NM
-                                     ,CSTM_EVNT_NM
-                                     ,PREV_CSTM_EVNT_NM
-                                     ,USE_STAT_CD
-                                     ,RSN_CD
-                                     ,TRNS_CM
-                                     ,CRT_USER_ID
-                                     ,CRT_DT
-                                     ,MDFY_USER_ID
-                                     ,MDFY_DT
-                                     ,FNL_EVNT_DT
-                                     ,TID
-        )
-        SELECT (SELECT TO_CHAR(CURRENT_TIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
-             ,OBJ_ID AS REF_OBJ_ID
-             ,SITE_ID
-             ,DSP_WORK_ID
-             ,EQP_ID
-             ,PORT_ID
-             ,LOT_ID
-             ,TRACK_IN_CNFM_YN
-             ,EQP_CHK_YN
-             ,RCP_CHK_YN
-             ,RCP_ID
-             ,DSP_STAT_CD
-             ,EVNT_NM
-             ,PREV_EVNT_NM
-             ,CSTM_EVNT_NM
-             ,PREV_CSTM_EVNT_NM
-             ,USE_STAT_CD
-             ,RSN_CD
-             ,TRNS_CM
-             ,CRT_USER_ID
-             ,CRT_DT
-             ,MDFY_USER_ID
-             ,MDFY_DT
-             ,FNL_EVNT_DT
-             ,TID
-        FROM WN_DSP_WORK_INFO
-        WHERE OBJ_ID = #{objId}
-    </insert>
+	<update id="updateWnDspWorkInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnDspWorkInfo">
+		UPDATE WN_DSP_WORK_INFO
+		<set>
+			<if test="objId != null">OBJ_ID = #{objId},</if>
+			<if test="siteId != null">SITE_ID = #{siteId},</if>
+			<if test="dspWorkId != null">DSP_WORK_ID = #{dspWorkId},</if>
+			<if test="eqpId != null">EQP_ID = #{eqpId},</if>
+			<if test="portId != null">PORT_ID = #{portId},</if>
+			<if test="lotId != null">LOT_ID = #{lotId},</if>
+			<if test="trackInCnfmYn != null">TRACK_IN_CNFM_YN = #{trackInCnfmYn},</if>
+			<if test="eqpChkYn != null">EQP_CHK_YN = #{eqpChkYn},</if>
+			<if test="rcpChkYn != null">RCP_CHK_YN = #{rcpChkYn},</if>
+			<if test="rcpId != null">RCP_ID = #{rcpId},</if>
+			<if test="dspStatCd != null">DSP_STAT_CD = #{dspStatCd},</if>
+			<if test="evntNm != null">EVNT_NM = #{evntNm},</if>
+			<if test="prevEvntNm != null">PREV_EVNT_NM = #{prevEvntNm},</if>
+			<if test="cstmEvntNm != null">CSTM_EVNT_NM = #{cstmEvntNm},</if>
+			<if test="prevCstmEvntNm != null">PREV_CSTM_EVNT_NM = #{prevCstmEvntNm},</if>
+			<if test="useStatCd != null">USE_STAT_CD = #{useStatCd},</if>
+			<if test="rsnCd != null">RSN_CD = #{rsnCd},</if>
+			<if test="trnsCm != null">TRNS_CM = #{trnsCm},</if>
+			<if test="crtUserId != null">CRT_USER_ID = #{crtUserId},</if>
+			<if test="crtDt != null">CRT_DT = #{crtDt},</if>
+			<if test="mdfyUserId != null">MDFY_USER_ID = #{mdfyUserId},</if>
+			<if test="true">MDFY_DT = SYSTIMESTAMP,</if>
+			<if test="true">FNL_EVNT_DT = SYSTIMESTAMP,</if>
+			<if test="tid != null">TID = #{tid},</if>
+		</set>
+		<where>
+			<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pDspWorkId != null">AND DSP_WORK_ID = #{pDspWorkId}</if>
+			<if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+			<if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
+			<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>				
+		</where>
+		<selectKey keyProperty="objId" resultType="String" order="AFTER">
+			SELECT OBJ_ID AS objId
+			  FROM WN_DSP_WORK_INFO
+			<where>
+				<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+				<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+				<if test="pDspWorkId != null">AND DSP_WORK_ID = #{pDspWorkId}</if>
+				<if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+				<if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
+				<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
+			</where>	
+		</selectKey>
+	</update>
+	
+	<insert id="createWnDspWorkInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnDspWorkInfo">
+		INSERT INTO WN_DSP_WORK_INFO (
+			 OBJ_ID
+			,SITE_ID
+			,DSP_WORK_ID
+			,EQP_ID
+			,PORT_ID
+			,LOT_ID
+			,TRACK_IN_CNFM_YN
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,RCP_ID
+			,DSP_STAT_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+		)
+		VALUES (
+			 #{objId}
+			,#{siteId}
+			,#{dspWorkId}
+			,#{eqpId}
+			,#{portId}
+			,#{lotId}
+			,#{trackInCnfmYn}
+			,#{eqpChkYn}
+			,#{rcpChkYn}
+			,#{rcpId}
+			,#{dspStatCd}
+			,#{evntNm}
+			,#{prevEvntNm}
+			,#{cstmEvntNm}
+			,#{prevCstmEvntNm}
+			,#{useStatCd}
+			,#{rsnCd}
+			,#{trnsCm}
+			,#{crtUserId}
+			,SYSTIMESTAMP
+			,#{mdfyUserId}
+			,SYSTIMESTAMP
+			,SYSTIMESTAMP
+			,#{tid}
+		)
+		<selectKey keyProperty="objId" resultType="String" order="BEFORE">
+			SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() as objId FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="createWhDspWorkInfo" parameterType="String">
+		INSERT INTO WH_DSP_WORK_INFO (
+			 OBJ_ID
+			,REF_OBJ_ID
+			,SITE_ID
+			,DSP_WORK_ID
+			,EQP_ID
+			,PORT_ID
+			,LOT_ID
+			,TRACK_IN_CNFM_YN
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,RCP_ID
+			,DSP_STAT_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+		)
+		SELECT (SELECT TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF6') || '-' || SYS_GUID() FROM DUAL) AS OBJ_ID
+			,OBJ_ID AS REF_OBJ_ID
+			,SITE_ID
+			,DSP_WORK_ID
+			,EQP_ID
+			,PORT_ID
+			,LOT_ID
+			,TRACK_IN_CNFM_YN
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,RCP_ID
+			,DSP_STAT_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+		 FROM WN_DSP_WORK_INFO
+		WHERE OBJ_ID = #{objId}
+	</insert>
+	
+	<delete id="deleteWnDspWorkInfo" parameterType="String">
+		DELETE FROM WN_DSP_WORK_INFO
+		 WHERE OBJ_ID = #{objId} 
+	</delete>
+	
+	<select id="selectWnDspWorkInfo" parameterType="com.abs.wfs.workman.dao.query.model.WnDspWorkInfo" resultType="com.abs.wfs.workman.dao.query.model.WnDspWorkInfo">
+		SELECT 
+			OBJ_ID
+			,SITE_ID
+			,DSP_WORK_ID
+			,EQP_ID
+			,PORT_ID
+			,LOT_ID
+			,TRACK_IN_CNFM_YN
+			,EQP_CHK_YN
+			,RCP_CHK_YN
+			,RCP_ID
+			,DSP_STAT_CD
+			,EVNT_NM
+			,PREV_EVNT_NM
+			,CSTM_EVNT_NM
+			,PREV_CSTM_EVNT_NM
+			,USE_STAT_CD
+			,RSN_CD
+			,TRNS_CM
+			,CRT_USER_ID
+			,CRT_DT
+			,MDFY_USER_ID
+			,MDFY_DT
+			,FNL_EVNT_DT
+			,TID
+		FROM WN_DSP_WORK_INFO
+		<where>
+			<if test="pObjId != null">AND OBJ_ID = #{pObjId}</if>
+			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
+			<if test="pDspWorkId != null">AND DSP_WORK_ID = #{pDspWorkId}</if>
+			<if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
+			<if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
+			<if test="pLotId != null">AND LOT_ID = #{pLotId}</if>		
+		</where>	
+	</select>
 </mapper>

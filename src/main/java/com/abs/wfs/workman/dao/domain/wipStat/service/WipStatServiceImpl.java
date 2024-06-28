@@ -1,7 +1,9 @@
 package com.abs.wfs.workman.dao.domain.wipStat.service;
 
+import com.abs.wfs.workman.dao.domain.wipStat.repository.WnWipStatRepository;
 import com.abs.wfs.workman.dao.domain.wipStat.vo.UpdateDspWorkVo;
 import com.abs.wfs.workman.dao.domain.wipStat.vo.UpdateWipStatForMoveCompleteByCarrIdReqVo;
+import com.abs.wfs.workman.dao.domain.workStat.repository.WnWorkStatRepository;
 import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMapper;
 import com.abs.wfs.workman.dao.query.wip.vo.WnWipStat;
 import com.abs.wfs.workman.util.code.UseStatCd;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -17,6 +20,26 @@ public class WipStatServiceImpl implements WipStatService{
 
     @Autowired
     WipStatMapper wipStatMapper;
+
+
+    @Autowired
+    WnWipStatRepository wnWipStatRepository;
+
+
+    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByLotIdAndSiteIdAndUseStatCd(String lotId, String siteId){
+
+        return this.wnWipStatRepository.findByLotIdAndSiteIdAndUseStatCd(lotId, siteId, UseStatCd.Usable);
+    }
+
+    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(String lotId, String siteId, String resvEqpId, String resvPortId){
+        return this.wnWipStatRepository.findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortId(lotId, siteId, UseStatCd.Usable, resvEqpId, resvPortId);
+    }
+
+
+
+
+
+
 
 
 

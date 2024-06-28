@@ -31,4 +31,7 @@ public class ApStringConstant {
     public static final String PORT = "PORT";
     public static final String ReadyToLoad = "ReadyToLoad";
     public static final String Empty = "Empty";
+
+
+    public static final String Active = "Active";
 }
