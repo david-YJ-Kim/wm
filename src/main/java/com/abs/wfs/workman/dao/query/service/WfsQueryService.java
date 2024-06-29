@@ -1,16 +1,32 @@
 package com.abs.wfs.workman.dao.query.service;
 
-import com.absolicsinc.mos.wfs.util.query.dao.SorterJobDAO;
-import com.absolicsinc.mos.wfs.util.query.dao.TransferJobDAO;
-import com.absolicsinc.mos.wfs.util.query.dao.WipStatDAO;
-import com.absolicsinc.mos.wfs.util.query.dao.WorkDAO;
-import com.absolicsinc.mos.wfs.util.query.model.WnSorterJobExec;
-import com.absolicsinc.mos.wfs.util.state.SorterJobStatCdExec;
+import com.abs.wfs.workman.dao.query.dao.SorterJobDAO;
+import com.abs.wfs.workman.dao.query.dao.TransferJobDAO;
+import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
+import com.abs.wfs.workman.dao.query.dao.WorkDAO;
+import com.abs.wfs.workman.dao.query.model.WnSorterJobExec;
+import com.abs.wfs.workman.util.code.SorterJobStatCdExec;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
+@Slf4j
 public class WfsQueryService {
-		
-	public WfsQueryService() {
-	}
+
+	@Autowired
+	WipStatDAO wipStatDAO;
+	
+	@Autowired
+	SorterJobDAO sorterJobDAO;
+	
+	@Autowired
+	TransferJobDAO transferJobDAO;
+	
+	
+	@Autowired
+	WorkDAO workDAO;
 	
 	/**
 	 * update WN_WIP_STAT.WORK_STAT_CD Column
@@ -26,7 +42,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatusByCarrId(String siteId, String cid, String tid, String carrId, String mdfyUserId, String workStatCd, boolean dspInfoCleanFlag) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusByCarrId(siteId, cid, tid, carrId, mdfyUserId, workStatCd, dspInfoCleanFlag);
+			return this.wipStatDAO.updateWorkStatusByCarrId(siteId, cid, tid, carrId, mdfyUserId, workStatCd, dspInfoCleanFlag);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -46,7 +62,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatusByCarrIdForWorkStart(String siteId, String cid, String tid, String carrId, String mdfyUserId, String workStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusByCarrId(siteId, cid, tid, carrId, mdfyUserId, workStatCd, false);
+			return this.wipStatDAO.updateWorkStatusByCarrId(siteId, cid, tid, carrId, mdfyUserId, workStatCd, false);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -65,7 +81,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatusByCarrIdForBatchEnd(String siteId, String cid, String tid, String carrId, String mdfyUserId, String workStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusByCarrIdForBatchEnd(siteId, cid, tid, carrId, mdfyUserId, workStatCd, true);
+			return this.wipStatDAO.updateWorkStatusByCarrIdForBatchEnd(siteId, cid, tid, carrId, mdfyUserId, workStatCd, true);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -85,7 +101,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatusByLotId(String siteId, String cid, String tid, String lotId, String mdfyUserId, String workStatCd, boolean dspInfoCleanFlag) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, dspInfoCleanFlag );
+			return this.wipStatDAO.updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, dspInfoCleanFlag );
 		} catch (Exception e) {
 			throw e;
 		}
@@ -93,7 +109,7 @@ public class WfsQueryService {
 	
 	public int updateWorkStatusOnlyId(String siteId, String cid, String tid, String lotId, String mdfyUserId, String workStatCd, boolean dspInfoCleanFlag) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusOnlyLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, dspInfoCleanFlag );
+			return this.wipStatDAO.updateWorkStatusOnlyLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, dspInfoCleanFlag );
 		} catch (Exception e) {
 			throw e;
 		}
@@ -115,7 +131,7 @@ public class WfsQueryService {
 	public int updateWorkStatusByLotIdForWorkStart(String siteId, String cid, String tid, String lotId, String mdfyUserId, String workStatCd) throws Exception {
 		try {
 			//Dispatch(Reserved) Eqp, Port and check Flag Clear
-			return WipStatDAO.getInstance().updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, false );
+			return this.wipStatDAO.updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, false );
 		} catch (Exception e) {
 			throw e;
 		}
@@ -138,7 +154,7 @@ public class WfsQueryService {
 												String workStatCd, boolean dspInfoCleanFlag, String crntEqpId, String crntPortId) throws Exception {
 		try {
 			//Dispatch(Reserved) Eqp, Port and check Flag Clear
-			return WipStatDAO.getInstance().updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, crntEqpId, crntPortId, dspInfoCleanFlag );
+			return this.wipStatDAO.updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, crntEqpId, crntPortId, dspInfoCleanFlag );
 		} catch (Exception e) {
 			throw e;
 		}
@@ -158,7 +174,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatusForBatchEndByLotId(String siteId, String cid, String tid, String lotId, String mdfyUserId, String workStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWorkStatusForBatchEndByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, true);
+			return this.wipStatDAO.updateWorkStatusForBatchEndByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, true);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -177,7 +193,7 @@ public class WfsQueryService {
 	 */
 	public int updateWnWipStatForTrackCnfmYn(String siteId, String cid, String tid, String userId, String lotId, String trackInCnfmYn ) throws Exception {
 		try {			
-			return WipStatDAO.getInstance().updateTrackInCnfmYn(siteId, cid, tid, userId, lotId, trackInCnfmYn);
+			return this.wipStatDAO.updateTrackInCnfmYn(siteId, cid, tid, userId, lotId, trackInCnfmYn);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -196,7 +212,7 @@ public class WfsQueryService {
 	 */
 	public int updateWnWipStatForRcpChkYn(String siteId, String cid, String tid, String userId, String lotId, String rcpChkYn) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateRcpChkYn(siteId, cid, tid, userId, lotId, rcpChkYn);
+			return this.wipStatDAO.updateRcpChkYn(siteId, cid, tid, userId, lotId, rcpChkYn);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -215,7 +231,7 @@ public class WfsQueryService {
 	 */
 	public int updateManlLdngYnInfo(String siteId,String cid, String tid, String userId, String carrId, String manlLdngYn) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateManlLdngYnInfo(siteId, cid, tid, userId, carrId, manlLdngYn);
+			return this.wipStatDAO.updateManlLdngYnInfo(siteId, cid, tid, userId, carrId, manlLdngYn);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -235,7 +251,7 @@ public class WfsQueryService {
 	 */
 	public int clearAllChkFlag(String siteId, String cid, String tid, String userId, String lotId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().clearAllChkFlag(siteId, cid, tid, userId, lotId);
+			return this.wipStatDAO.clearAllChkFlag(siteId, cid, tid, userId, lotId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -254,7 +270,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatEventNmByCarrId(String siteId, String cid, String tid, String carrId, String mdfyUserId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateEventNmByCarrId(siteId, cid, tid, carrId, mdfyUserId);
+			return this.wipStatDAO.updateEventNmByCarrId(siteId, cid, tid, carrId, mdfyUserId);
 		}catch (Exception e) {
 			throw e;
 		}
@@ -273,7 +289,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatEventNmByLotId(String siteId, String cid, String tid, String lotId, String mdfyUserId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateEventNmByLotId(siteId, cid, tid, lotId, mdfyUserId);
+			return this.wipStatDAO.updateEventNmByLotId(siteId, cid, tid, lotId, mdfyUserId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -292,7 +308,7 @@ public class WfsQueryService {
 	 */
 	public int updateEventNmByLotCarrId(String siteId, String cid, String tid, String lotId, String carrId, String mdfyUserId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateEventNmByLotCarrId(siteId, cid, tid, lotId, carrId, mdfyUserId);
+			return this.wipStatDAO.updateEventNmByLotCarrId(siteId, cid, tid, lotId, carrId, mdfyUserId);
 		}catch (Exception e) {
 			throw e;
 		}
@@ -312,7 +328,7 @@ public class WfsQueryService {
 	 */
 	public int updateClearResvInfoForEcoLOT(String siteId, String cid, String tid, String lotId, String mdfyUserId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateClearResvInfoForEcoLOT(siteId, cid, tid, lotId, mdfyUserId);
+			return this.wipStatDAO.updateClearResvInfoForEcoLOT(siteId, cid, tid, lotId, mdfyUserId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -336,7 +352,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatForMoveComplete(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId, String workStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWipStatForMoveCompleteByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, workStatCd);
+			return this.wipStatDAO.updateWipStatForMoveCompleteByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, workStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -357,7 +373,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatForMoveCancelComplete(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId, String workStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateWipStatForMoveCancelByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, workStatCd);
+			return this.wipStatDAO.updateWipStatForMoveCancelByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, workStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -380,7 +396,7 @@ public class WfsQueryService {
 	 */
 	public int updateCurrentEqpPortByCarrId(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateCurrentEqpPortByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId);
+			return this.wipStatDAO.updateCurrentEqpPortByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -388,7 +404,7 @@ public class WfsQueryService {
 	
 	public int updateCurrentEqpPortForCarrLogChg(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId, String moveStatCd) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateCurrentEqpPortForCarrLogChg(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, moveStatCd);
+			return this.wipStatDAO.updateCurrentEqpPortForCarrLogChg(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, moveStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -412,7 +428,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatForDispatchigBatch(String siteId, String cid, String tid, String carrId, String userId, String batchId, String batchSeq, String resvEqpId, String resvPortId, String resvGrpId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateDspWorkRepBatch(siteId, cid, tid, carrId, userId, batchId, batchSeq, resvEqpId, resvPortId, resvGrpId);
+			return this.wipStatDAO.updateDspWorkRepBatch(siteId, cid, tid, carrId, userId, batchId, batchSeq, resvEqpId, resvPortId, resvGrpId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -437,7 +453,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatForDispatchigNormal(String siteId, String cid, String tid, String carrId, String lotId, String userId, String resvEqpId, String resvPortId, String resvGrpId, String resvOutCarrId, String resvOutPortId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateDspWorkRepNormal(siteId, cid, tid, carrId, lotId, userId, resvEqpId, resvPortId, resvGrpId, resvOutCarrId, resvOutPortId);
+			return this.wipStatDAO.updateDspWorkRepNormal(siteId, cid, tid, carrId, lotId, userId, resvEqpId, resvPortId, resvGrpId, resvOutCarrId, resvOutPortId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -462,7 +478,7 @@ public class WfsQueryService {
 	 */
 	public int updateWipStatForDispatchingECO(String siteId, String cid, String tid, String lotId, String carrId, String userId, String resvEqpId, String resvPortId, String resvGrpId, String ecoId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateDspWorkRepECO(siteId, cid, tid, lotId, carrId, userId, resvEqpId, resvPortId, resvGrpId, ecoId);
+			return this.wipStatDAO.updateDspWorkRepECO(siteId, cid, tid, lotId, carrId, userId, resvEqpId, resvPortId, resvGrpId, ecoId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -482,7 +498,7 @@ public class WfsQueryService {
 	 */
 	public int updateWorkStatForInline(String siteId, String cid, String tid, String workId, String userId, String inlineStatCd) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWorkStat(siteId, cid, tid, workId, userId, inlineStatCd);
+			return this.workDAO.updateWorkStat(siteId, cid, tid, workId, userId, inlineStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -507,7 +523,7 @@ public class WfsQueryService {
 	 */
 	public int updateSorterJobSlotInfo(String siteId, String cid, String tid, String userId, String objId, String sorterJobTyp, String scanSlotNo, String scanProdMtrlId, boolean isStart) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().updateSorterJobSlotInfo(siteId, cid, tid, userId, objId, sorterJobTyp, scanSlotNo, scanProdMtrlId, isStart);
+			return this.sorterJobDAO.updateSorterJobSlotInfo(siteId, cid, tid, userId, objId, sorterJobTyp, scanSlotNo, scanProdMtrlId, isStart);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -531,7 +547,7 @@ public class WfsQueryService {
 	 */
 	public int insertSorterJobScanSlotInfo(String siteId, String cid, String tid, String userId, String objId, String jobId, String eqpId, String lotId, String sorterJobTyp, String scanSlotNo, String scanProdMtrlId) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().createSorterJobSlotInfo(siteId, cid, tid, userId, objId, sorterJobTyp, cid, tid, sorterJobTyp, scanSlotNo, scanProdMtrlId);
+			return this.sorterJobDAO.createSorterJobSlotInfo(siteId, cid, tid, userId, objId, sorterJobTyp, cid, tid, sorterJobTyp, scanSlotNo, scanProdMtrlId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -553,7 +569,7 @@ public class WfsQueryService {
 	 */
 	public int updateSelfInspInfo(String siteId, String cid, String tid, String userId, String lotId, String selfInspYn, String selfInspPanelCnt, String selfInspObjId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateSelfInspInfo(siteId, cid, tid, userId, lotId, selfInspYn, selfInspPanelCnt, selfInspObjId);
+			return this.wipStatDAO.updateSelfInspInfo(siteId, cid, tid, userId, lotId, selfInspYn, selfInspPanelCnt, selfInspObjId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -575,7 +591,7 @@ public class WfsQueryService {
 	 */
 	public int updateSampleInfo(String siteId,String cid, String tid, String userId, String lotId, String smplLotYn, String smplWorkTyp, String smplQty) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateSampleInfo(siteId, cid, tid, userId, lotId, smplLotYn, smplWorkTyp, smplQty);
+			return this.wipStatDAO.updateSampleInfo(siteId, cid, tid, userId, lotId, smplLotYn, smplWorkTyp, smplQty);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -598,7 +614,7 @@ public class WfsQueryService {
 	 */
 	public int updateSorterJobResv(String siteId, String cid, String tid, String userId, String jobId, String jobStatCd, String eqpId, String priority) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().updateSorterJobResv(siteId, cid, tid, userId, jobId, jobStatCd, eqpId, priority);
+			return this.sorterJobDAO.updateSorterJobResv(siteId, cid, tid, userId, jobId, jobStatCd, eqpId, priority);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -618,7 +634,7 @@ public class WfsQueryService {
 	 */
 	public int updateSorterJobResv(String siteId, String cid, String tid, String userId, String jobId, String jobStatCd, String tgtCarrId) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().updateSorterJobResv(siteId, cid, tid, userId, jobId, jobStatCd, tgtCarrId);
+			return this.sorterJobDAO.updateSorterJobResv(siteId, cid, tid, userId, jobId, jobStatCd, tgtCarrId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -637,7 +653,7 @@ public class WfsQueryService {
 	 */
 	public int updateSorterJobExec(String siteId, String cid, String tid, String userId, String jobId, String jobStatCd) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().updateSorterJobExec(siteId, cid, tid, userId, jobId, jobStatCd);
+			return this.sorterJobDAO.updateSorterJobExec(siteId, cid, tid, userId, jobId, jobStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -657,7 +673,7 @@ public class WfsQueryService {
 	 */
 	public int updateSorterJobPriority(String siteId, String cid, String tid, String userId, String eqpId, String prirtNo) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().updateSorterResvPriority(siteId, cid, tid, userId, eqpId, prirtNo);
+			return this.sorterJobDAO.updateSorterResvPriority(siteId, cid, tid, userId, eqpId, prirtNo);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -675,7 +691,7 @@ public class WfsQueryService {
 	 */
 	public int createSorterJobExec(String siteId, String cid, String tid, String userId, String jobId) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().createSorterJobExec(siteId, cid, tid, userId, jobId);
+			return this.sorterJobDAO.createSorterJobExec(siteId, cid, tid, userId, jobId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -698,20 +714,20 @@ public class WfsQueryService {
 		try {
 			int resultVal = -1;
 			// 1. getSorterJob
-			WnSorterJobExec selectSorterJobExec = SorterJobDAO.getInstance().selectSorterJobExecByJobId(siteId, jobId, SorterJobStatCdExec.Processing.name());
+			WnSorterJobExec selectSorterJobExec = this.sorterJobDAO.selectSorterJobExecByJobId(siteId, jobId, SorterJobStatCdExec.Processing.name());
 			
 			// 2. Check Job Exist
 			if(selectSorterJobExec == null) return resultVal;
 			
 			// 23.02.22 - RESV 테이블도 BRS에서 삭제처리. 
 			// 3. delete SorterJob Resv
-//			if(SorterJobDAO.getInstance().deleteSorterJobResvByJobId(siteId, jobId) > 0) {
+//			if(this.sorterJobDAO.deleteSorterJobResvByJobId(siteId, jobId) > 0) {
 //			}
 			
-			 //SorterJobDAO.getInstance().updateSorterJobResvForFinish(siteId, cid, tid, mdfyUserId, jobId);
+			 //this.sorterJobDAO.updateSorterJobResvForFinish(siteId, cid, tid, mdfyUserId, jobId);
 			
 			// 4. update SorterJob Exec State
-			resultVal = SorterJobDAO.getInstance().updateSorterJobExecForFinish(siteId, cid, tid, mdfyUserId, jobId);
+			resultVal = this.sorterJobDAO.updateSorterJobExecForFinish(siteId, cid, tid, mdfyUserId, jobId);
 			
 			return resultVal;
 		} catch (Exception e) {
@@ -724,7 +740,7 @@ public class WfsQueryService {
 			int resultVal = -1;
 			
 			// delete SorterJob Resv
-			if(SorterJobDAO.getInstance().deleteSorterJobResvByJobId(siteId, jobId) > 0) {
+			if(this.sorterJobDAO.deleteSorterJobResvByJobId(siteId, jobId) > 0) {
 				resultVal = 1;
 			}
 
@@ -736,7 +752,7 @@ public class WfsQueryService {
 	
 	public int finishCheckCarrSlot(String siteId, String cid, String tid, String jobId, String mdfyUserId, String trnsCm ) throws Exception {
 		try {
-			return SorterJobDAO.getInstance().finishCheckCarrSlot(siteId, cid, tid, mdfyUserId, jobId, trnsCm);
+			return this.sorterJobDAO.finishCheckCarrSlot(siteId, cid, tid, mdfyUserId, jobId, trnsCm);
 		} catch (Exception e) {
 				throw e;
 		}
@@ -765,7 +781,7 @@ public class WfsQueryService {
 	 */
 	public int createTransferJob(String siteId, String cid, String tid, String userId, String jobId, String carrId, String crntEqpId, String crntPortId, String srcEqpId, String srcPortId, String destEqpId, String destPortId, String prio) throws Exception {
 		try {
-			int resultVal = TransferJobDAO.getInstance().createTransferJob(siteId, cid, tid, userId, jobId, carrId, crntEqpId, crntPortId, srcEqpId, srcPortId, destEqpId, destPortId, prio);
+			int resultVal = this.transferJobDAO.createTransferJob(siteId, cid, tid, userId, jobId, carrId, crntEqpId, crntPortId, srcEqpId, srcPortId, destEqpId, destPortId, prio);
 			
 			return resultVal;
 		} catch (Exception e) {
@@ -788,10 +804,10 @@ public class WfsQueryService {
 		try {
 			int resultVal = -1;
 		
-			resultVal = TransferJobDAO.getInstance().updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
+			resultVal = this.transferJobDAO.updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
 			
 			if(resultVal > 0) {
-				TransferJobDAO.getInstance().deleteTransferJobByJobId(siteId, jobId);
+				this.transferJobDAO.deleteTransferJobByJobId(siteId, jobId);
 			}
 			
 			return resultVal;
@@ -813,7 +829,7 @@ public class WfsQueryService {
 	 */
 	public int updateTransferJob(String siteId, String cid, String tid, String userId, String jobId, String moveStatCd) throws Exception {
 		try {
-			return TransferJobDAO.getInstance().updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
+			return this.transferJobDAO.updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -821,7 +837,7 @@ public class WfsQueryService {
 	
 	public int updateTransferJobEvent(String siteId, String cid, String tid, String userId, String jobId) throws Exception {
 		try {
-			return TransferJobDAO.getInstance().updateTransferJobEventNm(siteId, cid, tid, userId, jobId);
+			return this.transferJobDAO.updateTransferJobEventNm(siteId, cid, tid, userId, jobId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -842,10 +858,10 @@ public class WfsQueryService {
 	public int updateTransferJob(String siteId, String cid, String tid, String userId, String jobId, String moveStatCd, boolean deleteFlag) throws Exception {
 		try {
 			int resultVal = -1;
-			resultVal = TransferJobDAO.getInstance().updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
+			resultVal = this.transferJobDAO.updateTransferJob(siteId, cid, tid, userId, jobId, moveStatCd);
 			
 			if(resultVal > 0 && deleteFlag) {
-				TransferJobDAO.getInstance().deleteTransferJobByJobId(siteId, jobId);
+				this.transferJobDAO.deleteTransferJobByJobId(siteId, jobId);
 			}
 			return resultVal;
 			

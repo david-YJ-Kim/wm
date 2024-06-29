@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.dao.query.wip.service;
 
-import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMapper;
+import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMyMapper;
 import com.abs.wfs.workman.dao.query.wip.vo.*;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.List;
 public class WipStatQueryServiceImpl implements WipStatQueryService{
 
     @Autowired
-    WipStatMapper wipStatMapper;
+    WipStatMyMapper wipStatMapper;
 
 
     /**

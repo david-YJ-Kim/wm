@@ -2,14 +2,24 @@ package com.abs.wfs.workman.dao.query.dao;
 
 import java.util.List;
 
+import com.abs.wfs.workman.util.code.UseStatCd;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.abs.wfs.workman.dao.query.mapper.WipStatMapper;
 import com.abs.wfs.workman.dao.query.model.WnWipStat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
+@Slf4j
 public class WipStatDAO {
+
+	@Autowired
+	WipStatMapper wipStatMapper;
 	
 	private static WipStatDAO instance;
 	private static final Logger logger = LoggerFactory.getLogger(WipStatDAO.class);
@@ -29,8 +39,8 @@ public class WipStatDAO {
 	 */
 	public List<WnWipStat> selectByLotId(String siteId, String lotId) throws Exception{
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper mapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		List<WnWipStat> wipStatList = null;
 		try {
@@ -39,14 +49,12 @@ public class WipStatDAO {
 			param.setSiteId(siteId);
 			param.setLotId(lotId);
 			
-			wipStatList = mapper.selectWnWipStat(param);
+			wipStatList = wipStatMapper.selectWnWipStat(param);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return wipStatList;
 	}
@@ -65,8 +73,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -74,7 +82,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -113,7 +121,7 @@ public class WipStatDAO {
 				setParam.setpSiteId(w.getSiteId());
 				setParam.setpCarrId(w.getCarrId());
 				setParam.setpLotId(w.getLotId());
-				setParam.setpUseStatCd(IsUsable.Usable.name());
+				setParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				//Update & Insert History 
 				if(wipStatMapper.updateWnWipStat(setParam) > 0) {
@@ -122,15 +130,13 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
@@ -149,8 +155,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -188,7 +194,7 @@ public class WipStatDAO {
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
 			param.setpLotId("-");
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			//Update & Insert History 
 			updateCnt = wipStatMapper.updateWnWipStat(param);
@@ -197,14 +203,12 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
@@ -227,8 +231,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -266,7 +270,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			// UPDATE
@@ -314,7 +318,7 @@ public class WipStatDAO {
 					carrParam.setpSiteId(siteId);
 					carrParam.setpLotId("-");
 					carrParam.setpCarrId(param.getCarrId());
-					carrParam.setpUseStatCd(IsUsable.Usable.name());
+					carrParam.setpUseStatCd(UseStatCd.Usable.name());
 					
 					if(wipStatMapper.updateWnWipStat(carrParam) > 0) {
 						// CREATE HISTORY for Carr
@@ -323,15 +327,13 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
@@ -352,8 +354,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -391,7 +393,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			// UPDATE
@@ -402,15 +404,13 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
@@ -420,8 +420,8 @@ public class WipStatDAO {
 
 		int updateCnt = 0;
 
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 
 		try {
 			WnWipStat param = new WnWipStat();
@@ -461,7 +461,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 
 			// UPDATE
 			updateCnt = wipStatMapper.updateWnWipStat(param);
@@ -472,15 +472,13 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 
-			session.commit();
+			
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 
 		return updateCnt;
 	}
@@ -492,15 +490,14 @@ public class WipStatDAO {
 	 * @param siteId
 	 * @param carrId
 	 * @param mdfyUserId
-	 * @param workStatCd
 	 * @return
 	 */
 	public int updateEventNmByCarrId(String siteId, String cid, String tid, String carrId, String mdfyUserId) throws Exception{
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -513,7 +510,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
@@ -533,7 +530,7 @@ public class WipStatDAO {
 				setParam.setpSiteId(w.getSiteId());
 				setParam.setpCarrId(w.getCarrId());
 				setParam.setpLotId(w.getLotId());
-				setParam.setpUseStatCd(IsUsable.Usable.name());
+				setParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				//Update & Insert History 
 				if(wipStatMapper.updateWnWipStat(setParam) > 0) {
@@ -543,15 +540,13 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
@@ -563,15 +558,14 @@ public class WipStatDAO {
 	 * @param siteId
 	 * @param lotId
 	 * @param mdfyUserId
-	 * @param workStatCd
 	 * @return
 	 */
 	public int updateEventNmByLotId(String siteId, String cid, String tid, String lotId, String mdfyUserId) throws Exception{
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -584,7 +578,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			// UPDATE
@@ -608,7 +602,7 @@ public class WipStatDAO {
 				carrParam.setpSiteId(siteId);
 				carrParam.setpLotId("-");
 				carrParam.setpCarrId(param.getCarrId());
-				carrParam.setpUseStatCd(IsUsable.Usable.name());
+				carrParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				if(!"-".equals(param.getCarrId())) {
 					if(wipStatMapper.updateWnWipStat(carrParam) > 0) {
@@ -618,23 +612,21 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
 	
 	public int updateEventNmByLotCarrId(String siteId, String cid, String tid, String lotId, String carrId, String mdfyUserId) throws Exception{
 		int updateCnt = 0;
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		try {
 			WnWipStat carrParam = new WnWipStat();
 			// SET
@@ -645,7 +637,7 @@ public class WipStatDAO {
 			// WHERE
 			carrParam.setpSiteId(siteId);
 			carrParam.setpCarrId(carrId);
-			carrParam.setpUseStatCd(IsUsable.Usable.name());
+			carrParam.setpUseStatCd(UseStatCd.Usable.name());
 			carrParam.setpLotId("-");
 			
 			int updatedRows = wipStatMapper.updateWnWipStat(carrParam);
@@ -666,7 +658,7 @@ public class WipStatDAO {
 			// WHERE
 			lotParam.setpSiteId(siteId);
 			lotParam.setpLotId(lotId);
-			lotParam.setpUseStatCd(IsUsable.Usable.name());
+			lotParam.setpUseStatCd(UseStatCd.Usable.name());
 			//Update & Insert History LOT
 			if(wipStatMapper.updateWnWipStat(lotParam) > 0) {
 				logger.info("WN_WIP_STAT Updated!!! by lotId ");
@@ -674,14 +666,12 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(lotParam.getObjId());
 			}
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		return updateCnt;
 	}
 	
@@ -692,15 +682,14 @@ public class WipStatDAO {
 	 * @param siteId
 	 * @param lotId
 	 * @param mdfyUserId
-	 * @param workStatCd
 	 * @return
 	 */
 	public int updateClearResvInfoForEcoLOT(String siteId, String cid, String tid, String lotId, String mdfyUserId) throws Exception{
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -730,7 +719,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			// UPDATE
@@ -742,22 +731,20 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return updateCnt;
 	}
 	
 	public int updateSlotMapCheckYn(String siteId, String cid, String tid, String userId, String carrId, String slotMapChkYn)  throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		int resultCnt = -1;
 		
@@ -774,7 +761,7 @@ public class WipStatDAO {
 			param.setpSiteId(siteId);
 			param.setpLotId("-");
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = wipStatMapper.updateWnWipStat(param);
 			logger.info("result CNT >>  " + resultCnt);
@@ -784,15 +771,13 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 			logger.info("Commit");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		
 		return resultCnt;
@@ -810,8 +795,8 @@ public class WipStatDAO {
 	 * @return
 	 */
 	public int updateTrackInCnfmYn(String siteId, String cid, String tid, String userId, String lotId, String trackInCnfmYn) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		int resultCnt = -1;
 		
@@ -827,7 +812,7 @@ public class WipStatDAO {
 			//WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			logger.info("################");
 			logger.info("LOT ID : " + param.getpLotId());
@@ -843,15 +828,13 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 			logger.info("Commit");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		
 		return resultCnt;
@@ -869,8 +852,8 @@ public class WipStatDAO {
 	 * @return
 	 */
 	public int updateRcpChkYn(String siteId, String cid, String tid, String userId, String lotId, String rcpChkYn) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		int resultCnt = -1;
 		
@@ -887,7 +870,7 @@ public class WipStatDAO {
 			//WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = wipStatMapper.updateWnWipStat(param);
 			
@@ -895,14 +878,12 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
-		}
+		} 
 		
 		
 		return resultCnt;
@@ -912,8 +893,8 @@ public class WipStatDAO {
 	public int clearAllChkFlag(String siteId, String cid, String tid, String userId, String lotId) throws Exception{
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -930,7 +911,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			
 			// UPDATE
@@ -958,7 +939,7 @@ public class WipStatDAO {
 				carrParam.setpSiteId(siteId);
 				carrParam.setpLotId("-");
 				carrParam.setpCarrId(param.getCarrId());
-				carrParam.setpUseStatCd(IsUsable.Usable.name());
+				carrParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				
 				if(wipStatMapper.updateWnWipStat(carrParam) > 0) {
@@ -967,14 +948,14 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+			
 		}
 		
 		return updateCnt;
@@ -997,8 +978,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1006,7 +987,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1048,14 +1029,14 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1078,8 +1059,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1087,7 +1068,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1130,14 +1111,14 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1159,8 +1140,8 @@ public class WipStatDAO {
 		logger.info("updateCurrentEqpPortByCarrId CALL");
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1168,7 +1149,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1204,14 +1185,14 @@ public class WipStatDAO {
 				}	
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1222,8 +1203,8 @@ public class WipStatDAO {
 		logger.info("updateCurrentEqpPortByCarrId CALL");
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1231,7 +1212,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1268,14 +1249,14 @@ public class WipStatDAO {
 				}	
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1303,8 +1284,8 @@ public class WipStatDAO {
 		logger.info("updateDspWorkRepBatch");
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1312,7 +1293,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			logger.info("carrId >> "+param.getpCarrId());
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1339,14 +1320,14 @@ public class WipStatDAO {
 				}	
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1362,8 +1343,6 @@ public class WipStatDAO {
 	 * @param carrId
 	 * @param lotId
 	 * @param userId
-	 * @param batchId
-	 * @param batchSeq
 	 * @param resvEqpId
 	 * @param resvPortId
 	 * @param resvGrpId
@@ -1373,8 +1352,8 @@ public class WipStatDAO {
 										String resvEqpId, String resvPortId, String resvGrpId, String resvOutCarrId, String resvOutPortId) throws Exception{
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			WnWipStat param = new WnWipStat();
@@ -1383,7 +1362,7 @@ public class WipStatDAO {
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStatByLot(param);
 			
@@ -1412,14 +1391,14 @@ public class WipStatDAO {
 				}	
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1444,8 +1423,8 @@ public class WipStatDAO {
 		
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 
@@ -1465,7 +1444,7 @@ public class WipStatDAO {
 			setParam.setpSiteId(siteId);
 			setParam.setpCarrId(carrId);
 			setParam.setpLotId(lotId);
-			setParam.setpUseStatCd(IsUsable.Usable.name());
+			setParam.setpUseStatCd(UseStatCd.Usable.name());
 			
 			//Update & Insert History 
 			if(wipStatMapper.updateWnWipStat(setParam) > 0) {
@@ -1474,13 +1453,13 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(setParam.getObjId());
 			}
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1502,8 +1481,8 @@ public class WipStatDAO {
 	public int updateSelfInspInfo(String siteId,String cid, String tid, String userId, String lotId, String selfInspYn, String selfInspPanelCnt, String selfInspObjId) throws Exception{
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			logger.info("WipStatDAO.updateSelfInspInfo");
@@ -1525,7 +1504,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE
 			updateCnt = wipStatMapper.updateWnWipStat(param);
@@ -1552,7 +1531,7 @@ public class WipStatDAO {
 					carrParam.setpSiteId(siteId);
 					carrParam.setpLotId("-");
 					carrParam.setpCarrId(param.getCarrId());
-					carrParam.setpUseStatCd(IsUsable.Usable.name());
+					carrParam.setpUseStatCd(UseStatCd.Usable.name());
 					
 					if(wipStatMapper.updateWnWipStat(carrParam) > 0) {
 						// CREATE HISTORY for Carr
@@ -1561,14 +1540,14 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1589,8 +1568,8 @@ public class WipStatDAO {
 	public int updateSampleInfo(String siteId,String cid, String tid, String userId, String lotId, String smplLotYn, String smplWorkTyp, String smplQty) throws Exception{
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			logger.info("WipStatDAO.updateSampleInfo");
@@ -1607,7 +1586,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpLotId(lotId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE
 			updateCnt = wipStatMapper.updateWnWipStat(param);
@@ -1633,7 +1612,7 @@ public class WipStatDAO {
 					carrParam.setpSiteId(siteId);
 					carrParam.setpLotId("-");
 					carrParam.setpCarrId(param.getCarrId());
-					carrParam.setpUseStatCd(IsUsable.Usable.name());
+					carrParam.setpUseStatCd(UseStatCd.Usable.name());
 					
 					if(wipStatMapper.updateWnWipStat(carrParam) > 0) {
 						// CREATE HISTORY for Carr
@@ -1641,14 +1620,14 @@ public class WipStatDAO {
 					}
 				}
 			}
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1665,8 +1644,8 @@ public class WipStatDAO {
 	public int updateInitWipStat(String siteId, String cid, String carrId) throws Exception{
 		int updateCnt = 0;
 
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 
@@ -1675,7 +1654,7 @@ public class WipStatDAO {
 			// WHERE
 			param.setpSiteId(siteId);
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(param);
 			
@@ -1710,7 +1689,7 @@ public class WipStatDAO {
 				setParam.setpSiteId(w.getSiteId());
 				setParam.setpCarrId(w.getCarrId());
 				setParam.setpLotId(w.getLotId());
-				setParam.setpUseStatCd(IsUsable.Usable.name());
+				setParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 	
 				if( wipStatMapper.updateWnWipStat(setParam) > 0) {
@@ -1719,14 +1698,14 @@ public class WipStatDAO {
 				}
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1735,8 +1714,8 @@ public class WipStatDAO {
 	public int updateInitWipStatByCarrIdLotId(String siteId, String cid, String carrId, String lotId) throws Exception{
 		int updateCnt = 0;
 
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			if(!carrId.equals("-")) {			
@@ -1745,7 +1724,7 @@ public class WipStatDAO {
 				// WHERE
 				carrParam.setpSiteId(siteId);
 				carrParam.setpCarrId(carrId);
-				carrParam.setpUseStatCd(IsUsable.Usable.name());
+				carrParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				List<WnWipStat> wipStatList = wipStatMapper.selectWnWipStat(carrParam);
 				
@@ -1779,7 +1758,7 @@ public class WipStatDAO {
 					setParam.setpSiteId(w.getSiteId());
 					setParam.setpCarrId(w.getCarrId());
 					setParam.setpLotId(w.getLotId());
-					setParam.setpUseStatCd(IsUsable.Usable.name());
+					setParam.setpUseStatCd(UseStatCd.Usable.name());
 					
 					//int updatedRows = wipStatMapper.updateWnWipStat(carrParam);
 	
@@ -1799,7 +1778,7 @@ public class WipStatDAO {
 				lotParam.setpSiteId(siteId);
 				lotParam.setpLotId(lotId);
 				lotParam.setpCarrId("-");
-				lotParam.setpUseStatCd(IsUsable.Usable.name());
+				lotParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 							
 				lotParam.setWorkStatCd("Standby");
@@ -1830,14 +1809,14 @@ public class WipStatDAO {
 					wipStatMapper.createWhWipStat(lotParam.getObjId());
 				}
 			}
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;
@@ -1857,8 +1836,8 @@ public class WipStatDAO {
 	public int updateManlLdngYnInfo(String siteId,String cid, String tid, String userId, String carrId, String manlLdngYn) throws Exception{
 		int updateCnt = 0;
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WipStatMapper wipStatMapper = session.getMapper(WipStatMapper.class);
+		
+		
 		
 		try {
 			logger.info("WipStatDAO.updateManlLdngYnInfo");
@@ -1873,7 +1852,7 @@ public class WipStatDAO {
 			param.setpSiteId(siteId);
 			param.setpLotId("-");
 			param.setpCarrId(carrId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE
 			updateCnt = wipStatMapper.updateWnWipStat(param);
@@ -1885,14 +1864,14 @@ public class WipStatDAO {
 				wipStatMapper.createWhWipStat(param.getObjId());
 			}
 			
-			session.commit();
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return updateCnt;

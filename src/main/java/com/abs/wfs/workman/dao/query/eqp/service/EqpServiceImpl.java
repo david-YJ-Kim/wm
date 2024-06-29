@@ -2,7 +2,7 @@ package com.abs.wfs.workman.dao.query.eqp.service;
 
 
 import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
-import com.abs.wfs.workman.dao.query.eqp.mapper.EqpMapper;
+import com.abs.wfs.workman.dao.query.eqp.mapper.EqpMyMapper;
 import com.abs.wfs.workman.dao.query.eqp.vo.*;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class EqpServiceImpl implements EqpService{
 
     @Autowired
-    EqpMapper eqpMapper;
+    EqpMyMapper eqpMapper;
 
     /**
      * UNLOAD_COMPLETED
@@ -67,6 +67,8 @@ public class EqpServiceImpl implements EqpService{
             log.error(e.getMessage());
             e.printStackTrace();
             throw e;
+        } finally {
+
         }
 
         return resultVal;
@@ -228,7 +230,6 @@ public class EqpServiceImpl implements EqpService{
 
 
 
-    @Deprecated
     public Map<String, String> getEqp(String siteId, String eqpId) throws Exception{
         Map<String, String> returnVal = null;
         try {
@@ -268,8 +269,6 @@ public class EqpServiceImpl implements EqpService{
         return result;
     }
 
-
-    @Deprecated
     public Map<String, String> getPort(String siteId, String eqpId, String portId) throws Exception{
         Map<String, String> returnVal = null;
         try {
@@ -290,8 +289,6 @@ public class EqpServiceImpl implements EqpService{
         return returnVal;
     }
 
-
-
     public QueryPortVo getQueryPort(String siteId, String eqpId, String portId) throws Exception{
 
         QueryPortVo result = null;
@@ -311,6 +308,7 @@ public class EqpServiceImpl implements EqpService{
             log.error("Exception: {}", e);
             e.printStackTrace();
             throw e;
+        } finally {
         }
         return result;
     }

@@ -32,14 +32,5 @@ public class UpdateUnloadCompleteDto {
 
 
 /*
-{
-  "siteId": "SVM",
-  "tid": "ABSC01123331",
-  "cid": "WFS_UNLOAD_COMP",
-  "portId": "AP-LA-03-01-BP01",
-  "eqpId": "AP-LA-03-01",
-  "statCd": "Empty",
-  "trsfStatCd": "ReadyToLoad",
-  "userId": "WFS"
-}
+
  */

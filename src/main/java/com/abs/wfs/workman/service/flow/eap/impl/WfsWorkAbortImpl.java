@@ -84,6 +84,8 @@ public class WfsWorkAbortImpl implements WfsWorkAbort {
 
 
         }
+        // TODO 임시
+        return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
 
     }
 

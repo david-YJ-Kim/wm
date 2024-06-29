@@ -1,13 +1,24 @@
 package com.abs.wfs.workman.dao.query.dao;
 
+import com.abs.wfs.workman.dao.query.mapper.TransferJobMyMapper;
+import com.abs.wfs.workman.util.code.UseStatCd;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.abs.wfs.workman.dao.query.mapper.TransferJobMapper;
 import com.abs.wfs.workman.dao.query.model.WnTransferJob;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
+@Slf4j
 public class TransferJobDAO {
+
+
+	@Autowired
+	TransferJobMyMapper transferJobMapper;
 	
 	private static TransferJobDAO instance;
 	private static final Logger logger = LoggerFactory.getLogger(TransferJobDAO.class);
@@ -39,8 +50,8 @@ public class TransferJobDAO {
 	 */
 	public int createTransferJob(String siteId, String cid, String tid, String userId, String jobId, String carrId, 
 			String crntEqpId, String crntPortId, String srcEqpId, String srcPortId, String destEqpId, String destPortId, String prio) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		TransferJobMapper mapper = session.getMapper(TransferJobMapper.class);
+		
+		
 		
 		int resultVal = -1;
 		
@@ -60,31 +71,29 @@ public class TransferJobDAO {
 			param.setSrcPortId(srcPortId);
 			param.setDestEqpId(destEqpId);
 			param.setDestPortId(destPortId);
-			param.setUseStatCd(IsUsable.Usable.name());
+			param.setUseStatCd(UseStatCd.Usable.name());
 			param.setMoveStatCd("Created");
 			param.setPrirtNo(prio);
-			resultVal = mapper.createWnTransferJob(param);
+			resultVal = transferJobMapper.createWnTransferJob(param);
 						
 			if(resultVal > 0) {
 				// CREATE History
-				mapper.createWhTransferJob(param.getObjId());
+				transferJobMapper.createWhTransferJob(param.getObjId());
 			}
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
 		}
 		
 		return resultVal;
 	}
 	
 	public int updateTransferJob(String siteId, String cid, String tid, String mdfyUserId, String jobId, String moveStatCd) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		TransferJobMapper mapper = session.getMapper(TransferJobMapper.class);
+		
+		
 		
 		int resultVal = -1;
 		
@@ -100,28 +109,25 @@ public class TransferJobDAO {
 			param.setpSiteId(siteId);
 			param.setpJobId(jobId);
 			
-			resultVal = mapper.updateWnTransferJob(param);
+			resultVal = transferJobMapper.updateWnTransferJob(param);
 			
 			if(resultVal > 0) {
 				// CREATE History
-				mapper.createWhTransferJob(param.getObjId());
+				transferJobMapper.createWhTransferJob(param.getObjId());
 			}
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			
-			session.close();
 		}
 		
 		return resultVal;
 	}
 	
 	public int updateTransferJobEventNm(String siteId, String cid, String tid, String mdfyUserId, String jobId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		TransferJobMapper mapper = session.getMapper(TransferJobMapper.class);
+		
+		
 		
 		int resultVal = -1;
 		
@@ -136,28 +142,25 @@ public class TransferJobDAO {
 			param.setpSiteId(siteId);
 			param.setpJobId(jobId);
 			
-			resultVal = mapper.updateWnTransferJob(param);
+			resultVal = transferJobMapper.updateWnTransferJob(param);
 			
 			if(resultVal > 0) {
 				// CREATE History
-				mapper.createWhTransferJob(param.getObjId());
+				transferJobMapper.createWhTransferJob(param.getObjId());
 			}
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			
-			session.close();
 		}
 		
 		return resultVal;
 	}
 	
 	public int deleteTransferJobByJobId(String siteId, String jobId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		TransferJobMapper mapper = session.getMapper(TransferJobMapper.class);
+		
+		
 		
 		int resultVal = -1;
 		
@@ -165,15 +168,13 @@ public class TransferJobDAO {
 			WnTransferJob param = new WnTransferJob();
 			param.setpSiteId(siteId);
 			param.setpJobId(jobId);
-			resultVal = mapper.deleteTransferJob(param);
+			resultVal = transferJobMapper.deleteTransferJob(param);
 			
-			session.commit();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
-		} finally {
-			session.close();
 		}
 		
 		return resultVal;

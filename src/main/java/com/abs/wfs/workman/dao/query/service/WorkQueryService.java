@@ -1,27 +1,34 @@
 package com.abs.wfs.workman.dao.query.service;
 
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
+import com.abs.wfs.workman.dao.query.dao.WorkDAO;
+import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
+import com.abs.wfs.workman.dao.query.util.XMLManager;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
-import com.absolicsinc.mos.wfs.util.manager.XMLManager;
-import com.absolicsinc.mos.wfs.util.query.dao.WipStatDAO;
-import com.absolicsinc.mos.wfs.util.query.dao.WorkDAO;
-import com.absolicsinc.mos.wfs.util.vo.CreateWorkRequestVo;
 
-import oracle.jdbc.logging.annotations.Log;
 
+
+@Service
+@Slf4j
 public class WorkQueryService {
-	public WorkQueryService() {	}
-	
+
+	@Autowired
+	WorkDAO workDAO;
+
+
+	@Autowired
+	WipStatDAO wipStatDAO;
+
 	/**
 	 * CREATE WORK
 	 * WN_WORK_STAT
@@ -42,7 +49,6 @@ public class WorkQueryService {
 	 * @param inCarrId
 	 * @param inCarrTyp
 	 * @param lotQty
-	 * @param outPortIdoxc
 	 * @param outCarrId
 	 * @param outCarrTyp
 	 * @param prodDefId
@@ -59,12 +65,12 @@ public class WorkQueryService {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeListXML) throws Exception {
 		try {	
-//			return WorkDAO.getInstance().createWork(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+//			return this.workDAO.createWork(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 //					lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 //					outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId,
 //					selfInspYn, selfInspCnt, recipeListXML);
 			// Recipe Test
-			return WorkDAO.getInstance().createWorkNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+			return this.workDAO.createWorkNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 					lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 					outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId,
 					selfInspYn, selfInspCnt, recipeListXML);
@@ -83,26 +89,8 @@ public class WorkQueryService {
 	 * @param tid
 	 * @param userId
 	 * @param workId
-	 * @param batchYn
-	 * @param inlineYn
-	 * @param eqpInlineId
-	 * @param inlineStatCd
-	 * @param dspWorkId
 	 * @param lotId
-	 * @param batchId
 	 * @param carrId
-	 * @param inPortId
-	 * @param inCarrId
-	 * @param inCarrTyp
-	 * @param lotQty
-	 * @param outPortId
-	 * @param outCarrId
-	 * @param outCarrTyp
-	 * @param prodDefId
-	 * @param procDefId
-	 * @param procSgmtId
-	 * @param selfInspYn
-	 * @param selfInspCnt
 	 * @param recipeListXML
 	 * @return
 	 * @throws Exception 
@@ -132,7 +120,7 @@ public class WorkQueryService {
 			if(isBothFlipRecipe) {
 				
 				// 단면
-				String faceCd = WorkDAO.getInstance().generateMtrlFace(currenntMtrlLoadingSide, workRequestVo.getRecipeList().get(0).getWorkFace().toUpperCase(), 
+				String faceCd = this.workDAO.generateMtrlFace(currenntMtrlLoadingSide, workRequestVo.getRecipeList().get(0).getWorkFace().toUpperCase(), 
 						workRequestVo.getNextWorkSide(), isToolHasFlipper, isBothRecipe, isBothFlipRecipe)[0];
 				
 				return faceCd;
@@ -140,7 +128,7 @@ public class WorkQueryService {
 			}else {
 				
 				// 양면
-				String[] faceCdList = WorkDAO.getInstance().generateMtrlFace(workRequestVo.getCurrenntMtrlLoadingSide(), "F", workRequestVo.getNextWorkSide(),
+				String[] faceCdList = this.workDAO.generateMtrlFace(workRequestVo.getCurrenntMtrlLoadingSide(), "F", workRequestVo.getNextWorkSide(),
 						isToolHasFlipper, isBothRecipe, isBothFlipRecipe);
 				
 				return String.join(",", faceCdList);
@@ -235,11 +223,11 @@ public class WorkQueryService {
 			workRequestVo.setToolHasFlipper((toolHasFlipperYn.equals("Y") ? true : false));
 			
 			if("Y".equals(mtrlFaceFlag)) {
-				return WorkDAO.getInstance().createWorkNew(workRequestVo, recipeListXML);
+				return this.workDAO.createWorkNew(workRequestVo, recipeListXML);
 			}
 			else {
 				// 작업면 적용 전 Work 생성
-				return WorkDAO.getInstance().createWorkNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+				return this.workDAO.createWorkNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 						lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 						outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId,
 						selfInspYn, selfInspCnt, recipeListXML);
@@ -285,7 +273,7 @@ public class WorkQueryService {
 			workRequestVo.setSelfInspYn(selfInspYn);
 			workRequestVo.setSelfInspCnt(selfInspCnt);
 			
-			return WorkDAO.getInstance().createWorkRepair(workRequestVo, recipeListXML);
+			return this.workDAO.createWorkRepair(workRequestVo, recipeListXML);
 			
 		} catch (Exception e) {
 			throw e;
@@ -297,7 +285,7 @@ public class WorkQueryService {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeListXML) throws Exception {
 		try {	
-			return WorkDAO.getInstance().createWorkDicingNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+			return this.workDAO.createWorkDicingNew(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 					lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 					outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId,
 					selfInspYn, selfInspCnt, recipeListXML);
@@ -311,13 +299,13 @@ public class WorkQueryService {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId, String ecoId, String currenntMtrlLoadingSide, String nextWorkSide, String toolHasFlipperYn, String mtrlFaceFlag, String mtrlFaceCd) throws Exception {
 		try {
 			if("Y".equals(mtrlFaceFlag)) {
-				return WorkDAO.getInstance().createWorkForECO_WorkFace(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+				return this.workDAO.createWorkForECO_WorkFace(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 						lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 						outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId, ecoId, currenntMtrlLoadingSide, nextWorkSide, toolHasFlipperYn, mtrlFaceCd);
 				
 			}
 			else {
-				return WorkDAO.getInstance().createWorkForECO(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
+				return this.workDAO.createWorkForECO(siteId, cid, tid, userId, eqpId, workId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId,
 						lotId, batchId, carrId, inPortId, inCarrId, inCarrTyp, lotQty,
 						outPortId, outCarrId, outCarrTyp, prodDefId, procDefId, procSgmtId, ecoId);
 			}
@@ -372,7 +360,7 @@ public class WorkQueryService {
 				workRequestVo.setToolHasFlipper((toolHasFlipperYn.equals("Y") ? true : false));
 			}
 
-			return WorkDAO.getInstance().createWorkForBatch(workRequestVo, recipeListXML);
+			return this.workDAO.createWorkForBatch(workRequestVo, recipeListXML);
 			
 		} catch (Exception e) {
 			throw e;
@@ -392,7 +380,7 @@ public class WorkQueryService {
 	 */
 	public int updateWorkStatForEvent(String siteId, String cid, String tid, String workId, String userId) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWorkStat(siteId, cid, tid, workId, userId, "");
+			return this.workDAO.updateWorkStat(siteId, cid, tid, workId, userId, "");
 		} catch (Exception e) {
 			throw e;
 		}
@@ -412,7 +400,7 @@ public class WorkQueryService {
 	 */
 	public int updateWorkStatRsnCd(String siteId, String cid, String tid, String workId, String userId, String rsnCd) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWorkRsnCd(siteId, cid, tid, workId, userId, rsnCd);
+			return this.workDAO.updateWorkRsnCd(siteId, cid, tid, workId, userId, rsnCd);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -431,7 +419,7 @@ public class WorkQueryService {
 	 */
 	public int startWork(String siteId, String cid, String tid, String userId, String workId) throws Exception {
 		try {
-			return WorkDAO.getInstance().workStarted(siteId, cid, tid, userId, workId);
+			return this.workDAO.workStarted(siteId, cid, tid, userId, workId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -446,13 +434,12 @@ public class WorkQueryService {
 	 * @param tid
 	 * @param userId
 	 * @param workId
-	 * @param carrId
 	 * @return
 	 * @throws Exception 
 	 */
 	public int finishWork(String siteId, String cid, String tid, String userId, String workId) throws Exception {
 		try {
-			return WorkDAO.getInstance().workEnded(siteId, cid, tid, userId, workId);
+			return this.workDAO.workEnded(siteId, cid, tid, userId, workId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -471,7 +458,7 @@ public class WorkQueryService {
 	 */
 	public int abortWork(String siteId, String cid, String tid, String userId, String workId) throws Exception {
 		try {
-			return WorkDAO.getInstance().workEnded(siteId, cid, tid, userId, workId);
+			return this.workDAO.workEnded(siteId, cid, tid, userId, workId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -492,7 +479,7 @@ public class WorkQueryService {
 	 */
 	public int updateWnWorkJobEvent(String siteId, String cid, String tid, String userId, String workId, String jobSeqId) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWnWorkJobEvent(siteId, cid, tid, userId, workId, jobSeqId);
+			return this.workDAO.updateWnWorkJobEvent(siteId, cid, tid, userId, workId, jobSeqId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -514,7 +501,7 @@ public class WorkQueryService {
 	 */
 	public int updateWnWorkJobSlotInfoForEndTm(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWnWorkJobSlotInfoForEndTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForEndTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -536,7 +523,7 @@ public class WorkQueryService {
 	 */
 	public int updateWnWorkJobSlotInfoForStartTm(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWnWorkJobSlotInfoForStartTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForStartTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -558,7 +545,7 @@ public class WorkQueryService {
 	 */
 	public int updateWnWorkJobSlotInfoForScrap(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWnWorkJobSlotInfoForScrap(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForScrap(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -572,7 +559,6 @@ public class WorkQueryService {
 	 * @param userId
 	 * @param workId
 	 * @param jobSeqId
-	 * @param prodMtrlId
 	 * @param scanProdMtrlId
 	 * @param slotNo
 	 * @return
@@ -580,7 +566,7 @@ public class WorkQueryService {
 	 */
 	public int updatePanelIdScanReport(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String scanProdMtrlId, String slotNo ) throws Exception {
 		try {
-			return WorkDAO.getInstance().updateWnWorkJobSlotInfoForPanelIdScan(siteId, cid, tid, userId, workId, jobSeqId, scanProdMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForPanelIdScan(siteId, cid, tid, userId, workId, jobSeqId, scanProdMtrlId, slotNo);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -602,7 +588,7 @@ public class WorkQueryService {
 	 */
 	public int dicingProcEndCellInfo(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String lotId, String bodyXML) throws Exception {
 		try {
-			return WorkDAO.getInstance().dicingProcEnded(siteId, cid, tid, userId, workId, jobSeqId, lotId, bodyXML);
+			return this.workDAO.dicingProcEnded(siteId, cid, tid, userId, workId, jobSeqId, lotId, bodyXML);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -620,7 +606,7 @@ public class WorkQueryService {
 	 */
 	public int initJob(String siteId, String cid, String carrId) throws Exception {
 		try {
-			return WipStatDAO.getInstance().updateInitWipStat(siteId, cid, carrId);
+			return this.wipStatDAO.updateInitWipStat(siteId, cid, carrId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -645,7 +631,7 @@ public class WorkQueryService {
 	 */
 	public int deleteWork(String siteId, String cid, String workId) throws Exception {
 		try {
-			return WorkDAO.getInstance().deleteWork(siteId, cid, workId);
+			return this.workDAO.deleteWork(siteId, cid, workId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -674,7 +660,7 @@ public class WorkQueryService {
 	
 	public int deleteDspWorkInfo(String siteId, String cid, String dspWorkId) throws Exception{
 		try {
-			return WorkDAO.getInstance().deleteDspWorkInfo(siteId, cid, dspWorkId);
+			return this.workDAO.deleteDspWorkInfo(siteId, cid, dspWorkId);
 		}catch(Exception e) {
 			throw e;
 		}
@@ -682,7 +668,7 @@ public class WorkQueryService {
 	
 	public int updateSelfInsp1MoreWork(String siteId, String workId) throws Exception{
 		try {
-			return WorkDAO.getInstance().updateSelfInsp1MoreWork(siteId, workId);
+			return this.workDAO.updateSelfInsp1MoreWork(siteId, workId);
 		}catch(Exception e) {
 			throw e;
 		}

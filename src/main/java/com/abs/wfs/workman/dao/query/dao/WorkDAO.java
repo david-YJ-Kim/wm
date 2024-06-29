@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
+import com.abs.wfs.workman.dao.query.util.RecipeVo;
+import com.abs.wfs.workman.dao.query.util.XMLManager;
+import com.abs.wfs.workman.util.code.StatCd;
+import com.abs.wfs.workman.util.code.UseStatCd;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +22,23 @@ import com.abs.wfs.workman.dao.query.model.WnWorkJob;
 import com.abs.wfs.workman.dao.query.model.WnWorkJobCellInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkStat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
+@Slf4j
 public class WorkDAO {
+
+
+	@Autowired
+	WfsMapper wfsMapper;
+
+	@Autowired
+	WorkMapper workMapper;
+
 	
-	private static final Logger logger = LoggerFactory.getLogger(MessageSendManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorkDAO.class);
 	private static WorkDAO instance;
 	
 	
@@ -70,10 +89,10 @@ public class WorkDAO {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeListXML) throws Exception {
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		List<Map<String,String>> recipeList = xmlMamager.getXMLtoListMap(recipeListXML, "recipeList");
 		logger.info("RECIPE LIST >> " + recipeList.size());
@@ -88,7 +107,7 @@ public class WorkDAO {
 			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
 						
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 			
@@ -107,7 +126,7 @@ public class WorkDAO {
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				String jobSeqId = "1";
 				
-				createWorkJob(session, siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
 				
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
@@ -124,7 +143,7 @@ public class WorkDAO {
 					// slot별 Flag 찍을 지 여부
 					String inspYnProdMtrl = i < selfInspCntNum ? "Y":"N";
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
 					
 				}
 			}
@@ -146,7 +165,7 @@ public class WorkDAO {
 							mtrlFace = "TBT";
 						}
 						logger.info("### >> " + mtrlFace);
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						jobSeq++;
 					}
@@ -160,7 +179,7 @@ public class WorkDAO {
 						} else if("Bottom".equals(m.get("workFace"))) {
 							mtrlFace = "TBT";
 						}
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						jobSeq++;
 					}
@@ -189,7 +208,7 @@ public class WorkDAO {
 //							if(jobSeq == 2)
 //								manualInsp = "Y";
 							
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -212,7 +231,7 @@ public class WorkDAO {
 							String prodMtrlId = prodMtrlList.get(i).getProdMtrlId();
 							
 							// jobSeq 3,4
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -235,7 +254,7 @@ public class WorkDAO {
 							logger.info(mtrlFace + "|" + m.get("workFace"));
 						}
 						logger.info("mtrlFace>> "+mtrlFace);
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						
 						logger.info("3");
@@ -243,7 +262,7 @@ public class WorkDAO {
 							String slotNo = prodMtrlList.get(i).getSlotNo();
 							String prodMtrlId = prodMtrlList.get(i).getProdMtrlId();
 							logger.info("4");
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 						}	
 						jobSeq++;
 					}	
@@ -251,14 +270,14 @@ public class WorkDAO {
 			}
 
 			
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -301,10 +320,10 @@ public class WorkDAO {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeListXML) throws Exception {
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		// Recipe 변경 작업 적용
 		Map<String,String> recipeMap = xmlMamager.getXMLtoListMap(recipeListXML).get(0);
@@ -320,7 +339,7 @@ public class WorkDAO {
 			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
 						
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 			
@@ -344,7 +363,7 @@ public class WorkDAO {
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				String jobSeqId = "1";
 				
-				createWorkJob(session, siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
 				
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
@@ -361,7 +380,7 @@ public class WorkDAO {
 					// slot별 Flag 찍을 지 여부
 					String inspYnProdMtrl = i < selfInspCntNum ? "Y":"N";
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
 					
 				}
 			}
@@ -397,7 +416,7 @@ public class WorkDAO {
 							mtrlFace = "TBT";
 						}
 						logger.info("### >> " + mtrlFace);
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						jobSeq++;
 					}
@@ -411,7 +430,7 @@ public class WorkDAO {
 						} else if("Bottom".equals(m.get("workFace"))) {
 							mtrlFace = "TBT";
 						}
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						jobSeq++;
 					}
@@ -440,7 +459,7 @@ public class WorkDAO {
 //							if(jobSeq == 2)
 //								manualInsp = "Y";
 							
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -463,7 +482,7 @@ public class WorkDAO {
 							String prodMtrlId = prodMtrlList.get(i).getProdMtrlId();
 							
 							// jobSeq 3,4
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -486,7 +505,7 @@ public class WorkDAO {
 							logger.info(mtrlFace + "|" + m.get("workFace"));
 						}
 						logger.info("mtrlFace>> "+mtrlFace);
-						createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+						createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 								prodDefId, procDefId, procSgmtId, m.get("recipeId"), "Y", mtrlFace, userId);
 						
 						logger.info("3");
@@ -494,7 +513,7 @@ public class WorkDAO {
 							String slotNo = prodMtrlList.get(i).getSlotNo();
 							String prodMtrlId = prodMtrlList.get(i).getProdMtrlId();
 							logger.info("4");
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 						}	
 						jobSeq++;
 					}	
@@ -502,14 +521,14 @@ public class WorkDAO {
 			}
 
 			
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -523,32 +542,6 @@ public class WorkDAO {
 	 * workFace : 현 공정에서 작업할 면
 	 * mtrlFace : Work으로 내려야하는 전체적인 Work 면 (TTT / TBT 등)
 	 * 
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param eqpId
-	 * @param workId
-	 * @param batchYn
-	 * @param inlineYn
-	 * @param eqpInlineId
-	 * @param inlineStatCd
-	 * @param dspWorkId
-	 * @param lotId
-	 * @param batchId
-	 * @param carrId
-	 * @param inPortId
-	 * @param inCarrId
-	 * @param inCarrTyp
-	 * @param lotQty
-	 * @param outPortId
-	 * @param outCarrId
-	 * @param outCarrTyp
-	 * @param prodDefId
-	 * @param procDefId
-	 * @param procSgmtId
-	 * @param selfInspYn
-	 * @param selfInspCnt
 	 * @param recipeListXML
 	 * @return
 	 * @throws Exception
@@ -572,17 +565,17 @@ public class WorkDAO {
 		
 		
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		// recipeId:RCP.1002 / workFace: Top || Bottom
 		List<Map<String,String>> recipeList = xmlMamager.getXMLtoListMap(recipeListXML, "recipeList");
 
 		
 		// Resources
 		workRequestVo.setRecipeList(recipeList);
-		workRequestVo.setSession(session);
+		
 		workRequestVo.setXmlManager(xmlMamager);
 		workRequestVo.setWfsMapper(wfsMapper);
 		
@@ -613,7 +606,7 @@ public class WorkDAO {
 		
 		try {
 			//insert WN_WORK_STAT
-			this.createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			this.createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 		}catch (Exception e) {
@@ -640,7 +633,7 @@ public class WorkDAO {
 					
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				
-				this.createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace, userId);
+				this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace, userId);
 				
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
 				logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
@@ -706,7 +699,7 @@ public class WorkDAO {
 							// jobSeq 1,2
 							String manualInsp = "Y";
 							
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -733,7 +726,7 @@ public class WorkDAO {
 							String prodMtrlId = prodMtrlList.get(i).getProdMtrlId();
 							
 							// jobSeq 3,4
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 						}
 						jobSeq++;
 					}
@@ -742,7 +735,7 @@ public class WorkDAO {
 			}
 
 			
-			session.commit();
+
 			
 		} catch (Exception e) {
 			
@@ -751,7 +744,7 @@ public class WorkDAO {
 			throw e;
 			
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -783,10 +776,10 @@ public class WorkDAO {
 		
 		
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		
 		// Recipe 변경 작업 적용
@@ -800,7 +793,7 @@ public class WorkDAO {
 				
 		// Resources
 //		workRequestVo.setRecipeList(recipeList);
-		workRequestVo.setSession(session);
+		
 		workRequestVo.setXmlManager(xmlMamager);
 		workRequestVo.setWfsMapper(wfsMapper);
 		
@@ -828,7 +821,7 @@ public class WorkDAO {
 		
 		try {
 			//insert WN_WORK_STAT
-			this.createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			this.createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 		}catch (Exception e) {
@@ -861,7 +854,7 @@ public class WorkDAO {
 					
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				
-				this.createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace[0], userId);
+				this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace[0], userId);
 				this.insertWorkSlotPerProdMtrl(workRequestVo, String.valueOf(jobSeq), lotId, mtrlFace[0], prodMtrlList);
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
 				logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
@@ -924,7 +917,7 @@ public class WorkDAO {
 							// jobSeq 1,2
 							String manualInsp = "Y";
 							
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, face, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, face, userId);
 						}
 						jobSeq++;
 					}
@@ -942,7 +935,7 @@ public class WorkDAO {
 							String manualInsp = "N";
 							
 							// jobSeq 3,4
-							createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, face, userId);
+							createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeq), lotId, slotNo, prodMtrlId, manualInsp, face, userId);
 						}
 						jobSeq++;
 					}
@@ -951,7 +944,7 @@ public class WorkDAO {
 			}
 
 			
-			session.commit();
+
 			
 		} catch (Exception e) {
 			
@@ -960,7 +953,7 @@ public class WorkDAO {
 			throw e;
 			
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -986,10 +979,10 @@ public class WorkDAO {
 		
 		
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		
 		// Recipe 변경 작업 적용
@@ -1001,7 +994,7 @@ public class WorkDAO {
 				
 		// Resources
 //		workRequestVo.setRecipeList(recipeList);
-		workRequestVo.setSession(session);
+		
 		workRequestVo.setXmlManager(xmlMamager);
 		workRequestVo.setWfsMapper(wfsMapper);
 		
@@ -1018,7 +1011,7 @@ public class WorkDAO {
 		
 		try {
 			//insert WN_WORK_STAT
-			this.createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			this.createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 		}catch (Exception e) {
@@ -1077,7 +1070,7 @@ public class WorkDAO {
 					
 					logger.info("###### 4> WORK_FACE : " + mtrlFace);
 					
-					this.createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace, userId);
+					this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, recipeId, "Y", mtrlFace, userId);
 					
 					logger.info("###### 5> CREATE WN_WORK_JOB Completed");
 					logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
@@ -1107,7 +1100,7 @@ public class WorkDAO {
 				}
 							
 				if(prodMtrlList.size() > 0) {
-					this.createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, topRcpId, "Y", mtrlFace, userId);
+					this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, topRcpId, "Y", mtrlFace, userId);
 					this.insertWorkSlotPerProdMtrlRepair(workRequestVo, String.valueOf(jobSeq), lotId, mtrlFace, prodMtrlList);
 					jobSeq++;
 				}
@@ -1125,14 +1118,14 @@ public class WorkDAO {
 					throw e;
 				}
 				if(prodMtrlList.size() > 0) {
-					this.createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, bottomRcpId, "Y", mtrlFace, userId);
+					this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, workRequestVo, bottomRcpId, "Y", mtrlFace, userId);
 					this.insertWorkSlotPerProdMtrlRepair(workRequestVo, String.valueOf(jobSeq), lotId, mtrlFace, prodMtrlList);
 				}
 				
 			}
 			
 			logger.info("###### 5> CREATE WN_WORK_JOB Completed");
-			session.commit();
+
 			
 		} catch (Exception e) {
 			
@@ -1141,7 +1134,7 @@ public class WorkDAO {
 			throw e;
 			
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1155,10 +1148,10 @@ public class WorkDAO {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeIdParam) throws Exception {
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		
 		int recipeLen = 1;
@@ -1171,7 +1164,7 @@ public class WorkDAO {
 			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
 						
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 			
@@ -1191,7 +1184,7 @@ public class WorkDAO {
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				String jobSeqId = "1";
 				
-				createWorkJob(session, siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
 				
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
@@ -1208,19 +1201,19 @@ public class WorkDAO {
 					// slot별 Flag 찍을 지 여부
 					String inspYnProdMtrl = i < selfInspCntNum ? "Y":"N";
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
 					
 				}
 			}
 						
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1231,7 +1224,7 @@ public class WorkDAO {
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
 			String selfInspYn, String selfInspCnt, String recipeListXML) throws Exception {
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
 		// Recipe 변경 작업 적용
@@ -1240,7 +1233,7 @@ public class WorkDAO {
 		String topRcpId = recipeMap.get("TOP_RCP_ID");
 		String bottomRcpId = recipeMap.get("BOTTOM_RCP_ID");
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		
 		int recipeLen = 1;
@@ -1253,7 +1246,7 @@ public class WorkDAO {
 			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
 						
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
 			
 			
@@ -1283,7 +1276,7 @@ public class WorkDAO {
 				logger.info("###### 4> WORK_FACE : " + mtrlFace);
 				String jobSeqId = "1";
 				
-				createWorkJob(session, siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
 				
 				logger.info("###### 5> CREATE WN_WORK_JOB Completed");
@@ -1300,19 +1293,19 @@ public class WorkDAO {
 					// slot별 Flag 찍을 지 여부
 					String inspYnProdMtrl = i < selfInspCntNum ? "Y":"N";
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
 					
 				}
 			}
 						
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1321,9 +1314,9 @@ public class WorkDAO {
 	public int createWorkForECO(String siteId, String cid, String tid, String userId, String eqpId, String workId, String batchYn, String inlineYn, String eqpInlineId, String inlineStatCd, String dspWorkId,
 			String lotId, String batchId, String carrId, String inPortId, String inCarrId, String inCarrTyp, String lotQty,
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId, String ecoId) throws Exception {
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 	
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		
 		
@@ -1348,7 +1341,7 @@ public class WorkDAO {
 			Map<String,String> ecoInfo = wfsMapper.selectEcoLotInfo(ecoParam);
 			
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			
 			String topRcpId = ecoInfo.get("TOP_RCP_ID");
 			String bottomRcpId =  ecoInfo.get("BOTTOM_RCP_ID");
@@ -1358,12 +1351,12 @@ public class WorkDAO {
 			// Top Recipe 존재
 			if(topRcpId != null) {
 				String mtrlFace = "TTT";
-				createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, topRcpId, "Y", mtrlFace, userId);
 				
 				Map<String,String> slotInfoParam =  new HashMap<String, String>();
 				slotInfoParam.put("siteId", siteId);
-				slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+				slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 				slotInfoParam.put("lotId", lotId);
 
 				
@@ -1372,7 +1365,7 @@ public class WorkDAO {
 					String slotNo = m.get("SLOT_NO");
 					String prodMtrlId = m.get("PROD_MTRL_ID");
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 				}
 				
 				jobSeqId++;
@@ -1381,12 +1374,12 @@ public class WorkDAO {
 			// Bottom Recipe 존재
 			if(bottomRcpId != null) {
 				String mtrlFace = "TBT";
-				createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+				createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 						prodDefId, procDefId, procSgmtId, bottomRcpId, "Y", mtrlFace, userId);
 				
 				Map<String,String> slotInfoParam =  new HashMap<String, String>();
 				slotInfoParam.put("siteId", siteId);
-				slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+				slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 				slotInfoParam.put("lotId", lotId);
 				
 				List<Map<String,String>> prodMtrlList = wfsMapper.selectProdMtrlList(slotInfoParam);
@@ -1394,19 +1387,19 @@ public class WorkDAO {
 					String slotNo = m.get("SLOT_NO");
 					String prodMtrlId = m.get("PROD_MTRL_ID");
 					
-					createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
+					createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", mtrlFace, userId);
 				}
 			}
 			
 			resultCnt = 1;
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1415,9 +1408,9 @@ public class WorkDAO {
 	public int createWorkForECO_WorkFace(String siteId, String cid, String tid, String userId, String eqpId, String workId, String batchYn, String inlineYn, String eqpInlineId, String inlineStatCd, String dspWorkId,
 			String lotId, String batchId, String carrId, String inPortId, String inCarrId, String inCarrTyp, String lotQty,
 			String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId, String ecoId, String currenntMtrlLoadingSide, String nextWorkSide, String toolHasFlipperYn, String mtrlFaceCd) throws Exception {
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 	
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
+		
 		
 		int resultCnt = -1;
 		
@@ -1442,7 +1435,7 @@ public class WorkDAO {
 			logger.info(ecoInfo.toString());
 			
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			
 			String topRcpId = ecoInfo.get("TOP_RCP_ID");
 			String bottomRcpId =  ecoInfo.get("BOTTOM_RCP_ID");
@@ -1454,12 +1447,12 @@ public class WorkDAO {
 				// Top Recipe 존재
 				if(topRcpId != null) {
 					String topMtrlFace = mtrlFace[0];
-					createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+					createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 							prodDefId, procDefId, procSgmtId, topRcpId, "Y", topMtrlFace, userId);
 					
 					Map<String,String> slotInfoParam =  new HashMap<String, String>();
 					slotInfoParam.put("siteId", siteId);
-					slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+					slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 					slotInfoParam.put("lotId", lotId);
 
 					
@@ -1468,19 +1461,19 @@ public class WorkDAO {
 						String slotNo = m.get("SLOT_NO");
 						String prodMtrlId = m.get("PROD_MTRL_ID");
 						
-						createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", topMtrlFace, userId);
+						createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", topMtrlFace, userId);
 					}
 				}
 			} else if ( "Bottom".equals(mtrlFaceCd)) {
 				// Bottom Recipe 존재
 				if(bottomRcpId != null) {
 					String bottomMtrlFace = mtrlFace[0];
-					createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+					createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 							prodDefId, procDefId, procSgmtId, bottomRcpId, "Y", bottomMtrlFace, userId);
 					
 					Map<String,String> slotInfoParam =  new HashMap<String, String>();
 					slotInfoParam.put("siteId", siteId);
-					slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+					slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 					slotInfoParam.put("lotId", lotId);
 					
 					List<Map<String,String>> prodMtrlList = wfsMapper.selectProdMtrlList(slotInfoParam);
@@ -1488,7 +1481,7 @@ public class WorkDAO {
 						String slotNo = m.get("SLOT_NO");
 						String prodMtrlId = m.get("PROD_MTRL_ID");
 						
-						createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", bottomMtrlFace, userId);
+						createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", bottomMtrlFace, userId);
 					}
 				}
 			} else {
@@ -1496,12 +1489,12 @@ public class WorkDAO {
 				// Top Recipe 존재
 				if(topRcpId != null) {
 					String topMtrlFace = mtrlFace[0];
-					createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+					createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 							prodDefId, procDefId, procSgmtId, topRcpId, "Y", topMtrlFace, userId);
 					
 					Map<String,String> slotInfoParam =  new HashMap<String, String>();
 					slotInfoParam.put("siteId", siteId);
-					slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+					slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 					slotInfoParam.put("lotId", lotId);
 
 					
@@ -1510,7 +1503,7 @@ public class WorkDAO {
 						String slotNo = m.get("SLOT_NO");
 						String prodMtrlId = m.get("PROD_MTRL_ID");
 						
-						createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", topMtrlFace, userId);
+						createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", topMtrlFace, userId);
 					}
 					
 					jobSeqId++;
@@ -1519,12 +1512,12 @@ public class WorkDAO {
 				// Bottom Recipe 존재
 				if(bottomRcpId != null) {
 					String bottomMtrlFace = mtrlFace[1];
-					createWorkJob(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
+					createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeqId), batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp, 
 							prodDefId, procDefId, procSgmtId, bottomRcpId, "Y", bottomMtrlFace, userId);
 					
 					Map<String,String> slotInfoParam =  new HashMap<String, String>();
 					slotInfoParam.put("siteId", siteId);
-					slotInfoParam.put("useStatCd", IsUsable.Usable.name());
+					slotInfoParam.put("useStatCd", UseStatCd.Usable.name());
 					slotInfoParam.put("lotId", lotId);
 					
 					List<Map<String,String>> prodMtrlList = wfsMapper.selectProdMtrlList(slotInfoParam);
@@ -1532,7 +1525,7 @@ public class WorkDAO {
 						String slotNo = m.get("SLOT_NO");
 						String prodMtrlId = m.get("PROD_MTRL_ID");
 						
-						createWorkJobSlotInfo(session, siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", bottomMtrlFace, userId);
+						createWorkJobSlotInfo( siteId, cid, tid, workId, String.valueOf(jobSeqId), lotId, slotNo, prodMtrlId, "N", bottomMtrlFace, userId);
 					}
 				}
 				
@@ -1540,14 +1533,14 @@ public class WorkDAO {
 			}
 			
 			resultCnt = 1;
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1579,12 +1572,12 @@ public class WorkDAO {
 		String inlineStatCd = workRequestVo.getInlineStatCd();
 		
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
+		
 		XMLManager xmlMamager = new XMLManager();
 		
-		WfsMapper wfsMapper = session.getMapper(WfsMapper.class);
 		
-		workRequestVo.setSession(session);
+		
+		
 		workRequestVo.setXmlManager(xmlMamager);
 		workRequestVo.setWfsMapper(wfsMapper);
 				
@@ -1619,7 +1612,7 @@ public class WorkDAO {
 			logger.info("###### 1> batchLotList Size >> " + batchLotList.size());
 			
 			//insert WN_WORK_STAT
-			createWorkStat(session, siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
 			logger.info("###### 1> CREATE WN_WORK_STAT Completed");
 			
 			int jobSeq = 1;
@@ -1651,12 +1644,12 @@ public class WorkDAO {
 					workRequestVo.setOutPortId(lot.get("RESV_PORT_ID"));
 					workRequestVo.setLotQty(String.valueOf(lot.get("QTY")));
 					
-					this.createWorkJob(session, siteId, cid, tid, workId, lot.get("BATCH_SEQ"), batchId, lot.get("LOT_ID"), workRequestVo, recipeId, "Y", mtrlFace[0], userId);
+					this.createWorkJob( siteId, cid, tid, workId, lot.get("BATCH_SEQ"), batchId, lot.get("LOT_ID"), workRequestVo, recipeId, "Y", mtrlFace[0], userId);
 					
 					
 					logger.info("###### 5> CREATE WN_WORK_JOB Completed");
 					logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
-//					createWorkJobSlotInfo(session, siteId, cid, tid, workId, jobSeqId, lot.get("lotId"), slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
+//					createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lot.get("lotId"), slotNo, prodMtrlId, inspYnProdMtrl, mtrlFace, userId);
 					this.insertWorkSlotPerProdMtrl(workRequestVo, lot.get("BATCH_SEQ"), lot.get("LOT_ID"), mtrlFace[0], prodMtrlList);
 					
 				} 
@@ -1672,14 +1665,14 @@ public class WorkDAO {
 			
 			
 			
-			session.commit();
+
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -1704,7 +1697,7 @@ public class WorkDAO {
 			String recipeId = this.getRecipeIdWithMtrlFaceCd(mtrlFace, workRequestVo.getRecipeList());
 			
 			logger.info("mtrlFace>> " + mtrlFace);
-			this.createWorkJob(workRequestVo.getSession(), siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, 
+			this.createWorkJob( siteId, cid, tid, workId, String.valueOf(jobSeq), batchId, lotId, 
 							workRequestVo,  recipeId, "Y", mtrlFace, userId);
 			
 			if(doInsertSlotInfo) {
@@ -1733,9 +1726,9 @@ public class WorkDAO {
 	 * @param dspWorkId
 	 * @return
 	 */
-	private int createWorkStat(SqlSession session, String siteId, String cid, String tid, String userId, String workId, 
+	private int createWorkStat(String siteId, String cid, String tid, String userId, String workId,
 								String eqpId, String batchYn, String inlineYn, String eqpInlineId, String inlineStatCd, String dspWorkId) throws Exception{
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -1749,7 +1742,7 @@ public class WorkDAO {
 			wnWorkStat.setWorkId(workId);
 			wnWorkStat.setEqpId(eqpId);
 			wnWorkStat.setWorkStatCd(StatCd.Active.name());
-			wnWorkStat.setUseStatCd(IsUsable.Usable.name());
+			wnWorkStat.setUseStatCd(UseStatCd.Usable.name());
 			wnWorkStat.setBatchYn(batchYn);
 			wnWorkStat.setInlineYn(inlineYn);
 			wnWorkStat.setEqpInlineId(eqpInlineId);
@@ -1775,7 +1768,6 @@ public class WorkDAO {
 	
 	/**
 	 * INSERT WN_WORK_JOB
-	 * @param session
 	 * @param siteId
 	 * @param cid
 	 * @param tid
@@ -1783,27 +1775,17 @@ public class WorkDAO {
 	 * @param jobSeqId
 	 * @param batchId
 	 * @param lotId
-	 * @param qty
-	 * @param inPortId
-	 * @param inCarrId
-	 * @param inCarrTyp
-	 * @param outPortId
-	 * @param outCarrId
-	 * @param outCarrTyp
-	 * @param prodDefId
-	 * @param procDefId
-	 * @param procSgmtId
 	 * @param rcpDefId
 	 * @param rcpReadyYn
 	 * @param userId
 	 * @return
 	 */
-	private int createWorkJob(SqlSession session, String siteId, String cid, String tid, String workId, 
+	private int createWorkJob(String siteId, String cid, String tid, String workId,
 													String jobSeqId, String batchId, String lotId, CreateWorkRequestVo vo, 
 													String rcpDefId, String rcpReadyYn, String workFaceCd, 
 													String userId) throws Exception{
 		
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -1814,7 +1796,7 @@ public class WorkDAO {
 			param.setTid(tid);
 			param.setMdfyUserId(userId);
 			param.setCrtUserId(userId);
-			param.setUseStatCd(IsUsable.Usable.name());
+			param.setUseStatCd(UseStatCd.Usable.name());
 			param.setWorkId(workId);
 			param.setJobSeqId(jobSeqId);
 			param.setBatchId(batchId);
@@ -1863,7 +1845,6 @@ public class WorkDAO {
 	
 	/**
 	 * INSERT WN_WORK_JOB
-	 * @param session
 	 * @param siteId
 	 * @param cid
 	 * @param tid
@@ -1886,11 +1867,11 @@ public class WorkDAO {
 	 * @param userId
 	 * @return
 	 */
-	private int createWorkJob(SqlSession session, String siteId, String cid, String tid, String workId, String jobSeqId, String batchId, String lotId, String qty, 
+	private int createWorkJob(String siteId, String cid, String tid, String workId, String jobSeqId, String batchId, String lotId, String qty, 
 			String inPortId, String inCarrId, String inCarrTyp, String outPortId, String outCarrId, String outCarrTyp, 
 			String prodDefId, String procDefId, String procSgmtId, String rcpDefId, String rcpReadyYn, String workFaceCd, String userId) throws Exception{
 		
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -1901,7 +1882,7 @@ public class WorkDAO {
 			param.setTid(tid);
 			param.setMdfyUserId(userId);
 			param.setCrtUserId(userId);
-			param.setUseStatCd(IsUsable.Usable.name());
+			param.setUseStatCd(UseStatCd.Usable.name());
 			param.setWorkId(workId);
 			param.setJobSeqId(jobSeqId);
 			param.setBatchId(batchId);
@@ -1970,7 +1951,7 @@ public class WorkDAO {
 			// slot별 Flag 찍을 지 여부
 			String inspYnProdMtrl = i < selfInspCntNum ? "Y":"N";
 			
-			this.createWorkJobSlotInfo(requestVo.getSession(), requestVo.getSiteId(), requestVo.getCid(), 
+			this.createWorkJobSlotInfo( requestVo.getSiteId(), requestVo.getCid(), 
 					requestVo.getTid(), requestVo.getWorkId(), jobSeqId, lotId, slotNo, prodMtrlId, 
 					inspYnProdMtrl, mtrlFace, requestVo.getUserId());
 			
@@ -1987,7 +1968,7 @@ public class WorkDAO {
 			String prodMtrlId = prodMtrlList.get(i).get("PROD_MTRL_ID");
 			
 
-			this.createWorkJobSlotInfo(requestVo.getSession(), requestVo.getSiteId(), requestVo.getCid(), 
+			this.createWorkJobSlotInfo( requestVo.getSiteId(), requestVo.getCid(), 
 			requestVo.getTid(), requestVo.getWorkId(), jobSeqId, lotId, slotNo, prodMtrlId, 
 			"N", mtrlFace, requestVo.getUserId());
 		}
@@ -1997,7 +1978,6 @@ public class WorkDAO {
 	
 	/**
 	 * INSERT WN_WORK_JOB_SLOT_INFO
-	 * @param session
 	 * @param siteId
 	 * @param cid
 	 * @param tid
@@ -2011,10 +1991,10 @@ public class WorkDAO {
 	 * @param userId
 	 * @return
 	 */
-	private int createWorkJobSlotInfo(SqlSession session, String siteId, String cid, String tid, String workId, 
+	private int createWorkJobSlotInfo(String siteId, String cid, String tid, String workId,
 									String jobSeqId, String lotId, String slotNo, String prodMtrlId, String selfInspYn, String mtrlFaceCd, String userId) throws Exception{
 		
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2026,7 +2006,7 @@ public class WorkDAO {
 			param.setTid(tid);
 			param.setCrtUserId(userId);
 			param.setMdfyUserId(userId);
-			param.setUseStatCd(IsUsable.Usable.name());
+			param.setUseStatCd(UseStatCd.Usable.name());
 			param.setWorkId(workId);
 			param.setJobSeqId(jobSeqId);
 			param.setLotId(lotId);
@@ -2071,8 +2051,8 @@ public class WorkDAO {
 	 * @return
 	 */
 	public int updateWorkStat(String siteId, String cid, String tid, String workId, String userId, String inlineStatCd) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2086,7 +2066,7 @@ public class WorkDAO {
 			
 			
 			//WHERE
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			param.setpSiteId(siteId);
 			param.setpWorkId(workId);
 			
@@ -2099,13 +2079,13 @@ public class WorkDAO {
 				mapper.createWhWorkStat(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -2123,8 +2103,8 @@ public class WorkDAO {
 	 * @throws Exception
 	 */
 	public int updateWorkRsnCd(String siteId, String cid, String tid, String workId, String userId, String rsnCd) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2138,7 +2118,7 @@ public class WorkDAO {
 			
 			
 			//WHERE
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			param.setpSiteId(siteId);
 			param.setpWorkId(workId);
 			
@@ -2151,13 +2131,13 @@ public class WorkDAO {
 				mapper.createWhWorkStat(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -2171,14 +2151,14 @@ public class WorkDAO {
 	 * @return
 	 */
 	public List<WnWorkStat> getWorkStatByWorkId(String siteId, String workId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		List<WnWorkStat> wnWorkStatList = null;
 		
 		try {
 			WnWorkStat param = new WnWorkStat();
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			param.setpSiteId(siteId);
 			param.setpWorkId(workId);
 			
@@ -2188,15 +2168,15 @@ public class WorkDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return wnWorkStatList;
 	}
 	
 	public int updateWnWorkJobEvent(String siteId, String cid, String tid, String userId, String workId, String jobSeqId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2212,7 +2192,7 @@ public class WorkDAO {
 			param.setpSiteId(siteId);
 			param.setpWorkId(workId);
 			param.setpJobSeqId(jobSeqId);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			param.setpJobStatCd(StatCd.Active.name());
 			
 			resultCnt = mapper.updateWnWorkJob(param);
@@ -2221,13 +2201,13 @@ public class WorkDAO {
 				mapper.createWhWorkJob(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;
@@ -2235,8 +2215,8 @@ public class WorkDAO {
 	
 	public int updateWnWorkJobSlotInfoForEndTm(String siteId, String cid, String tid, String userId, 
 												String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2255,7 +2235,7 @@ public class WorkDAO {
 			param.setpJobSeqId(jobSeqId);
 			param.setpProdMtrlId(prodMtrlId);
 			param.setpSlotNo(slotNo);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = mapper.updateWnWorkJobSlotInfo(param);
 			
@@ -2263,13 +2243,13 @@ public class WorkDAO {
 				mapper.createWhWorkJobSlotInfo(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		
@@ -2277,8 +2257,8 @@ public class WorkDAO {
 	}
 	
 	public int updateWnWorkJobSlotInfoForStartTm(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2297,7 +2277,7 @@ public class WorkDAO {
 			param.setpJobSeqId(jobSeqId);
 			param.setpProdMtrlId(prodMtrlId);
 			param.setpSlotNo(slotNo);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = mapper.updateWnWorkJobSlotInfo(param);
 			
@@ -2305,13 +2285,13 @@ public class WorkDAO {
 				mapper.createWhWorkJobSlotInfo(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		
@@ -2319,8 +2299,8 @@ public class WorkDAO {
 	}
 	
 	public int updateWnWorkJobSlotInfoForScrap(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2339,7 +2319,7 @@ public class WorkDAO {
 			param.setpJobSeqId(jobSeqId);
 			param.setpProdMtrlId(prodMtrlId);
 			param.setpSlotNo(slotNo);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = mapper.updateWnWorkJobSlotInfo(param);
 			
@@ -2347,13 +2327,13 @@ public class WorkDAO {
 				mapper.createWhWorkJobSlotInfo(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		
@@ -2361,8 +2341,8 @@ public class WorkDAO {
 	}
 	
 	public int updateWnWorkJobSlotInfoForPanelIdScan(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String scanProdMtrlId, String slotNo ) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2381,7 +2361,7 @@ public class WorkDAO {
 			param.setpJobSeqId(jobSeqId);
 //			param.setpProdMtrlId(prodMtrlId);
 			param.setpSlotNo(slotNo);
-			param.setpUseStatCd(IsUsable.Usable.name());
+			param.setpUseStatCd(UseStatCd.Usable.name());
 			
 			resultCnt = mapper.updateWnWorkJobSlotInfo(param);
 			
@@ -2389,13 +2369,13 @@ public class WorkDAO {
 				mapper.createWhWorkJobSlotInfo(param.getObjId());
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		
@@ -2413,8 +2393,8 @@ public class WorkDAO {
 	 * @return
 	 */
 	public int workEnded(String siteId, String cid, String tid, String userId, String workId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2426,13 +2406,13 @@ public class WorkDAO {
 			workStatParam.setTid(tid);
 			workStatParam.setMdfyUserId(userId);
 			workStatParam.setWorkStatCd(StatCd.Finished.name());
-			workStatParam.setUseStatCd(IsUsable.UnUsable.name());
+			workStatParam.setUseStatCd(UseStatCd.Unusable.name());
 			
 			//WHERE
 			workStatParam.setpSiteId(siteId);
 			workStatParam.setpWorkId(workId);
 			workStatParam.setpWorkStatCd(StatCd.Active.name());
-			workStatParam.setpUseStatCd(IsUsable.Usable.name());
+			workStatParam.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE WN_WORK_STAT
 			resultCnt = mapper.updateWnWorkStat(workStatParam);
@@ -2449,7 +2429,7 @@ public class WorkDAO {
 				workJobParam.setpSiteId(siteId);
 				workJobParam.setpWorkId(workId);
 				workJobParam.setpJobStatCd(StatCd.Active.name());
-				workJobParam.setpUseStatCd(IsUsable.Usable.name());
+				workJobParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				
 				
@@ -2464,7 +2444,7 @@ public class WorkDAO {
 					workJobUpdateParam.setTid(tid);
 					workJobUpdateParam.setMdfyUserId(userId);
 					workJobUpdateParam.setJobStatCd(StatCd.Finished.name());
-					workJobUpdateParam.setUseStatCd(IsUsable.UnUsable.name());
+					workJobUpdateParam.setUseStatCd(UseStatCd.Unusable.name());
 					
 					//WHERE
 					workJobUpdateParam.setpObjId(j.getObjId());
@@ -2489,7 +2469,7 @@ public class WorkDAO {
 						slotInfoParam.setEvntNm(cid);
 						slotInfoParam.setTid(tid);
 						slotInfoParam.setMdfyUserId(userId);
-						slotInfoParam.setUseStatCd(IsUsable.UnUsable.name());
+						slotInfoParam.setUseStatCd(UseStatCd.Unusable.name());
 						slotInfoParam.setJobStatCd(StatCd.Finished.name());
 						
 						//WHERE
@@ -2509,13 +2489,13 @@ public class WorkDAO {
 				}
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
@@ -2531,8 +2511,8 @@ public class WorkDAO {
 	 * @throws Exception
 	 */
 	public int workAborted(String siteId, String cid, String tid, String userId, String workId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2544,13 +2524,13 @@ public class WorkDAO {
 			workStatParam.setTid(tid);
 			workStatParam.setMdfyUserId(userId);
 			workStatParam.setWorkStatCd(StatCd.Aborted.name());
-			workStatParam.setUseStatCd(IsUsable.UnUsable.name());
+			workStatParam.setUseStatCd(UseStatCd.Unusable.name());
 			
 			//WHERE
 			workStatParam.setpSiteId(siteId);
 			workStatParam.setpWorkId(workId);
 			workStatParam.setpWorkStatCd(StatCd.Active.name());
-			workStatParam.setpUseStatCd(IsUsable.Usable.name());
+			workStatParam.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE WN_WORK_STAT
 			resultCnt = mapper.updateWnWorkStat(workStatParam);
@@ -2567,7 +2547,7 @@ public class WorkDAO {
 				workJobParam.setpSiteId(siteId);
 				workJobParam.setpWorkId(workId);
 				workJobParam.setpJobStatCd(StatCd.Active.name());
-				workJobParam.setpUseStatCd(IsUsable.Usable.name());
+				workJobParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				
 				
@@ -2582,7 +2562,7 @@ public class WorkDAO {
 					workJobUpdateParam.setTid(tid);
 					workJobUpdateParam.setMdfyUserId(userId);
 					workJobUpdateParam.setJobStatCd(StatCd.Aborted.name());
-					workJobUpdateParam.setUseStatCd(IsUsable.UnUsable.name());
+					workJobUpdateParam.setUseStatCd(UseStatCd.Unusable.name());
 					
 					//WHERE
 					workJobUpdateParam.setpObjId(j.getObjId());
@@ -2607,7 +2587,7 @@ public class WorkDAO {
 						slotInfoParam.setEvntNm(cid);
 						slotInfoParam.setTid(tid);
 						slotInfoParam.setMdfyUserId(userId);
-						slotInfoParam.setUseStatCd(IsUsable.UnUsable.name());
+						slotInfoParam.setUseStatCd(UseStatCd.Unusable.name());
 						slotInfoParam.setJobStatCd(StatCd.Aborted.name());
 						
 						//WHERE
@@ -2627,13 +2607,13 @@ public class WorkDAO {
 				}
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
@@ -2648,8 +2628,8 @@ public class WorkDAO {
 	 * @return
 	 */
 	public int workStarted(String siteId, String cid, String tid, String userId, String workId) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		
@@ -2665,7 +2645,7 @@ public class WorkDAO {
 			//WHERE
 			workStatParam.setpSiteId(siteId);
 			workStatParam.setpWorkId(workId);
-			workStatParam.setpUseStatCd(IsUsable.Usable.name());
+			workStatParam.setpUseStatCd(UseStatCd.Usable.name());
 			
 			// UPDATE WN_WORK_STAT
 			resultCnt = mapper.updateWnWorkStat(workStatParam);
@@ -2679,7 +2659,7 @@ public class WorkDAO {
 				workJobParam.setpSiteId(siteId);
 				workJobParam.setpWorkId(workId);
 				workJobParam.setpJobStatCd(StatCd.Active.name());
-				workJobParam.setpUseStatCd(IsUsable.Usable.name());
+				workJobParam.setpUseStatCd(UseStatCd.Usable.name());
 				
 				
 				List<WnWorkJob> workJobList = mapper.selectWnWorkJob(workJobParam);
@@ -2707,20 +2687,20 @@ public class WorkDAO {
 				}
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
 	
 	public int dicingProcEnded(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String lotId, String bodyXML) throws Exception{
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		XMLManager xmlMamager = new XMLManager();
 		int resultCnt = -1;
 		try {
@@ -2802,13 +2782,13 @@ public class WorkDAO {
 					}
 				}
 			}
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
@@ -2822,8 +2802,8 @@ public class WorkDAO {
 	 */
 	public int deleteWork(String siteId, String cid, String workId) throws Exception{
 		
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		try {
@@ -2850,21 +2830,21 @@ public class WorkDAO {
 			
 			
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
 	
 	// SR INLINE / INLINE DICING
 	public int createDspWorkInfo(String siteId, String cid, String tid, String userId, String dspWorkId, String eqpId, String portId, String lotId, String dspStatCd) throws Exception {
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		try {
@@ -2882,28 +2862,28 @@ public class WorkDAO {
 			param.setTid(tid);
 			param.setCrtUserId(userId);
 			param.setMdfyUserId(userId);
-			param.setUseStatCd(IsUsable.Usable.name());
+			param.setUseStatCd(UseStatCd.Usable.name());
 			
 			
 			if(mapper.createWnDspWorkInfo(param) > 0)
 				mapper.createWhDspWorkInfo(param.getObjId());
 			
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 		
 	}
 	
 	public int updateDspWorkInfo(String siteId, String cid, String tid, String userId, String dspWorkId, String dspStatCd, String rcpChkYn, String rcpId, String trackInCnfmYn, String eqpChkYn) throws Exception {
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		int resultCnt = -1;
 		try {
@@ -2927,21 +2907,21 @@ public class WorkDAO {
 				mapper.createWhDspWorkInfo(param.getObjId());
 			
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
 	
 	
 	public int deleteDspWorkInfo(String siteId, String cid, String dspWorkId) throws Exception {
-		SqlSession session = MybatisSession.getSqlSessionInstance();
-		WorkMapper mapper = session.getMapper(WorkMapper.class);
+		
+		WorkMapper mapper = this.workMapper;
 		
 		
 		int resultCnt = -1;
@@ -2974,13 +2954,13 @@ public class WorkDAO {
 				
 			}
 			
-			session.commit();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		return resultCnt;
 	}
@@ -3300,9 +3280,9 @@ public class WorkDAO {
    public int updateSelfInsp1MoreWork(String siteId, String workId) {
 	   
 	   int resultCnt = -1;
-	   SqlSession session = MybatisSession.getSqlSessionInstance();
+	   
 	   		
-	   WorkMapper mapper = session.getMapper(WorkMapper.class);
+	   WorkMapper mapper = this.workMapper;
 	   
 	   try {
 		   
@@ -3324,7 +3304,7 @@ public class WorkDAO {
 		   param.setpJobSeqId("4");
 		   mapper.update1MoreSlotInfo(param);
 		   
-		   session.commit();
+		   
 		   resultCnt = 1;
 			
 		} catch (Exception e) {
@@ -3332,7 +3312,7 @@ public class WorkDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			session.close();
+
 		}
 		
 		return resultCnt;

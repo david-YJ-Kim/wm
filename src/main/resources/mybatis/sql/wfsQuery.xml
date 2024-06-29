@@ -167,7 +167,7 @@
 	
 	</insert>
 	
-	<select id="selectWnStateRuleInfo" parameterType="com.abs.wfs.workman.dao.vo.rule.StateRuleInfo"  resultType="com.abs.wfs.workman.dao.vo.rule.StateRuleInfo" >
+	<select id="selectWnStateRuleInfo" parameterType="com.abs.wfs.workman.dao.query.common.vo.StateRuleInfo"  resultType="com.abs.wfs.workman.dao.query.common.vo.StateRuleInfo" >
 		SELECT OBJ_ID
 			  ,SITE_ID
 			  ,RULE_NM

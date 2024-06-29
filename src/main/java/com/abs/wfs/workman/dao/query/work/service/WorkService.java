@@ -1,7 +1,7 @@
 package com.abs.wfs.workman.dao.query.work.service;
 
-import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMapper;
-import com.abs.wfs.workman.dao.query.work.mapper.WorkMapper;
+import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMyMapper;
+import com.abs.wfs.workman.dao.query.work.mapper.WorkMyMapper;
 import com.abs.wfs.workman.dao.query.work.vo.WnWorkStat;
 import com.abs.wfs.workman.dao.query.work.vo.WorkJobLotQueryDto;
 import com.abs.wfs.workman.dao.query.work.vo.WorkSlotListInfoQueryDto;
@@ -18,10 +18,10 @@ import java.util.Optional;
 public class WorkService {
 
     @Autowired
-    WorkMapper workMapper;
+    WorkMyMapper workMapper;
 
     @Autowired
-    WipStatMapper wipStatMapper;
+    WipStatMyMapper wipStatMapper;
 
 
 

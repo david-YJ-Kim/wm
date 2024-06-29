@@ -30,14 +30,5 @@ public class UpdatePortCarrierDto {
 
 
 /*
-{
-  "siteId": "SVM",
-  "tid": "ABSC01123331",
-  "cid": "WFS_CARR_ID_READ",
-  "portId": "AP-LA-03-01-BP01",
-  "eqpId": "AP-LA-03-01",
-  "carrierId": "CAA0250",
-  "trsfStatCd": "ReadyToLoad",
-  "userId": "WFS"
-}
+
  */

@@ -4,7 +4,7 @@ import com.abs.wfs.workman.dao.domain.wipStat.repository.WnWipStatRepository;
 import com.abs.wfs.workman.dao.domain.wipStat.vo.UpdateDspWorkVo;
 import com.abs.wfs.workman.dao.domain.wipStat.vo.UpdateWipStatForMoveCompleteByCarrIdReqVo;
 import com.abs.wfs.workman.dao.domain.workStat.repository.WnWorkStatRepository;
-import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMapper;
+import com.abs.wfs.workman.dao.query.wip.mapper.WipStatMyMapper;
 import com.abs.wfs.workman.dao.query.wip.vo.WnWipStat;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class WipStatServiceImpl implements WipStatService{
 
     @Autowired
-    WipStatMapper wipStatMapper;
+    WipStatMyMapper wipStatMapper;
 
 
     @Autowired
