@@ -1,6 +1,7 @@
 package com.abs.wfs.workman.util.vo;
 
 
+import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ public class ScenarioExceptionVo {
     String scenarioType;
     String eventName;
     String siteId;
-    String workStateCode;
+    WorkStatCd workStateCode;
     String workId;
     String lotId;
     String carrId;

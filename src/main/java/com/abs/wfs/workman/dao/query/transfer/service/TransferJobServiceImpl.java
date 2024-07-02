@@ -1,6 +1,7 @@
 package com.abs.wfs.workman.dao.query.transfer.service;
 
-import com.abs.wfs.workman.dao.query.transfer.mapper.TransferJobMapper;
+import com.abs.wfs.workman.dao.query.mapper.TransferJobMapper;
+import com.abs.wfs.workman.dao.query.transfer.mapper.TransferJobMyMapper;
 import com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.util.List;
 public class TransferJobServiceImpl implements TransferJobService{
 
     @Autowired
-    TransferJobMapper mapper;
+    TransferJobMyMapper mapper;
 
 
     /**

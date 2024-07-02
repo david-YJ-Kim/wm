@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.dao.domain.tnPort.vo;
 
-import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
+import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPortMapper;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.Builder;
 import lombok.Data;
@@ -59,8 +59,8 @@ public class TnPosPortUpdateRequestDto {
         this.efemCtrlModeCd = efemCtrlModeCd;
     }
 
-    public TnPosPort toEntity(){
-        return TnPosPort.builder()
+    public TnPosPortMapper toEntity(){
+        return TnPosPortMapper.builder()
                 .siteId(siteId)
                 .eqpId(eqpId)
                 .portId(portId)

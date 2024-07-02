@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface TransferJobMapper {
+public interface TransferJobMyMapper {
 
     // select WN_TRANSFER_JOB Table
     List<WnTransferJob> selectTransferJob(WnTransferJob wnTransferJob);

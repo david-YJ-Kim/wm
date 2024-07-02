@@ -4,6 +4,7 @@ public enum WorkStatCd {
     Standby,
     Transfer,
     Ready,
-    Process
+    Process,
+    None
     ;
 }

@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.dao.domain.tnPort.model;
 
-import com.abs.wfs.workman.util.code.*;
+import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,29 +14,20 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity(name = "TN_POS_PORT")
-public class
-TnPosPort {
+public class TnPosPortMapper {
 
     @Id
     @GenericGenerator(name = "TN_POS_PORT_SEQ_GENERATOR", strategy = "com.abs.wfs.workman.util.ObjIdGenerator")
     @GeneratedValue(generator = "TN_POS_PORT_SEQ_GENERATOR")
     @Column(name = "OBJ_ID")
     private String objId;
-
     private String siteId;
     private String eqpId;
     private String portId;
-
-    @Enumerated(EnumType.STRING)
-    private AcesModeCd acesModeCd;
-
-    @Enumerated(EnumType.STRING)
-    private PortStatCd statCd;
+    private String acesModeCd;
+    private String statCd;
     private String prevStatCd;
-
-    @Enumerated(EnumType.STRING)
-    private TrsfStatCd trsfStatCd;
-
+    private String trsfStatCd;
     private String carrId;
     private String evntNm;
     private String prevEvntNm;
@@ -54,19 +45,19 @@ TnPosPort {
     private Timestamp mdfyDt;
     private Timestamp fnlEvntDt;
     private String tid;
+    private String ctrlModeCd;
+    private String efemStatCd;
+    private String efemCtrlModeCd;
 
-    @Enumerated(EnumType.STRING)
-    private PortCtrlModeCd ctrlModeCd;
 
-    @Enumerated(EnumType.STRING)
-    private EfemStatCd efemStatCd;
-
-    @Enumerated(EnumType.STRING)
-    private EfemCtrlModeCd efemCtrlModeCd;
+    private String pSiteId;
+    private String pEqpId;
+    private String pPortId;
+    private String pUseStatCd;
 
 
     @Builder
-    public TnPosPort(String objId, String siteId, String eqpId, String portId, AcesModeCd acesModeCd, PortStatCd statCd, String prevStatCd, TrsfStatCd trsfStatCd, String carrId, String evntNm, String prevEvntNm, String cstmEvntNm, String prevCstmEvntNm, UseStatCd useStatCd, String rsnCd, String trnsCm, String crtUserId, Timestamp crtDt, String mdfyUserId, Timestamp mdfyDt, Timestamp fnlEvntDt, String tid, PortCtrlModeCd ctrlModeCd, EfemStatCd efemStatCd, EfemCtrlModeCd efemCtrlModeCd) {
+    public TnPosPortMapper(String objId, String siteId, String eqpId, String portId, String acesModeCd, String statCd, String prevStatCd, String trsfStatCd, String carrId, String evntNm, String prevEvntNm, String cstmEvntNm, String prevCstmEvntNm, UseStatCd useStatCd, String rsnCd, String trnsCm, String crtUserId, Timestamp crtDt, String mdfyUserId, Timestamp mdfyDt, Timestamp fnlEvntDt, String tid, String ctrlModeCd, String efemStatCd, String efemCtrlModeCd) {
         this.objId = objId;
         this.siteId = siteId;
         this.eqpId = eqpId;

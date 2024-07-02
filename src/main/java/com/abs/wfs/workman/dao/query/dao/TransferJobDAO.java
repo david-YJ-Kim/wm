@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.dao.query.dao;
 
-import com.abs.wfs.workman.dao.query.mapper.TransferJobMyMapper;
+import com.abs.wfs.workman.dao.query.mapper.TransferJobMapper;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -18,7 +18,7 @@ public class TransferJobDAO {
 
 
 	@Autowired
-	TransferJobMyMapper transferJobMapper;
+	TransferJobMapper transferJobMapper;
 	
 	private static TransferJobDAO instance;
 	private static final Logger logger = LoggerFactory.getLogger(TransferJobDAO.class);

@@ -1,7 +1,7 @@
 package com.abs.wfs.workman.dao.query.eqp.service;
 
 
-import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
+import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPortMapper;
 import com.abs.wfs.workman.dao.query.eqp.mapper.EqpMyMapper;
 import com.abs.wfs.workman.dao.query.eqp.vo.*;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
@@ -128,7 +128,7 @@ public class EqpServiceImpl implements EqpService{
         int resultVal = -1;
 
         try {
-            TnPosPort param = new TnPosPort();
+            TnPosPortMapper param = new TnPosPortMapper();
 
             //SET
             param.setMdfyUserId(dto.getUserId());

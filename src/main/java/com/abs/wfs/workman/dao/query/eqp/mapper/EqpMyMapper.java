@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.dao.query.eqp.mapper;
 
-import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
+import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPortMapper;
 import com.abs.wfs.workman.dao.query.eqp.vo.TnPosEqpDto;
 import com.abs.wfs.workman.dao.query.eqp.vo.TnPosPortDto;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
@@ -13,7 +13,7 @@ import java.util.Map;
 public interface EqpMyMapper {
 
     int updateTnPosPort(TnPosPortDto tnPosPortDto);
-    int updateTnPosPort(TnPosPort tnPosPort);
+    int updateTnPosPort(TnPosPortMapper tnPosPortMapper);
 
     int createThPosPort(String objId);
 

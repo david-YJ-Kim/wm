@@ -41,12 +41,12 @@ public class WnWipStatSaveRequestVo {
     private String batchSeq;
     private String selfInspInfoObjId;
     private String selfInspYn;
-    private Integer selfInspPanelCnt;
+    private Long selfInspPanelCnt;
     private String resvOutPortId;
     private String resvOutCarrId;
     private String smplLotYn;
     private String smplWorkTyp;
-    private Integer smplQty;
+    private Long smplQty;
     private String mdfyUserId;
     private Timestamp mdfyDt;
     private String crtUserId;
@@ -54,7 +54,7 @@ public class WnWipStatSaveRequestVo {
 
 
     @Builder
-    public WnWipStatSaveRequestVo(String siteId, String lotId, String carrId, String carrLctnNm, String workStatCd, String dtlWorkStatCd, String cstmEvntNm, String evntNm, Timestamp fnlEvntDt, String prevCstmEvntNm, String prevEvntNm, String rsnCd, String tid, String trnsCm, String useStatCd, String crntEqpId, String crntPortId, String batchId, String resvEqpId, String resvPortId, String eqpChkYn, String rcpChkYn, String trackInCnfmYn, String resvGrpId, String batchSeq, String selfInspInfoObjId, String selfInspYn, Integer selfInspPanelCnt, String resvOutPortId, String resvOutCarrId, String smplLotYn, String smplWorkTyp, Integer smplQty, String mdfyUserId, Timestamp mdfyDt, String crtUserId, Timestamp crtDt) {
+    public WnWipStatSaveRequestVo(String siteId, String lotId, String carrId, String carrLctnNm, String workStatCd, String dtlWorkStatCd, String cstmEvntNm, String evntNm, Timestamp fnlEvntDt, String prevCstmEvntNm, String prevEvntNm, String rsnCd, String tid, String trnsCm, String useStatCd, String crntEqpId, String crntPortId, String batchId, String resvEqpId, String resvPortId, String eqpChkYn, String rcpChkYn, String trackInCnfmYn, String resvGrpId, String batchSeq, String selfInspInfoObjId, String selfInspYn, Long selfInspPanelCnt, String resvOutPortId, String resvOutCarrId, String smplLotYn, String smplWorkTyp, Long smplQty, String mdfyUserId, Timestamp mdfyDt, String crtUserId, Timestamp crtDt) {
         this.siteId = siteId;
         this.lotId = lotId;
         this.carrId = carrId;

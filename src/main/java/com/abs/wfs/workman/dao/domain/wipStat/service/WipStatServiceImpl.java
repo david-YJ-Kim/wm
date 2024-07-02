@@ -26,6 +26,30 @@ public class WipStatServiceImpl implements WipStatService{
     WnWipStatRepository wnWipStatRepository;
 
 
+    /**
+     * 재공에 Carr id 로우만 조회 (lotId = '-')
+     * @param carrId
+     * @param siteId
+     * @return
+     */
+    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByOnlyCarrIdAndSiteIdAndUseStatCd(String carrId, String siteId){
+
+        return this.wnWipStatRepository.findByCarrIdAndLotIdAndSiteIdAndUseStatCd(carrId, "-", siteId, UseStatCd.Usable);
+    }
+
+    /**
+     * 재공, Lot Carr Id로 조회
+     * @param carrId
+     * @param lotId
+     * @param siteId
+     * @return
+     */
+    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByCarrIdAndLotIdAndSiteIdAndUseStatCd(String carrId, String lotId,String siteId){
+
+        return this.wnWipStatRepository.findByCarrIdAndLotIdAndSiteIdAndUseStatCd(carrId, lotId,siteId, UseStatCd.Usable);
+    }
+
+
     public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByLotIdAndSiteIdAndUseStatCd(String lotId, String siteId){
 
         return this.wnWipStatRepository.findByLotIdAndSiteIdAndUseStatCd(lotId, siteId, UseStatCd.Usable);

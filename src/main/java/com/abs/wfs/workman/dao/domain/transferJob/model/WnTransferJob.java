@@ -1,18 +1,20 @@
 package com.abs.wfs.workman.dao.domain.transferJob.model;
 
+import com.abs.wfs.workman.util.code.MoveStatCd;
+import com.abs.wfs.workman.util.code.UseStatCd;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity(name = "WN_TRANSFER_JOB")
@@ -34,7 +36,10 @@ public class WnTransferJob {
     private String srcPortId;
     private String destEqpId;
     private String destPortId;
-    private String moveStatCd;
+
+    @Enumerated(EnumType.STRING)
+    private MoveStatCd moveStatCd;
+
     private String prirtNo;
     private String fnlEvntNm;
     private Timestamp fnlEvntDt;
@@ -49,7 +54,40 @@ public class WnTransferJob {
     private String rsnCd;
     private String tid;
     private String trnsCm;
-    private String useStatCd;
 
 
+    @Enumerated(EnumType.STRING)
+    private UseStatCd useStatCd;
+
+
+    @Builder
+
+    public WnTransferJob(String objId, String siteId, String jobId, String carrId, String crntEqpId, String crntPortId, String srcEqpId, String srcPortId, String destEqpId, String destPortId, MoveStatCd moveStatCd, String prirtNo, String fnlEvntNm, Timestamp fnlEvntDt, String mdfyUserId, Timestamp mdfyDt, String crtUserId, Timestamp crtDt, String cstmEvntNm, String evntNm, String prevCstmEvntNm, String prevEvntNm, String rsnCd, String tid, String trnsCm, UseStatCd useStatCd) {
+        this.objId = objId;
+        this.siteId = siteId;
+        this.jobId = jobId;
+        this.carrId = carrId;
+        this.crntEqpId = crntEqpId;
+        this.crntPortId = crntPortId;
+        this.srcEqpId = srcEqpId;
+        this.srcPortId = srcPortId;
+        this.destEqpId = destEqpId;
+        this.destPortId = destPortId;
+        this.moveStatCd = moveStatCd;
+        this.prirtNo = prirtNo;
+        this.fnlEvntNm = fnlEvntNm;
+        this.fnlEvntDt = fnlEvntDt;
+        this.mdfyUserId = mdfyUserId;
+        this.mdfyDt = mdfyDt;
+        this.crtUserId = crtUserId;
+        this.crtDt = crtDt;
+        this.cstmEvntNm = cstmEvntNm;
+        this.evntNm = evntNm;
+        this.prevCstmEvntNm = prevCstmEvntNm;
+        this.prevEvntNm = prevEvntNm;
+        this.rsnCd = rsnCd;
+        this.tid = tid;
+        this.trnsCm = trnsCm;
+        this.useStatCd = useStatCd;
+    }
 }

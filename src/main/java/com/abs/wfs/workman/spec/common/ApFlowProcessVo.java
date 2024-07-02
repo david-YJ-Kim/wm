@@ -3,6 +3,7 @@ package com.abs.wfs.workman.spec.common;
 
 import com.abs.wfs.workman.spec.in.MsgReasonVo;
 import com.abs.wfs.workman.util.code.SuccessYn;
+import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,6 +18,10 @@ public class ApFlowProcessVo {
     private String tid; // 시스템간 Transaction key
     private String eventName; // 발행된 이벤트 이름
 
+    private WorkStatCd workStatCd;
+    
+    private String workId; // BW Scenario Exception 의 work Id를 위해서 존재
+
     private String scenarioType;
     private ApDefaultQueryVo apDefaultQueryVo; // 기본 쿼리 수행 결과 저장 구조체
 
@@ -26,6 +31,11 @@ public class ApFlowProcessVo {
     private long eventElapsedTimeMs;
 
     private String inPayload; // 전체 메시지 객체
+
+
+
+
+
 
 
     private SuccessYn successYn = SuccessYn.Y;
