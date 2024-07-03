@@ -3,6 +3,7 @@ package com.abs.wfs.workman.util;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.util.code.RecipeTypeCode;
 import com.abs.wfs.workman.util.code.SelfInspectionCd;
+import com.abs.wfs.workman.util.code.SuccessYn;
 import com.abs.wfs.workman.util.code.WorkManScenarioList;
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,6 +94,18 @@ public class WorkManCommonUtil {
      */
     public static ApFlowProcessVo completeFlowProcessVo(ApFlowProcessVo apFlowProcessVo){
         apFlowProcessVo.setExecuteEndTime(System.currentTimeMillis());
+        return apFlowProcessVo;
+    }
+
+
+    /**
+     * ApFlowProcess VO 실패 처리
+     * @param apFlowProcessVo
+     * @return
+     */
+    public static ApFlowProcessVo setFailFlowProcessVo(ApFlowProcessVo apFlowProcessVo){
+        apFlowProcessVo.setExecuteEndTime(System.currentTimeMillis());
+        apFlowProcessVo.setSuccessYn(SuccessYn.N);
         return apFlowProcessVo;
     }
 }

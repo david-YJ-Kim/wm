@@ -27,7 +27,7 @@ public class BrsFlowController {
 
 
         String cid = WorkManMessageList.WFS_MANUAL_WORK_START;
-        ApFlowProcessVo apFlowProcessVo = this.wfsManualWorkStart.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsManualWorkStart.initialize(cid, trackingKey, scenarioType, wfsManualWorkStartIvo.getHead().getTid());
 
         return this.wfsManualWorkStart.execute(apFlowProcessVo, wfsManualWorkStartIvo);
 

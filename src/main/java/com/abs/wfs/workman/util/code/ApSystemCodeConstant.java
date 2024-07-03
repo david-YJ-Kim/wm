@@ -8,5 +8,6 @@ public class ApSystemCodeConstant {
     public static String RTD = "RTD";
     public static String CRS = "CRS";
     public static String RMS = "RMS";
+    public static String MCS = "MCS";
     public static String FIS = "FIS";
 }

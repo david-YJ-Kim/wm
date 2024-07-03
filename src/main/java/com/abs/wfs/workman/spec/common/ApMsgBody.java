@@ -1,7 +1,5 @@
 package com.abs.wfs.workman.spec.common;
 
-import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

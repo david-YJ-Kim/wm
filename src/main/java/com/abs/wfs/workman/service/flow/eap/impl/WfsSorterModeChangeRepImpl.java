@@ -18,7 +18,7 @@ public class WfsSorterModeChangeRepImpl implements WfsSorterModeChangeRep {
     }
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 }

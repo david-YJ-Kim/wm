@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WfsPortStatChgServiceImpl implements WfsPortStatChg {
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 

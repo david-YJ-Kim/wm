@@ -8,6 +8,7 @@ import com.abs.wfs.workman.spec.out.brs.BrsLotSelfInspDataIvo;
 import com.abs.wfs.workman.spec.out.eap.EapJobAbortReqIvo;
 import com.abs.wfs.workman.spec.out.eap.EapLotInfoRepIvo;
 import com.abs.wfs.workman.spec.out.fis.FisFileReportIvo;
+import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveReqIvo;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -130,6 +131,24 @@ public class ApPayloadGenerateService {
         fisFileReportIvo.setBody(body);
 
         return objectMapper.writeValueAsString(fisFileReportIvo);
+
+
+    }
+
+
+    /**
+     * MCS
+     * mcs는 tgtEqp는 null
+     */
+    public String generateBody(String tid, McsCarrMoveReqIvo.McsCarrMoveReqBody body) throws JsonProcessingException {
+
+
+        McsCarrMoveReqIvo mcsCarrMoveReqIvo = new McsCarrMoveReqIvo();
+
+        mcsCarrMoveReqIvo.setHead(this.generateMessageHead(tid, ApSystemCodeConstant.MCS, null));
+        mcsCarrMoveReqIvo.setBody(body);
+
+        return objectMapper.writeValueAsString(mcsCarrMoveReqIvo);
 
 
     }

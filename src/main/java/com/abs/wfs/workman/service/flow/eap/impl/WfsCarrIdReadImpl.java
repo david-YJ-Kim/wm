@@ -81,12 +81,13 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
      * @return
      */
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
                 .eventName(cid)
                 .trackingKey(trackingKey)
                 .scenarioType(scenarioType)
                 .executeStartTime(System.currentTimeMillis())
+                .tid(tid)
                 .build();
 
 

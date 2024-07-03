@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class WfsCarrLocChgServiceImpl implements WfsCarrLocChg {
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 

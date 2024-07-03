@@ -50,7 +50,7 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
 
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
 
         ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
                 .eventName(cid)
@@ -84,13 +84,7 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
                                         WipLotDto.builder().pLotId(body.getLotId()).build()
                     )
             );
-            throw new ScenarioException(ScenarioExceptionVo.builder()
-                    .messageKey(apFlowProcessVo.getTrackingKey())
-                    .scenarioType(apFlowProcessVo.getScenarioType())
-                    .eventName(apFlowProcessVo.getEventName())
-                    .siteId(body.getSiteId())
-                    .lotId(body.getLotId())
-                    .build());
+            throw new ScenarioException(apFlowProcessVo, body);
 
         }else{
 
@@ -106,13 +100,7 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
             // TODO  Abnormal 테스트 케이스: 레시피 등록 안된 경우
             if(!resultRecipe.isPresent()) {
                 log.error("Recipe is not set.");
-                throw new ScenarioException(ScenarioExceptionVo.builder()
-                        .messageKey(apFlowProcessVo.getTrackingKey())
-                        .scenarioType(apFlowProcessVo.getScenarioType())
-                        .eventName(apFlowProcessVo.getEventName())
-                        .siteId(body.getSiteId())
-                        .lotId(body.getLotId())
-                        .build());
+                throw new ScenarioException(apFlowProcessVo, body);
             }else{
 
                 RecipeTypeCode recipeType = RecipeTypeCode.valueOf(resultRecipe.get().getMtrlFaceCd());

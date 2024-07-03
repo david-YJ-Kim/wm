@@ -28,7 +28,7 @@ public class WfsInitPortStateReportImpl implements WfsInitPortStateReport {
     EqpServiceImpl eqpService;
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
                 .eventName(cid)
                 .trackingKey(trackingKey)

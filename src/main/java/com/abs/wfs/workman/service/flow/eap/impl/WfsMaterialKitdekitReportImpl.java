@@ -18,7 +18,7 @@ public class WfsMaterialKitdekitReportImpl implements WfsMaterialKitdekitReport 
     }
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 }

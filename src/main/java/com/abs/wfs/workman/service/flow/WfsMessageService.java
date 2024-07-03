@@ -16,7 +16,7 @@ public interface WfsMessageService {
      * @param cid
      * @return
      */
-    ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType);
+    ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid);
 
 
 }

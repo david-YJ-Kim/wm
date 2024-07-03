@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class WfsCarrMoveCnclRepServiceImpl implements WfsCarrMoveCnclRep {
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 

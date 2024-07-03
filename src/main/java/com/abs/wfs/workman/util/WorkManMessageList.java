@@ -92,4 +92,8 @@ public final class WorkManMessageList {
 
     public static final String FIS_FILE_REPORT = "FIS_FILE_REPORT";
 
+
+
+    public static final String MCS_CARR_MOVE_REQ = "MCS_CARR_MOVE_REQ";
+
 }

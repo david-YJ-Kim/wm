@@ -30,7 +30,7 @@ public class McsFlowController {
 
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_COMP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCompService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCompService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveCompIvo.getHead().getTid());
 
         return this.wfsCarrMoveCompService.execute(apFlowProcessVo, wfsCarrMoveCompIvo);
 
@@ -45,7 +45,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_CNCL_COMP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCnclCompService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCnclCompService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveCnclCompIvo.getHead().getTid());
 
         return this.wfsCarrMoveCnclCompService.execute(apFlowProcessVo, wfsCarrMoveCnclCompIvo);
 
@@ -59,7 +59,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_DATA_QRY;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDataQryService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDataQryService.initialize(cid, trackingKey, scenarioType, wfsCarrDataQryIvo.getHead().getTid());
 
         return this.wfsCarrDataQryService.execute(apFlowProcessVo, wfsCarrDataQryIvo);
 
@@ -73,7 +73,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_DATA_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDataRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDataRepService.initialize(cid, trackingKey, scenarioType, wfsCarrDataRepIvo.getHead().getTid());
 
         return this.wfsCarrDataRepService.execute(apFlowProcessVo, wfsCarrDataRepIvo);
 
@@ -87,7 +87,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_DEST_CHG_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDestChgRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrDestChgRepService.initialize(cid, trackingKey, scenarioType, wfsCarrDestChgRepIvo.getHead().getTid());
 
         return this.wfsCarrDestChgRepService.execute(apFlowProcessVo, wfsCarrDestChgRepIvo);
 
@@ -101,7 +101,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_LOC_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrLocChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrLocChgService.initialize(cid, trackingKey, scenarioType, wfsCarrLocChgIvo.getHead().getTid());
 
         return this.wfsCarrLocChgService.execute(apFlowProcessVo, wfsCarrLocChgIvo);
     }
@@ -114,7 +114,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_CNCL_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCnclRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCnclRepService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveCnclRepIvo.getHead().getTid());
 
         return this.wfsCarrMoveCnclRepService.execute(apFlowProcessVo, wfsCarrMoveCnclRepIvo);
     }
@@ -127,7 +127,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_CRT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCrtService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveCrtService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveCrtIvo.getHead().getTid());
 
         return this.wfsCarrMoveCrtService.execute(apFlowProcessVo, wfsCarrMoveCrtIvo);
     }
@@ -138,7 +138,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveRepService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveRepIvo.getHead().getTid());
 
         return this.wfsCarrMoveRepService.execute(apFlowProcessVo, wfsCarrMoveRepIvo);
     }
@@ -149,7 +149,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_CARR_MOVE_STRT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveStrtService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsCarrMoveStrtService.initialize(cid, trackingKey, scenarioType, wfsCarrMoveStrtIvo.getHead().getTid());
 
         return this.wfsCarrMoveStrtService.execute(apFlowProcessVo,wfsCarrMoveStrtIvo);
     }
@@ -160,7 +160,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EQP_ALRM_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpAlrmChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpAlrmChgService.initialize(cid, trackingKey, scenarioType, wfsEqpAlrmChgIvo.getHead().getTid());
 
         return this.wfsEqpAlrmChgService.execute(apFlowProcessVo,wfsEqpAlrmChgIvo);
     }
@@ -171,7 +171,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EQP_STAT_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStatChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStatChgService.initialize(cid, trackingKey, scenarioType, wfsEqpAlrmChgIvo.getHead().getTid());
 
         return this.wfsEqpStatChgService.execute(apFlowProcessVo,wfsEqpAlrmChgIvo);
     }
@@ -182,7 +182,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EQP_STAT_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStatRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStatRepService.initialize(cid, trackingKey, scenarioType, wfsEqpStatRepIvo.getHead().getTid());
 
         return this.wfsEqpStatRepService.execute(apFlowProcessVo,wfsEqpStatRepIvo);
     }
@@ -193,7 +193,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EQP_STG_CPCT_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStgCpctChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStgCpctChgService.initialize(cid, trackingKey, scenarioType, wfsEqpStgCpctChgIvo.getHead().getTid());
 
         return this.wfsEqpStgCpctChgService.execute(apFlowProcessVo,wfsEqpStgCpctChgIvo);
     }
@@ -204,7 +204,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INVT_CARR_DATA;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInvtCarrDataService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsInvtCarrDataService.initialize(cid, trackingKey, scenarioType, wfsInvtCarrDataIvo.getHead().getTid());
 
         return this.wfsInvtCarrDataService.execute(apFlowProcessVo,wfsInvtCarrDataIvo);
     }
@@ -215,7 +215,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INVT_DATA_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInvtDataRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsInvtDataRepService.initialize(cid, trackingKey, scenarioType, wfsInvtDataRepIvo.getHead().getTid());
 
         return this.wfsInvtDataRepService.execute(apFlowProcessVo,wfsInvtDataRepIvo);
     }
@@ -226,7 +226,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_PORT_STAT_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsPortStatChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsPortStatChgService.initialize(cid, trackingKey, scenarioType, wfsPortStatChgIvo.getHead().getTid());
 
         return this.wfsPortStatChgService.execute(apFlowProcessVo,wfsPortStatChgIvo);
     }
@@ -237,7 +237,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_VHCL_STAT_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsVhclStatChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsVhclStatChgService.initialize(cid, trackingKey, scenarioType, wfsVhclStatChgIvo.getHead().getTid());
 
         return this.wfsVhclStatChgService.execute(apFlowProcessVo,wfsVhclStatChgIvo);
     }
@@ -248,7 +248,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_SYS_STAT_CHG;
-        ApFlowProcessVo apFlowProcessVo = this.wfsSysStatChgService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsSysStatChgService.initialize(cid, trackingKey, scenarioType, wfsSysStatChgIvo.getHead().getTid());
 
         return this.wfsSysStatChgService.execute(apFlowProcessVo,wfsSysStatChgIvo);
     }
@@ -259,7 +259,7 @@ public class McsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_SYS_STAT_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsSysStatRepService.initialize(cid, trackingKey, scenarioType);
+        ApFlowProcessVo apFlowProcessVo = this.wfsSysStatRepService.initialize(cid, trackingKey, scenarioType, wfsSysStatRepIvo.getHead().getTid());
 
         return this.wfsSysStatRepService.execute(apFlowProcessVo,wfsSysStatRepIvo);
     }

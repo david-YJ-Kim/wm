@@ -25,7 +25,7 @@ public class WfsInspReportImpl implements WfsInspReport {
 
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
 
         ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
                 .eventName(cid)

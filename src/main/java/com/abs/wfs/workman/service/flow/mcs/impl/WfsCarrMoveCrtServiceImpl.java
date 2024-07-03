@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WfsCarrMoveCrtServiceImpl implements WfsCarrMoveCrt {
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 

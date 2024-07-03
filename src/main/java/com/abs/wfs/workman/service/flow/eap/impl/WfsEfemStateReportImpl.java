@@ -18,7 +18,7 @@ public class WfsEfemStateReportImpl implements WfsEfemStateReport {
     }
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
         return null;
     }
 }
