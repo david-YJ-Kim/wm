@@ -5,6 +5,7 @@ import com.abs.wfs.workman.spec.ApMsgCommonVo;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
 import com.abs.wfs.workman.spec.in.MsgReasonVo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.WorkStatCd;
 import com.abs.wfs.workman.util.exception.ScenarioException;
 import lombok.Builder;
@@ -61,11 +62,13 @@ public class ApResponseIvo extends ApMsgCommonVo {
             this.msgBody = scenarioException.getMsgBody();
             this.processInfo = scenarioException.getProcessInfo();
             this.setIndividualErrorElement(scenarioException.getProcessInfo(), scenarioException.getMsgBody());
+
             this.reason = MsgReasonVo.builder()
                     .reasonCode(scenarioException.getCode())
-                    .reasonComment(this.generateExceptionMessage(scenarioException.getFormat(),
-                                                                scenarioException.getArgs()))
-                    .build();
+                    .reasonComment(WorkManCommonUtil.generateMultiLangExceptionMessage(scenarioException.getCode(),
+                                                                                scenarioException.getLang(),
+                                                                                scenarioException.getArgs()))
+                                                                                .build();
         }
     }
 

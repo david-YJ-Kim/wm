@@ -6,6 +6,7 @@ import com.abs.wfs.workman.config.ApSharedVariable;
 import com.abs.wfs.workman.config.SolaceSessionConfiguration;
 import com.abs.wfs.workman.interfaces.solace.InterfaceSolacePub;
 import com.abs.wfs.workman.interfaces.solace.InterfaceSolaceSub;
+import com.abs.wfs.workman.service.common.ExceptionCodeHandleService;
 import com.abs.wfs.workman.util.ApMessagePool;
 import com.solacesystems.jcsmp.JCSMPException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ public class WorkManStartedActivator implements ApplicationRunner {
     private Environment env;
 
 
+    @Autowired
+    ExceptionCodeHandleService exceptionCodeHandleService;
+
     @Override
     public void run(ApplicationArguments args){
 
@@ -42,6 +46,9 @@ public class WorkManStartedActivator implements ApplicationRunner {
 
         this.initializeSharedVariables();
 
+        this.exceptionCodeHandleService.loadMultiLandErrorCode();
+        log.info("Complete loadMultiLandErrorCode.");
+
 
         ApMessagePool.getMessageManageMap();
         log.info("Initialize Message Pool. is null?: {}", ApMessagePool.getMessageManageMap() == null);
@@ -51,9 +58,10 @@ public class WorkManStartedActivator implements ApplicationRunner {
 
     private void initializeSharedVariables(){
 
-        // TODO Query to get data (RDS EQP etc...)
-        ApSharedVariable apSharedVariable = ApSharedVariable.getInstance();
+        // Shared Variable 초기화
+        ApSharedVariable.createInstance(env);
     }
+
 
     private void initializeSequenceManager() throws IOException {
         SequenceManager sequenceManager = new SequenceManager(

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abs.wfs.workman.dao.query.mapper.IamQueryMapper">
+    <select id="selectUserInfoByMailGrp" parameterType="com.abs.wfs.workman.dao.query.model.IamUserInfoIVo"
+            resultType="com.abs.wfs.workman.dao.query.model.IamUserInfoIVo">
+        SELECT SITE_ID , USER_STTUS, DELETE_YN, USER_INDEX , USER_ID , USER_NM , USER_EMAIL , USER_PHONE_NO
+        FROM IAMADM.TN_USER
+        WHERE 1 = 1
+          AND SITE_ID = #{siteId}
+          AND USER_STTUS = 1
+          AND DELETE_YN = #{deleteYn}
+          AND USER_ID  = #{userId}
+    </select>
+
+
+    <select id="selectMultiLangErrorInfo"
+            parameterType="com.abs.wfs.workman.dao.query.model.IamMultiLangErrorCodeIVo"
+            resultType="com.abs.wfs.workman.dao.query.model.IamMultiLangErrorCodeIVo">
+
+        SELECT GRP.MTLG_GRP_INDEX, GRP.CPNNT_TYP_CD, GRP.SOL_CD, GRP.MTLG_KEY , MT.MTLG_TYP_CD , MT.MTLG_VAL
+        FROM IAMADM.TN_MTLG MT, IAMADM.TN_MTLG_GRP GRP
+        WHERE 1=1
+          AND GRP.MTLG_GRP_INDEX = MT.MTLG_GRP_INDEX
+          AND GRP.CPNNT_TYP_CD = #{cpnntTypCd}
+          AND GRP.SOL_CD = #{solCd}
+          AND GRP.MTLG_KEY LIKE 'WFS_ERR_%'
+    </select>
+
+</mapper>
+

@@ -13,6 +13,7 @@
     </settings>
 
     <mappers>
+        <mapper resource="mybatis/sql/iamQuery.xml" />
         <mapper resource="mybatis/sql/CarrQuery.xml" />
         <mapper resource="mybatis/sql/WipLotQuery.xml" />
         <mapper resource="mybatis/sql/wfsQuery.xml" />

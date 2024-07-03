@@ -22,7 +22,7 @@ public class ScenarioException  extends RuntimeException{
     ApMsgBody msgBody;
 
     private String code;
-    private String format;
+    private String lang;
     private Object[] args;
 
     public ScenarioException() {super();}
@@ -35,11 +35,11 @@ public class ScenarioException  extends RuntimeException{
         this.args = args;
     }
 
-    public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody, ApExceptionCode code, @Nullable Object[] args){
+    public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody, ApExceptionCode code, String lang, @Nullable Object[] args){
 
         this(WorkManCommonUtil.setFailFlowProcessVo(apFlowProcessVo), apMsgBody);
         this.code = code.getCode();
-        this.format = code.getFormat();
+        this.lang = lang.isEmpty() ? "en" : lang;
         this.args = args;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -31,6 +32,10 @@ public class ApSharedVariable {
     @Getter
     ConcurrentHashMap<String, String> eqpIdToScenarioTypMap;
 
+    // 다국어 처리 Map
+    @Getter
+    ConcurrentHashMap<String, HashMap<String, String>> multiLangCodeMap;
+
     @Getter
     @Setter
     ArrayList<StateRuleInfo> stateRuleInfos;
@@ -52,6 +57,11 @@ public class ApSharedVariable {
 
         if(instance.eqpIdToScenarioTypMap == null){
             instance.eqpIdToScenarioTypMap = new ConcurrentHashMap<>();
+        }
+
+        if(instance.multiLangCodeMap == null){
+            instance.multiLangCodeMap = new ConcurrentHashMap<>();
+
         }
 
 
