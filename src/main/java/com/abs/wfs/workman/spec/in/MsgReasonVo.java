@@ -6,5 +6,6 @@ import lombok.Data;
 public class MsgReasonVo {
 
     private String reasonCode;
+
     private String reasonComment;
 }

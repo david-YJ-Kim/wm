@@ -32,15 +32,8 @@ public class ApFlowProcessVo {
 
     private String inPayload; // 전체 메시지 객체
 
-
-
-
-
-
-
     private SuccessYn successYn = SuccessYn.Y;
 
-    private MsgReasonVo reason;
 
 
 

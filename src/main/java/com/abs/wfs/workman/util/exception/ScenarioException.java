@@ -34,6 +34,8 @@ public class ScenarioException  extends RuntimeException{
      */
     ApFlowProcessVo processInfo;
     ApMsgBody msgBody;
+
+    private Object[] args;
     MsgReasonVo reason;
 
 
@@ -42,7 +44,6 @@ public class ScenarioException  extends RuntimeException{
 
     public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody, String code, String exceptionMessage, @Nullable Object[] args){
 
-        apFlowProcessVo.set
         this(apFlowProcessVo, apMsgBody);
     }
 
@@ -50,11 +51,17 @@ public class ScenarioException  extends RuntimeException{
     public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody){
 
         this.processInfo = apFlowProcessVo;
-        this.reason = apFlowProcessVo.getReason();
         this.msgBody = apMsgBody;
 
         this.setIndividualErrorElement(apFlowProcessVo, apMsgBody);
 
+
+    }
+
+
+    private ApFlowProcessVo setExceptionContent(ApFlowProcessVo apFlowProcessVo,String code, String exceptionMessage, @Nullable Object[] args){
+
+        return null;
 
     }
 
@@ -70,8 +77,6 @@ public class ScenarioException  extends RuntimeException{
         this.carrId = apMsgBody.getCarrId();
         this.eqpId = apMsgBody.getEqpId();
         this.portId = apMsgBody.getPortId();
-        this.errorCode = apFlowProcessVo.getReason().getReasonCode();
-        this.errorComment = apFlowProcessVo.getReason().getReasonComment();
     }
 
 
