@@ -4,10 +4,21 @@ import com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WnWipStatRepository extends JpaRepository<WnWipStat, String> {
 
+
+        /**
+         * Wip에 예약 설비, 포트로 조회
+         * @param siteId
+         * @param resvEqpId
+         * @param resvPortId
+         * @param useStatCd
+         * @return
+         */
+        Optional<List<WnWipStat>> findBySiteIdAndResvEqpIdAndResvPortIdAndUseStatCd(String siteId, String resvEqpId, String resvPortId, UseStatCd useStatCd);
 
         Optional<WnWipStat> findByLotIdAndSiteIdAndUseStatCd(String lotId, String siteId, UseStatCd useStatCd);
 

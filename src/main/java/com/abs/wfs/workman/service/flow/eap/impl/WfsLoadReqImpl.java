@@ -1,194 +1,114 @@
-//package com.abs.wfs.workman.service.flow.eap.impl;
-//
-//import com.abs.wfs.workman.config.ApPropertyObject;
-//import com.abs.wfs.workman.dao.query.tool.service.ToolQueryServiceImpl;
-//import com.abs.wfs.workman.service.flow.eap.WfsLoadReq;
-//import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
-//import com.abs.wfs.workman.spec.in.eap.WfsLoadReqIvo;
-//import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//@Slf4j
-//@Service
-//public class WfsLoadReqImpl implements WfsLoadReq {
-//
-//    @Autowired
-//    ToolQueryServiceImpl toolQueryService;
-//
-//    @Autowired
-//    StateRuleManager stateRuleManager;
-//
-//    private static final String siteId = ApPropertyObject.getInstance().getSiteName();
-//
-//
-//    @Override
-//    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType) {
-//        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-//                .eventName(cid)
-//                .trackingKey(trackingKey)
-//                .scenarioType(scenarioType)
-//                .executeStartTime(System.currentTimeMillis())
-//                .build();
-//
-//        log.info("Ready to process flow. ProcessVo: {}", apFlowProcessVo);
-//        return apFlowProcessVo;
-//    }
-//
-//    @Override
-//    public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsLoadReqIvo wfsLoadReqIvo) throws Exception {
-//        return null;
-//    }
-//
-//    @Override
-//    public void scenarioDispatch(String messageId) throws Exception {
-//
-//    }
-//
-////    @Override
-////    public ApMessageResultVo execute(String messageId) throws Exception {
-////
-////        // Query
-////        this.executeQueryTasks();
-////
-////        // Validation - state rule
-////        this.executeValidationTasks();
-////
-////
-////        // Validation - others
-////        if((this.queryPortVo.getCarrTyp().trim()).equals(ApEnumConstant.CA.name())){
-////            throw new Exception("CARR TPYE MISMACH");
-////        }
-////
-////
-////        // Validation each Scenario
-////        this.scenarioDispatch(messageId);
-////
-////        // TODO send message or db update
-////
-////
-////        ApMessageResultVo apMessageResultVo = ApMessageResultVo.builder()
-////                .cid(cid)
-////                .messageKey(messageId)
-////                .elapsedMilliSecond(System.currentTimeMillis() - executeStartTime)
-////                .executeSuccessYn(UseYn.Y)
-////                .build();
-////        return apMessageResultVo;
-////    }
-////
-////
-////    @Override
-////    public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsLoadReqIvo wfsLoadReqIvo) throws Exception {
-////        return null;
-////    }
-//
-////    public void scenarioDispatch(String messageId){
-////        String eqpId = wfsLoadReqBody.getEqpId();
-////        String scenarioType = WorkManCommonUtil.getScenarioType(eqpId);
-////
-////        switch (scenarioType){
-////            case WorkManScenarioList.SORTER:
-////                // TODO Sorter 특화 이벤트 로직
-////
-////                break;
-////
-////            default:
-////
-////                // TODO Get message send resource.
-////                // TODO generate payload
-////
-////                // Message send based on Port Type.
-////                switch (this.queryPortVo.getPortTyp()){
-////                    case ApStringConstant.BP:
-////                        break;
-////                    case ApStringConstant.OP:
-////                        break;
-////                    case ApStringConstant.IP:
-////                        break;
-////
-////                    default:
-////                        break;
-////
-////                }
-////                break;
-////        }
-////
-////    }
-////
-////
-////    private void executeQueryTasks() {
-////        List<Runnable> tasks = Arrays.asList(
-////                this::queryEqp,
-////                this::queryPort
-////        );
-////        executeTasks(tasks);
-////    }
-////
-////    private void executeValidationTasks() {
-////        List<Runnable> validateTasks = Arrays.asList(
-////                () -> validateStateRule(StateRuleList.ValidEqp),
-////                () -> validateStateRule(StateRuleList.ValidPort),
-////                () -> validateStateRule(StateRuleList.FullAutoPort),
-////                () -> validateStateRule(StateRuleList.FullAutoEqp)
-////        );
-////        executeTasks(validateTasks);
-////    }
-////
-////    private void executeTasks(List<Runnable> tasks) {
-////        executorService = Executors.newFixedThreadPool(tasks.size());
-////        CompletableFuture.allOf(tasks.stream()
-////                .map(task -> CompletableFuture.runAsync(task, executorService))
-////                .toArray(CompletableFuture[]::new)).join();
-////        executorService.shutdown();
-////    }
-////
-////
-////    private void queryEqp() {
-////        queryEqpVo = toolQueryService.queryEqpCondition(
-////                QueryEqpVo.builder()
-////                        .siteId(wfsLoadReqBody.getSiteId())
-////                        .useStatCd(UseStatCd.Usable.name())
-////                        .eqpId(wfsLoadReqBody.getEqpId())
-////                        .build()
-////        );
-////    }
-////
-////    private void queryPort() {
-////        queryPortVo = toolQueryService.queryPortCondition(
-////                QueryPortVo.builder()
-////                        .siteId(wfsLoadReqBody.getSiteId())
-////                        .useStatCd(UseStatCd.Usable.name())
-////                        .eqpId(wfsLoadReqBody.getEqpId())
-////                        .portId(wfsLoadReqBody.getPortId())
-////                        .build()
-////        );
-////    }
-////
-////    private void validateStateRule(String validationType) {
-////        try {
-////            switch (validationType) {
-////                case StateRuleList.ValidEqp:
-////                    stateRuleManager.validEqp(siteId, wfsLoadReqBody.getEqpId(), queryEqpVo);
-////                    break;
-////                case StateRuleList.ValidPort:
-////                    stateRuleManager.validPort(siteId, wfsLoadReqBody.getEqpId(),
-////                            wfsLoadReqBody.getPortId(), queryPortVo);
-////                    break;
-////                case StateRuleList.FullAutoPort:
-////                    stateRuleManager.fullAutoPort(siteId, wfsLoadReqBody.getEqpId(),
-////                            wfsLoadReqBody.getPortId(), queryPortVo);
-////                    break;
-////                case StateRuleList.FullAutoEqp:
-////                    stateRuleManager.fullAutoEqp(siteId, wfsLoadReqBody.getEqpId(), queryEqpVo);
-////                    break;
-////                default:
-////                    throw new IllegalArgumentException("Invalid validation type: " + validationType);
-////            }
-////        } catch (Exception e) {
-////            throw new RuntimeException(e);
-////        }
-////    }
-//
-//
-//}
+package com.abs.wfs.workman.service.flow.eap.impl;
+
+import com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat;
+import com.abs.wfs.workman.dao.domain.wipStat.service.WipStatServiceImpl;
+import com.abs.wfs.workman.dao.query.model.QueryPortVO;
+import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
+import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
+import com.abs.wfs.workman.service.flow.eap.WfsLoadReq;
+import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.in.eap.WfsLoadReqIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.ApStringConstant;
+import com.abs.wfs.workman.util.code.StateRuleList;
+import com.abs.wfs.workman.util.code.WorkManScenarioList;
+import com.abs.wfs.workman.util.exception.ScenarioException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class WfsLoadReqImpl implements WfsLoadReq {
+
+    @Autowired
+    WfsCommonQueryService wfsCommonQueryService;
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
+        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
+                .eventName(cid)
+                .trackingKey(trackingKey)
+                .scenarioType(scenarioType)
+                .executeStartTime(System.currentTimeMillis())
+                .tid(tid)
+                .build();
+
+
+        return apFlowProcessVo;
+    }
+
+
+
+    @Autowired
+    StateRuleManager stateRuleManager;
+
+    @Autowired
+    WipStatServiceImpl wipStatService;
+
+
+    @Override
+    public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsLoadReqIvo wfsLoadReqIvo) throws Exception {
+
+        WfsLoadReqIvo.WfsLoadReqBody body = wfsLoadReqIvo.getBody();
+
+        String siteId = body.getSiteId(); String eqpId = body.getEqpId(); String portId = body.getPortId();
+
+        QueryPortVO queryPortVO = this.wfsCommonQueryService.getQueryPortVO(siteId, eqpId, portId);
+
+        List<Runnable> validatePortTasks = Arrays.asList(
+                () -> this.stateRuleManager.validatePortStateRule(siteId, eqpId, portId, StateRuleList.ValidPort, queryPortVO),
+                () -> this.stateRuleManager.validatePortStateRule(siteId, eqpId, portId, StateRuleList.FullAutoPort, queryPortVO)
+        );
+
+
+        WorkManCommonUtil.executeAsyncTasks(validatePortTasks);
+
+
+        Optional<List<WnWipStat>> resvWipQuery = this.wipStatService.findByResvEqpIdAndResvPortIdAndUseStatCd(body.getSiteId(), body.getEqpId(), body.getPortId());
+        if(resvWipQuery.isPresent()) {
+            for(WnWipStat wnWipStat : resvWipQuery.get()) {
+                if(!wnWipStat.getLotId().equals("-") && !wnWipStat.getCarrId().equals("-")) {
+                    log.error("Other carr: {} is reserved with eqp ({}) and port ({}).", wnWipStat.getCarrId(), wnWipStat.getResvEqpId(), wnWipStat.getResvPortId());
+                    throw new ScenarioException();  // TODO "ReservedLotAlreadyExist"
+                }
+            }
+
+        }
+
+
+        // Message send based on Port Type.
+        switch (queryPortVO.getPortTyp()){
+            case ApStringConstant.BP:
+                // TODO SEND DSP REQ with  LOT
+                break;
+
+            case ApStringConstant.OP:
+                // TODO SEND DSP REQ with  CARR
+                break;
+
+            case ApStringConstant.IP:
+                // TODO SEND DSP REQ with  LOT
+                break;
+
+            default:
+                throw new ScenarioException(); // TODO $GetAbnormalCd/UnmatchedPortTyp
+
+        }
+
+
+
+        return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
+
+
+
+    }
+
+
+
+
+}

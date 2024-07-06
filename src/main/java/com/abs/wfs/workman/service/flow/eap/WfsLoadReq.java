@@ -16,5 +16,4 @@ public interface WfsLoadReq extends WfsMessageService {
     ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsLoadReqIvo wfsLoadReqIvo) throws Exception;
 
 
-    void scenarioDispatch(String messageId) throws Exception;
 }

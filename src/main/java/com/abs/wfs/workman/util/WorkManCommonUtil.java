@@ -10,7 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 public class WorkManCommonUtil {
@@ -165,6 +169,20 @@ public class WorkManCommonUtil {
 
         }
         return format;
+
+    }
+
+
+    /**
+     *
+     * @param tasks
+     */
+    public static void executeAsyncTasks(List<Runnable> tasks) {
+        ExecutorService executorService = Executors.newFixedThreadPool(tasks.size());
+        CompletableFuture.allOf(tasks.stream()
+                .map(task -> CompletableFuture.runAsync(task, executorService))
+                .toArray(CompletableFuture[]::new)).join();
+        executorService.shutdown();
 
     }
 

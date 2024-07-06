@@ -27,6 +27,20 @@ public class WipStatServiceImpl implements WipStatService{
 
 
     /**
+     * Wip에 예약 설비, 포트로 조회
+     * @param siteId
+     * @param eqpId
+     * @param portId
+     * @return
+     */
+    public Optional<List<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat>> findByResvEqpIdAndResvPortIdAndUseStatCd(String siteId, String eqpId, String portId){
+
+        return this.wnWipStatRepository.findBySiteIdAndResvEqpIdAndResvPortIdAndUseStatCd(siteId, eqpId, portId, UseStatCd.Usable);
+    }
+
+
+
+    /**
      * 재공에 Carr id 로우만 조회 (lotId = '-')
      * @param carrId
      * @param siteId

@@ -4,6 +4,8 @@ property:
 server:
   port: 15001
   shutdown: graceful
+  servlet:
+    contextPath: /wm
 
 
 logging:

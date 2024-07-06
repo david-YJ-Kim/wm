@@ -4,6 +4,8 @@ import com.abs.wfs.workman.dao.query.dao.CommonDAO;
 import com.abs.wfs.workman.dao.query.model.QueryEqpVO;
 import com.abs.wfs.workman.dao.query.model.QueryLotVO;
 import com.abs.wfs.workman.dao.query.model.QueryPortVO;
+import com.abs.wfs.workman.dao.query.service.vo.UpdatePortCarrierRequestVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatCdRequestVo;
 import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,19 +67,13 @@ public class WfsCommonQueryService {
 	/**
 	 * UPDATE TN_POS_PORT
 	 * CARR_ID
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param carrierId
-	 * @param eqpId
-	 * @param portId
 	 * @return
 	 * @throws Exception
 	 */
-	public int updatePortCarrier(String siteId, String cid, String tid, String userId, String carrierId, String eqpId, String portId) throws Exception {
+	public int updatePortCarrier(UpdatePortCarrierRequestVo vo) throws Exception {
 		try {
-			return this.commonDAO.updatePortCarrier(siteId, cid, tid, userId, carrierId, eqpId, portId);
+			return this.commonDAO.updatePortCarrier(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(),
+													vo.getCarrierId(), vo.getEqpId(), vo.getPortId());
 		} catch (Exception e) {
 			throw e;
 		}
@@ -86,21 +82,14 @@ public class WfsCommonQueryService {
 	/**
 	 * UPDATE TN_POS_PORT
 	 * STAT_CD, TRSF_STAT_CD
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param statCd
-	 * @param trsfStatCd
-	 * @param acesModeCd
-	 * @param eqpId
-	 * @param portId
 	 * @return
 	 * @throws Exception
 	 */
-	public int updatePortStatCd(String siteId, String cid, String tid, String userId, String statCd, String trsfStatCd, String acesModeCd, String ctrlModeCd, String eqpId, String portId) throws Exception {
+	public int updatePortStatCd(UpdatePortStatCdRequestVo vo) throws Exception {
 		try {
-			return this.commonDAO.updatePortStatCd(siteId, cid, tid, userId, statCd, trsfStatCd, acesModeCd, ctrlModeCd, eqpId, portId);
+			return this.commonDAO.updatePortStatCd(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getSiteId(),
+													vo.getTrsfStatCd(), vo.getAcesModeCd(), vo.getCtrlModeCd(),
+													vo.getEqpId(), vo.getPortId());
 		} catch (Exception e) {
 			throw e;
 		}

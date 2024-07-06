@@ -10,6 +10,8 @@ import com.abs.wfs.workman.dao.query.eqp.service.EqpServiceImpl;
 import com.abs.wfs.workman.dao.query.eqp.vo.UpdatePortCarrierDto;
 import com.abs.wfs.workman.dao.query.lot.service.LotQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo;
+import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
+import com.abs.wfs.workman.dao.query.service.vo.UpdatePortCarrierRequestVo;
 import com.abs.wfs.workman.dao.query.tool.service.ToolQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo;
 import com.abs.wfs.workman.dao.query.transfer.service.TransferJobServiceImpl;
@@ -59,6 +61,10 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
     private WfsCommonServiceImpl wfsCommonService;
 
 
+    @Autowired
+    WfsCommonQueryService wfsCommonQueryService;
+
+
     /**
      * State Rule
      * ============== EQP
@@ -98,12 +104,25 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsCarrIdReadIvo wfsCarrIdReadIvo) throws Exception {
 
         WfsCarrIdReadIvo.WfsCarrIdReadBody body = wfsCarrIdReadIvo.getBody();
+        String siteId = body.getSiteId(); String carrId = body.getCarrId(); String eqpId = body.getEqpId(); String portId = body.getPortId();
+
+        this.wfsCommonQueryService.updatePortCarrier(UpdatePortCarrierRequestVo.builder()
+                                                                    .siteId(siteId)
+                                                                    .carrierId(carrId)
+                                                                    .portId(portId)
+                                                                    .eqpId(eqpId)
+                                                                    .tid(apFlowProcessVo.getTid())
+                                                                    .userId(body.getUserId())
+                                                                    .build()
+        );
 
         QueryPortVo queryPortVo = (apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo() != null)
                 ? apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo()
                 : this.toolQueryService.queryPortCondition(
                 QueryPortVo.builder().portId(body.getPortId()).build()
         );
+
+
         if(!queryPortVo.getCarrTyp().equals(ApEnumConstant.CA.name())){
             // TODO Warning it is not CST type.
             // Do not stop the processing above reason.
