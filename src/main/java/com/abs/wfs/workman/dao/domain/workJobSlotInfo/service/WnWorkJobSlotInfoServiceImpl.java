@@ -23,6 +23,22 @@ public class WnWorkJobSlotInfoServiceImpl {
 
 
     /**
+     * 작업 보고 받은 패널에 대한 조회
+     * @param siteId
+     * @param workId
+     * @param prodMtrlId
+     * @param slotNo
+     * @param mtrlFaceCd
+     * @return
+     */
+    public Optional<WnWorkJobSlotInfo> findPanelWithReportInfo(String siteId, String workId, String prodMtrlId, String slotNo, String mtrlFaceCd){
+        return this.wnWorkJobSlotInfoRepository.findBySiteIdAndWorkIdAndProdMtrlIdAndSlotNoAndMtrlFaceCdAndUseStatCd(siteId, workId, prodMtrlId, slotNo, mtrlFaceCd, UseStatCd.Usable);
+    }
+
+
+
+
+    /**
      * 기본 Work Slot 정보 조회
      * @param workId
      * @param siteId

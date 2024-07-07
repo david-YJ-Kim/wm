@@ -27,6 +27,8 @@ public class WipLotDto {
     String pUseStatCd;
     String pLotId;
     String pSelfInspYn;
+    String pCrntEqpId;
+    String pCrntPortId;
 
 
 }

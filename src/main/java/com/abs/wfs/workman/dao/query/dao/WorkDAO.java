@@ -1,10 +1,9 @@
 package com.abs.wfs.workman.dao.query.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
 import com.abs.wfs.workman.dao.query.util.RecipeVo;
 import com.abs.wfs.workman.dao.query.util.XMLManager;
@@ -48,10 +47,30 @@ public class WorkDAO {
 	}
 	
 	private WorkDAO() {}
-	
-	
-	
-	
+
+
+
+	/**
+	 * 현재 진행하는 Lot의 Prod 진행 개수 조회
+	 * @param vo
+	 * @return
+	 */
+	public Optional<List<SearchProdStartedPanelReqVo>> searchProdStartedPanel(SearchProdStartedPanelReqVo vo){
+		return this.workMapper.searchProdStartedPanel(vo);
+	}
+
+
+	/**
+	 * Work Stat과 Job을 조인해서 Lot, Eqp, Port로 생성된 Work을 조회
+	 * @return
+	 */
+	public Optional<List<WorkInfoQueryRequestVo>> selectActiveWorkInfoQuery(WorkInfoQueryRequestVo workInfoQueryRequestVo){
+
+
+		return this.workMapper.selectActiveWorkInfoQuery(workInfoQueryRequestVo);
+	}
+
+
 	/**
 	 * Create WORK
 	 * @param siteId

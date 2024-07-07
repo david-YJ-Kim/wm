@@ -8,6 +8,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWnWorkJobEventRequestVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWnWorkJobSlotInfoForEndTmReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWnWorkJobSlotInfoForStartTmReqVo;
 import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
 import com.abs.wfs.workman.dao.query.util.XMLManager;
 import lombok.extern.slf4j.Slf4j;
@@ -468,18 +471,12 @@ public class WorkQueryService {
 	/**
 	 * UPDATE WN_WORK_JOB
 	 * EVNT_NM, TID, MDFY_USER_ID
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param workId
-	 * @param jobSeqId
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWnWorkJobEvent(String siteId, String cid, String tid, String userId, String workId, String jobSeqId) throws Exception {
+	public int updateWnWorkJobEvent(UpdateWnWorkJobEventRequestVo vo) throws Exception {
 		try {
-			return this.workDAO.updateWnWorkJobEvent(siteId, cid, tid, userId, workId, jobSeqId);
+			return this.workDAO.updateWnWorkJobEvent(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getWorkId(), vo.getJobSeqId());
 		} catch (Exception e) {
 			throw e;
 		}
@@ -488,20 +485,13 @@ public class WorkQueryService {
 	/**
 	 * UPDATE WN_WORK_JOB_SLOT_INFO
 	 * PROD_MTRL_END_TM
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param workId
-	 * @param jobSeqId
-	 * @param prodMtrlId
-	 * @param slotNo
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWnWorkJobSlotInfoForEndTm(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception {
+	public int updateWnWorkJobSlotInfoForEndTm(UpdateWnWorkJobSlotInfoForEndTmReqVo vo ) throws Exception {
 		try {
-			return this.workDAO.updateWnWorkJobSlotInfoForEndTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForEndTm(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getWorkId(),
+																vo.getJobSeqId(), vo.getProdMtrlId(), vo.getSlotNo());
 		} catch (Exception e) {
 			throw e;
 		}
@@ -510,20 +500,14 @@ public class WorkQueryService {
 	/**
 	 * UPDATE WN_WORK_JOB_SLOT_INFO
 	 * PROD_MTRL_STRT_TM
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param userId
-	 * @param workId
-	 * @param jobSeqId
-	 * @param prodMtrlId
-	 * @param slotNo
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWnWorkJobSlotInfoForStartTm(String siteId, String cid, String tid, String userId, String workId, String jobSeqId, String prodMtrlId, String slotNo ) throws Exception {
+	public int updateWnWorkJobSlotInfoForStartTm(UpdateWnWorkJobSlotInfoForStartTmReqVo vo) throws Exception {
 		try {
-			return this.workDAO.updateWnWorkJobSlotInfoForStartTm(siteId, cid, tid, userId, workId, jobSeqId, prodMtrlId, slotNo);
+			return this.workDAO.updateWnWorkJobSlotInfoForStartTm(vo.getSiteId(), vo.getCid(), vo.getTid(),
+													vo.getUserId(), vo.getWorkId(), vo.getJobSeqId(),
+													vo.getProdMtrlId(), vo.getSlotNo());
 		} catch (Exception e) {
 			throw e;
 		}

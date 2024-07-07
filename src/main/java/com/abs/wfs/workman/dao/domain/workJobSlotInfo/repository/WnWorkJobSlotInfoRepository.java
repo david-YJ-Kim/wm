@@ -11,6 +11,19 @@ public interface WnWorkJobSlotInfoRepository extends JpaRepository<WnWorkJobSlot
 
 
     /**
+     * 작업 보고 받은 패널에 대한 조회
+     * @param siteId
+     * @param workId
+     * @param prodMtrlId
+     * @param slotNo
+     * @param mtrlFaceCd
+     * @param useStatCd
+     * @return
+     */
+    Optional<WnWorkJobSlotInfo> findBySiteIdAndWorkIdAndProdMtrlIdAndSlotNoAndMtrlFaceCdAndUseStatCd(String siteId, String workId, String prodMtrlId, String slotNo, String mtrlFaceCd, UseStatCd useStatCd);
+
+
+    /**
      * 기본 Work Slot 정보 조회
      * @param workId
      * @param siteId

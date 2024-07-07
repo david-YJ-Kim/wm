@@ -12,14 +12,19 @@
                W.CRNT_EQP_ID,
                w.CRNT_PORT_ID,
                L.PROD_DEF_ID,
+               L.SGMT_STAT_CD,
+               L.HOLD_YN,
                L.PROC_DEF_ID,
                L.PROC_SGMT_ID
         FROM WN_WIP_STAT W, TN_POS_LOT L
         WHERE W.LOT_ID = L.LOT_ID
+          AND W.USE_STAT_CD = L.USE_STAT_CD
           AND W.SITE_ID = #{pSiteId}
           AND W.USE_STAT_CD = #{pUseStatCd}
-          AND W.LOT_ID = #{pLotId}
-          AND W.SELF_INSP_YN = #{pSelfInspYn}
+        <if test="pSelfInspYn != null">AND SELF_INSP_YN = #{pSelfInspYn}</if>
+        <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
+        <if test="crntEqpId != null">AND CRNT_EQP_ID = #{crntEqpId}</if>
+        <if test="crntPortId != null">AND CRNT_PORT_ID = #{crntPortId}</if>
     </select>
 
 </mapper>

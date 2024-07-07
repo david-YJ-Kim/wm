@@ -83,11 +83,19 @@ public final class WorkManMessageList {
     public static final String WFS_MANUAL_WORK_START = "WFS_MANUAL_WORK_START";
     public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
 
+
+
+    public static final String WFS_VMS_PROC_ENDED = "WFS_VMS_PROC_ENDED";
+    public static final String WFS_VMS_PROC_STARTED = "WFS_VMS_PROC_STARTED";
+    public static final String WFS_VMS_PROD_ENDED = "WFS_VMS_PROD_ENDED";
+    public static final String WFS_VMS_PROD_STARTED = "WFS_VMS_PROD_STARTED";
+
     /**
      * SPEC - OUT
      */
     public static final String EAP_JOB_ABORT_REQ = "EAP_JOB_ABORT_REQ";
     public static final String EAP_LOT_INFO_REP = "EAP_LOT_INFO_REP";
+    public static final String EAP_TOOL_COND_REQ = "EAP_TOOL_COND_REQ";
 
 
     public static final String FIS_FILE_REPORT = "FIS_FILE_REPORT";
@@ -95,5 +103,14 @@ public final class WorkManMessageList {
 
 
     public static final String MCS_CARR_MOVE_REQ = "MCS_CARR_MOVE_REQ";
+
+
+    public static final String RTD_DSP_WORK_REQ = "RTD_DSP_WORK_REQ";
+
+
+    public static final String BRS_LOT_PROC_ENDED = "BRS_LOT_PROC_ENDED";
+    public static final String BRS_LOT_PROC_STARTED = "BRS_LOT_PROC_STARTED";
+    public static final String BRS_LOT_PROD_STARTED = "BRS_LOT_PROD_STARTED";
+    public static final String BRS_LOT_PROD_ENDED = "BRS_LOT_PROD_ENDED";
 
 }

@@ -1,37 +1,48 @@
 package com.abs.wfs.workman.dao.query.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.abs.wfs.workman.dao.query.model.WnDspWorkInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkJob;
 import com.abs.wfs.workman.dao.query.model.WnWorkJobCellInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkStat;
+import com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import org.apache.ibatis.annotations.Mapper;
+
 
 
 @Mapper
 public interface WorkMapper {
-	
+
+
 	//--- WN_WORK_STAT --------------------------
 	// select WN_WORK_STAT Table
 	List<WnWorkStat> selectWnWorkStat(WnWorkStat wnWorkStat);
-	
+
 	// update WN_WORK_STAT Table
 	int updateWnWorkStat(WnWorkStat wnWorkStat);
-	
+
 	// insert WN_WORK_STAT Table
 	int createWnWorkStat(WnWorkStat wnWorkStat);
-	
+
 	// insert WH_WORK_STAT Table
 	int createWhWorkStat(String objId);
-	
+
 	// delete WN_WORK_STAT
 	int deleteWnWorkStat(String objId);
-	
+
 	int deleteWnWorkStatByWorkId(String workId);
+
+	/**
+	 * Work Stat과 Job을 조인해서 Lot, Eqp, Port로 생성된 Work을 조회
+	 * @return
+	 */
+	Optional<List<WorkInfoQueryRequestVo>> selectActiveWorkInfoQuery(WorkInfoQueryRequestVo workInfoQueryRequestVo);
 	
-	
+
 	//--- WN_WORK_JOB --------------------------
 	// select WN_WORK_JOB
 	List<WnWorkJob> selectWnWorkJob(WnWorkJob wnWorkJob);
@@ -49,7 +60,15 @@ public interface WorkMapper {
 	int deleteWnWorkJob(String objId);
 	
 	int deleteWnWorkJobByWorkId(String workId);
-	
+
+
+	/**
+	 * 현재 진행하는 Lot의 Prod 진행 개수 조회
+	 * @param vo
+	 * @return
+	 */
+	Optional<List<SearchProdStartedPanelReqVo>> searchProdStartedPanel(SearchProdStartedPanelReqVo vo);
+
 	
 	//--- WN_WORK_JOB_SLOT_INFO -----------------
 	// select WN_WORK_JOB_SLOT_INFO

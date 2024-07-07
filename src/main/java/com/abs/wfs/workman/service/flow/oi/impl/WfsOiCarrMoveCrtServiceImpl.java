@@ -79,7 +79,6 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
 
-                        // TODO Exception 생성
                         throw new ScenarioException(apFlowProcessVo, body,
                                                     ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
                                                     new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}

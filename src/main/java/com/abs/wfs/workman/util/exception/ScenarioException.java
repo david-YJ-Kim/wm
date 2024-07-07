@@ -35,11 +35,13 @@ public class ScenarioException  extends RuntimeException{
         this.args = args;
     }
 
-    public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody, ApExceptionCode code, String lang, @Nullable Object[] args){
+    public ScenarioException (ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody, ApExceptionCode code, @Nullable  String lang, @Nullable Object[] args){
 
         this(WorkManCommonUtil.setFailFlowProcessVo(apFlowProcessVo), apMsgBody);
         this.code = code.getCode();
-        this.lang = lang.isEmpty() ? "en" : lang;
+        this.lang = lang.isEmpty() ?
+                        apFlowProcessVo.getLang().isEmpty() ? "en" : apFlowProcessVo.getLang()
+                    :lang;
         this.args = args;
     }
 

@@ -3,11 +3,17 @@ package com.abs.wfs.workman.spec.out.fis;
 
 import com.abs.wfs.workman.spec.ApMsgCommonVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
+import com.abs.wfs.workman.util.WorkManMessageList;
+import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class FisFileReportIvo extends ApMsgCommonVo {
+
+
+	public static String system = ApSystemCodeConstant.FIS;
+	public static String cid = WorkManMessageList.FIS_FILE_REPORT;
 	
 	FisFileReportBody body;
 

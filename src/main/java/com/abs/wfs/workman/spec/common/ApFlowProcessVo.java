@@ -18,6 +18,11 @@ public class ApFlowProcessVo {
     private String tid; // 시스템간 Transaction key
     private String eventName; // 발행된 이벤트 이름
 
+    private String lang; // 요청한 언어
+
+
+    private ApMsgBody apMsgBody;
+
     private WorkStatCd workStatCd;
     
     private String workId; // BW Scenario Exception 의 work Id를 위해서 존재

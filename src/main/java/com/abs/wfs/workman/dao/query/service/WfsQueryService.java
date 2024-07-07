@@ -5,6 +5,8 @@ import com.abs.wfs.workman.dao.query.dao.TransferJobDAO;
 import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.model.WnSorterJobExec;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateEventNmByLotCarrIdRequestVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWorkStatusByLotIdForWorkStartReqVo;
 import com.abs.wfs.workman.util.code.SorterJobStatCdExec;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,19 +121,14 @@ public class WfsQueryService {
 	 * 통합대상 - 23.07.07
 	 * update WN_WIP_STAT.WORK_STAT_CD Column FOR WORK START
 	 * by LOT ID
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param lotId
-	 * @param mdfyUserId
-	 * @param workStatCd
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWorkStatusByLotIdForWorkStart(String siteId, String cid, String tid, String lotId, String mdfyUserId, String workStatCd) throws Exception {
+	public int updateWorkStatusByLotIdForWorkStart(UpdateWorkStatusByLotIdForWorkStartReqVo vo) throws Exception {
 		try {
 			//Dispatch(Reserved) Eqp, Port and check Flag Clear
-			return this.wipStatDAO.updateWorkStatusByLotId(siteId, cid, tid, lotId, mdfyUserId, workStatCd, null, null, false );
+			return this.wipStatDAO.updateWorkStatusByLotId(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getLotId(),
+					vo.getMdfyUserId(), vo.getWorkStatCd(), null, null, false );
 		} catch (Exception e) {
 			throw e;
 		}
@@ -298,17 +295,13 @@ public class WfsQueryService {
 	
 	/**
 	 * 
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param carrId
-	 * @param mdfyUserId
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateEventNmByLotCarrId(String siteId, String cid, String tid, String lotId, String carrId, String mdfyUserId) throws Exception {
+	public int updateEventNmByLotCarrId(UpdateEventNmByLotCarrIdRequestVo vo) throws Exception {
 		try {
-			return this.wipStatDAO.updateEventNmByLotCarrId(siteId, cid, tid, lotId, carrId, mdfyUserId);
+			return this.wipStatDAO.updateEventNmByLotCarrId(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getLotId(),
+														vo.getCarrId(), vo.getMdfyUserId());
 		}catch (Exception e) {
 			throw e;
 		}

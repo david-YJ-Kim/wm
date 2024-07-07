@@ -3,6 +3,28 @@
 
 <mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WorkMapper">
 
+	<select id="searchProdStartedPanel"
+			parameterType=""
+			resultType="">
+		SELECT
+			SLOT.WORK_ID,
+			JOB.JOB_SEQ_ID,
+			SLOT.SLOT_NO,
+			SLOT.PROD_MTRL_STRT_TM,
+			SLOT.PROD_MTRL_END_TM
+		FROM
+			WN_WORK_JOB JOB,
+			WN_WORK_JOB_SLOT_INFO SLOT
+		WHERE
+			1 = 1
+		  AND SLOT.WORK_ID = JOB.WORK_ID
+		  AND SLOT.PROD_MTRL_STRT_TM IS NOT NULL
+		  AND JOB.SITE_ID = #{siteId}
+		  AND JOB.USE_STAT_CD = #{useStatCd}
+		  AND JOB.LOT_ID = #{lotId}
+
+	</select>
+
 	<select id="selectWnWorkJob" parameterType="com.abs.wfs.workman.dao.query.model.WnWorkJob" resultType="com.abs.wfs.workman.dao.query.model.WnWorkJob">
 		SELECT OBJ_ID
 			  ,SITE_ID

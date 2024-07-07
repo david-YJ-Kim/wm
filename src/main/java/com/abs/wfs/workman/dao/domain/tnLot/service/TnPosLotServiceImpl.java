@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,18 @@ public class TnPosLotServiceImpl {
 
     @Autowired
     private TnPosLotRepository tnPosLotRepository;
+
+
+    /**
+     * EQP로 Port 정보 조회
+     * @param siteId
+     * @param eqpId
+     * @return
+     */
+    public Optional<List<TnPosLot>> findBySiteIdAndEqpIdAndUseStatCd(String siteId, String eqpId){
+        return this.tnPosLotRepository.findBySiteIdAndEqpIdAndUseStatCd(siteId,eqpId, UseStatCd.Usable);
+    }
+
 
 
     public Optional<TnPosLot> findBySiteIdAndLotIdAndUseStatCd(String siteId, String lotId, UseStatCd useStatCd) {
