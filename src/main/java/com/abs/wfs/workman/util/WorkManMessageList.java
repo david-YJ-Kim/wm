@@ -82,6 +82,7 @@ public final class WorkManMessageList {
     public static final String WFS_EFEM_CONTROL_STATE_REPORT = "WFS_EFEM_CONTROL_STATE_REPORT";
     public static final String WFS_MANUAL_WORK_START = "WFS_MANUAL_WORK_START";
     public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
+    public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
 
 
 

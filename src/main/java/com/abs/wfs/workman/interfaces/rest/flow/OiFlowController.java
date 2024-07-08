@@ -5,6 +5,7 @@ import com.abs.wfs.workman.service.flow.brs.impl.WfsManualWorkStartImpl;
 import com.abs.wfs.workman.service.flow.oi.impl.WfsOiCarrMoveCrtServiceImpl;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
+import com.abs.wfs.workman.spec.in.oia.WfsOiCarrDestChgReqIvo;
 import com.abs.wfs.workman.spec.in.oia.WfsOiCarrMoveCrtIvo;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.exception.ScenarioException;
@@ -52,5 +53,16 @@ public class OiFlowController {
             throw e;
         }
 
+    }
+
+
+    @PostMapping(WorkManMessageList.WFS_OI_CARR_DEST_CHG_REQ)
+    public ResponseEntity<ApResponseIvo> executeWfsAlarmReport(@RequestBody WfsOiCarrDestChgReqIvo wfsOiCarrDestChgReqIvo,
+                                                               @RequestParam(value = "key") String trackingKey,
+                                                               @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+
+
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

@@ -7,31 +7,30 @@ import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import lombok.Data;
 
 @Data
-public class WfsOiCarrMoveCrtIvo extends ApMsgCommonVo {
+public class WfsOiCarrDestChgReqIvo extends ApMsgCommonVo {
 
-	public static String system = ApSystemCodeConstant.WFS;
-	public static String cid = WorkManMessageList.WFS_OI_CARR_MOVE_CRT;
+    public static String system = ApSystemCodeConstant.WFS;
+    public static String cid = WorkManMessageList.WFS_OI_CARR_DEST_CHG_REQ;
 
-	WfsOiCarrMoveCrtBody body;
+    WfsOiCarrMoveCrtBody body;
 
-	@Data
-	public static class WfsOiCarrMoveCrtBody extends ApMsgBody {
+    @Data
+    public static class WfsOiCarrMoveCrtBody extends ApMsgBody {
 
-		String srcEqpId;
-		String srcPortId;
-		String destEqpId;
-		String destPortId;
-		String comment;
-		String prio;
-
+        String commId;
+        String destEqpId;
+        String destPortId;
+        String comment;
+        String prio;
 
 
-	}
+
+    }
 }
 /*
 {
   "head": {
-    "cid": "WFS_CARR_MOVE_CRT_OI",
+    "cid": "WFS_OI_CARR_MOVE_CRT_OI",
     "osrc": "",
     "otgt": "",
     "src": "OIA",
@@ -45,8 +44,7 @@ public class WfsOiCarrMoveCrtIvo extends ApMsgCommonVo {
   },
   "body": {
     "carrId": "CAA0104",
-    "srcEqpId": "ASTK03",
-    "srcPortId": "ASTK03_STORAGE",
+    "commId": "CST001_CMD02",
     "destEqpId": "AP-TG-07-01",
     "destPortId": "AP-TG-07-01-BP02",
     "comment": "sl2 200\n",

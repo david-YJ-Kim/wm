@@ -4,8 +4,8 @@
 <mapper namespace = "com.abs.wfs.workman.dao.query.mapper.WorkMapper">
 
 	<select id="searchProdStartedPanel"
-			parameterType=""
-			resultType="">
+			parameterType="com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo"
+			resultType="com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo">
 		SELECT
 			SLOT.WORK_ID,
 			JOB.JOB_SEQ_ID,
