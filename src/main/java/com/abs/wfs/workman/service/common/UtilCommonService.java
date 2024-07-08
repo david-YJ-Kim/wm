@@ -99,11 +99,11 @@ public class UtilCommonService {
 
 
         Optional<List<SearchProdStartedPanelReqVo>> queryProdStart = this.workDAO.searchProdStartedPanel(
-                SearchProdStartedPanelReqVo.builder()
-                        .siteId(siteId)
-                        .useStatCd(UseStatCd.Usable.name())
-                        .lotId(apFlowProcessVo.getApMsgBody().getLotId())
-                        .build()
+                                                    SearchProdStartedPanelReqVo.builder()
+                                                            .siteId(siteId)
+                                                            .useStatCd(UseStatCd.Usable.name())
+                                                            .lotId(apFlowProcessVo.getApMsgBody().getLotId())
+                                                            .build()
         );
 
         if(queryProdStart.isPresent() && !queryProdStart.get().isEmpty()){

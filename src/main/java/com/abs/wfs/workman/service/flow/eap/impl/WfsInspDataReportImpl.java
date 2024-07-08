@@ -65,6 +65,7 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsInspDataReportIvo wfsInspDataReportIvo) throws Exception {
 
         WfsInspDataReportIvo.WfsInspDataReportBody body = wfsInspDataReportIvo.getBody();
+        apFlowProcessVo.setApMsgBody(body);
 
         Optional<WipLotDto> resulWipLot =  this.wipLotQueryService.selectWipLotInfo(
                                                                        WipLotDto.builder()
@@ -144,8 +145,7 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
                         this.apPayloadGenerateService.generateBody(wfsInspDataReportIvo.getHead().getTid(), payload));
 
 
-                apFlowProcessVo.setExecuteEndTime(System.currentTimeMillis());
-                return apFlowProcessVo;
+                return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
 
             }
 

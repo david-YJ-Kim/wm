@@ -1,7 +1,9 @@
 package com.abs.wfs.workman.service.common;
 
 
+import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
+import com.abs.wfs.workman.spec.in.eap.WfsEfemControlStateReportIvo;
 import com.abs.wfs.workman.spec.out.brs.*;
 import com.abs.wfs.workman.spec.out.eap.EapJobAbortReqIvo;
 import com.abs.wfs.workman.spec.out.eap.EapLotInfoRepIvo;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -137,9 +140,39 @@ public class ApPayloadGenerateService {
     }
 
 
+    public String generateBody(String tid, WfsEfemControlStateReportIvo.Body body) throws JsonProcessingException {
 
 
-        /**
+        WfsEfemControlStateReportIvo ivo = new WfsEfemControlStateReportIvo();
+
+        if (body.getUserId() == null || body.getUserId().isEmpty()) {
+            body.setUserId(ApSystemCodeConstant.WFS);
+        }
+        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+    }
+
+
+    public WfsEfemControlStateReportIvo generateBody(String tid, WfsEfemControlStateReportIvo.Body body, boolean returnObj) throws JsonProcessingException {
+
+
+        WfsEfemControlStateReportIvo ivo = new WfsEfemControlStateReportIvo();
+
+        if (body.getUserId() == null || body.getUserId().isEmpty()) {
+            body.setUserId(ApSystemCodeConstant.WFS);
+        }
+        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return ivo;
+    }
+
+
+
+
+    /**
          * FIS
          */
     public String generateBody(String tid, FisFileReportIvo.FisFileReportBody body) throws JsonProcessingException {

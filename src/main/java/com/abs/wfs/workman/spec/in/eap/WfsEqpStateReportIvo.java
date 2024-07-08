@@ -28,10 +28,10 @@ import lombok.Data;
 @Data
 public class WfsEqpStateReportIvo extends ApMsgCommonVo {
 
-    WfsEqpStateReportBody body;
+    Body body;
 
     @Data
-    public static class WfsEqpStateReportBody extends ApMsgBody{
+    public static class Body extends ApMsgBody{
 
         String eqpStateCd;
 

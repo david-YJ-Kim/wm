@@ -5,6 +5,7 @@ import com.abs.wfs.workman.dao.domain.efemAlarm.service.CnEfemAlarmServiceImpl;
 import com.abs.wfs.workman.service.flow.eap.WfsAlarmReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.eap.WfsAlarmReportIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.SuccessYn;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,19 +37,18 @@ public class WfsAlarmReportImpl implements WfsAlarmReport {
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsAlarmReportIvo wfsAlarmReportIvo) throws Exception {
 
+        apFlowProcessVo.setApMsgBody(wfsAlarmReportIvo.getBody());
 
         try {
 
             CnEfemAlarm result = this.cnEfemAlarmService.saveEfemAlarmDto(wfsAlarmReportIvo.getBody());
+            log.info("Complete alarm data. Result: {}", result);
 
 
         }catch (Exception e){
-            apFlowProcessVo.setSuccessYn(SuccessYn.N);
+            WorkManCommonUtil.setFailFlowProcessVo(apFlowProcessVo);
         }
-        apFlowProcessVo.setExecuteEndTime(System.currentTimeMillis());
-
-        log.info("Complete to process flow. {}", apFlowProcessVo);
-        return apFlowProcessVo;
+        return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }
 
 

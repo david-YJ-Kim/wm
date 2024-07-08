@@ -22,16 +22,15 @@ public class WfsLoadCompImpl implements WfsLoadComp {
 
     @Override
     public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
+
+
+        return ApFlowProcessVo.builder()
                 .eventName(cid)
                 .trackingKey(trackingKey)
                 .scenarioType(scenarioType)
                 .executeStartTime(System.currentTimeMillis())
                 .tid(tid)
                 .build();
-
-
-        return apFlowProcessVo;
     }
 
 

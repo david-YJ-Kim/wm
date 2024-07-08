@@ -8,7 +8,6 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsEqpControlStateReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
-import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEqpControlStateReportIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsEqpControlModeChangeIvo;
 import com.abs.wfs.workman.util.code.*;

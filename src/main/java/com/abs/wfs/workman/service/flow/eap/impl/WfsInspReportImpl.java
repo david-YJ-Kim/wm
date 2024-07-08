@@ -42,6 +42,7 @@ public class WfsInspReportImpl implements WfsInspReport {
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsInspReportIvo wfsInspReportIvo) throws Exception {
 
         WfsInspReportIvo.WfsInspReportBody body = wfsInspReportIvo.getBody();
+        apFlowProcessVo.setApMsgBody(body);
 
         FisFileReportIvo.FisFileReportBody fisFileReportBody = FisFileReportIvo.FisFileReportBody.builder()
                 .prodMtrlId(body.getProdMtrlId())
@@ -56,8 +57,7 @@ public class WfsInspReportImpl implements WfsInspReport {
         this.messageSendService.sendMessageSend(WfsInspReportIvo.system, WfsInspReportIvo.cid,
                 this.apPayloadGenerateService.generateBody(wfsInspReportIvo.getHead().getTid(), fisFileReportBody));
 
-        WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
 
-        return apFlowProcessVo;
+        return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }
 }

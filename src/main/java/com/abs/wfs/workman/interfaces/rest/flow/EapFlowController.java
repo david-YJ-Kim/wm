@@ -20,15 +20,13 @@ public class EapFlowController {
     @Autowired
     WfsInspDataReportImpl wfsInspDataReportImpl;
 
-    @Autowired
-    WfsInspReportImpl wfsInspReportImpl;
-
-    @Autowired
-    WfsLotInfoReqImpl wfsLotInfoReqImpl;
 
 
-    @Autowired
-    WfsMaterialChangeReqImpl wfsMaterialChangeReq;
+
+
+    /**
+     * WFS_ALARM
+     */
 
 
     @Autowired
@@ -46,6 +44,12 @@ public class EapFlowController {
         return this.wfsAlarmReport.execute(apFlowProcessVo, wfsAlarmReportIvo);
 
     }
+
+
+    /**
+     * WFS_EQP
+     */
+
 
     @Autowired
     WfsEqpStateReportImpl wfsEqpStateReportImpl;
@@ -108,6 +112,9 @@ public class EapFlowController {
 
     }
 
+    @Autowired
+    WfsInspReportImpl wfsInspReportImpl;
+
 
     @PostMapping(WorkManMessageList.WFS_INSP_REPORT)
     public ApFlowProcessVo executeEvent(@RequestBody WfsInspReportIvo wfsInspReportIvo,
@@ -122,6 +129,9 @@ public class EapFlowController {
     }
 
 
+    @Autowired
+    WfsLotInfoReqImpl wfsLotInfoReqImpl;
+
     @PostMapping(WorkManMessageList.WFS_LOT_INFO_REQ)
     public ApFlowProcessVo executeEvent(@RequestBody WfsLotInfoReqIvo wfsLotInfoReqIvo,
                                         @RequestParam(value = "key") String trackingKey,
@@ -134,6 +144,9 @@ public class EapFlowController {
 
     }
 
+
+    @Autowired
+    WfsMaterialChangeReqImpl wfsMaterialChangeReq;
 
     @PostMapping(WorkManMessageList.WFS_MATERIAL_CHANGE_REQ)
     public ApFlowProcessVo executeEvent(@RequestBody WfsMaterialChangeReqIvo wfsMaterialChangeReqIvo,
@@ -243,6 +256,12 @@ public class EapFlowController {
 
     }
 
+
+    /**
+     * WFS_SORTER
+     */
+
+
     @Autowired
     WfsSorterModeChangeRepImpl wfsSorterModeChangeRep;
 
@@ -257,6 +276,10 @@ public class EapFlowController {
         return this.wfsSorterModeChangeRep.execute(apFlowProcessVo, wfsSorterModeChangeRepIvo);
 
     }
+
+    /**
+     * WFS_UNLOAD
+     */
 
 
     @Autowired
@@ -290,6 +313,10 @@ public class EapFlowController {
 
     }
 
+    /**
+     * WFS_LOAD
+     */
+
 
     @Autowired
     WfsLoadCompImpl wfsLoadComp;
@@ -306,6 +333,10 @@ public class EapFlowController {
 
     }
 
+
+    /**
+     * WFS_WORK
+     */
 
     @Autowired
     WfsWorkOrderRepImpl wfsWorkOrderRep;
@@ -420,6 +451,10 @@ public class EapFlowController {
 
     }
 
+
+    /**
+     * WFS_EFEM
+     */
 
     @Autowired
     WfsEfemStateReportImpl wfsEfemStateReport;

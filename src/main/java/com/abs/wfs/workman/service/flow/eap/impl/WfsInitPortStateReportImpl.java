@@ -9,6 +9,7 @@ import com.abs.wfs.workman.service.flow.eap.WfsInitPortStateReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.eap.WfsInitPortStateReportIvo;
 import com.abs.wfs.workman.spec.in.eap.common.PortInfoVo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.ApStringConstant;
 import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,7 @@ public class WfsInitPortStateReportImpl implements WfsInitPortStateReport {
         List<PortInfoVo> portStataList = wfsInitPortStateReportIvo.getBody().getPortInfo();
 
         WfsInitPortStateReportIvo.WfsInitPortStateReportBody  body = wfsInitPortStateReportIvo.getBody();
+        apFlowProcessVo.setApMsgBody(body);
 
 
         if(portStataList != null && !portStataList.isEmpty()) {
@@ -83,9 +85,8 @@ public class WfsInitPortStateReportImpl implements WfsInitPortStateReport {
         }
 
 
-        apFlowProcessVo.setExecuteEndTime(System.currentTimeMillis());
 
-        return apFlowProcessVo;
+        return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }
 
 }

@@ -187,4 +187,23 @@ public class WorkManCommonUtil {
     }
 
 
+    /**
+     * 포트 아이디로, Port Type 획득하기
+     * 포트 아이디 (AP-RD-03-01-BP01)
+     * 결과 : BP
+     *
+     * @param portId : BP / IP / OP
+     * @return
+     */
+    public static String extractPortTypWithPortId(String portId){
+
+        int lastHyphenIndex = portId.lastIndexOf('-');
+        String portPart = portId.substring(lastHyphenIndex + 1);
+
+
+        return portPart.replaceAll("\\d", "");
+
+    }
+
+
 }
