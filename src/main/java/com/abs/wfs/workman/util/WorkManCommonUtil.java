@@ -128,16 +128,23 @@ public class WorkManCommonUtil {
      */
     public static String generateMultiLangExceptionMessage(String code, String lang, Object[] args){
 
-        String defaultMessage = "ERROR While system working";
-
         ConcurrentHashMap<String, HashMap<String, String>>  codeMap =  ApSharedVariable.getInstance().getMultiLangCodeMap();
+        log.info("Multi lang exception request. code: {}, lang: {}, formatList: {}", code, lang, codeMap.get(code).toString());
+
+        String defaultMessage = "ERROR occur while system working";
+        String defaultLang = "ko";
+
 
         if(codeMap.containsKey(code)){
 
             String format;
 
             try{
-                format = codeMap.get(code).getOrDefault(lang, "en");
+                if(codeMap.get(code).get(lang) != null){
+                    format = codeMap.get(code).get(lang);
+                }else {
+                    format = codeMap.get(code).get(defaultLang);
+                }
             }catch (Exception e){
 
                 log.warn("Lang is not register in Data. code : {} and lang: {}", code, lang);

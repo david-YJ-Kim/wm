@@ -9,8 +9,8 @@ public class IamMultiLangErrorCodeIVo {
     String mtlgGrpIndex;
     String cpnntTypCd;
     String solCd;
-    String mtlgKey;
-    String mtlgTypCd;
+    String mtlgKey; // error 코드
+    String mtlgTypCd;  // en, kr, cn
     String mtlgVal;
 
     @Builder

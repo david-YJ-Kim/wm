@@ -39,15 +39,19 @@ public class OiFlowController {
         try{
             ApFlowProcessVo resultVo = this.wfsOiCarrMoveCrtService.execute(apFlowProcessVo, wfsOiCarrMoveCrtIvo);
 
-            return new ResponseEntity<>(ApResponseIvo.builder()
-                                            .msgBody(wfsOiCarrMoveCrtIvo.getBody()).processInfo(resultVo)
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder().msgBody(wfsOiCarrMoveCrtIvo.getBody()).processInfo(resultVo)
                                             .build(),
+
                                             HttpStatus.OK);
 
         }catch (ScenarioException se){
+            log.error(se.getMessage());
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder().scenarioException(se).build(),
+                    HttpStatus.OK
 
-            return new ResponseEntity<>(ApResponseIvo.builder().scenarioException(se).build(),
-                    HttpStatus.OK);
+            );
 
         }catch (Exception e){
             throw e;
