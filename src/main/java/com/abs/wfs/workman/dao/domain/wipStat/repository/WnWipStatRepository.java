@@ -11,6 +11,18 @@ public interface WnWipStatRepository extends JpaRepository<WnWipStat, String> {
 
 
         /**
+         * Wip, 예약 설비 · 포트, Lot으로 조회
+         * @param siteId
+         * @param resvEqpId
+         * @param resvPortId
+         * @param lotId
+         * @param useStatCd
+         * @return
+         */
+        Optional<WnWipStat> findBySiteIdAndResvEqpIdAndResvPortIdAndLotIdAndUseStatCd(String siteId, String resvEqpId, String resvPortId, String lotId, UseStatCd useStatCd)
+
+
+        /**
          * Wip에 예약 설비, 포트로 조회
          * @param siteId
          * @param resvEqpId

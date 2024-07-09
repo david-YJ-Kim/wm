@@ -17,9 +17,12 @@ import com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo;
 import com.abs.wfs.workman.dao.query.transfer.service.TransferJobServiceImpl;
 import com.abs.wfs.workman.dao.query.transfer.vo.WnTransferJob;
 import com.abs.wfs.workman.dao.query.wip.vo.WnWipStat;
+import com.abs.wfs.workman.dao.query.wipLot.service.WipLotQueryServiceImpl;
+import com.abs.wfs.workman.dao.query.wipLot.vo.SelectCarrLocQueryReqVo;
 import com.abs.wfs.workman.service.flow.eap.WfsCarrIdRead;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.eap.WfsCarrIdReadIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.*;
 import com.abs.wfs.workman.util.exception.ScenarioException;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
@@ -28,41 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class WfsCarrIdReadImpl implements WfsCarrIdRead {
 
-    @Autowired
-    private CarrLocationServiceImpl carrLocationService;
-
-
-    @Autowired
-    private ToolQueryServiceImpl toolQueryService;
-
-    @Autowired
-    private LotQueryServiceImpl lotQueryService;
-
-
-    @Autowired
-    private EqpServiceImpl eqpService;
-
-    @Autowired
-    private TransferJobServiceImpl transferJobService;
-
-    @Autowired
-    private WipStatServiceImpl wipStatService;
-
-
-    @Autowired
-    private MessageSendService messageSendService;
-
-    @Autowired
-    private WfsCommonServiceImpl wfsCommonService;
-
-
-    @Autowired
-    WfsCommonQueryService wfsCommonQueryService;
 
 
     /**
@@ -100,10 +74,42 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
         return apFlowProcessVo;
     }
 
+
+    @Autowired
+    private CarrLocationServiceImpl carrLocationService;
+
+    @Autowired
+    private ToolQueryServiceImpl toolQueryService;
+
+    @Autowired
+    private LotQueryServiceImpl lotQueryService;
+
+    @Autowired
+    private EqpServiceImpl eqpService;
+
+    @Autowired
+    private TransferJobServiceImpl transferJobService;
+
+    @Autowired
+    private WipStatServiceImpl wipStatService;
+
+    @Autowired
+    private MessageSendService messageSendService;
+
+    @Autowired
+    private WfsCommonServiceImpl wfsCommonService;
+
+    @Autowired
+    WfsCommonQueryService wfsCommonQueryService;
+
+    @Autowired
+    WipLotQueryServiceImpl wipLotQueryService;
+
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsCarrIdReadIvo wfsCarrIdReadIvo) throws Exception {
 
         WfsCarrIdReadIvo.WfsCarrIdReadBody body = wfsCarrIdReadIvo.getBody();
+        apFlowProcessVo.setApMsgBody(body);
         String siteId = body.getSiteId(); String carrId = body.getCarrId(); String eqpId = body.getEqpId(); String portId = body.getPortId();
 
         this.wfsCommonQueryService.updatePortCarrier(UpdatePortCarrierRequestVo.builder()
@@ -115,6 +121,29 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
                                                                     .userId(body.getUserId())
                                                                     .build()
         );
+
+        // carrLocQuery
+        Optional<SelectCarrLocQueryReqVo> carrLocQuery =  this.wipLotQueryService.selectCarrLocQuery(SelectCarrLocQueryReqVo.builder()
+                                                                                .siteId(siteId)
+                                                                                .carrId(carrId)
+                                                                                .lotId("-")
+                                                                                .useStatCd(UseStatCd.Usable)
+                                                                                .build());
+
+        // GetPortResvCarr
+
+        Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> getPortResvCarr = this.wipStatService.findResvEqpIdAndResvPortIdAndLotId(siteId, eqpId, portId, "-");
+
+        if(!carrLocQuery.isPresent()) {
+            throw new ScenarioException(); // TODO CARR 조회 결과 없읍
+        }
+
+        if(carrLocQuery.get().getResvGrpId().isEmpty()){
+            // TODO CARR ID READ 질의 후 정리
+        }
+
+
+        WorkManCommonUtil.compareStringWords()
 
         QueryPortVo queryPortVo = (apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo() != null)
                 ? apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo()
