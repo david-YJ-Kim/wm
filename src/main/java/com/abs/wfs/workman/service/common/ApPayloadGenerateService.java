@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -57,19 +58,24 @@ public class ApPayloadGenerateService {
         return objectMapper.writeValueAsString(brsEqpStateChangeIvo);
     }
 
-    private ApMsgHead generateMessageHead (String tid, String cid, String targetSystem, String targetEqp){
+    public ApMsgHead generateMessageHead(String tid, String cid, String targetSystem, String targetEqp){
 
-        return this.generateMessageHead(tid, cid, ApSystemCodeConstant.WFS, targetSystem, targetEqp);
+        return this.generateMessageHead(tid, cid, ApSystemCodeConstant.WFS, targetSystem, targetEqp, null, null);
     }
 
-    public ApMsgHead generateMessageHead (String tid, String cid, String sourceSystem, String targetSystem, String targetEqp){
+    public ApMsgHead generateMessageHead (String tid, String cid, String sourceSystem, String targetSystem, String targetEqp, @Nullable  String osrc, @Nullable String otgt){
         ApMsgHead apMsgHead = ApMsgHead.builder()
                 .tid(tid)
                 .cid(cid)
+                .osrc(osrc == null ? "" : osrc)
+                .otgt(otgt == null ? "" : otgt)
                 .src(sourceSystem)
                 .tgt(targetSystem)
-                .tgtEqp(Collections.singletonList(targetEqp))
                 .build();
+
+        if(!targetSystem.equals(ApSystemCodeConstant.MCS)){
+            apMsgHead.setTgtEqp(targetEqp == null ? new ArrayList<>() : Collections.singletonList(targetEqp));
+        }
 
         return apMsgHead;
     }
@@ -273,13 +279,13 @@ public class ApPayloadGenerateService {
     /**
      * MCS
      * mcs는 tgtEqp는 null
+     * userId 는 null
      */
     public String generateBody(String tid, McsCarrMoveReqIvo.McsCarrMoveReqBody body) throws JsonProcessingException {
 
 
         McsCarrMoveReqIvo mcsCarrMoveReqIvo = new McsCarrMoveReqIvo();
 
-        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
         mcsCarrMoveReqIvo.setHead(this.generateMessageHead(tid, McsCarrMoveReqIvo.cid, McsCarrMoveReqIvo.system, null));
         mcsCarrMoveReqIvo.setBody(body);
 

@@ -19,7 +19,7 @@ public interface WnWipStatRepository extends JpaRepository<WnWipStat, String> {
          * @param useStatCd
          * @return
          */
-        Optional<WnWipStat> findBySiteIdAndResvEqpIdAndResvPortIdAndLotIdAndUseStatCd(String siteId, String resvEqpId, String resvPortId, String lotId, UseStatCd useStatCd)
+        Optional<WnWipStat> findBySiteIdAndResvEqpIdAndResvPortIdAndLotIdAndUseStatCd(String siteId, String resvEqpId, String resvPortId, String lotId, UseStatCd useStatCd);
 
 
         /**

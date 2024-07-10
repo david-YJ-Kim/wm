@@ -46,6 +46,7 @@ public class TransferJobService {
         McsCarrMoveReqIvo.McsCarrMoveReqBody carrMoveReqBody = new McsCarrMoveReqIvo.McsCarrMoveReqBody();
         carrMoveReqBody.setSiteId(vo.getSiteId());
         carrMoveReqBody.setEventUserId(ApSystemCodeConstant.WFS);
+        carrMoveReqBody.setEventComment(vo.getComment());
         carrMoveReqBody.setCarrId(vo.getCarrId());
         carrMoveReqBody.setCommId(transferId);
         carrMoveReqBody.setSrcEqpId(vo.getSrcEqpId());

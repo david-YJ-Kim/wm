@@ -1,5 +1,7 @@
 package com.abs.wfs.workman.interfaces.solace;
 
+import com.abs.cmn.seq.SequenceManager;
+import com.abs.cmn.seq.util.SequenceManageUtil;
 import com.abs.wfs.workman.config.SolaceSessionConfiguration;
 import com.abs.wfs.workman.util.code.ApEnumConstant;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -58,11 +60,14 @@ public class InterfaceSolacePub {
             SDTMap userPropMap = JCSMPFactory.onlyInstance().createMap();
 
             userPropMap.putString(ApEnumConstant.cid.name(), sendCid);
+            userPropMap.putString(ApEnumConstant.messageId.name(), SequenceManageUtil.generateMessageID());
+
             txtMsg.setText(payload);
             txtMsg.setProperties(userPropMap);
 
-            txtMsg.setDeliveryMode(DeliveryMode.PERSISTENT);
+            // txtMsg.setDeliveryMode(DeliveryMode.PERSISTENT);
             prod.send(txtMsg, createTopic(topicName));
+
         }catch (Exception e){
 
             e.printStackTrace();

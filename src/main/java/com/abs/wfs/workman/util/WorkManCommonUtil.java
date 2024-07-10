@@ -128,8 +128,8 @@ public class WorkManCommonUtil {
      */
     public static String generateMultiLangExceptionMessage(String code, String lang, Object[] args){
 
+        log.info("Multi lang exception request. code: {}, lang: {}", code, lang);
         ConcurrentHashMap<String, HashMap<String, String>>  codeMap =  ApSharedVariable.getInstance().getMultiLangCodeMap();
-        log.info("Multi lang exception request. code: {}, lang: {}, formatList: {}", code, lang, codeMap.get(code).toString());
 
         String defaultMessage = "ERROR occur while system working";
         String defaultLang = "ko";
@@ -228,6 +228,29 @@ public class WorkManCommonUtil {
             return false;
         }
         return wordA.trim().equals(wordB.trim());
+
+    }
+
+
+    /**
+     * ApFlow VO에 추가 정보 적재
+     * @param vo
+     * @param key
+     * @param value
+     * @return
+     */
+    public static void setAdditionalData(ApFlowProcessVo vo, String key, String value){
+
+        HashMap<String, String> additionData;
+        if(vo.getAdditionData() == null){
+            additionData = new HashMap<>();
+
+        }else{
+            additionData = vo.getAdditionData();
+
+        }
+        additionData.put(key, value);
+        vo.setAdditionData(additionData);
 
     }
 

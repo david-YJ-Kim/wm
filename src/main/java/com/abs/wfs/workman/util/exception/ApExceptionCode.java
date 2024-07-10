@@ -23,6 +23,7 @@ public enum ApExceptionCode {
     WFS_ERR_CARR_INF_UNREGISTER("WFS_ERR_CARR_INF_UNREGISTER", "해당 CST (%s)로 등록된 재공(wip)이 없습니다."),
     WFS_ERR_PORT_INF_UNREGISTER("WFS_ERR_PORT_INF_UNREGISTER", "해당 포트 (%s)로 전산에서 조회 되지 않았습니다."),
     WFS_ERR_PORT_CARR_INF_UNREGISTER("WFS_ERR_PORT_CARR_INF_UNREGISTER", "해당 포트 (%s)에 CST(%s)가 등록되지 않았습니다."),
+    WFS_ERR_TRAN_JOB_UNREGISTER("WFS_ERR_TRAN_JOB_UNREGISTER", "해당 CST(%s)로 생성된 반송 작업이 없습니다."),
 
 
     /**

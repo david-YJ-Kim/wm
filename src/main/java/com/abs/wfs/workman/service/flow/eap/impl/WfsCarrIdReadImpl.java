@@ -143,7 +143,6 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
         }
 
 
-        WorkManCommonUtil.compareStringWords()
 
         QueryPortVo queryPortVo = (apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo() != null)
                 ? apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo()

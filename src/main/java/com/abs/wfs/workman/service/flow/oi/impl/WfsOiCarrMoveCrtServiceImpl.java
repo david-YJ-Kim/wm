@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,8 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
         WfsOiCarrMoveCrtIvo.WfsOiCarrMoveCrtBody body = wfsOiCarrMoveCrtIvo.getBody();
         apFlowProcessVo.setApMsgBody(body);
 
+        log.info(apFlowProcessVo.toString());
+
         String carrId = body.getCarrId();
 
         // 진행 중인 Transfer 잡이 있는 지 확인
@@ -76,6 +79,11 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
             jobs.stream()
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
+
+
+                        String transJobId = job.getJobId();
+                        WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "commId", transJobId);
+
                         throw new ScenarioException(apFlowProcessVo, body,
                                                     ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
                                                     new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}
@@ -147,7 +155,8 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
                                             .srcPortId(sourcePort)
                                             .destEqpId(body.getDestEqpId())
                                             .destPortId(body.getDestPortId())
-                                            .prio("50")
+                                            .comment(body.getComment())
+                                            .prio(body.getPrio())
                                             .build();
 
 

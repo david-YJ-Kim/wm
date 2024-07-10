@@ -12,10 +12,10 @@ public class WfsOiCarrDestChgReqIvo extends ApMsgCommonVo {
     public static String system = ApSystemCodeConstant.WFS;
     public static String cid = WorkManMessageList.WFS_OI_CARR_DEST_CHG_REQ;
 
-    WfsOiCarrMoveCrtBody body;
+    Body body;
 
     @Data
-    public static class WfsOiCarrMoveCrtBody extends ApMsgBody {
+    public static class Body extends ApMsgBody {
 
         String commId;
         String destEqpId;
@@ -30,7 +30,7 @@ public class WfsOiCarrDestChgReqIvo extends ApMsgCommonVo {
 /*
 {
   "head": {
-    "cid": "WFS_OI_CARR_MOVE_CRT_OI",
+    "cid": "WFS_OI_CARR_DEST_CHG_REQ",
     "osrc": "",
     "otgt": "",
     "src": "OIA",

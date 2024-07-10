@@ -104,6 +104,7 @@ public final class WorkManMessageList {
 
 
     public static final String MCS_CARR_MOVE_REQ = "MCS_CARR_MOVE_REQ";
+    public static final String MCS_CARR_DEST_CHG_REQ = "MCS_CARR_DEST_CHG_REQ";
 
 
     public static final String RTD_DSP_WORK_REQ = "RTD_DSP_WORK_REQ";

@@ -7,6 +7,8 @@ import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.HashMap;
+
 /**
  * Ap, 진행하면서 필요한 데이터를 저장 수집하는 데이터 구조체
  */
@@ -38,6 +40,9 @@ public class ApFlowProcessVo {
     private String inPayload; // 전체 메시지 객체
 
     private SuccessYn successYn = SuccessYn.Y;
+
+
+    private HashMap<String, String> additionData;
 
 
 

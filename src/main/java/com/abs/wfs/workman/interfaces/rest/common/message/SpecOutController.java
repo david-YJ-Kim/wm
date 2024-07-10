@@ -11,11 +11,14 @@ import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.DataInput;
 
 @Slf4j
 @RestController
@@ -34,29 +37,52 @@ public class SpecOutController {
     ApPayloadGenerateService apPayloadGenerateService;
 
 
+
+    @PostMapping("SEND_MSG_SAMPLE")
+    public void send(@RequestBody String payload,
+                     @RequestParam(value = "tgt", required = false) String tgt,
+                     @RequestParam(value = "cid", required = false) String cid,
+                     @RequestParam(value = "eqpId", required = false) String eqpId,
+                     @RequestParam(value = "topic", required = false) String topic) throws Exception {
+
+
+        String topicName = topic == null ? ApPropertyObject.getInstance().getSequenceManager().getTargetName(tgt, cid, payload)
+                                        : topic;
+        this.messageSendService.sendMessageSend(tgt, cid, payload, topicName);
+
+
+    }
+
+
+
     @PostMapping(WorkManMessageList.WFS_MANUAL_WORK_START)
     public void send(@RequestBody WfsManualWorkStartIvo.WfsManualWorkStartBody body,
-                                                 @RequestParam(value = "src", required = false) String src,
-                                                 @RequestParam(value = "eqpId", required = false) String eqpId,
-                                                 @RequestParam(value = "topic", required = false) String topic) throws Exception {
+                     @RequestParam(value = "src", required = false) String src,
+                     @RequestParam(value = "eqpId", required = false) String eqpId,
+                     @RequestParam(value = "topic", required = false) String topic) throws Exception {
 
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        log.info("body: {}, src: {}, eqpId: {}, topic: {}", body.toString(), src, eqpId, topic);
 
         String toolCode = (eqpId == null || eqpId.isEmpty()) ? body.getEqpId() : eqpId;
-        String sourceSystem = (eqpId == null || eqpId.isEmpty()) ? ApSystemCodeConstant.WFS : src;
         String tid = SequenceManageUtil.generateMessageID();
 
         WfsManualWorkStartIvo payload = new WfsManualWorkStartIvo();
-        ApMsgHead head = this.apPayloadGenerateService.generateMessageHead(tid, sourceSystem, WfsManualWorkStartIvo.system, toolCode);
+        ApMsgHead head = this.apPayloadGenerateService.generateMessageHead(tid, WfsManualWorkStartIvo.cid, WfsManualWorkStartIvo.system, toolCode);
         payload.setHead(head);
         payload.setBody(body);
         String payloadString = objectMapper.writeValueAsString(payload);
+        log.info(payloadString);
 
-//        String topicName = (eqpId == null || eqpId.isEmpty()) ? topic : ApPropertyObject.getInstance().getSequenceManager().getTargetName(WfsManualWorkStartIvo.system, WfsManualWorkStartIvo.cid, payloadString);
         String topicName = ApPropertyObject.getInstance().getSequenceManager().getTargetName(WfsManualWorkStartIvo.system, WfsManualWorkStartIvo.cid, payloadString);
         this.messageSendService.sendMessageSend(WfsManualWorkStartIvo.system, WfsManualWorkStartIvo.cid, payloadString, topicName);
 
 
     }
+
+
+
 
 
 
