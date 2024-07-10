@@ -51,21 +51,21 @@ public class ApPayloadGenerateService {
     public String generateBody(String tid,BrsEqpStateChangeIvo.BrsEqpStateChangeBody body) throws JsonProcessingException {
         BrsEqpStateChangeIvo brsEqpStateChangeIvo = new BrsEqpStateChangeIvo();
 
-        brsEqpStateChangeIvo.setHead(this.generateMessageHead(tid, ApSystemCodeConstant.BRS, null));
+        brsEqpStateChangeIvo.setHead(this.generateMessageHead(tid, BrsEqpStateChangeIvo.cid, ApSystemCodeConstant.BRS, null));
         brsEqpStateChangeIvo.setBody(body);
 
         return objectMapper.writeValueAsString(brsEqpStateChangeIvo);
     }
 
-    private ApMsgHead generateMessageHead (String tid, String targetSystem, String targetEqp){
+    private ApMsgHead generateMessageHead (String tid, String cid, String targetSystem, String targetEqp){
 
-        return this.generateMessageHead(tid, ApSystemCodeConstant.WFS, targetSystem, targetEqp);
+        return this.generateMessageHead(tid, cid, ApSystemCodeConstant.WFS, targetSystem, targetEqp);
     }
 
-    public ApMsgHead generateMessageHead (String tid, String sourceSystem, String targetSystem, String targetEqp){
+    public ApMsgHead generateMessageHead (String tid, String cid, String sourceSystem, String targetSystem, String targetEqp){
         ApMsgHead apMsgHead = ApMsgHead.builder()
                 .tid(tid)
-                .cid(BrsEqpControlModeChangeIvo.cid)
+                .cid(cid)
                 .src(sourceSystem)
                 .tgt(targetSystem)
                 .tgtEqp(Collections.singletonList(targetEqp))
@@ -83,7 +83,7 @@ public class ApPayloadGenerateService {
         BrsLotSelfInspDataIvo brsLotSelfInspDataIvo = new BrsLotSelfInspDataIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        brsLotSelfInspDataIvo.setHead(this.generateMessageHead(tid, BrsLotSelfInspDataIvo.system, null));
+        brsLotSelfInspDataIvo.setHead(this.generateMessageHead(tid, BrsLotSelfInspDataIvo.cid, BrsLotSelfInspDataIvo.system, null));
         brsLotSelfInspDataIvo.setBody(body);
 
         return objectMapper.writeValueAsString(brsLotSelfInspDataIvo);
@@ -101,7 +101,7 @@ public class ApPayloadGenerateService {
         EapJobAbortReqIvo eapJobAbortReqIvo = new EapJobAbortReqIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        eapJobAbortReqIvo.setHead(this.generateMessageHead(tid, EapJobAbortReqIvo.system, body.getEqpId()));
+        eapJobAbortReqIvo.setHead(this.generateMessageHead(tid, EapJobAbortReqIvo.cid, EapJobAbortReqIvo.system, body.getEqpId()));
         eapJobAbortReqIvo.setBody(body);
 
         return objectMapper.writeValueAsString(eapJobAbortReqIvo);
@@ -116,7 +116,7 @@ public class ApPayloadGenerateService {
         EapLotInfoRepIvo eapLotInfoRepIvo = new EapLotInfoRepIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        eapLotInfoRepIvo.setHead(this.generateMessageHead(tid, EapLotInfoRepIvo.system, body.getEqpId()));
+        eapLotInfoRepIvo.setHead(this.generateMessageHead(tid, EapLotInfoRepIvo.cid, EapLotInfoRepIvo.system, body.getEqpId()));
         eapLotInfoRepIvo.setBody(body);
 
         return objectMapper.writeValueAsString(eapLotInfoRepIvo);
@@ -133,7 +133,7 @@ public class ApPayloadGenerateService {
         if (body.getUserId() == null || body.getUserId().isEmpty()) {
             body.setUserId(ApSystemCodeConstant.WFS);
         }
-        ivo.setHead(this.generateMessageHead(tid, EapToolCondReqIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, EapToolCondReqIvo.cid, EapToolCondReqIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -148,7 +148,7 @@ public class ApPayloadGenerateService {
         if (body.getUserId() == null || body.getUserId().isEmpty()) {
             body.setUserId(ApSystemCodeConstant.WFS);
         }
-        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.cid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -163,7 +163,7 @@ public class ApPayloadGenerateService {
         if (body.getUserId() == null || body.getUserId().isEmpty()) {
             body.setUserId(ApSystemCodeConstant.WFS);
         }
-        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, WfsEfemControlStateReportIvo.cid, WfsEfemControlStateReportIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return ivo;
@@ -181,7 +181,7 @@ public class ApPayloadGenerateService {
         FisFileReportIvo fisFileReportIvo = new FisFileReportIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        fisFileReportIvo.setHead(this.generateMessageHead(tid, FisFileReportIvo.system, body.getEqpId()));
+        fisFileReportIvo.setHead(this.generateMessageHead(tid, FisFileReportIvo.cid, FisFileReportIvo.system, body.getEqpId()));
         fisFileReportIvo.setBody(body);
 
         return objectMapper.writeValueAsString(fisFileReportIvo);
@@ -197,7 +197,7 @@ public class ApPayloadGenerateService {
         RtdDspWorkReqIvo rtdDspWorkReqIvo = new RtdDspWorkReqIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        rtdDspWorkReqIvo.setHead(this.generateMessageHead(tid, RtdDspWorkReqIvo.system, body.getEqpId()));
+        rtdDspWorkReqIvo.setHead(this.generateMessageHead(tid, RtdDspWorkReqIvo.cid, RtdDspWorkReqIvo.system, body.getEqpId()));
         rtdDspWorkReqIvo.setBody(body);
 
         return objectMapper.writeValueAsString(rtdDspWorkReqIvo);
@@ -215,7 +215,7 @@ public class ApPayloadGenerateService {
         BrsLotProcEndedIvo ivo = new BrsLotProcEndedIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        ivo.setHead(this.generateMessageHead(tid, BrsLotProcEndedIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, BrsLotProcEndedIvo.cid, BrsLotProcEndedIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -230,7 +230,7 @@ public class ApPayloadGenerateService {
         BrsLotProcStartedIvo ivo = new BrsLotProcStartedIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        ivo.setHead(this.generateMessageHead(tid, BrsLotProcStartedIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, BrsLotProcStartedIvo.cid, BrsLotProcStartedIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -244,7 +244,7 @@ public class ApPayloadGenerateService {
         BrsLotProdEndedIvo ivo = new BrsLotProdEndedIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        ivo.setHead(this.generateMessageHead(tid, BrsLotProdEndedIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, BrsLotProdEndedIvo.cid, BrsLotProdEndedIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -258,7 +258,7 @@ public class ApPayloadGenerateService {
         BrsLotProdStartedIvo ivo = new BrsLotProdStartedIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        ivo.setHead(this.generateMessageHead(tid, BrsLotProdStartedIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, BrsLotProdStartedIvo.cid, BrsLotProdStartedIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
@@ -280,7 +280,7 @@ public class ApPayloadGenerateService {
         McsCarrMoveReqIvo mcsCarrMoveReqIvo = new McsCarrMoveReqIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        mcsCarrMoveReqIvo.setHead(this.generateMessageHead(tid, McsCarrMoveReqIvo.system, null));
+        mcsCarrMoveReqIvo.setHead(this.generateMessageHead(tid, McsCarrMoveReqIvo.cid, McsCarrMoveReqIvo.system, null));
         mcsCarrMoveReqIvo.setBody(body);
 
         return objectMapper.writeValueAsString(mcsCarrMoveReqIvo);

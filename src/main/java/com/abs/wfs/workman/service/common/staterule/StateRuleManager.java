@@ -30,14 +30,18 @@ public class StateRuleManager {
     @Getter
     private List<WnStateRuleInfo> wnStateRuleInfoList;
 
-    @Autowired
-    public StateRuleManager(StateRuleInfoServiceImpl stateRuleInfoService){
-        this.stateRuleInfoService = stateRuleInfoService;
-        this.wnStateRuleInfoList = loadUsableRuleInfoBySite();
-        this.ruleChecker = new RuleChecker();
 
-        log.info(this.wnStateRuleInfoList.toString());
+
+    public void initializeResource(){
+        if(ruleChecker == null) {this.ruleChecker = new RuleChecker();}
+
+        if(this.wnStateRuleInfoList != null){
+            log.warn("Already set wnStateRuleInfoList. re load data.");
+        }
+        this.wnStateRuleInfoList = loadUsableRuleInfoBySite();
+
     }
+
 
 
     public void validateEqpStateRule(String siteId, String eqpId, String portId, String validationType, QueryEqpVo queryEqpVo) {

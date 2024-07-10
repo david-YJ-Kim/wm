@@ -28,7 +28,7 @@ public class OiFlowController {
     WfsOiCarrMoveCrtServiceImpl wfsOiCarrMoveCrtService;
 
     @PostMapping(WorkManMessageList.WFS_OI_CARR_MOVE_CRT)
-    public ResponseEntity<ApResponseIvo> executeWfsAlarmReport(@RequestBody WfsOiCarrMoveCrtIvo wfsOiCarrMoveCrtIvo,
+    public ResponseEntity<ApResponseIvo> control(@RequestBody WfsOiCarrMoveCrtIvo wfsOiCarrMoveCrtIvo,
                                                                @RequestParam(value = "key") String trackingKey,
                                                                @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
@@ -46,7 +46,6 @@ public class OiFlowController {
                                             HttpStatus.OK);
 
         }catch (ScenarioException se){
-            log.error(se.getMessage());
             return new ResponseEntity<>(
                     ApResponseIvo.builder().scenarioException(se).build(),
                     HttpStatus.OK
@@ -54,14 +53,15 @@ public class OiFlowController {
             );
 
         }catch (Exception e){
-            throw e;
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
 
     @PostMapping(WorkManMessageList.WFS_OI_CARR_DEST_CHG_REQ)
-    public ResponseEntity<ApResponseIvo> executeWfsAlarmReport(@RequestBody WfsOiCarrDestChgReqIvo wfsOiCarrDestChgReqIvo,
+    public ResponseEntity<ApResponseIvo> control(@RequestBody WfsOiCarrDestChgReqIvo wfsOiCarrDestChgReqIvo,
                                                                @RequestParam(value = "key") String trackingKey,
                                                                @RequestParam(value = "scenario") String scenarioType) throws Exception {
 

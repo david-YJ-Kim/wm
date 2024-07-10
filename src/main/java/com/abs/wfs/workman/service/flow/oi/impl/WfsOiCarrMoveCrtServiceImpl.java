@@ -98,20 +98,50 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
         }
 
         Optional<WnWipStat> wipStatCarrInfo = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, body.getSiteId());
-        if(!wipStatCarrInfo.isPresent()){ throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_INF_UNREGISTER, lang, new String[] {carrId});}
-        if(!sourceEqp.equals(wipStatCarrInfo.get().getCrntEqpId())) {throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_SRC_LOC_UNMATCHED, lang, new String[] {carrId, sourceEqp, wipStatCarrInfo.get().getCrntEqpId()});}
-        if(!sourcePort.equals(wipStatCarrInfo.get().getCrntPortId())) {throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_SRC_LOC_UNMATCHED, lang, new String[] {carrId, sourcePort, wipStatCarrInfo.get().getCrntPortId()});}
+        if(wipStatCarrInfo.isPresent()){
+            WnWipStat wipStat = wipStatCarrInfo.get();
 
-        if(!wipStatCarrInfo.get().getResvGrpId().isEmpty()) { throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStatCarrInfo.get().getResvGrpId()});}
-        if(!wipStatCarrInfo.get().getResvEqpId().isEmpty()) { throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStatCarrInfo.get().getResvEqpId()});}
-        if(!wipStatCarrInfo.get().getResvPortId().isEmpty()) { throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStatCarrInfo.get().getResvPortId()});}
+            if(wipStat.getCrntEqpId() != null && !sourceEqp.equals(wipStat.getCrntEqpId())) {
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_SRC_LOC_UNMATCHED, lang, new String[] {carrId, sourceEqp, wipStat.getCrntEqpId()});
+            }
+            if(wipStat.getCrntPortId() != null && !sourcePort.equals(wipStat.getCrntPortId())) {
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_SRC_LOC_UNMATCHED, lang, new String[] {carrId, sourcePort, wipStat.getCrntPortId()});}
 
-        Optional<TnPosPort> portInto = this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(sourcePort, body.getSiteId());
-        if(!portInto.isPresent()){ throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_INF_UNREGISTER, lang, new String[] {sourcePort}); }
-        if(portInto.get().getCarrId().isEmpty()) {throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_INF_UNREGISTER, lang, new String[] {sourcePort, carrId}); }
-        if(!portInto.get().getCarrId().equals(carrId)) {throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_CARR_INF_UNMATCHED, lang, new String[] {sourcePort, carrId, portInto.get().getCarrId()});  }
+            if(wipStat.getResvGrpId() != null && !wipStat.getResvGrpId().isEmpty()) {
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStat.getResvGrpId()});
+            }
+
+            if(wipStat.getResvEqpId() != null && !wipStat.getResvEqpId().isEmpty()) {
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStat.getResvEqpId()});}
+
+            if(wipStat.getResvPortId() != null && !wipStat.getResvPortId().isEmpty()) {
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_RESV_INF_REGISTER, lang, new String[] {carrId, wipStat.getResvPortId()});}
 
 
+        }else{
+            throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_INF_UNREGISTER, lang, new String[] {carrId});
+        }
+
+        if(sourcePort.startsWith("ASTK") || sourcePort.startsWith("ABUF")){
+
+                log.info("Carr now at logistic eqp {}", sourcePort);
+        }else{
+
+            Optional<TnPosPort> portInto = this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(sourcePort, body.getSiteId());
+            if(portInto.isPresent()){
+                TnPosPort tnPosPort = portInto.get();
+
+                if(!tnPosPort.getCarrId().equals(carrId)) {
+                    throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_CARR_INF_UNMATCHED, lang, new String[] {sourcePort, carrId, tnPosPort.getCarrId()});  }
+
+            }else{
+
+
+                throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_INF_UNREGISTER, lang, new String[] {sourcePort});
+
+            }
+
+        }
 
         TransferJobReqVo transferJobReqVo = TransferJobReqVo.builder()
                                             .siteId(body.getSiteId())
