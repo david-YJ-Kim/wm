@@ -50,14 +50,13 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
     @Override
     public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
+        return ApFlowProcessVo.builder()
                 .eventName(cid)
                 .trackingKey(trackingKey)
                 .scenarioType(scenarioType)
                 .executeStartTime(System.currentTimeMillis())
                 .tid(tid)
                 .build();
-        return apFlowProcessVo;
     }
 
 
@@ -66,8 +65,7 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
         String lang = wfsOiCarrMoveCrtIvo.getHead().getLang();
         WfsOiCarrMoveCrtIvo.WfsOiCarrMoveCrtBody body = wfsOiCarrMoveCrtIvo.getBody();
-
-
+        apFlowProcessVo.setApMsgBody(body);
 
         String carrId = body.getCarrId();
 
@@ -78,7 +76,6 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
             jobs.stream()
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
-
                         throw new ScenarioException(apFlowProcessVo, body,
                                                     ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
                                                     new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}
@@ -93,7 +90,6 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
         String sourceEqp = body.getSrcEqpId();  String sourcePort = body.getSrcPortId();
         if(!sourcePort.trim().startsWith(sourceEqp.trim())){
 
-            // TODO Exception. EQP & Port 네이밍 룰이 다름
             throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_TOOL_PORT_INF_INVALID,  lang,null);
         }
 

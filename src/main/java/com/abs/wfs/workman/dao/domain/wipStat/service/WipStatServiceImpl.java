@@ -27,6 +27,20 @@ public class WipStatServiceImpl implements WipStatService{
 
 
     /**
+     * Wip, 예약 설비 · 포트, Lot으로 조회
+     * @param siteId
+     * @param resvEqpId
+     * @param resvPortId
+     * @param lotId
+     * @return
+     */
+    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findResvEqpIdAndResvPortIdAndLotId(String siteId, String resvEqpId, String resvPortId, String lotId){
+        return this.wnWipStatRepository.findBySiteIdAndResvEqpIdAndResvPortIdAndLotIdAndUseStatCd(siteId, resvEqpId, resvPortId, lotId, UseStatCd.Usable);
+    }
+
+
+
+    /**
      * Wip에 예약 설비, 포트로 조회
      * @param siteId
      * @param eqpId

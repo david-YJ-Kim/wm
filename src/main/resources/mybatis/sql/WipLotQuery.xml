@@ -10,8 +10,13 @@
                W.SELF_INSP_YN,
                W.SELF_INSP_INFO_OBJ_ID,
                W.CRNT_EQP_ID,
-               w.CRNT_PORT_ID,
+               W.CRNT_PORT_ID,
+               W.RESV_EQP_ID,
+               W.RESV_PORT_ID,
+               W.RESV_GRP_ID,
+               L.ECO_ID,
                L.PROD_DEF_ID,
+               L.PROC_STAT_CD,
                L.SGMT_STAT_CD,
                L.HOLD_YN,
                L.PROC_DEF_ID,
@@ -25,6 +30,35 @@
         <if test="pLotId != null">AND LOT_ID = #{pLotId}</if>
         <if test="crntEqpId != null">AND CRNT_EQP_ID = #{crntEqpId}</if>
         <if test="crntPortId != null">AND CRNT_PORT_ID = #{crntPortId}</if>
+    </select>
+
+    <select id="selectCarrLocQuery"
+            parameterType="com.abs.wfs.workman.dao.query.wipLot.vo.SelectCarrLocQueryReqVo"
+            resultType="com.abs.wfs.workman.dao.query.wipLot.vo.SelectCarrLocQueryReqVo"
+            >
+
+        SELECT
+            W.CRNT_EQP_ID,
+            W.CRNT_PORT_ID,
+            L.LOT_ID,
+            L.HOLD_YN,
+            L.PROC_STAT_CD,
+            L.SGMT_STAT_CD,
+            W.WORK_STAT_CD,
+            W.RESV_EQP_ID,
+            W.RESV_PORT_ID,
+            W.RESV_GRP_ID,
+            L.ECO_ID
+        FROM
+            WN_WIP_STAT W,
+            TN_POS_LOT L
+        WHERE 1=1
+          AND W.SITE_ID = L.SITE_ID(+)
+          AND W.CARR_ID = L.CARR_ID(+)
+          AND W.SITE_ID  = ?
+          AND w.USE_STAT_CD = ?
+          AND W.CARR_ID = ?
+          AND W.LOT_ID = ?
     </select>
 
 </mapper>

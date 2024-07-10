@@ -213,4 +213,22 @@ public class WorkManCommonUtil {
     }
 
 
+    /**
+     * 두 개 의 서로 다른 String 객체의 값이 같으면 true, 다르면 false
+     * @param wordA
+     * @param wordB
+     * @return
+     */
+    public static boolean compareStringWords(String wordA, String wordB){
+
+        if (wordA == null && wordB == null) {
+            return true;
+        }
+        if (wordA == null || wordB == null) {
+            return false;
+        }
+        return wordA.trim().equals(wordB.trim());
+
+    }
+
 }
