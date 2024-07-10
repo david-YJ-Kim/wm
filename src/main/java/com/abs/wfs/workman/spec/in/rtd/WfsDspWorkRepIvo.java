@@ -12,10 +12,10 @@ public class WfsDspWorkRepIvo extends ApMsgCommonVo {
     public static String system = ApSystemCodeConstant.WFS;
     public static String cid = WorkManMessageList.WFS_DSP_WORK_REP;
 
-    Body body;
+    WfsDspWorkRepBody body;
 
     @Data
-    public static class Body extends ApMsgBody {
+    public static class WfsDspWorkRepBody extends ApMsgBody {
         String dspType;
         String prodDefId;
         String procDefId;

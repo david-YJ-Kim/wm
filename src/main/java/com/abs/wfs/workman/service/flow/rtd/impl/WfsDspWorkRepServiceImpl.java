@@ -1,16 +1,17 @@
 package com.abs.wfs.workman.service.flow.rtd.impl;
 
 import com.abs.wfs.workman.config.ApPropertyObject;
+import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
 import com.abs.wfs.workman.service.flow.rtd.WfsDspWorkRep;
+import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMessageResultVo;
-import com.abs.wfs.workman.spec.in.rtd.WfsDspWorkRepVo;
+import com.abs.wfs.workman.spec.in.rtd.WfsDspWorkRepIvo;
 import com.abs.wfs.workman.dao.query.lot.service.LotQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo;
 import com.abs.wfs.workman.dao.query.tool.service.ToolQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo;
 import com.abs.wfs.workman.util.code.*;
-import com.abs.wfs.workman.util.service.StateRuleManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executors;
 
 @Slf4j
 @Service
-public class WfsDspWorkRepImpl implements WfsDspWorkRep {
+public class WfsDspWorkRepServiceImpl implements WfsDspWorkRep {
 
     @Autowired
     ToolQueryServiceImpl toolQueryService;
@@ -39,7 +40,7 @@ public class WfsDspWorkRepImpl implements WfsDspWorkRep {
 
     private long executeStartTime;
 
-    private WfsDspWorkRepVo.WfsDspWorkRepBody wfsDspWorkRepBody;
+    private WfsDspWorkRepIvo.WfsDspWorkRepBody wfsDspWorkRepBody;
 
     private QueryPortVo queryPortVo;
     private QueryEqpVo queryEqpVo;
@@ -48,9 +49,18 @@ public class WfsDspWorkRepImpl implements WfsDspWorkRep {
     private ExecutorService executorService;
 
     @Override
+    public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsDspWorkRepIvo wfsDspWorkRepIvo) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
+        return null;
+    }
+    @Override
     public void init(String cid, Object messageObj) {
         this.cid = cid;
-        this.wfsDspWorkRepBody = ((WfsDspWorkRepVo) messageObj ).getBody();
+        this.wfsDspWorkRepBody = ((WfsDspWorkRepIvo) messageObj ).getBody();
         this.executeStartTime = System.currentTimeMillis();
 
     }
@@ -415,4 +425,5 @@ public class WfsDspWorkRepImpl implements WfsDspWorkRep {
         );
 
     }
+
 }
