@@ -90,6 +90,7 @@ public final class WorkManMessageList {
     public static final String WFS_VMS_PROC_STARTED = "WFS_VMS_PROC_STARTED";
     public static final String WFS_VMS_PROD_ENDED = "WFS_VMS_PROD_ENDED";
     public static final String WFS_VMS_PROD_STARTED = "WFS_VMS_PROD_STARTED";
+    public static final String WFS_VMS_LOT_TRACK_OUT_REQ = "WFS_VMS_LOT_TRACK_OUT_REQ";
 
     /**
      * SPEC - OUT

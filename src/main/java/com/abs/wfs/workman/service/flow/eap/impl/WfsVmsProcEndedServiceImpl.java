@@ -1,29 +1,19 @@
 
 package com.abs.wfs.workman.service.flow.eap.impl;
 
-import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
-import com.abs.wfs.workman.dao.query.service.WorkQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdateEventNmByLotCarrIdRequestVo;
-import com.abs.wfs.workman.dao.query.service.vo.UpdateWnWorkJobEventRequestVo;
-import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
-import com.abs.wfs.workman.service.flow.eap.WfsProcEnded;
 import com.abs.wfs.workman.service.flow.eap.WfsVmsProcEnded;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
-import com.abs.wfs.workman.spec.in.eap.WfsProcEndedIvo;
-import com.abs.wfs.workman.spec.in.eap.WfsVmsProcEndedIvo;
+import com.abs.wfs.workman.spec.in.eqp.WfsVmsProcEndedIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotProcEndedIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
-import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Service

@@ -2,8 +2,7 @@ package com.abs.wfs.workman.service.flow.eap;
 
 import com.abs.wfs.workman.service.flow.WfsMessageService;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
-import com.abs.wfs.workman.spec.in.eap.WfsVmsProcEndedIvo;
-import com.abs.wfs.workman.spec.in.eap.WfsVmsProcStartedIvo;
+import com.abs.wfs.workman.spec.in.eqp.WfsVmsProcStartedIvo;
 
 public interface WfsVmsProcStarted extends WfsMessageService {
 

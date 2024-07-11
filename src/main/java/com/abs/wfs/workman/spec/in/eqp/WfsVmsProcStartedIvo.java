@@ -1,4 +1,4 @@
-package com.abs.wfs.workman.spec.in.eap;
+package com.abs.wfs.workman.spec.in.eqp;
 
 
 import com.abs.wfs.workman.spec.ApMsgCommonVo;
@@ -8,18 +8,18 @@ import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import lombok.Data;
 
 @Data
-public class WfsVmsProcEndedIvo extends ApMsgCommonVo {
+public class WfsVmsProcStartedIvo extends ApMsgCommonVo {
 
 
 	public static String system = ApSystemCodeConstant.WFS;
-	public static String cid = WorkManMessageList.WFS_VMS_PROC_ENDED;
+	public static String cid = WorkManMessageList.WFS_VMS_PROC_STARTED;
 
 
 
-	private WfsVmsProcEndedBody body;
+	private WfsVmsProcStartedBody body;
 
 	@Data
-	public static class WfsVmsProcEndedBody extends ApMsgBody{
+	public static class WfsVmsProcStartedBody extends ApMsgBody{
 		String prodDefId;
 		String procSgmtId;
 		String procDefId;

@@ -1,4 +1,4 @@
-package com.abs.wfs.workman.spec.in.eap;
+package com.abs.wfs.workman.spec.in.eqp;
 
 
 import com.abs.wfs.workman.spec.ApMsgCommonVo;
