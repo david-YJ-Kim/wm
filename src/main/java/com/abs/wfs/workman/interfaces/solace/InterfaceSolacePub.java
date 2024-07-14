@@ -65,7 +65,7 @@ public class InterfaceSolacePub {
             txtMsg.setText(payload);
             txtMsg.setProperties(userPropMap);
 
-            // txtMsg.setDeliveryMode(DeliveryMode.PERSISTENT);
+             txtMsg.setDeliveryMode(DeliveryMode.PERSISTENT);
             prod.send(txtMsg, createTopic(topicName));
 
         }catch (Exception e){

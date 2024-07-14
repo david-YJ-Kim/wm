@@ -39,9 +39,7 @@ public class ScenarioException  extends RuntimeException{
 
         this(WorkManCommonUtil.setFailFlowProcessVo(apFlowProcessVo), apMsgBody);
         this.code = code.getCode();
-        this.lang = lang.isEmpty() ?
-                        apFlowProcessVo.getLang().isEmpty() ? "en" : apFlowProcessVo.getLang()
-                    :lang;
+        this.lang = lang == null || lang.isEmpty() ? "en" : lang;
         this.args = args;
     }
 

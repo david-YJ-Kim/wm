@@ -4,7 +4,9 @@ package com.abs.wfs.workman.service.common;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEfemControlStateReportIvo;
+import com.abs.wfs.workman.spec.in.eap.WfsMaterialKitdekitReportIvo;
 import com.abs.wfs.workman.spec.out.brs.*;
+import com.abs.wfs.workman.spec.out.eap.EapDurableInfoReqIvo;
 import com.abs.wfs.workman.spec.out.eap.EapJobAbortReqIvo;
 import com.abs.wfs.workman.spec.out.eap.EapLotInfoRepIvo;
 import com.abs.wfs.workman.spec.out.eap.EapToolCondReqIvo;
@@ -161,6 +163,23 @@ public class ApPayloadGenerateService {
     }
 
 
+
+    public String generateBody(String tid, EapDurableInfoReqIvo.Body body) throws JsonProcessingException {
+
+
+        EapDurableInfoReqIvo ivo = new EapDurableInfoReqIvo();
+
+        if (body.getUserId() == null || body.getUserId().isEmpty()) {
+            body.setUserId(ApSystemCodeConstant.WFS);
+        }
+        ivo.setHead(this.generateMessageHead(tid, EapDurableInfoReqIvo.cid, EapDurableInfoReqIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+    }
+
+
+
     public WfsEfemControlStateReportIvo generateBody(String tid, WfsEfemControlStateReportIvo.Body body, boolean returnObj) throws JsonProcessingException {
 
 
@@ -174,7 +193,6 @@ public class ApPayloadGenerateService {
 
         return ivo;
     }
-
 
 
 
@@ -269,9 +287,21 @@ public class ApPayloadGenerateService {
 
         return objectMapper.writeValueAsString(ivo);
 
-
     }
 
+    public String generateBody(String tid, BrsEqpDekitIvo.Body body) throws JsonProcessingException {
+
+
+        BrsEqpDekitIvo ivo = new BrsEqpDekitIvo();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, BrsEqpDekitIvo.cid, BrsEqpDekitIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+
+
+    }
 
 
 

@@ -3,11 +3,16 @@ package com.abs.wfs.workman.interfaces.rest.flow;
 
 import com.abs.wfs.workman.service.flow.eap.impl.*;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgBody;
 import com.abs.wfs.workman.spec.in.eap.*;
 import com.abs.wfs.workman.util.WorkManMessageList;
+import com.abs.wfs.workman.util.exception.ScenarioException;
+import com.abs.wfs.workman.util.vo.ApResponseIvo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -46,16 +51,96 @@ public class EapFlowController {
     }
 
 
+    private ResponseEntity<ApResponseIvo> processRequest(String cid, String trackingKey, String scenarioType, String tid,
+                                                         ProcessExecutor executor, ApMsgBody body) {
+        try {
+            ApFlowProcessVo apFlowProcessVo = executor.execute();
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder()
+                            .msgBody(body)
+                            .processInfo(apFlowProcessVo)
+                            .build(),
+                    HttpStatus.OK);
+        } catch (ScenarioException se) {
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder().scenarioException(se).build(),
+                    HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        } catch (Exception e) {
+            log.error("Error: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @FunctionalInterface
+    private interface ProcessExecutor {
+        ApFlowProcessVo execute() throws Exception;
+    }
+
+
+
     /**
      * WFS_EQP
      */
+
+    @Autowired
+    WfsCarrIdReadImpl wfsCarrIdRead;
+
+    @PostMapping(WorkManMessageList.WFS_CARR_ID_READ)
+    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsCarrIdReadIvo wfsCarrIdReadIvo,
+                                        @RequestParam(value = "key") String trackingKey,
+                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+        return processRequest(
+                WorkManMessageList.WFS_CARR_ID_READ,
+                trackingKey,
+                scenarioType,
+                wfsCarrIdReadIvo.getHead().getTid(),
+                () -> wfsCarrIdRead.execute(wfsCarrIdRead.initialize(
+                        WorkManMessageList.WFS_CARR_ID_READ,
+                        trackingKey,
+                        scenarioType,
+                        wfsCarrIdReadIvo.getHead().getTid()), wfsCarrIdReadIvo),
+                wfsCarrIdReadIvo.getBody());
+
+//        String cid = WorkManMessageList.WFS_CARR_ID_READ;
+//        ApFlowProcessVo apFlowProcessVo = this.wfsCarrIdRead.initialize(cid, trackingKey, scenarioType, wfsCarrIdReadIvo.getHead().getTid());
+//
+//
+//        try{
+//            return new ResponseEntity<>(
+//
+//                    ApResponseIvo.builder()
+//                            .msgBody(wfsCarrIdReadIvo.getBody())
+//                            .processInfo(
+//                                    this.wfsCarrIdRead.execute(apFlowProcessVo, wfsCarrIdReadIvo)
+//                            )
+//                            .build(),
+//
+//                    HttpStatus.OK);
+//
+//
+//        }catch (ScenarioException se){
+//
+//            return new ResponseEntity<>(
+//                    ApResponseIvo.builder().scenarioException(se).build(),
+//                    HttpStatus.NON_AUTHORITATIVE_INFORMATION
+//
+//            );
+//        }
+//
+//        catch (Exception e){
+//            log.error("Error : {}", e);
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+
+    }
 
 
     @Autowired
     WfsEqpStateReportImpl wfsEqpStateReportImpl;
 
     @PostMapping(WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT)
-    public ApFlowProcessVo executeEvent(@RequestBody WfsEqpStateReportIvo wfsEqpStateReportIvo,
+    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsEqpStateReportIvo wfsEqpStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
@@ -63,7 +148,22 @@ public class EapFlowController {
         String cid = WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT;
         ApFlowProcessVo apFlowProcessVo = this.wfsEqpStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpStateReportIvo.getHead().getTid());
 
-        return this.wfsEqpStateReportImpl.execute(apFlowProcessVo, wfsEqpStateReportIvo);
+
+        try{
+            return new ResponseEntity<>(
+
+                    ApResponseIvo.builder()
+                            .msgBody(wfsEqpStateReportIvo.getBody())
+                            .processInfo(this.wfsEqpStateReportImpl.execute(apFlowProcessVo, wfsEqpStateReportIvo))
+                    .build(),
+
+                    HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+
+
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

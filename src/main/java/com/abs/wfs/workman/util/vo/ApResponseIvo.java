@@ -19,7 +19,7 @@ public class ApResponseIvo extends ApMsgCommonVo {
      * 기존 Scenario Exception 데이터
      */
     String messageKey;
-    String scenarioType;
+    String scenarioTyp;
     String eventName;
     String siteId;
     WorkStatCd workStateCode;
@@ -51,7 +51,6 @@ public class ApResponseIvo extends ApMsgCommonVo {
 
             this.msgBody = msgBody;
             this.processInfo = processInfo;
-            this.setIndividualErrorElement(processInfo, msgBody);
             this.reason = MsgReasonVo.builder()
                     .reasonCode("0")
                     .build();
@@ -87,15 +86,15 @@ public class ApResponseIvo extends ApMsgCommonVo {
     private void setIndividualErrorElement(ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody){
 
         this.messageKey = apFlowProcessVo.getTrackingKey();
-        this.scenarioType = apFlowProcessVo.getScenarioType();
+        this.scenarioTyp = apFlowProcessVo.getScenarioType();
         this.eventName = apFlowProcessVo.getEventName();
         this.siteId = apMsgBody.getSiteId();
         this.workStateCode = apFlowProcessVo.getWorkStatCd();
         this.workId = "work id를 어디서 받아올지 정의 필요";
-        this.lotId = apMsgBody.getLotId();
-        this.carrId = apMsgBody.getCarrId();
-        this.eqpId = apMsgBody.getEqpId();
-        this.portId = apMsgBody.getPortId();
+        this.lotId = apMsgBody.getLotId() == null ? "" : apMsgBody.getLotId();
+        this.carrId = apMsgBody.getCarrId() == null ? "" : apMsgBody.getCarrId();
+        this.eqpId = apMsgBody.getEqpId() == null ? "" : apMsgBody.getEqpId();
+        this.portId = apMsgBody.getPortId() == null ? "" : apMsgBody.getPortId();
     }
 
 }

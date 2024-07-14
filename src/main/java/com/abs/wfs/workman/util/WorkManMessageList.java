@@ -98,6 +98,7 @@ public final class WorkManMessageList {
     public static final String EAP_JOB_ABORT_REQ = "EAP_JOB_ABORT_REQ";
     public static final String EAP_LOT_INFO_REP = "EAP_LOT_INFO_REP";
     public static final String EAP_TOOL_COND_REQ = "EAP_TOOL_COND_REQ";
+    public static final String EAP_DURABLE_INFO_REQ = "EAP_DURABLE_INFO_REQ";
 
 
     public static final String FIS_FILE_REPORT = "FIS_FILE_REPORT";
@@ -115,5 +116,7 @@ public final class WorkManMessageList {
     public static final String BRS_LOT_PROC_STARTED = "BRS_LOT_PROC_STARTED";
     public static final String BRS_LOT_PROD_STARTED = "BRS_LOT_PROD_STARTED";
     public static final String BRS_LOT_PROD_ENDED = "BRS_LOT_PROD_ENDED";
+    public static final String BRS_EQP_KIT = "BRS_EQP_KIT";
+    public static final String BRS_EQP_DEKIT = "BRS_EQP_DEKIT";
 
 }

@@ -9,12 +9,14 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BrsEqpKit extends ApMsgCommonVo {
-	private BrsEqpKitBody body;
+public class BrsEqpKitIvo extends ApMsgCommonVo {
+
+	private Body body;
 
 
 	@Data
-	public static class BrsEqpKitBody extends ApMsgBody {
+	public static class Body extends ApMsgBody {
+
 		private List<MaterialDurable> materialDurableList;
 		private String mdfyUserId;
 		private String rsnCd;

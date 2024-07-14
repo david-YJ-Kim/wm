@@ -11,6 +11,9 @@ import com.abs.wfs.workman.dao.domain.ppsProdDef.service.TnPpsProdDefServiceImpl
 import com.abs.wfs.workman.dao.domain.ppsRecipe.model.CnPpsRecipe;
 import com.abs.wfs.workman.dao.domain.ppsRecipe.service.CnPpsRecipeServiceImpl;
 import com.abs.wfs.workman.dao.domain.ppsRecipe.vo.CnPpsRecipeProcEqpRequestDto;
+import com.abs.wfs.workman.dao.domain.scenarioEventRel.model.WnScenarioEventRel;
+import com.abs.wfs.workman.dao.domain.scenarioEventRel.service.WnScenarioEventRelServiceImpl;
+import com.abs.wfs.workman.dao.domain.scenarioEventRel.vo.WnScenarioEventSaveReqVo;
 import com.abs.wfs.workman.dao.domain.tnLot.model.TnPosLot;
 import com.abs.wfs.workman.dao.domain.tnLot.service.TnPosLotServiceImpl;
 import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
@@ -276,5 +279,21 @@ public class DaoDomainController {
         return this.cnPpsRecipeService.findEqpProcessingRecipe(dto);
 
     }
+
+
+
+    /**
+     * scenarioEventRel
+     */
+    @Autowired
+    WnScenarioEventRelServiceImpl wnScenarioEventRelService;
+
+
+    @PostMapping("insert/scenarioEventRel")
+    public WnScenarioEventRel insertEntity(@RequestBody WnScenarioEventSaveReqVo dto) {
+
+        return this.wnScenarioEventRelService.insertEntity(dto);
+    }
+
 
 }

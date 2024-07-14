@@ -24,6 +24,7 @@ import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.eap.WfsCarrIdReadIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.*;
+import com.abs.wfs.workman.util.exception.ApExceptionCode;
 import com.abs.wfs.workman.util.exception.ScenarioException;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import lombok.extern.slf4j.Slf4j;
@@ -112,65 +113,69 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
         apFlowProcessVo.setApMsgBody(body);
         String siteId = body.getSiteId(); String carrId = body.getCarrId(); String eqpId = body.getEqpId(); String portId = body.getPortId();
 
-        this.wfsCommonQueryService.updatePortCarrier(UpdatePortCarrierRequestVo.builder()
-                                                                    .siteId(siteId)
-                                                                    .carrierId(carrId)
-                                                                    .portId(portId)
-                                                                    .eqpId(eqpId)
-                                                                    .tid(apFlowProcessVo.getTid())
-                                                                    .userId(body.getUserId())
-                                                                    .build()
-        );
+        throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_SAMPLE,  null,null);
 
-        // carrLocQuery
-        Optional<SelectCarrLocQueryReqVo> carrLocQuery =  this.wipLotQueryService.selectCarrLocQuery(SelectCarrLocQueryReqVo.builder()
-                                                                                .siteId(siteId)
-                                                                                .carrId(carrId)
-                                                                                .lotId("-")
-                                                                                .useStatCd(UseStatCd.Usable)
-                                                                                .build());
+
+//        this.wfsCommonQueryService.updatePortCarrier(UpdatePortCarrierRequestVo.builder()
+//                                                                    .siteId(siteId)
+//                                                                    .carrierId(carrId)
+//                                                                    .portId(portId)
+//                                                                    .eqpId(eqpId)
+//                                                                    .tid(apFlowProcessVo.getTid())
+//                                                                    .userId(body.getUserId())
+//                                                                    .build()
+//        );
+//
+//        // carrLocQuery
+//        Optional<SelectCarrLocQueryReqVo> carrLocQuery =  this.wipLotQueryService.selectCarrLocQuery(SelectCarrLocQueryReqVo.builder()
+//                                                                                .siteId(siteId)
+//                                                                                .carrId(carrId)
+//                                                                                .lotId("-")
+//                                                                                .useStatCd(UseStatCd.Usable)
+//                                                                                .build());
+
 
         // GetPortResvCarr
-
-        Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> getPortResvCarr = this.wipStatService.findResvEqpIdAndResvPortIdAndLotId(siteId, eqpId, portId, "-");
-
-        if(!carrLocQuery.isPresent()) {
-            throw new ScenarioException(); // TODO CARR 조회 결과 없읍
-        }
-
-        if(carrLocQuery.get().getResvGrpId().isEmpty()){
-            // TODO CARR ID READ 질의 후 정리
-        }
-
-
-
-        QueryPortVo queryPortVo = (apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo() != null)
-                ? apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo()
-                : this.toolQueryService.queryPortCondition(
-                QueryPortVo.builder().portId(body.getPortId()).build()
-        );
-
-
-        if(!queryPortVo.getCarrTyp().equals(ApEnumConstant.CA.name())){
-            // TODO Warning it is not CST type.
-            // Do not stop the processing above reason.
-        }
-
-        int updatedRowCount = this.eqpService.updatePortCarrier(
-
-                UpdatePortCarrierDto.builder()
-                        .siteId(body.getSiteId())
-                        .cid(apFlowProcessVo.getEventName())
-                        .tid(wfsCarrIdReadIvo.getHead().getTid())
-                        .userId(ApSystemCodeConstant.WFS)
-                        .carrierId(body.getCarrId())
-                        .eqpId(body.getEqpId())
-                        .portId(body.getPortId())
-                        .build()
-        );
-        log.info("{} rows has been updated", updatedRowCount);
-
-        return this.dispatchScenario(apFlowProcessVo, body, queryPortVo);
+//
+//        Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> getPortResvCarr = this.wipStatService.findResvEqpIdAndResvPortIdAndLotId(siteId, eqpId, portId, "-");
+//
+//        if(!carrLocQuery.isPresent()) {
+//            throw new ScenarioException(); // TODO CARR 조회 결과 없읍
+//        }
+//
+//        if(carrLocQuery.get().getResvGrpId().isEmpty()){
+//            // TODO CARR ID READ 질의 후 정리
+//        }
+//
+//
+//
+//        QueryPortVo queryPortVo = (apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo() != null)
+//                ? apFlowProcessVo.getApDefaultQueryVo().getQueryPortVo()
+//                : this.toolQueryService.queryPortCondition(
+//                QueryPortVo.builder().portId(body.getPortId()).build()
+//        );
+//
+//
+//        if(!queryPortVo.getCarrTyp().equals(ApEnumConstant.CA.name())){
+//            // TODO Warning it is not CST type.
+//            // Do not stop the processing above reason.
+//        }
+//
+//        int updatedRowCount = this.eqpService.updatePortCarrier(
+//
+//                UpdatePortCarrierDto.builder()
+//                        .siteId(body.getSiteId())
+//                        .cid(apFlowProcessVo.getEventName())
+//                        .tid(wfsCarrIdReadIvo.getHead().getTid())
+//                        .userId(ApSystemCodeConstant.WFS)
+//                        .carrierId(body.getCarrId())
+//                        .eqpId(body.getEqpId())
+//                        .portId(body.getPortId())
+//                        .build()
+//        );
+//        log.info("{} rows has been updated", updatedRowCount);
+//
+//        return this.dispatchScenario(apFlowProcessVo, body, queryPortVo);
 
     }
 
