@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
-
-    private static ApplicationContext applicationContext;
+    private static ApplicationContext applicationContext = null;
 
     @Override
     public void setApplicationContext(ApplicationContext ac) throws BeansException {
@@ -20,6 +19,10 @@ public class ApplicationContextProvider implements ApplicationContextAware {
     }
 
     public static <T> T getBean(Class<T> clazz) {
-        return applicationContext.getBean(clazz);
+        return applicationContext == null ? null :applicationContext.getBean(clazz);
+    }
+
+    public static Object getBean(String beanName) {
+        return applicationContext == null ? null : applicationContext.getBean(beanName);
     }
 }
