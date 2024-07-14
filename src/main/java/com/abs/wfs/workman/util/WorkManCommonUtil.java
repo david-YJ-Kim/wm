@@ -277,4 +277,18 @@ public class WorkManCommonUtil {
                 .build();
     }
 
+
+    /**
+     * Null 확인하는 메소드,
+     * null, empty가 아니면 true
+     * @param word
+     * @return
+     */
+    public static boolean nullPointCheck(String word){
+        if(word != null && !word.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
 }

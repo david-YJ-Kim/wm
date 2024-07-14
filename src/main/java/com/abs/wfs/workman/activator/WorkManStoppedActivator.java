@@ -52,7 +52,7 @@ public class WorkManStoppedActivator implements ApplicationListener<ContextClose
 
         log.info("@@@@@@@@@@@@@@@@@@@ Web Application Gracefully Shutdown event receive");
 
-        // 아래 소스는  Aysnc로 진행 할 때의 소스로 보인듯...
+        // 아래 소스는  Aysnc로 진행 할 때의 소스로 보인듯... 추후 확인
 //        ThreadPoolTaskExecutor threadPoolTaskExecutor = (ThreadPoolTaskExecutor) ApplicationContextProvider.getBean("threadPoolTaskExecutor");
 //        for (int i = 1 ; i <= awaitTime ; i++) {
 //            int nActiveCount = threadPoolTaskExecutor.getActiveCount();

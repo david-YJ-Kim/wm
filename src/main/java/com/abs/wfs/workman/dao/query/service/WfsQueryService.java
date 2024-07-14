@@ -6,6 +6,8 @@ import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.model.WnSorterJobExec;
 import com.abs.wfs.workman.dao.query.service.vo.UpdateEventNmByLotCarrIdRequestVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWipStatEventNmByCarrIdVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWipStatForMoveCompleteVo;
 import com.abs.wfs.workman.dao.query.service.vo.UpdateWorkStatusByLotIdForWorkStartReqVo;
 import com.abs.wfs.workman.util.code.SorterJobStatCdExec;
 import lombok.extern.slf4j.Slf4j;
@@ -265,9 +267,9 @@ public class WfsQueryService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWipStatEventNmByCarrId(String siteId, String cid, String tid, String carrId, String mdfyUserId) throws Exception {
+	public int updateWipStatEventNmByCarrId(UpdateWipStatEventNmByCarrIdVo vo) throws Exception {
 		try {
-			return this.wipStatDAO.updateEventNmByCarrId(siteId, cid, tid, carrId, mdfyUserId);
+			return this.wipStatDAO.updateEventNmByCarrId(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getCarrId(), vo.getMdfyUserId());
 		}catch (Exception e) {
 			throw e;
 		}
@@ -343,9 +345,10 @@ public class WfsQueryService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateWipStatForMoveComplete(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId, String workStatCd) throws Exception {
+	public int updateWipStatForMoveComplete(UpdateWipStatForMoveCompleteVo vo) throws Exception {
 		try {
-			return this.wipStatDAO.updateWipStatForMoveCompleteByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId, workStatCd);
+			return this.wipStatDAO.updateWipStatForMoveCompleteByCarrId(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getCarrId(),
+					vo.getUserId(), vo.getCrntEqpId(), vo.getCrntPortId(), vo.getWorkStatCd());
 		} catch (Exception e) {
 			throw e;
 		}

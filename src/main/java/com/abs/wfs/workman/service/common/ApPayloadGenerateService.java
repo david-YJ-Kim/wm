@@ -302,6 +302,19 @@ public class ApPayloadGenerateService {
 
 
     }
+    public String generateBody(String tid, BrsCarrHoldIvo.Body body) throws JsonProcessingException {
+
+
+        BrsCarrHoldIvo ivo = new BrsCarrHoldIvo();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, BrsCarrHoldIvo.cid, BrsCarrHoldIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+
+
+    }
 
 
 

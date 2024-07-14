@@ -8,7 +8,7 @@ server:
     contextPath: /wm
 
 gracefulShutdown:
-  awaitTerminateTime: 180
+  awaitTerminateTime: 60
 
 logging:
   config: classpath:log4j2.xml

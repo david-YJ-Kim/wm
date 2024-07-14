@@ -15,6 +15,7 @@ public class WorkInfoQueryRequestVo {
     String rsnCd;
     String outPortId;
     String inPortId;
+    String inCarrId;
     String lotId;
     String jobSeqId;
     String objId;

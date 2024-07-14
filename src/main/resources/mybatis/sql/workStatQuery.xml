@@ -14,7 +14,9 @@
 			STAT.EQP_ID,
 			STAT.RSN_CD,
 			JOB.OUT_PORT_ID,
-			JOB.JOB_SEQ_ID,WN_WIP_STAT
+			JOB.IN_PORT_ID,
+			JOB.JOB_SEQ_ID,
+			JOB.IN_CARR_ID,
 			JOB.OBJ_ID
 		FROM WN_WORK_STAT STAT, WN_WORK_JOB JOB
 		WHERE 1=1
@@ -23,10 +25,12 @@
 		  AND JOB.JOB_STAT_CD = 'Active'
 		  AND STAT.EQP_ID = #{eqpId}
 		  AND JOB.LOT_ID = #{lotId}
-		<if test="outPortId != null">AND OUT_PORT_ID = #{outPortId}</if>
-		<if test="inPortId != null">AND IN_PORT_ID = #{inPortId}</if>
-		<if test="useStatCd != null">AND WORK_STAT_CD = #{useStatCd}</if>
-		<if test="siteId != null">AND USE_STAT_CD = #{siteId}</if>
+		<if test="outPortId != null">AND JOB.OUT_PORT_ID = #{outPortId}</if>
+		<if test="inPortId != null">AND JOB.IN_PORT_ID = #{inPortId}</if>
+		<if test="useStatCd != null">AND STAT.WORK_STAT_CD = #{useStatCd}</if>
+		<if test="siteId != null">AND STAT.USE_STAT_CD = #{siteId}</if>
+		<if test="workId != null">AND STAT.WORK_ID = #{workId}</if>
+		<if test="inCarrId != null">AND JOB.IN_CARR_ID = #{inCarrId}</if>
 		ORDER BY JOB_SEQ_ID
 
 	</select>
