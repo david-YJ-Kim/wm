@@ -24,6 +24,17 @@ import java.util.Optional;
 @Slf4j
 public class UtilCommonService {
 
+    public void threadSleep(String sleepMs){
+        Long startTm = System.currentTimeMillis();
+        log.info("Thread is now sleep for {} ms", sleepMs);
+        try {
+            Thread.sleep(Long.valueOf(sleepMs));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Thread is now finish sleep. Elapsed sleep Ms : {}.", System.currentTimeMillis() - startTm);
+    }
+
 
 
     @Autowired
