@@ -24,7 +24,7 @@ public class RmsFlowController {
                                    @RequestParam(value = "scenario") String scenarioType) throws Exception{
 
         String cid = WorkManMessageList.WFS_RECIPE_VALIDATE_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsRecipeValidateRepService.initialize(cid, trackingKey, scenarioType, wfsRecipeValidateRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsRecipeValidateRepService.initialize(cid, trackingKey, scenarioType, wfsRecipeValidateRepIvo.getHead());
 
         return this.wfsRecipeValidateRepService.execute(apFlowProcessVo,wfsRecipeValidateRepIvo);
 

@@ -7,6 +7,7 @@ import com.abs.wfs.workman.dao.query.eqp.service.EqpServiceImpl;
 import com.abs.wfs.workman.dao.query.eqp.vo.UpdatePortStatAndCarrierDto;
 import com.abs.wfs.workman.service.flow.eap.WfsInitPortStateReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsInitPortStateReportIvo;
 import com.abs.wfs.workman.spec.in.eap.common.PortInfoVo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -28,19 +29,6 @@ public class WfsInitPortStateReportImpl implements WfsInitPortStateReport {
     @Autowired
     EqpServiceImpl eqpService;
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
-
-        log.info("Ready to process flow. ProcessVo: {}", apFlowProcessVo);
-        return apFlowProcessVo;
-
-    }
 
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsInitPortStateReportIvo wfsInitPortStateReportIvo) throws Exception {
@@ -89,4 +77,8 @@ public class WfsInitPortStateReportImpl implements WfsInitPortStateReport {
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

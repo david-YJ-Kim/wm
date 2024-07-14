@@ -11,6 +11,7 @@ import com.abs.wfs.workman.service.common.transferJob.TransferJobService;
 import com.abs.wfs.workman.service.common.transferJob.vo.TransferJobReqVo;
 import com.abs.wfs.workman.service.flow.oi.WfsOiCarrMoveCrt;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.oia.WfsOiCarrMoveCrtIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
@@ -45,20 +46,6 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
     @Autowired
     TransferJobService transferJobService;
-
-
-
-
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-    }
 
 
     @Override
@@ -166,4 +153,8 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

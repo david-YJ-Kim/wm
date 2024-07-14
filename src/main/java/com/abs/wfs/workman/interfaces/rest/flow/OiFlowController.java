@@ -34,7 +34,7 @@ public class OiFlowController {
 
 
         String cid = WorkManMessageList.WFS_OI_CARR_MOVE_CRT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsOiCarrMoveCrtService.initialize(cid, trackingKey, scenarioType, wfsOiCarrMoveCrtIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsOiCarrMoveCrtService.initialize(cid, trackingKey, scenarioType, wfsOiCarrMoveCrtIvo.getHead());
 
         try{
             ApFlowProcessVo resultVo = this.wfsOiCarrMoveCrtService.execute(apFlowProcessVo, wfsOiCarrMoveCrtIvo);

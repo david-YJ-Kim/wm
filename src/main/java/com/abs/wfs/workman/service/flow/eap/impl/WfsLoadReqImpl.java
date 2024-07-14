@@ -9,6 +9,7 @@ import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
 import com.abs.wfs.workman.service.flow.eap.WfsLoadReq;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsLoadReqIvo;
 import com.abs.wfs.workman.spec.out.rtd.RtdDspWorkReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -33,19 +34,6 @@ public class WfsLoadReqImpl implements WfsLoadReq {
     @Autowired
     WfsCommonQueryService wfsCommonQueryService;
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-
-
-        return apFlowProcessVo;
-    }
 
 
 
@@ -125,6 +113,8 @@ public class WfsLoadReqImpl implements WfsLoadReq {
     }
 
 
-
-
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

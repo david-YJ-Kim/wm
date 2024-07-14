@@ -12,6 +12,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.brs.WfsManualWorkStart;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
 import com.abs.wfs.workman.spec.out.eap.EapLotInfoRepIvo;
 import com.abs.wfs.workman.spec.out.eap.common.ProdMtrlVo;
@@ -53,17 +54,6 @@ public class WfsManualWorkStartImpl implements WfsManualWorkStart {
     ApPayloadGenerateService apPayloadGenerateService;
 
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-        return apFlowProcessVo;
-    }
 
 
     @Override
@@ -146,4 +136,8 @@ public class WfsManualWorkStartImpl implements WfsManualWorkStart {
         return apFlowProcessVo;
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

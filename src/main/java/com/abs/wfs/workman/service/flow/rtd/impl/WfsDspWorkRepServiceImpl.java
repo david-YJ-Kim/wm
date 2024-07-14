@@ -5,12 +5,14 @@
 //import com.abs.wfs.workman.service.flow.rtd.WfsDspWorkRep;
 //import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 //import com.abs.wfs.workman.spec.common.ApMessageResultVo;
+//import com.abs.wfs.workman.spec.common.ApMsgHead;
 //import com.abs.wfs.workman.spec.in.rtd.WfsDspWorkRepIvo;
 //import com.abs.wfs.workman.dao.query.lot.service.LotQueryServiceImpl;
 //import com.abs.wfs.workman.dao.query.lot.vo.QueryLotVo;
 //import com.abs.wfs.workman.dao.query.tool.service.ToolQueryServiceImpl;
 //import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
 //import com.abs.wfs.workman.dao.query.tool.vo.QueryPortVo;
+//import com.abs.wfs.workman.util.WorkManCommonUtil;
 //import com.abs.wfs.workman.util.code.*;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +55,6 @@
 //        return null;
 //    }
 //
-//    @Override
-//    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-//        return null;
-//    }
 //    @Override
 //    public void init(String cid, Object messageObj) {
 //        this.cid = cid;
@@ -426,4 +424,8 @@
 //
 //    }
 //
+//    @Override
+//    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+//        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+//    }
 //}

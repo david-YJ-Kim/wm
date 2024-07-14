@@ -11,6 +11,7 @@ import com.abs.wfs.workman.dao.domain.workStat.model.WnWorkStat;
 import com.abs.wfs.workman.dao.domain.workStat.service.WnWorkStatServiceImpl;
 import com.abs.wfs.workman.service.flow.eap.WfsWorkAbort;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsWorkAbortIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.SelfInspectionCd;
@@ -39,16 +40,6 @@ public class WfsWorkAbortImpl implements WfsWorkAbort {
     @Autowired
     WipStatServiceImpl wipStatService;
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
-        return apFlowProcessVo;
-    }
 
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsWorkAbortIvo wfsWorkAbortIvo) throws Exception {
@@ -89,4 +80,8 @@ public class WfsWorkAbortImpl implements WfsWorkAbort {
 
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

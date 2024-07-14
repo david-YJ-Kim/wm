@@ -180,7 +180,7 @@ public class ApPayloadGenerateService {
 
 
 
-    public WfsEfemControlStateReportIvo generateBody(String tid, WfsEfemControlStateReportIvo.Body body, boolean returnObj) throws JsonProcessingException {
+    public WfsEfemControlStateReportIvo generateMessageObject(String tid, WfsEfemControlStateReportIvo.Body body) throws JsonProcessingException {
 
 
         WfsEfemControlStateReportIvo ivo = new WfsEfemControlStateReportIvo();

@@ -8,6 +8,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsEqpStateReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEfemControlStateReportIvo;
 import com.abs.wfs.workman.spec.in.eap.WfsEqpStateReportIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsEqpControlModeChangeIvo;
@@ -28,18 +29,6 @@ import java.util.Optional;
 public class WfsEqpStateReportImpl implements WfsEqpStateReport {
 
 
-
-
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
-    }
 
     @Autowired
     MessageSendService messageSendService;
@@ -90,9 +79,14 @@ public class WfsEqpStateReportImpl implements WfsEqpStateReport {
             efemBody.setSiteId(siteId); efemBody.setEqpId(eqpId); efemBody.setUserId(body.getUserId());
             efemBody.setEqpCommStateCd(body.getEqpStateCd()); efemBody.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
 
+            WfsEfemControlStateReportIvo reportIvo = this.apPayloadGenerateService.generateMessageObject(apFlowProcessVo.getTid(), efemBody);
             try{
-                ApFlowProcessVo efemControlVo = this.wfsEfemControlStateReport.execute(this.wfsEfemControlStateReport.initialize(WorkManMessageList.WFS_EFEM_STATE_REPORT, apFlowProcessVo.getTrackingKey(), apFlowProcessVo.getScenarioType(), apFlowProcessVo.getTid()),
-                                                                                        this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), efemBody, true));
+                ApFlowProcessVo efemControlVo = this.wfsEfemControlStateReport.execute(
+
+                        WorkManCommonUtil.initializeProcessVo(
+                                WorkManMessageList.WFS_EFEM_STATE_REPORT, apFlowProcessVo.getTrackingKey(), apFlowProcessVo.getScenarioType(), reportIvo.getHead()
+                        ),
+                        reportIvo);
                 WorkManCommonUtil.completeFlowProcessVo(efemControlVo);
 
             } catch (Exception e){
@@ -104,5 +98,10 @@ public class WfsEqpStateReportImpl implements WfsEqpStateReport {
 
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
 
+    }
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 }

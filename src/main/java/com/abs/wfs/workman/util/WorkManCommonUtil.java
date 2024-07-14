@@ -2,6 +2,7 @@ package com.abs.wfs.workman.util;
 
 import com.abs.wfs.workman.config.ApSharedVariable;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.util.code.RecipeTypeCode;
 import com.abs.wfs.workman.util.code.SelfInspectionCd;
 import com.abs.wfs.workman.util.code.SuccessYn;
@@ -252,6 +253,28 @@ public class WorkManCommonUtil {
         additionData.put(key, value);
         vo.setAdditionData(additionData);
 
+    }
+
+
+    /**
+     * 이벤트 처리에 초기화 메소드
+     * @param cid
+     * @param trackingKey
+     * @param scenarioType
+     * @param apMsgHead
+     * @return
+     */
+    public static ApFlowProcessVo initializeProcessVo(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead){
+
+
+        return ApFlowProcessVo.builder()
+                .eventName(cid)
+                .trackingKey(trackingKey)
+                .scenarioType(scenarioType)
+                .executeStartTime(System.currentTimeMillis())
+                .tid(apMsgHead.getTid())
+                .lang(apMsgHead.getLang())
+                .build();
     }
 
 }

@@ -8,8 +8,10 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsEqpControlStateReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEqpControlStateReportIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsEqpControlModeChangeIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +35,6 @@ public class WfsEqpControlStateReportImpl implements WfsEqpControlStateReport {
     CnPosEqpGrpRelServiceImpl cnPosEqpGrpRelService;
 
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
-        return apFlowProcessVo;
-    }
 
 
     @Override
@@ -74,5 +65,10 @@ public class WfsEqpControlStateReportImpl implements WfsEqpControlStateReport {
 
         return apFlowProcessVo;
 
+    }
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 }

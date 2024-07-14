@@ -4,6 +4,7 @@ package com.abs.wfs.workman.interfaces.rest.flow;
 import com.abs.wfs.workman.service.flow.eap.impl.*;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.*;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.exception.ScenarioException;
@@ -44,15 +45,14 @@ public class EapFlowController {
 
 
         String cid = WorkManMessageList.WFS_ALARM_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsAlarmReport.initialize(cid, trackingKey, scenarioType, wfsAlarmReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsAlarmReport.initialize(cid, trackingKey, scenarioType, wfsAlarmReportIvo.getHead());
 
         return this.wfsAlarmReport.execute(apFlowProcessVo, wfsAlarmReportIvo);
 
     }
 
 
-    private ResponseEntity<ApResponseIvo> processRequest(String cid, String trackingKey, String scenarioType, String tid,
-                                                         ProcessExecutor executor, ApMsgBody body) {
+    private ResponseEntity<ApResponseIvo> processRequest(ProcessExecutor executor, ApMsgBody body) {
         try {
             ApFlowProcessVo apFlowProcessVo = executor.execute();
             return new ResponseEntity<>(
@@ -90,48 +90,13 @@ public class EapFlowController {
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
-        return processRequest(
-                WorkManMessageList.WFS_CARR_ID_READ,
-                trackingKey,
-                scenarioType,
-                wfsCarrIdReadIvo.getHead().getTid(),
-                () -> wfsCarrIdRead.execute(wfsCarrIdRead.initialize(
+        return processRequest(() -> wfsCarrIdRead.execute(wfsCarrIdRead.initialize(
                         WorkManMessageList.WFS_CARR_ID_READ,
                         trackingKey,
                         scenarioType,
-                        wfsCarrIdReadIvo.getHead().getTid()), wfsCarrIdReadIvo),
+                        wfsCarrIdReadIvo.getHead()), wfsCarrIdReadIvo),
                 wfsCarrIdReadIvo.getBody());
 
-//        String cid = WorkManMessageList.WFS_CARR_ID_READ;
-//        ApFlowProcessVo apFlowProcessVo = this.wfsCarrIdRead.initialize(cid, trackingKey, scenarioType, wfsCarrIdReadIvo.getHead().getTid());
-//
-//
-//        try{
-//            return new ResponseEntity<>(
-//
-//                    ApResponseIvo.builder()
-//                            .msgBody(wfsCarrIdReadIvo.getBody())
-//                            .processInfo(
-//                                    this.wfsCarrIdRead.execute(apFlowProcessVo, wfsCarrIdReadIvo)
-//                            )
-//                            .build(),
-//
-//                    HttpStatus.OK);
-//
-//
-//        }catch (ScenarioException se){
-//
-//            return new ResponseEntity<>(
-//                    ApResponseIvo.builder().scenarioException(se).build(),
-//                    HttpStatus.NON_AUTHORITATIVE_INFORMATION
-//
-//            );
-//        }
-//
-//        catch (Exception e){
-//            log.error("Error : {}", e);
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
 
     }
 
@@ -146,7 +111,7 @@ public class EapFlowController {
 
 
         String cid = WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpStateReportIvo.getHead());
 
 
         try{
@@ -178,7 +143,7 @@ public class EapFlowController {
 
 
         String cid = WorkManMessageList.WFS_EQP_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpControlStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsEqpControlStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead());
 
         return this.wfsEqpControlStateReportImpl.execute(apFlowProcessVo, wfsEqpControlStateReportIvo);
 
@@ -193,7 +158,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INIT_PORT_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInitPortStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsInitPortStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead());
 
         return this.wfsInitPortStateReportImpl.execute(apFlowProcessVo, wfsEqpControlStateReportIvo);
 
@@ -206,7 +171,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INSP_DATA_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInspDataReportImpl.initialize(cid, trackingKey, scenarioType, wfsInspDataReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsInspDataReportImpl.initialize(cid, trackingKey, scenarioType, wfsInspDataReportIvo.getHead());
 
         return this.wfsInspDataReportImpl.execute(apFlowProcessVo, wfsInspDataReportIvo);
 
@@ -222,7 +187,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INSP_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInspReportImpl.initialize(cid, trackingKey, scenarioType, wfsInspReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsInspReportImpl.initialize(cid, trackingKey, scenarioType, wfsInspReportIvo.getHead());
 
         return this.wfsInspReportImpl.execute(apFlowProcessVo, wfsInspReportIvo);
 
@@ -238,7 +203,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_LOT_INFO_REQ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsLotInfoReqImpl.initialize(cid, trackingKey, scenarioType, wfsLotInfoReqIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsLotInfoReqImpl.initialize(cid, trackingKey, scenarioType, wfsLotInfoReqIvo.getHead());
 
         return this.wfsLotInfoReqImpl.execute(apFlowProcessVo, wfsLotInfoReqIvo);
 
@@ -254,7 +219,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_MATERIAL_CHANGE_REQ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialChangeReq.initialize(cid, trackingKey, scenarioType, wfsMaterialChangeReqIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialChangeReq.initialize(cid, trackingKey, scenarioType, wfsMaterialChangeReqIvo.getHead());
 
         return this.wfsMaterialChangeReq.execute(apFlowProcessVo, wfsMaterialChangeReqIvo);
 
@@ -271,7 +236,7 @@ public class EapFlowController {
 
         log.info(wfsMaterialKitdekitReportIvo.toString());
         String cid = WorkManMessageList.WFS_MATERIAL_KITDEKIT_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialKitdekitReport.initialize(cid, trackingKey, scenarioType, wfsMaterialKitdekitReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialKitdekitReport.initialize(cid, trackingKey, scenarioType, wfsMaterialKitdekitReportIvo.getHead());
 
         return this.wfsMaterialKitdekitReport.execute(apFlowProcessVo, wfsMaterialKitdekitReportIvo);
 
@@ -287,7 +252,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_MATERIAL_USAGE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialUsageReport.initialize(cid, trackingKey, scenarioType, wfsMaterialUsageReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsMaterialUsageReport.initialize(cid, trackingKey, scenarioType, wfsMaterialUsageReportIvo.getHead());
 
         return this.wfsMaterialUsageReport.execute(apFlowProcessVo, wfsMaterialUsageReportIvo);
 
@@ -303,7 +268,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_PROD_DCOLL_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsProdDcollReport.initialize(cid, trackingKey, scenarioType, wfsProdDcollReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsProdDcollReport.initialize(cid, trackingKey, scenarioType, wfsProdDcollReportIvo.getHead());
 
         return this.wfsProdDcollReport.execute(apFlowProcessVo, wfsProdDcollReportIvo);
 
@@ -319,7 +284,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_SCRAP_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsScrapReport.initialize(cid, trackingKey, scenarioType, wfsScrapReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsScrapReport.initialize(cid, trackingKey, scenarioType, wfsScrapReportIvo.getHead());
 
         return this.wfsScrapReport.execute(apFlowProcessVo, wfsScrapReportIvo);
 
@@ -335,7 +300,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_PROD_INSP_JDGM;
-        ApFlowProcessVo apFlowProcessVo = this.wfsProdInspJdgm.initialize(cid, trackingKey, scenarioType, wfsProdInspJdgmIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsProdInspJdgm.initialize(cid, trackingKey, scenarioType, wfsProdInspJdgmIvo.getHead());
 
         return this.wfsProdInspJdgm.execute(apFlowProcessVo, wfsProdInspJdgmIvo);
 
@@ -350,7 +315,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_PORT_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsPortStateReport.initialize(cid, trackingKey, scenarioType, wfsPortStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsPortStateReport.initialize(cid, trackingKey, scenarioType, wfsPortStateReportIvo.getHead());
 
         return this.wfsPortStateReport.execute(apFlowProcessVo, wfsPortStateReportIvo);
 
@@ -371,7 +336,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_SORTER_MODE_CHANGE_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsSorterModeChangeRep.initialize(cid, trackingKey, scenarioType, wfsSorterModeChangeRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsSorterModeChangeRep.initialize(cid, trackingKey, scenarioType, wfsSorterModeChangeRepIvo.getHead());
 
         return this.wfsSorterModeChangeRep.execute(apFlowProcessVo, wfsSorterModeChangeRepIvo);
 
@@ -391,7 +356,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_UNLOAD_REQ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsUnloadReq.initialize(cid, trackingKey, scenarioType, wfsUnloadReqIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsUnloadReq.initialize(cid, trackingKey, scenarioType, wfsUnloadReqIvo.getHead());
 
         return this.wfsUnloadReq.execute(apFlowProcessVo, wfsUnloadReqIvo);
 
@@ -407,7 +372,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_UNLOAD_COMP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsUnloadComp.initialize(cid, trackingKey, scenarioType, wfsUnloadCompIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsUnloadComp.initialize(cid, trackingKey, scenarioType, wfsUnloadCompIvo.getHead());
 
         return this.wfsUnloadComp.execute(apFlowProcessVo, wfsUnloadCompIvo);
 
@@ -427,7 +392,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_LOAD_COMP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsLoadComp.initialize(cid, trackingKey, scenarioType, wfsLoadCompIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsLoadComp.initialize(cid, trackingKey, scenarioType, wfsLoadCompIvo.getHead());
 
         return this.wfsLoadComp.execute(apFlowProcessVo, wfsLoadCompIvo);
 
@@ -447,7 +412,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_WORK_ORDER_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsWorkOrderRep.initialize(cid, trackingKey, scenarioType, wfsWorkOrderRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsWorkOrderRep.initialize(cid, trackingKey, scenarioType, wfsWorkOrderRepIvo.getHead());
 
         return this.wfsWorkOrderRep.execute(apFlowProcessVo, wfsWorkOrderRepIvo);
 
@@ -463,7 +428,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_WORK_START_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsWorkStartRep.initialize(cid, trackingKey, scenarioType, wfsWorkStartRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsWorkStartRep.initialize(cid, trackingKey, scenarioType, wfsWorkStartRepIvo.getHead());
 
         return this.wfsWorkStartRep.execute(apFlowProcessVo, wfsWorkStartRepIvo);
 
@@ -479,7 +444,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_DURABLE_INFO_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsDurableInfoRep.initialize(cid, trackingKey, scenarioType, wfsDurableInfoRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsDurableInfoRep.initialize(cid, trackingKey, scenarioType, wfsDurableInfoRepIvo.getHead());
 
         return this.wfsDurableInfoRep.execute(apFlowProcessVo, wfsDurableInfoRepIvo);
 
@@ -496,7 +461,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_WORK_ABORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsWorkAbort.initialize(cid, trackingKey, scenarioType, wfsWorkAbortIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsWorkAbort.initialize(cid, trackingKey, scenarioType, wfsWorkAbortIvo.getHead());
 
         return this.wfsWorkAbort.execute(apFlowProcessVo, wfsWorkAbortIvo);
 
@@ -512,7 +477,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_PRECEDE_LOT_RESUME;
-        ApFlowProcessVo apFlowProcessVo = this.wfsPrecedeLotResume.initialize(cid, trackingKey, scenarioType, wfsPrecedeLotResumeIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsPrecedeLotResume.initialize(cid, trackingKey, scenarioType, wfsPrecedeLotResumeIvo.getHead());
 
         return this.wfsPrecedeLotResume.execute(apFlowProcessVo, wfsPrecedeLotResumeIvo);
 
@@ -528,7 +493,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_LOT_TRACK_IN_CANCEL_REP;
-        ApFlowProcessVo apFlowProcessVo = this.wfsLotTrackInCancelRep.initialize(cid, trackingKey, scenarioType, wfsLotTrackInCancelRepIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsLotTrackInCancelRep.initialize(cid, trackingKey, scenarioType, wfsLotTrackInCancelRepIvo.getHead());
 
         return this.wfsLotTrackInCancelRep.execute(apFlowProcessVo, wfsLotTrackInCancelRepIvo);
 
@@ -545,7 +510,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_INIT_DURABLE_INFO_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInitDurableInfoReport.initialize(cid, trackingKey, scenarioType, wfsInitDurableInfoReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsInitDurableInfoReport.initialize(cid, trackingKey, scenarioType, wfsInitDurableInfoReportIvo.getHead());
 
         return this.wfsInitDurableInfoReport.execute(apFlowProcessVo, wfsInitDurableInfoReportIvo);
 
@@ -565,7 +530,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EFEM_STATE_REPORT ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEfemStateReport.initialize(cid, trackingKey, scenarioType, wfsEfemStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemStateReport.initialize(cid, trackingKey, scenarioType, wfsEfemStateReportIvo.getHead());
 
         return this.wfsEfemStateReport.execute(apFlowProcessVo, wfsEfemStateReportIvo);
 
@@ -581,7 +546,7 @@ public class EapFlowController {
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
         String cid = WorkManMessageList.WFS_EFEM_CONTROL_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsEfemControlStateReportIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsEfemControlStateReportIvo.getHead());
 
         return this.wfsEfemControlStateReport.execute(apFlowProcessVo, wfsEfemControlStateReportIvo);
 

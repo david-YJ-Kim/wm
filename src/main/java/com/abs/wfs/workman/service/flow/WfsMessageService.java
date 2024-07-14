@@ -2,6 +2,7 @@ package com.abs.wfs.workman.service.flow;
 
 
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 
 public interface WfsMessageService {
 
@@ -16,7 +17,7 @@ public interface WfsMessageService {
      * @param cid
      * @return
      */
-    ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid);
+    ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead);
 
 
 }

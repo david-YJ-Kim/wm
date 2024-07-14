@@ -5,6 +5,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsMaterialKitdekitReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsMaterialKitdekitReportIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsEqpDekitIvo;
 import com.abs.wfs.workman.spec.out.eap.EapDurableInfoReqIvo;
@@ -64,12 +65,7 @@ public class WfsMaterialKitdekitReportImpl implements WfsMaterialKitdekitReport 
     }
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 }

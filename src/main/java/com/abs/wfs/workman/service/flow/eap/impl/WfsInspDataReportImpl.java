@@ -12,6 +12,7 @@ import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsInspDataReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsInspDataReportIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotSelfInspDataIvo;
 import com.abs.wfs.workman.spec.out.eap.EapJobAbortReqIvo;
@@ -47,19 +48,6 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
     WorkService workService;
 
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .build();
-
-        log.info("Ready to process flow. ProcessVo: {}", apFlowProcessVo);
-        return apFlowProcessVo;
-    }
 
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsInspDataReportIvo wfsInspDataReportIvo) throws Exception {
@@ -179,4 +167,8 @@ public class WfsInspDataReportImpl implements WfsInspDataReport {
 
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

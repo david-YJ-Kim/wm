@@ -21,6 +21,7 @@ import com.abs.wfs.workman.dao.query.wipLot.service.WipLotQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.wipLot.vo.SelectCarrLocQueryReqVo;
 import com.abs.wfs.workman.service.flow.eap.WfsCarrIdRead;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsCarrIdReadIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.*;
@@ -62,17 +63,8 @@ public class WfsCarrIdReadImpl implements WfsCarrIdRead {
      * @return
      */
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-
-
-        return apFlowProcessVo;
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 
 

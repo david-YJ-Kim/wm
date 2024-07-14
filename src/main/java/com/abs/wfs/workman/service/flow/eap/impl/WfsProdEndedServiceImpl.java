@@ -13,6 +13,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsProdEnded;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsProdEndedIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotProcEndedIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotProdEndedIvo;
@@ -30,17 +31,6 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class WfsProdEndedServiceImpl implements WfsProdEnded {
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-    }
 
     @Autowired
     WorkDAO workDAO;
@@ -123,5 +113,10 @@ public class WfsProdEndedServiceImpl implements WfsProdEnded {
 
 
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
+    }
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 }

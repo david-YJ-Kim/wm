@@ -4,6 +4,7 @@ import com.abs.wfs.workman.dao.domain.efemAlarm.model.CnEfemAlarm;
 import com.abs.wfs.workman.dao.domain.efemAlarm.service.CnEfemAlarmServiceImpl;
 import com.abs.wfs.workman.service.flow.eap.WfsAlarmReport;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsAlarmReportIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.SuccessYn;
@@ -19,18 +20,10 @@ public class WfsAlarmReportImpl implements WfsAlarmReport {
     CnEfemAlarmServiceImpl cnEfemAlarmService;
 
     @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
 
-        ApFlowProcessVo apFlowProcessVo = ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
 
-        log.info("Ready to process flow. ProcessVo: {}", apFlowProcessVo);
-        return apFlowProcessVo;
     }
 
 

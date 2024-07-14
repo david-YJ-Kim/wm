@@ -7,6 +7,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.eap.WfsVmsProcStarted;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eqp.WfsVmsProcStartedIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotProcStartedIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -19,17 +20,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class WfsVmsProcStarteddServiceImpl implements WfsVmsProcStarted {
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-    }
 
 
     @Autowired
@@ -74,5 +64,10 @@ public class WfsVmsProcStarteddServiceImpl implements WfsVmsProcStarted {
 
 
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
+    }
+
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
     }
 }

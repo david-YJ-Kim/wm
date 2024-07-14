@@ -5,6 +5,7 @@ import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatCdRequestVo;
 import com.abs.wfs.workman.service.flow.eap.WfsLoadComp;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
+import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsLoadCompIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
@@ -20,18 +21,6 @@ import org.springframework.stereotype.Service;
 public class WfsLoadCompImpl implements WfsLoadComp {
 
 
-    @Override
-    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, String tid) {
-
-
-        return ApFlowProcessVo.builder()
-                .eventName(cid)
-                .trackingKey(trackingKey)
-                .scenarioType(scenarioType)
-                .executeStartTime(System.currentTimeMillis())
-                .tid(tid)
-                .build();
-    }
 
 
 
@@ -61,4 +50,8 @@ public class WfsLoadCompImpl implements WfsLoadComp {
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }
 
+    @Override
+    public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
+        return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
 }

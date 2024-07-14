@@ -27,7 +27,7 @@ public class EqpFlowController {
 
 
         String cid = WorkManMessageList.WFS_VMS_LOT_TRACK_OUT_REQ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsManualWorkStart.initialize(cid, trackingKey, scenarioType, wfsManualWorkStartIvo.getHead().getTid());
+        ApFlowProcessVo apFlowProcessVo = this.wfsManualWorkStart.initialize(cid, trackingKey, scenarioType, wfsManualWorkStartIvo.getHead());
 
         return this.wfsManualWorkStart.execute(apFlowProcessVo, wfsManualWorkStartIvo);
 
