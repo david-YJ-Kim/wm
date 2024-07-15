@@ -82,23 +82,23 @@ public class EapFlowController {
      * WFS_EQP
      */
 
-    @Autowired
-    WfsCarrIdReadImpl wfsCarrIdRead;
-
-    @PostMapping(WorkManMessageList.WFS_CARR_ID_READ)
-    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsCarrIdReadIvo wfsCarrIdReadIvo,
-                                        @RequestParam(value = "key") String trackingKey,
-                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
-
-        return processRequest(() -> wfsCarrIdRead.execute(wfsCarrIdRead.initialize(
-                        WorkManMessageList.WFS_CARR_ID_READ,
-                        trackingKey,
-                        scenarioType,
-                        wfsCarrIdReadIvo.getHead()), wfsCarrIdReadIvo),
-                wfsCarrIdReadIvo.getBody());
-
-
-    }
+//    @Autowired
+//    WfsCarrIdReadImpl wfsCarrIdRead;
+//
+//    @PostMapping(WorkManMessageList.WFS_CARR_ID_READ)
+//    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsCarrIdReadIvo wfsCarrIdReadIvo,
+//                                        @RequestParam(value = "key") String trackingKey,
+//                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+//
+//        return processRequest(() -> wfsCarrIdRead.execute(wfsCarrIdRead.initialize(
+//                        WorkManMessageList.WFS_CARR_ID_READ,
+//                        trackingKey,
+//                        scenarioType,
+//                        wfsCarrIdReadIvo.getHead()), wfsCarrIdReadIvo),
+//                wfsCarrIdReadIvo.getBody());
+//
+//
+//    }
 
 
     @Autowired

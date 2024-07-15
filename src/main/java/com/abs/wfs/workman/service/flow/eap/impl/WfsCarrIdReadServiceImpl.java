@@ -29,9 +29,7 @@ import com.abs.wfs.workman.service.flow.eap.WfsCarrIdRead;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsCarrIdReadIvo;
-import com.abs.wfs.workman.spec.out.brs.BrsCarrHold;
 import com.abs.wfs.workman.spec.out.brs.BrsCarrHoldIvo;
-import com.abs.wfs.workman.spec.out.eap.EapCarrIdReadRep;
 import com.abs.wfs.workman.spec.out.eap.EapCarrIdReadRepIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.*;
@@ -305,18 +303,18 @@ public class WfsCarrIdReadServiceImpl implements WfsCarrIdRead {
 
         }
 
-        WorkInfoQueryRequestVo workInfoQueryRequestVo = WorkInfoQueryRequestVo.builder()
-                                                                        .siteId(siteId)
-                                                                        .useStatCd(UseStatCd.Usable.name())
-                                                                        .inCarrId(carrId)
-                                                                        .build();
-        Optional<List<WorkInfoQueryRequestVo>> selectWorkStat = workDAO.selectActiveWorkInfoQuery(workInfoQueryRequestVo)
-        if(selectWorkStat.isPresent()){
-            if(selectWorkStat.get().size() == 4 ||
-                    WorkManCommonUtil.compareStringWords(selectWorkStat.get().get(0).getRsnCd(), SelfInspectionCd.ONE_MORE)){
-                isOneMoreInsp = true;
-            }
-        }
+//        WorkInfoQueryRequestVo workInfoQueryRequestVo = WorkInfoQueryRequestVo.builder()
+//                                                                        .siteId(siteId)
+//                                                                        .useStatCd(UseStatCd.Usable.name())
+//                                                                        .inCarrId(carrId)
+//                                                                        .build();
+//        Optional<List<WorkInfoQueryRequestVo>> selectWorkStat = workDAO.selectActiveWorkInfoQuery(workInfoQueryRequestVo)
+//        if(selectWorkStat.isPresent()){
+//            if(selectWorkStat.get().size() == 4 ||
+//                    WorkManCommonUtil.compareStringWords(selectWorkStat.get().get(0).getRsnCd(), SelfInspectionCd.ONE_MORE)){
+//                isOneMoreInsp = true;
+//            }
+//        }
 
 
         /**
@@ -325,14 +323,14 @@ public class WfsCarrIdReadServiceImpl implements WfsCarrIdRead {
 
         // TODO Make Util, Carr Id Read Rep
 //        EapCarrIdReadRepIvo
-
-        if(isOneMoreInsp || !isManualLoading){
-            this.messageSendService.sendMessageSend("CARR ID READ REP");
-
-        }else{
-            log.info("Carr Id Read Rep is not send because of flags.  isOneMoreInsp: {} || !isManualLoading: {}", isOneMoreInsp, !isManualLoading);
-
-        }
+//
+//        if(isOneMoreInsp || !isManualLoading){
+//            this.messageSendService.sendMessageSend("CARR ID READ REP");
+//
+//        }else{
+//            log.info("Carr Id Read Rep is not send because of flags.  isOneMoreInsp: {} || !isManualLoading: {}", isOneMoreInsp, !isManualLoading);
+//
+//        }
 
 
         /**

@@ -83,6 +83,7 @@ public final class WorkManMessageList {
     public static final String WFS_MANUAL_WORK_START = "WFS_MANUAL_WORK_START";
     public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
     public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
+    public static final String WFS_QUANTITY_MATCH_STATE = "WFS_QUANTITY_MATCH_STATE";
 
 
 
@@ -100,6 +101,7 @@ public final class WorkManMessageList {
     public static final String EAP_TOOL_COND_REQ = "EAP_TOOL_COND_REQ";
     public static final String EAP_DURABLE_INFO_REQ = "EAP_DURABLE_INFO_REQ";
     public static final String EAP_CARR_ID_READ_REP = "EAP_CARR_ID_READ_REP";
+    public static final String EAP_BUZZER_REQ = "EAP_BUZZER_REQ";
 
 
     public static final String FIS_FILE_REPORT = "FIS_FILE_REPORT";
@@ -120,5 +122,6 @@ public final class WorkManMessageList {
     public static final String BRS_EQP_KIT = "BRS_EQP_KIT";
     public static final String BRS_EQP_DEKIT = "BRS_EQP_DEKIT";
     public static final String BRS_CARR_HOLD = "BRS_CARR_HOLD";
+    public static final String BRS_LOT_FUTURE_HOLD_RESV = "BRS_LOT_FUTURE_HOLD_RESV";
 
 }

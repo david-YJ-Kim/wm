@@ -107,7 +107,7 @@ public class WfsProdStartedServiceImpl implements WfsProdStarted {
             log.error("Work is not registered."); // TODO 메뉴얼 Work 대응
         }
 
-        this.wfsQueryService.updateWipStatEventNmByCarrId(siteId, apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(), body.getCarrId(), ApSystemCodeConstant.WFS);
+//        this.wfsQueryService.updateWipStatEventNmByCarrId(siteId, apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(), body.getCarrId(), ApSystemCodeConstant.WFS);
 
 
         BrsLotProdStartedIvo.Body payload = new BrsLotProdStartedIvo.Body();
