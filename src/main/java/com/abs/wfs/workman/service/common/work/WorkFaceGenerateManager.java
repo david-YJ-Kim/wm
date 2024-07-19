@@ -1,4 +1,4 @@
-package com.abs.wfs.workman.service.common;
+package com.abs.wfs.workman.service.common.work;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Service
 @NoArgsConstructor
 @Slf4j
-public class WorkManager {
+public class WorkFaceGenerateManager {
 
 
     public String callMethod(){

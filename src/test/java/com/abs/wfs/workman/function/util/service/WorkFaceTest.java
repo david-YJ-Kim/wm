@@ -1,6 +1,6 @@
 package com.abs.wfs.workman.function.util.service;
 
-import com.abs.wfs.workman.service.common.WorkManager;
+import com.abs.wfs.workman.service.common.work.WorkFaceGenerateManager;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -109,12 +109,12 @@ class MtrlTestRequestVo{
 @SpringBootTest
 public class WorkFaceTest {
 
-    static WorkManager workManager = new WorkManager();
+    static WorkFaceGenerateManager workFaceGenerateManager = new WorkFaceGenerateManager();
 
     @Test
     public void testManager(){
 
-        String a = workManager.callMethod();
+        String a = workFaceGenerateManager.callMethod();
         System.out.println(a);
     }
 
@@ -182,7 +182,7 @@ public class WorkFaceTest {
         for(MtrlTestRequestVo requestVo : list){
             try{
 
-                String[] values = workManager.generateMtrlFace(requestVo.getCrntLoadingFace(), requestVo.getCrntWorkFace(), requestVo.getNextRecipeType(),
+                String[] values = workFaceGenerateManager.generateMtrlFace(requestVo.getCrntLoadingFace(), requestVo.getCrntWorkFace(), requestVo.getNextRecipeType(),
                         requestVo.isToolHasFilpper, requestVo.isBothRecipe, requestVo.isBothFlipRecipe);
                 System.out.println(Arrays.toString(values));
                 requestVo.setValueSeq1(values[0]);

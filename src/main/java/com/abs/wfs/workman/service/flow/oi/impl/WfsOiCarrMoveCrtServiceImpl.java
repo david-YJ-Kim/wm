@@ -67,7 +67,6 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
 
-
                         String transJobId = job.getJobId();
                         WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "commId", transJobId);
 
