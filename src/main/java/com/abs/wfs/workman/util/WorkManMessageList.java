@@ -84,6 +84,7 @@ public final class WorkManMessageList {
     public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
     public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
     public static final String WFS_QUANTITY_MATCH_STATE = "WFS_QUANTITY_MATCH_STATE";
+    public static final String WFS_TRAY_LOAD_COMP = "WFS_TRAY_LOAD_COMP";
 
 
 

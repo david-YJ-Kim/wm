@@ -29,6 +29,18 @@ public class EapFlowController {
 
 
 
+    @PostMapping(WorkManMessageList.WFS_CARR_SLOTMAP_REPORT_REQ)
+    public ResponseEntity<ApResponseIvo> executeWfsAlarmReport(@RequestBody WfsCarrSlotmapReportReqVo wfsCarrSlotmapReportReqVo,
+                                                 @RequestParam(value = "key") String trackingKey,
+                                                 @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+        return new ResponseEntity<>(
+                        ApResponseIvo.builder().build(),
+                HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+
+    }
+
+
 
     /**
      * WFS_ALARM
