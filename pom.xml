@@ -11,7 +11,7 @@
 
     <groupId>com.abs.wfs</groupId>
     <artifactId>workman</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
     <name>workman</name>
     <description>Work Man Service</description>
 
@@ -130,9 +130,10 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+
 
 
         <dependency>
