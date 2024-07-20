@@ -1,10 +1,12 @@
 #!/bin/bash
 # 프로세스 명을 명시한다.
 readonly PROC_NAME="wfs-wm-server"
+readonly PROFILE="server"
 # jar 파일
 readonly DAEMON="../target/*.jar"
+readonly ROLLBACK_DAEMON="../target/backup/*.jar"
 
-readonly CONF="../config/application-server.yml"
+readonly CONF="../config/*.yml"
 # 프로세스 아이디가 존재할 패스를 설정
 readonly PID_PATH="./"
 readonly PROC_PID="${PID_PATH}${PROC_NAME}.pid"
@@ -18,8 +20,30 @@ start()
         echo "${PROC_NAME} is already running"
     else
 
-        echo "/usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
-        nohup /usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false ${DAEMON} > /dev/null 2>&1 &
+        echo "/usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
+        nohup /usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false ${DAEMON} > /dev/null 2>&1 &
+        local PID=${!}
+
+        if [ -n ${PID} ]; then
+            echo " - Starting..."
+            echo " - Created Process ID in ${PROC_PID}"
+            echo ${PID} > ${PROC_PID}
+        else
+            echo " - failed to start."
+        fi
+    fi
+}
+# 롤백 시작 함수
+rollback()
+{
+    echo "Starting  ${PROC_NAME}..."
+    local PID=$(get_status)
+    if [ -n "${PID}" ]; then
+        echo "${PROC_NAME} is already running"
+    else
+
+        echo "/usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${ROLLBACK_DAEMON}""
+        nohup /usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false ${ROLLBACK_DAEMON} > /dev/null 2>&1 &
         local PID=${!}
 
         if [ -n ${PID} ]; then
@@ -111,6 +135,10 @@ case "$1" in
         start
         sleep 7
         ;;
+    rollback)
+        start
+        sleep 7
+        ;;
     stop)
         stop
         sleep 5
@@ -123,6 +151,6 @@ case "$1" in
     status "${PROC_NAME}"
     ;;
     *)
-    echo "Usage: $0 {start | stop | status }"
+    echo "Usage: $0 {start | rollback | stop | status }"
 esac
 exit 0
