@@ -72,15 +72,15 @@ public class WorkManStartedActivator implements ApplicationRunner {
     private void initializeSequenceManager() throws IOException {
         
         // TODO 스프링 부트 테스트 시, JSON Object keySet 호출 실패로 진행 불가
-//        SequenceManager sequenceManager = new SequenceManager(
-//                ApPropertyObject.getInstance().getGroupName(),
-//                ApPropertyObject.getInstance().getSiteName(),
-//                ApPropertyObject.getInstance().getEnvType(),
-//                ApPropertyObject.getInstance().getSeqRulePath(),
-//                ApPropertyObject.getInstance().getSeqRuleName()
-//        );
+        SequenceManager sequenceManager = new SequenceManager(
+                ApPropertyObject.getInstance().getGroupName(),
+                ApPropertyObject.getInstance().getSiteName(),
+                ApPropertyObject.getInstance().getEnvType(),
+                ApPropertyObject.getInstance().getSeqRulePath(),
+                ApPropertyObject.getInstance().getSeqRuleName()
+        );
 
-//        ApPropertyObject.getInstance().setSequenceManager(sequenceManager);
+        ApPropertyObject.getInstance().setSequenceManager(sequenceManager);
     }
 
     private void initializeSolaceResources(){

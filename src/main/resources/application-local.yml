@@ -104,9 +104,9 @@ ap:
       prefix: WM-ASYNC-
   interface:
     solace:
-#      host: localhost:55555
+      host: localhost:55555
 #      host: 10.180.243.56:55555
-      host: 10.184.50.81:55555,10.184.50.82:55555
+#      host: 10.184.50.81:55555,10.184.50.82:55555
       vpn: MES
       client:
         username: default
@@ -124,7 +124,8 @@ ap:
         init: SVM/DEV/FIS/CMN/RELOAD
   seq:
     rule:
-      path: C:\\codespace\\abs\\wm\\src\\main\\resources\\seqlib\\
+      path: C:\\workspace\\abs\\
+#      path: C:\\codespace\\abs\\wm\\src\\main\\resources\\seqlib\\
       name: SequenceRule.json
   shutdown:
     force:

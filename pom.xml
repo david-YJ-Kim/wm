@@ -21,7 +21,7 @@
         <log4j2.version>2.17.1</log4j2.version>
         <mybatis.version>2.0.1</mybatis.version>
         <cloud.version>2.0.2.RELEASE</cloud.version>
-        <seqlib.version>1.1</seqlib.version>
+        <seqlib.version>1.0.3</seqlib.version>
     </properties>
 
 
