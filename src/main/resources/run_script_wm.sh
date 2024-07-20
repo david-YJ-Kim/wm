@@ -2,7 +2,7 @@
 # 프로세스 명을 명시한다.
 readonly PROC_NAME="wfs-wm-server"
 # jar 파일
-readonly DAEMON="../target/workman-0.0.0.jar"
+readonly DAEMON="../target/workman-?.?.?.jar"
 
 readonly CONF="../config/application-server.yml"
 # 프로세스 아이디가 존재할 패스를 설정
