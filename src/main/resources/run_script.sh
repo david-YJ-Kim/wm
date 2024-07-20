@@ -1,4 +1,8 @@
 #!/bin/bash
+
+## @Deprecated, run_script_wm.sh 사용 필요
+## 2024 07 20 젠킨스 버전 스크립트 신규 생성
+
 # 프로세스 명을 명시한다.
 readonly PROC_NAME="workman"
 # jar 파일

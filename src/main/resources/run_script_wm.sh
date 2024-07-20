@@ -1,4 +1,6 @@
 #!/bin/bash
+
+## 2024 07 20 젠킨스 버전 스크립트 신규 생성된 파일
 # 프로세스 명을 명시한다.
 readonly PROC_NAME="wfs-wm-server"
 readonly PROFILE="server"
@@ -6,7 +8,7 @@ readonly PROFILE="server"
 readonly DAEMON="../target/*.jar"
 readonly ROLLBACK_DAEMON="../target/backup/*.jar"
 
-readonly CONF="../config/*.yml"
+readonly CONF="../config/application-${PROFILE}.yml"
 # 프로세스 아이디가 존재할 패스를 설정
 readonly PID_PATH="./"
 readonly PROC_PID="${PID_PATH}${PROC_NAME}.pid"
@@ -34,7 +36,7 @@ start()
     fi
 }
 # 롤백 시작 함수
-rollback()
+dorollback()
 {
     echo "Starting  ${PROC_NAME}..."
     local PID=$(get_status)
@@ -99,6 +101,29 @@ status()
     echo ""
 }
 
+rollback()
+{
+
+    stop
+
+    sleep 10
+
+    local SET=$(seq 0 30)
+    for i in $SET
+    do
+       echo "Running loop seq : " $i
+
+       local PID=$(get_status)
+       if [ -n "${PID}" ]; then
+          echo "${PROC_NAME} is already running"
+       else
+          dorollback
+          break
+       fi
+       sleep 5
+    done
+}
+
 restart()
 {
     stop
@@ -136,7 +161,7 @@ case "$1" in
         sleep 7
         ;;
     rollback)
-        start
+        rollback
         sleep 7
         ;;
     stop)
