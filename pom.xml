@@ -141,12 +141,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.solacesystems</groupId>
-            <artifactId>sol-jcsmp</artifactId>
-            <version>10.20.0</version>
-        </dependency>
-
         <!--  spring-cloud-starter-config -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
