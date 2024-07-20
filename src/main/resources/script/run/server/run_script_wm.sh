@@ -2,8 +2,8 @@
 
 ## 2024 07 20 젠킨스 버전 스크립트 신규 생성된 파일
 # 프로세스 명을 명시한다.
-readonly PROC_NAME="wfs-wm-server"
 readonly PROFILE="server"
+readonly PROC_NAME="wfs-wm-${PROFILE}"
 # jar 파일
 readonly DAEMON="../target/*.jar"
 readonly ROLLBACK_DAEMON="../target/backup/*.jar"
