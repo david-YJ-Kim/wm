@@ -54,7 +54,7 @@ stop()
     echo "DAEMON_PID=${DAEMON_PID} : PID=${PID}"
 
     if [ -n "${PID}" ]; then
-        curl -X POST http://localhost:10001/actuator/shutdown
+        curl -X POST http://localhost:15001/wm/actuator/shutdown
         kill -15 $PID
         rm -f $PROC_PID
         echo " - Shutdown ...."
@@ -84,7 +84,7 @@ status()
         # start daemon
         #nohup java -jar "${DAEMON}" > /dev/null 2>&1 &
     fi
-    curl http://localhost:10001/actuator/health
+    curl http://localhost:15001/wm/actuator/health
     echo ""
 }
 

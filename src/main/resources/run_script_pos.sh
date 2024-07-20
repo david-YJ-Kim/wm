@@ -18,8 +18,8 @@ start()
         echo "${PROC_NAME} is already running"
     else
 
-        echo "/usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=10021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
-        nohup /usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=10021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}" > /dev/null 2>&1 &
+        echo "/usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
+        nohup /usr/lib/java/openjdk-8u342-b07/bin/java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=server -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}" > /dev/null 2>&1 &
         local PID=${!}
 
         if [ -n ${PID} ]; then
@@ -41,7 +41,7 @@ stop()
     echo "DAEMON_PID=${DAEMON_PID} : PID=${PID}"
      
     if [ -n "${PID}" ]; then
-        curl -X POST http://localhost:11021/actuator/shutdown
+        curl -X POST http://localhost:15001/wm/actuator/shutdown
         kill -15 $PID
         rm -f $PROC_PID
         echo " - Shutdown ...."
@@ -71,7 +71,7 @@ status()
         # start daemon
         #nohup java -jar "${DAEMON}" > /dev/null 2>&1 &
     fi
-    curl http://localhost:11021/actuator/health
+    curl http://localhost:15001/wm/actuator/health
     echo ""
 }
 
