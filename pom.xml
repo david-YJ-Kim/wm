@@ -11,7 +11,7 @@
 
     <groupId>com.abs.wfs</groupId>
     <artifactId>workman</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>workman</name>
     <description>Work Man Service</description>
 
