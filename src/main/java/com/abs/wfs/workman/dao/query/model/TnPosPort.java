@@ -26,6 +26,7 @@ public class TnPosPort {
 	private String ctrlModeCd;
 	private String efemStatCd;
 	private String efemCtrlModeCd;
+	private String autoUnloadYn;
 	
 	private String pSiteId;
 	private String pEqpId;
@@ -205,5 +206,12 @@ public class TnPosPort {
 	}
 	public void setEfemCtrlModeCd(String efemCtrlModeCd) {
 		this.efemCtrlModeCd = efemCtrlModeCd;
+	}
+
+	public String getAutoUnloadYn() {
+		return autoUnloadYn;
+	}
+	public void setAutoUnloadYn(String autoUnloadYn) {
+		this.autoUnloadYn = autoUnloadYn;
 	}
 }

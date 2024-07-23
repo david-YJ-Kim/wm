@@ -30,7 +30,7 @@ public interface WnWorkJobSlotInfoRepository extends JpaRepository<WnWorkJobSlot
      * @param useStatCd
      * @return
      */
-    Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCd(String workId, String siteId, UseStatCd useStatCd);
+    List<WnWorkJobSlotInfo> findByWorkIdAndSiteIdAndUseStatCd(String workId, String siteId, UseStatCd useStatCd);
 
 
     /**

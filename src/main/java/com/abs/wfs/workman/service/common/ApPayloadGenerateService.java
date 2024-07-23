@@ -6,6 +6,7 @@ import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEfemControlStateReportIvo;
 import com.abs.wfs.workman.spec.in.eap.WfsMaterialKitdekitReportIvo;
 import com.abs.wfs.workman.spec.in.eap.WfsTrayLoadCompIvo;
+import com.abs.wfs.workman.spec.in.eap.WfsUnloadReqIvo;
 import com.abs.wfs.workman.spec.out.brs.*;
 import com.abs.wfs.workman.spec.out.eap.*;
 import com.abs.wfs.workman.spec.out.fis.FisFileReportIvo;
@@ -364,6 +365,20 @@ public class ApPayloadGenerateService {
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
         ivo.setHead(this.generateMessageHead(tid, WfsTrayLoadCompIvo.cid, WfsTrayLoadCompIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+
+
+    }
+
+    public String generateBody(String tid, WfsUnloadReqIvo.Body body) throws JsonProcessingException {
+
+
+        WfsUnloadReqIvo ivo = new WfsUnloadReqIvo();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, WfsUnloadReqIvo.cid, WfsUnloadReqIvo.system, body.getEqpId()));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);

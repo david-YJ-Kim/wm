@@ -81,23 +81,27 @@ public class MessageSendService {
         String lotId = apFlowProcessVo.getApMsgBody().getLotId();
 
 
+        log.info("{} Print paramters. workId: {}, eqpId: {}, lotId: {}", apFlowProcessVo.printLog(), workId, eqpId, lotId);
+
 
 
         /* Work 테이블 생성 된 Slot 리스트 */
-        Optional<List<WnWorkJobSlotInfo>> slotInfoQueryList =  this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId);
-        if(!slotInfoQueryList.isPresent() || slotInfoQueryList.get().size() == 0){
+        List<WnWorkJobSlotInfo> slotInfoQueryList =  this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId);
+
+        if(slotInfoQueryList == null || slotInfoQueryList.size() == 0){
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_JOB_SLOT_INF_NOTFOUND, apFlowProcessVo.getLang()
                     , new String[] {workId, apFlowProcessVo.getApMsgBody().getLotId(), eqpId});
         }
 
 
-
         SelectWorkJobPortVo selectWorkJobPortVo = SelectWorkJobPortVo.builder().workId(workId).build();
         log.info("{} Query work job info with requestVo : {}", apFlowProcessVo.printLog(), selectWorkJobPortVo.toString());
 
+
         /* Work 테이블 생성된  Job 리스트 */
-        Optional<List<SelectWorkJobPortVo>> workJobInfoQuery = this.workDAO.selectWorkJobPort(selectWorkJobPortVo); // jobXml
-        if(!workJobInfoQuery.isPresent() || workJobInfoQuery.get().size() == 0){
+        List<SelectWorkJobPortVo> workJobInfoQuery = this.workDAO.selectWorkJobPort(selectWorkJobPortVo); // jobXml
+
+        if(workJobInfoQuery == null || workJobInfoQuery.size() == 0){
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_WORK_JOB_INF_NOTFOUND, apFlowProcessVo.getLang()
                 , new String[] {workId, apFlowProcessVo.getApMsgBody().getLotId(), eqpId});
         }
@@ -119,7 +123,7 @@ public class MessageSendService {
         body.setSiteId(siteId); body.setEqpId(eqpId); body.setUserId(ApSystemCodeConstant.WFS);
         body.setWorkId(workId); body.setProdDefId(tnPosLot.get().getProdDefId());
         body.setProcDefId(tnPosLot.get().getProcDefId()); body.setProcSgmtId(tnPosLot.get().getProcSgmtId());
-        body.setWork(this.generateWorkObject(workJobInfoQuery.get(), slotInfoQueryList.get()));
+        body.setWork(this.generateWorkObject(workJobInfoQuery, slotInfoQueryList));
 
 
         this.sendMessageSend(EapWorkOrderReq.system, EapWorkOrderReq.cid, this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), body));

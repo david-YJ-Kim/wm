@@ -55,7 +55,7 @@ public class WorkDAO {
 	 * @param selectWorkJobPortVo
 	 * @return
 	 */
-	public Optional<List<SelectWorkJobPortVo>> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo){
+	public List<SelectWorkJobPortVo> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo){
 		return this.workMapper.selectWorkJobPort(selectWorkJobPortVo);
 	}
 
@@ -313,6 +313,100 @@ public class WorkDAO {
 		
 		return resultCnt;
 	}
+
+
+	/**
+	 * Create WORK New : 작업면 적용
+	 * @param siteId
+	 * @param cid
+	 * @param tid
+	 * @param userId
+	 * @param eqpId
+	 * @param workId
+	 * @param batchYn
+	 * @param inlineYn
+	 * @param eqpInlineId
+	 * @param inlineStatCd
+	 * @param dspWorkId
+	 * @param lotId
+	 * @param batchId
+	 * @param carrId
+	 * @param inPortId
+	 * @param inCarrId
+	 * @param inCarrTyp
+	 * @param lotQty
+	 * @param outPortId
+	 * @param outCarrId
+	 * @param outCarrTyp
+	 * @param prodDefId
+	 * @param procDefId
+	 * @param procSgmtId
+	 * @param selfInspYn
+	 * @param selfInspCnt
+	 * @param recipeListXML
+	 * @return
+	 * @throws Exception
+	 */
+	public int createWorkMeasTrayLoader(String siteId, String cid, String tid, String userId, String eqpId, String workId, String batchYn, String inlineYn, String eqpInlineId, String inlineStatCd, String dspWorkId,
+							 String lotId, String batchId, String carrId, String inPortId, String inCarrId, String inCarrTyp, String lotQty,
+							 String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
+							 String selfInspYn, String selfInspCnt, String recipeListXML, String prodMtrlId) throws Exception {
+
+
+
+		// Recipe 변경 작업 적용
+
+		String mtrlFaceCd = "Top";
+		String topRcpId = "";
+		String bottomRcpId = "";
+
+		int resultCnt = -1;
+
+		try {
+			//select Panel List
+			List<TnPosProducedMaterial> prodMtrlList = wfsMapper.selectTnPosProducedMaterialByLotId(lotId);
+			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
+
+			//insert WN_WORK_STAT
+			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
+			logger.info("###### 2> CREATE WN_WORK_STAT Completed");
+
+
+
+
+			String recipeId = "";
+			String mtrlFace = "";
+
+			if("Top".equals(mtrlFaceCd) || "Both".equals(mtrlFaceCd)) {
+				recipeId = topRcpId;
+				mtrlFace = "TTT";
+			} else {
+				recipeId = bottomRcpId;
+				mtrlFace = "TBT";
+			}
+
+			logger.info("###### 3> RECIPE_ID : " + recipeId);
+			logger.info("###### 4> WORK_FACE : " + mtrlFace);
+			String jobSeqId = "1";
+
+			createWorkJob( siteId, cid, tid, workId, jobSeqId, batchId, lotId, lotQty, inPortId, inCarrId, inCarrTyp, outPortId, outCarrId, outCarrTyp,
+					prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
+
+			logger.info("###### 5> CREATE WN_WORK_JOB Completed");
+			logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
+			createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, "1", prodMtrlId, "", mtrlFace, userId);
+
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+
+		return resultCnt;
+	}
+
+
 	
 	/**
 	 * Create WORK New : 작업면 적용
@@ -357,11 +451,11 @@ public class WorkDAO {
 		
 		
 		// Recipe 변경 작업 적용
+
 		Map<String,String> recipeMap = xmlMamager.getXMLtoListMap(recipeListXML).get(0);
 		String mtrlFaceCd = recipeMap.get("MTRL_FACE_CD");
 		String topRcpId = recipeMap.get("TOP_RCP_ID");
 		String bottomRcpId = recipeMap.get("BOTTOM_RCP_ID");
-		
 		int resultCnt = -1;
 		
 		try {

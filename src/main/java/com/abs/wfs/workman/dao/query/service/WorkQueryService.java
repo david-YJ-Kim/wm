@@ -153,6 +153,71 @@ public class WorkQueryService {
 	}
 
 
+	/**
+	 *
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int createWork(CreateWorkRequestVo vo, String mtrlFaceFlag , String recipeListXML, String currenntMtrlLoadingSide, String nextWorkSide, String toolHasFlipperYn) throws Exception {
+		try {
+
+
+			vo.setCurrenntMtrlLoadingSide(currenntMtrlLoadingSide);
+			vo.setNextWorkSide(nextWorkSide);
+			vo.setToolHasFlipper((toolHasFlipperYn.equals("Y") ? true : false));
+
+			if("Y".equals(mtrlFaceFlag)) {
+				return this.workDAO.createWorkNew(vo, recipeListXML);
+			}
+			else {
+				// 작업면 적용 전 Work 생성
+				return this.workDAO.createWorkNew(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getEqpId(),
+						vo.getWorkId(), vo.getBatchYn(), vo.getInlineYn(), vo.getEqpInlineId(), vo.getInlineStatCd(), vo.getDspWorkId(),
+						vo.getLotId(), vo.getBatchId(), vo.getCarrId(), vo.getInPortId(), vo.getInCarrId(), vo.getInCarrTyp(), vo.getLotQty(),
+						vo.getOutPortId(), vo.getOutCarrId(), vo.getOutCarrTyp(), vo.getProdDefId(), vo.getProcDefId(), vo.getProcSgmtId(),
+						vo.getSelfInspYn(), vo.getSelfInspCnt(), recipeListXML);
+			}
+
+
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+
+	/**
+	 *
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int createWorkMeasureTrayLoader(CreateWorkRequestVo vo, String mtrlFaceFlag , String recipeListXML, String currenntMtrlLoadingSide,
+										   String nextWorkSide, String toolHasFlipperYn, String prodMtrlId) throws Exception {
+		try {
+
+
+			vo.setCurrenntMtrlLoadingSide(currenntMtrlLoadingSide);
+			vo.setNextWorkSide(nextWorkSide);
+			vo.setToolHasFlipper((toolHasFlipperYn.equals("Y") ? true : false));
+
+			if("Y".equals(mtrlFaceFlag)) {
+				return this.workDAO.createWork(vo, recipeListXML);
+			}
+			else {
+				// 작업면 적용 전 Work 생성
+				return this.workDAO.createWorkMeasTrayLoader(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getEqpId(),
+						vo.getWorkId(), vo.getBatchYn(), vo.getInlineYn(), vo.getEqpInlineId(), vo.getInlineStatCd(), vo.getDspWorkId(),
+						vo.getLotId(), vo.getBatchId(), vo.getCarrId(), vo.getInPortId(), vo.getInCarrId(), vo.getInCarrTyp(), vo.getLotQty(),
+						vo.getOutPortId(), vo.getOutCarrId(), vo.getOutCarrTyp(), vo.getProdDefId(), vo.getProcDefId(), vo.getProcSgmtId(),
+						vo.getSelfInspYn(), vo.getSelfInspCnt(), recipeListXML,prodMtrlId);
+			}
+
+
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	
 	/**

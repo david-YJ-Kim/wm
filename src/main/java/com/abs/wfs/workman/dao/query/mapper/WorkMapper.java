@@ -24,7 +24,7 @@ public interface WorkMapper {
 	 * @param selectWorkJobPortVo
 	 * @return
 	 */
-	Optional<List<SelectWorkJobPortVo>> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo);
+	List<SelectWorkJobPortVo> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo);
 
 
 	//--- WN_WORK_STAT --------------------------

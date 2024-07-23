@@ -28,5 +28,30 @@
          <if test="carrId != null">AND WIP.CARR_ID = #{carrId}</if>
     </select>
 
+    <select id="queryPanelLotIdWithCarr"
+            parameterType="com.abs.wfs.workman.dao.query.wipLotProdMat.vo.WipLotProdMatDto"
+            resultType="com.abs.wfs.workman.dao.query.wipLotProdMat.vo.WipLotProdMatDto">
+        SELECT
+        WIP.LOT_ID,
+        WIP.CARR_ID,
+        MAT.PROD_MTRL_ID,
+        POS.HOLD_YN,
+        MAT.SLOT_NO ,
+        MAT.PREV_SLOT_NO ,
+        MAT.PREV_CARR_ID
+        FROM
+        WN_WIP_STAT WIP,
+        TN_POS_LOT POS,
+        TN_POS_PRODUCED_MATERIAL MAT
+        WHERE
+        1 = 1
+        AND WIP.LOT_ID = POS.LOT_ID
+        AND WIP.LOT_ID = MAT.LOT_ID
+        AND WIP.SITE_ID = #{siteId}
+        AND MAT.USE_STAT_CD = #{useStatCd}
+        AND MAT.USE_STAT_CD = POS.USE_STAT_CD
+        <if test="lotId != null">AND WIP.LOT_ID = #{lotId}</if>
+        <if test="prodMtrlId != null">AND MAT.PROD_MTRL_ID = #{prodMtrlId}</if>
+    </select>
 
 </mapper>

@@ -147,7 +147,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             log.info("{} Query lot and prod material info with {}", apFlowProcessVo.printLog(), wipLotProdMatDto.toString());
 
             String lotId = "";
-            Optional<WipLotProdMatDto> queryLotIdWithCarr = this.wipLotProdMatService.queryLotIdWithCarr(wipLotProdMatDto);
+            Optional<WipLotProdMatDto> queryLotIdWithCarr = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
             if(queryLotIdWithCarr.isPresent()){
 
                 if(WorkManCommonUtil.nullPointCheck(queryLotIdWithCarr.get().getLotId())){
@@ -193,7 +193,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             if(eqpId.equals("AM-RE-00-01")){
                 log.info("{} Measurement room tray loader. eqpId: {}, portId: {}", apFlowProcessVo.printLog(), eqpId, portId);
 
-                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutCstPort(apFlowProcessVo, siteId, portId, carrId);
+                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutCstPort(apFlowProcessVo, siteId, portId, carrId, prodMtrlId);
                 log.info("{} Ready to make panel move work. from port: {}, target port: {}, panel Id: {}, target slot Not: {}",
                         apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getPrevSlotNo());
 

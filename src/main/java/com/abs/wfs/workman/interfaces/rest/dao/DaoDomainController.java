@@ -162,7 +162,7 @@ public class DaoDomainController {
     WnWorkJobSlotInfoServiceImpl wnWorkJobSlotInfoService;
 
     @GetMapping("search/workJobSlotInfo/workId/{workId}/siteId/{siteId}")
-    public Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCd(@PathVariable String workId, @PathVariable String siteId) {
+    public List<WnWorkJobSlotInfo> findByWorkIdAndSiteIdAndUseStatCd(@PathVariable String workId, @PathVariable String siteId) {
 
         return this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId);
     }

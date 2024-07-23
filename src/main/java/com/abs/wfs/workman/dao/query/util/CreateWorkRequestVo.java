@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.abs.wfs.workman.dao.query.mapper.WfsMapper;
+import lombok.Builder;
+import lombok.Data;
 import org.apache.ibatis.session.SqlSession;
 
 
@@ -45,6 +47,8 @@ public class CreateWorkRequestVo {
     private SqlSession session;
     XMLManager xmlManager;
     WfsMapper wfsMapper;
+
+
 
 
     public String getSiteId() {

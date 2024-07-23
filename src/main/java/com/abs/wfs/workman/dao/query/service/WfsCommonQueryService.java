@@ -4,6 +4,7 @@ import com.abs.wfs.workman.dao.query.dao.CommonDAO;
 import com.abs.wfs.workman.dao.query.model.QueryEqpVO;
 import com.abs.wfs.workman.dao.query.model.QueryLotVO;
 import com.abs.wfs.workman.dao.query.model.QueryPortVO;
+import com.abs.wfs.workman.dao.query.service.vo.UpdatePortAutoUnloadYnReqVo;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortCarrierRequestVo;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatAndCarrierReqVo;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatCdRequestVo;
@@ -97,6 +98,23 @@ public class WfsCommonQueryService {
 			throw e;
 		}
 	}
+
+
+	/**
+	 * UPDATE TN_POS_PORT
+	 * AUTO_UNLOAD_YN
+	 * @return
+	 * @throws Exception
+	 */
+	public int updatePortAutoUnloadYn(UpdatePortAutoUnloadYnReqVo vo) throws Exception {
+		try {
+			return this.commonDAO.updatePortAutoUnloadYn(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(),
+														vo.getAutoUnloadYn(), vo.getEqpId(), vo.getPortId());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 
 
 	/**

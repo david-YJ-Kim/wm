@@ -24,6 +24,7 @@
 			<if test="ctrlModeCd != null">CTRL_MODE_CD = #{ctrlModeCd},</if>
 			<if test="efemStatCd != null">EFEM_STAT_CD = #{efemStatCd},</if>
 			<if test="efemCtrlModeCd != null">EFEM_CTRL_MODE_CD = #{efemCtrlModeCd},</if>
+			<if test="autoUnloadYn != null">AUTO_UNLOAD_YN = #{autoUnloadYn},</if>
 		</set>
 		<where>
 			<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
@@ -33,13 +34,13 @@
 		</where>
 		<selectKey keyProperty="objId" resultType="String" order="AFTER">
 			SELECT OBJ_ID as objId
-			  FROM TN_POS_PORT
-			 <where>
+			FROM TN_POS_PORT
+			<where>
 				<if test="pSiteId != null">AND SITE_ID = #{pSiteId}</if>
 				<if test="pEqpId != null">AND EQP_ID = #{pEqpId}</if>
 				<if test="pPortId != null">AND PORT_ID = #{pPortId}</if>
 				<if test="pUseStatCd != null">AND USE_STAT_CD = #{pUseStatCd}</if>
-			 </where>	  
+			</where>
 		</selectKey>
 	</update>
 	

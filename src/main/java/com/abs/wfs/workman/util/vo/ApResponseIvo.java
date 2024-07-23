@@ -88,13 +88,16 @@ public class ApResponseIvo extends ApMsgCommonVo {
         this.messageKey = apFlowProcessVo.getTrackingKey();
         this.scenarioTyp = apFlowProcessVo.getScenarioType();
         this.eventName = apFlowProcessVo.getEventName();
-        this.siteId = apMsgBody.getSiteId();
         this.workStateCode = apFlowProcessVo.getWorkStatCd();
-        this.workId = "work id를 어디서 받아올지 정의 필요";
-        this.lotId = apMsgBody.getLotId() == null ? "" : apMsgBody.getLotId();
-        this.carrId = apMsgBody.getCarrId() == null ? "" : apMsgBody.getCarrId();
-        this.eqpId = apMsgBody.getEqpId() == null ? "" : apMsgBody.getEqpId();
-        this.portId = apMsgBody.getPortId() == null ? "" : apMsgBody.getPortId();
+
+        if(apMsgBody != null){
+            this.siteId = apMsgBody.getSiteId() == null ? "SVM" : apMsgBody.getSiteId();
+            this.workId = "work id를 어디서 받아올지 정의 필요";
+            this.lotId = apMsgBody.getLotId() == null ? "" : apMsgBody.getLotId();
+            this.carrId = apMsgBody.getCarrId() == null ? "" : apMsgBody.getCarrId();
+            this.eqpId = apMsgBody.getEqpId() == null ? "" : apMsgBody.getEqpId();
+            this.portId = apMsgBody.getPortId() == null ? "" : apMsgBody.getPortId();
+        }
     }
 
 }

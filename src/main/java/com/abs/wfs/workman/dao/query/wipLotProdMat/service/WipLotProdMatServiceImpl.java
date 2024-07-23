@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,19 @@ public class WipLotProdMatServiceImpl {
      * @param wipLotProdMatDto
      * @return
      */
-    public Optional<WipLotProdMatDto> queryLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto){
+    public Optional<List<WipLotProdMatDto>> queryLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto){
         return this.wipLotProdMatMapper.queryLotIdWithCarr(wipLotProdMatDto);
     }
+
+
+    /**
+     * WIP Lot, Produced matarial을 조인하여 패널 정보를 조회
+     * @param wipLotProdMatDto
+     * @return
+     */
+    public Optional<WipLotProdMatDto> queryPanelLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto){
+        return this.wipLotProdMatMapper.queryPanelLotIdWithCarr(wipLotProdMatDto);
+    }
+
+
 }

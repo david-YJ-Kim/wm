@@ -44,7 +44,7 @@ public class WnWorkJobSlotInfoServiceImpl {
      * @param siteId
      * @return
      */
-    public Optional<List<WnWorkJobSlotInfo>> findByWorkIdAndSiteIdAndUseStatCd(String workId, String siteId){
+    public List<WnWorkJobSlotInfo> findByWorkIdAndSiteIdAndUseStatCd(String workId, String siteId){
 
         return this.wnWorkJobSlotInfoRepository.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId, UseStatCd.Usable);
     }

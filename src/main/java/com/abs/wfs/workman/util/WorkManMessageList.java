@@ -81,8 +81,6 @@ public final class WorkManMessageList {
     public static final String WFS_EFEM_STATE_REPORT = "WFS_EFEM_STATE_REPORT";
     public static final String WFS_EFEM_CONTROL_STATE_REPORT = "WFS_EFEM_CONTROL_STATE_REPORT";
     public static final String WFS_MANUAL_WORK_START = "WFS_MANUAL_WORK_START";
-    public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
-    public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
     public static final String WFS_QUANTITY_MATCH_STATE = "WFS_QUANTITY_MATCH_STATE";
     public static final String WFS_TRAY_LOAD_COMP = "WFS_TRAY_LOAD_COMP";
 
@@ -93,6 +91,13 @@ public final class WorkManMessageList {
     public static final String WFS_VMS_PROD_ENDED = "WFS_VMS_PROD_ENDED";
     public static final String WFS_VMS_PROD_STARTED = "WFS_VMS_PROD_STARTED";
     public static final String WFS_VMS_LOT_TRACK_OUT_REQ = "WFS_VMS_LOT_TRACK_OUT_REQ";
+
+
+    public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
+    public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
+    public static final String WFS_OI_GENERATE_WORK_REQ = "WFS_OI_GENERATE_WORK_REQ";
+    public static final String WFS_OI_PORT_UNLOAD_REQ = "WFS_OI_PORT_UNLOAD_REQ";
+
 
     /**
      * SPEC - OUT

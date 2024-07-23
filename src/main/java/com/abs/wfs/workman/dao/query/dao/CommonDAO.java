@@ -238,6 +238,54 @@ public class CommonDAO {
 		return resultVal;
 		
 	}
+
+	/**
+	 * TN_POS_PORT.AUTO_UNLOAD_YN update
+	 * @param siteId
+	 * @param cid
+	 * @param tid
+	 * @param userId
+	 * @param autoUnloadYn
+	 * @param eqpId
+	 * @param portId
+	 * @return
+	 * @throws Exception
+	 */
+	public int updatePortAutoUnloadYn(String siteId, String cid, String tid, String userId, String autoUnloadYn, String eqpId, String portId) throws Exception{
+		int resultVal = -1;
+
+		try {
+			TnPosPort param = new TnPosPort();
+
+			//SET
+			param.setMdfyUserId(userId);
+			param.setTid(tid);
+			param.setEvntNm(cid);
+
+			param.setAutoUnloadYn(autoUnloadYn);
+
+			//WHERE
+			param.setpUseStatCd(UseStatCd.Usable.name());
+			param.setpSiteId(siteId);
+			param.setpEqpId(eqpId);
+			param.setpPortId(portId);
+
+			resultVal = eqpMapper.updateTnPosPort(param);
+
+			if(resultVal > 0) {
+				eqpMapper.createThPosPort(param.getObjId());
+			}
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+
+		return resultVal;
+	}
+
+
 	
 	/**
 	 * UPDATE TN_POS_PORT
