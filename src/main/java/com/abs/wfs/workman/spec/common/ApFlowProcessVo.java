@@ -52,4 +52,8 @@ public class ApFlowProcessVo {
         this.eventElapsedTimeMs = executeEndTime - executeStartTime;
         return executeEndTime;
     }
+
+    public String printLog(){
+        return this.trackingKey;
+    }
 }

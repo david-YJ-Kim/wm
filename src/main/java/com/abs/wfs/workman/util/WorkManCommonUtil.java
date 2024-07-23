@@ -215,6 +215,27 @@ public class WorkManCommonUtil {
 
 
     /**
+     * 포트 아이디로, 설비 아이디 획득
+     * 포트 아이디 (AM-RE-00-01-BP01)
+     * → AM-RE-00-01
+     *
+     * @param portId
+     * @return
+     */
+    public static String extractEqpIdWithPortId(String portId){
+        int lastHyphenIndex = portId.lastIndexOf('-');
+
+        // Return the substring from the beginning to the last hyphen index
+        if (lastHyphenIndex != -1) {
+            return portId.substring(0, lastHyphenIndex);
+        } else {
+            // If there is no hyphen, return the input string
+            return portId;
+        }
+    }
+
+
+    /**
      * 두 개 의 서로 다른 String 객체의 값이 같으면 true, 다르면 false
      * @param wordA
      * @param wordB

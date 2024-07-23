@@ -19,3 +19,24 @@ public class WfsTrayLoadCompIvo extends ApMsgCommonVo {
         String prodMtrlId;
     }
 }
+/*
+{
+	"head": {
+		"tgt": "WFS",
+		"tgtEqp": [],
+		"osrc": "",
+		"srcEqp": "",
+		"src": "EAP",
+		"tid": "WFS_00_20240620170629897",
+		"cid": "WFS_TRAY_LOAD_COMP"
+	},
+	"body": {
+		"siteId": "SVM",
+		"eqpId": "AM-RE-00-01",
+		"portId": "AM-RE-00-01-BP04",
+		"carrId": "Tray_00001",
+		"prodMtrlId": "ET24400043",
+		"userId": "Skilled User"
+	}
+}
+ */

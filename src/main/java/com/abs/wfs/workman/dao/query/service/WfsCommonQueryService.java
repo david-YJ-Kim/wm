@@ -5,6 +5,7 @@ import com.abs.wfs.workman.dao.query.model.QueryEqpVO;
 import com.abs.wfs.workman.dao.query.model.QueryLotVO;
 import com.abs.wfs.workman.dao.query.model.QueryPortVO;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortCarrierRequestVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatAndCarrierReqVo;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatCdRequestVo;
 import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
@@ -56,9 +57,11 @@ public class WfsCommonQueryService {
 	}
 
 
-	public int updatePortStatAndCarrier(String siteId, String cid, String tid, String userId, String efemCommStateCd, String efemStateCd, String efemToolStateCd, String statCd, String trsfStatCd, String acesModeCd, String ctrlModeCd, String carrId, String eqpId, String portId) throws Exception {
+	public int updatePortStatAndCarrier(UpdatePortStatAndCarrierReqVo vo) throws Exception {
 		try {
-			return this.commonDAO.updatePortStatAndCarrier(siteId, cid, tid, userId, efemCommStateCd, efemStateCd, efemToolStateCd, statCd, trsfStatCd, acesModeCd, ctrlModeCd, carrId, eqpId, portId);
+			return this.commonDAO.updatePortStatAndCarrier(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getUserId(), vo.getEfemCommStateCd(),
+					vo.getEfemStateCd(), vo.getEfemToolStateCd(), vo.getStatCd(), vo.getTrsfStatCd(), vo.getAcesModeCd(),
+					vo.getCtrlModeCd(), vo.getCarrId(), vo.getEqpId(), vo.getPortId());
 		} catch (Exception e) {
 			throw e;
 		}

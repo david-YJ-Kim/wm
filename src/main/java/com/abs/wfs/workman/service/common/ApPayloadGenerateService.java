@@ -5,11 +5,9 @@ import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEfemControlStateReportIvo;
 import com.abs.wfs.workman.spec.in.eap.WfsMaterialKitdekitReportIvo;
+import com.abs.wfs.workman.spec.in.eap.WfsTrayLoadCompIvo;
 import com.abs.wfs.workman.spec.out.brs.*;
-import com.abs.wfs.workman.spec.out.eap.EapDurableInfoReqIvo;
-import com.abs.wfs.workman.spec.out.eap.EapJobAbortReqIvo;
-import com.abs.wfs.workman.spec.out.eap.EapLotInfoRepIvo;
-import com.abs.wfs.workman.spec.out.eap.EapToolCondReqIvo;
+import com.abs.wfs.workman.spec.out.eap.*;
 import com.abs.wfs.workman.spec.out.fis.FisFileReportIvo;
 import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveReqIvo;
 import com.abs.wfs.workman.spec.out.rtd.RtdDspWorkReqIvo;
@@ -178,6 +176,20 @@ public class ApPayloadGenerateService {
         return objectMapper.writeValueAsString(ivo);
     }
 
+    public String generateBody(String tid, EapWorkOrderReq.Body body) throws JsonProcessingException {
+
+
+        EapWorkOrderReq ivo = new EapWorkOrderReq();
+
+        if (body.getUserId() == null || body.getUserId().isEmpty()) {
+            body.setUserId(ApSystemCodeConstant.WFS);
+        }
+        ivo.setHead(this.generateMessageHead(tid, EapWorkOrderReq.cid, EapWorkOrderReq.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+    }
+
 
 
     public WfsEfemControlStateReportIvo generateMessageObject(String tid, WfsEfemControlStateReportIvo.Body body) throws JsonProcessingException {
@@ -196,9 +208,10 @@ public class ApPayloadGenerateService {
 
 
 
+
     /**
-         * FIS
-         */
+     * FIS
+     */
     public String generateBody(String tid, FisFileReportIvo.FisFileReportBody body) throws JsonProcessingException {
 
 
@@ -313,9 +326,50 @@ public class ApPayloadGenerateService {
 
         return objectMapper.writeValueAsString(ivo);
 
+    }
+
+    public String generateBody(String tid, BrsLotDeassignCarr.Body body) throws JsonProcessingException {
+
+
+        BrsLotDeassignCarr ivo = new BrsLotDeassignCarr();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, BrsLotDeassignCarr.cid, BrsLotDeassignCarr.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
 
     }
 
+    public String generateBody(String tid, BrsLotCarrAssign.Body body) throws JsonProcessingException {
+
+
+        BrsLotCarrAssign ivo = new BrsLotCarrAssign();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, BrsLotCarrAssign.cid, BrsLotCarrAssign.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+
+    }
+
+    /**
+     * WFS
+     */
+    public String generateBody(String tid, WfsTrayLoadCompIvo.Body body) throws JsonProcessingException {
+
+
+        WfsTrayLoadCompIvo ivo = new WfsTrayLoadCompIvo();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        ivo.setHead(this.generateMessageHead(tid, WfsTrayLoadCompIvo.cid, WfsTrayLoadCompIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+
+
+    }
 
 
 

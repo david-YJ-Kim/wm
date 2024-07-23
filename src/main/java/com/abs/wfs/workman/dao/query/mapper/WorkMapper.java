@@ -9,6 +9,7 @@ import com.abs.wfs.workman.dao.query.model.WnWorkJobCellInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkJobSlotInfo;
 import com.abs.wfs.workman.dao.query.model.WnWorkStat;
 import com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.SelectWorkJobPortVo;
 import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,6 +17,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface WorkMapper {
+
+
+	/**
+	 * Work Job과 Port 조인해서 조회
+	 * @param selectWorkJobPortVo
+	 * @return
+	 */
+	Optional<List<SelectWorkJobPortVo>> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo);
 
 
 	//--- WN_WORK_STAT --------------------------
@@ -118,7 +127,8 @@ public interface WorkMapper {
 	int createWhDspWorkInfo(String objId);
 	
 	int deleteWnDspWorkInfo(String objId);
-	
+
+
 	
 	
 }

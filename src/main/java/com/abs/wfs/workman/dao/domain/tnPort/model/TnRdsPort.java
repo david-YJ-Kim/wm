@@ -1,15 +1,13 @@
 package com.abs.wfs.workman.dao.domain.tnPort.model;
 
+import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Getter
@@ -43,7 +41,9 @@ public class TnRdsPort {
     private String prevEvntNm;
     private String cstmEvntNm;
     private String prevCstmEvntNm;
-    private String useStatCd;
+
+    @Enumerated(EnumType.STRING)
+    private UseStatCd useStatCd;
     private String rsnCd;
     private String trnsCm;
     private String crtUserId;
@@ -53,6 +53,7 @@ public class TnRdsPort {
     private Timestamp fnlEvntDt;
     private String tid;
     private String carrTyp;
+    private String lnkPortId;
 
 
 

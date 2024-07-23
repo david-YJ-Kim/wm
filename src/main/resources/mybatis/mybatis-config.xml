@@ -17,6 +17,7 @@
         <mapper resource="mybatis/sql/CarrQuery.xml" />
         <mapper resource="mybatis/sql/WipLotQuery.xml" />
         <mapper resource="mybatis/sql/wfsQuery.xml" />
+        <mapper resource="mybatis/sql/WipLotProdMatQuery.xml" />
         <mapper resource="mybatis/sql/wipStatQuery.xml" />
         <mapper resource="mybatis/sql/sorterJobQuery.xml" />
         <mapper resource="mybatis/sql/transferJobQuery.xml" />

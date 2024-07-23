@@ -5,10 +5,7 @@ import com.abs.wfs.workman.dao.query.dao.TransferJobDAO;
 import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.model.WnSorterJobExec;
-import com.abs.wfs.workman.dao.query.service.vo.UpdateEventNmByLotCarrIdRequestVo;
-import com.abs.wfs.workman.dao.query.service.vo.UpdateWipStatEventNmByCarrIdVo;
-import com.abs.wfs.workman.dao.query.service.vo.UpdateWipStatForMoveCompleteVo;
-import com.abs.wfs.workman.dao.query.service.vo.UpdateWorkStatusByLotIdForWorkStartReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.*;
 import com.abs.wfs.workman.util.code.SorterJobStatCdExec;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -380,19 +377,13 @@ public class WfsQueryService {
 	/**
 	 * UPDATE WN_WIP_STAT
 	 * Current EqpId, PortId
-	 * @param siteId
-	 * @param cid
-	 * @param tid
-	 * @param carrId
-	 * @param userId
-	 * @param crntEqpId
-	 * @param crntPortId
 	 * @return
 	 * @throws Exception 
 	 */
-	public int updateCurrentEqpPortByCarrId(String siteId, String cid, String tid, String carrId, String userId, String crntEqpId, String crntPortId) throws Exception {
+	public int updateCurrentEqpPortByCarrId(UpdateCurrentEqpPortByCarrIdReqVo vo) throws Exception {
 		try {
-			return this.wipStatDAO.updateCurrentEqpPortByCarrId(siteId, cid, tid, carrId, userId, crntEqpId, crntPortId);
+			return this.wipStatDAO.updateCurrentEqpPortByCarrId(vo.getSiteId(), vo.getCid(), vo.getTid(), vo.getCarrId(),
+																vo.getUserId(), vo.getCrntEqpId(), vo.getCrntPortId());
 		} catch (Exception e) {
 			throw e;
 		}

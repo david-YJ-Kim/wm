@@ -493,7 +493,7 @@ public class CommonDAO {
 			
 			result = eqpMapper.selectQueryPortVO(param);
 			
-			logger.info("QueryPort Result: {}", result.toString());
+//			logger.info("QueryPort Result: {}", result.toString());
 			
 		} catch (Exception e) {
 			logger.error("Exception: {}", e.getMessage());

@@ -1,10 +1,12 @@
 package com.abs.wfs.workman.spec.out.eap.common;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Builder
 public class Work {
 
     private String jobSeqId;

@@ -3,6 +3,7 @@ package com.abs.wfs.workman.dao.query.dao;
 import java.util.*;
 
 import com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.SelectWorkJobPortVo;
 import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
 import com.abs.wfs.workman.dao.query.util.RecipeVo;
@@ -47,6 +48,17 @@ public class WorkDAO {
 	}
 	
 	private WorkDAO() {}
+
+
+	/**
+	 * Work Job과 Port 조인해서 조회
+	 * @param selectWorkJobPortVo
+	 * @return
+	 */
+	public Optional<List<SelectWorkJobPortVo>> selectWorkJobPort(SelectWorkJobPortVo selectWorkJobPortVo){
+		return this.workMapper.selectWorkJobPort(selectWorkJobPortVo);
+	}
+
 
 
 

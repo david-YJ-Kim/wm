@@ -30,7 +30,7 @@ public class EapFlowController {
 
 
     @PostMapping(WorkManMessageList.WFS_CARR_SLOTMAP_REPORT_REQ)
-    public ResponseEntity<ApResponseIvo> executeWfsAlarmReport(@RequestBody WfsCarrSlotmapReportReqVo wfsCarrSlotmapReportReqVo,
+    public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsCarrSlotmapReportReqVo wfsCarrSlotmapReportReqVo,
                                                  @RequestParam(value = "key") String trackingKey,
                                                  @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
@@ -40,6 +40,27 @@ public class EapFlowController {
 
     }
 
+
+    /**
+     * WFS_TRAY
+     */
+    @Autowired
+    WfsTrayLoadCompServiceImpl wfsTrayLoadCompService;
+
+    @PostMapping(WorkManMessageList.WFS_TRAY_LOAD_COMP)
+    public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsTrayLoadCompIvo wfsTrayLoadCompIvo,
+                                                               @RequestParam(value = "key") String trackingKey,
+                                                               @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+
+        return processRequest(() -> wfsTrayLoadCompService.execute(wfsTrayLoadCompService.initialize(
+                WorkManMessageList.WFS_TRAY_LOAD_COMP,
+                trackingKey,
+                scenarioType,
+                wfsTrayLoadCompIvo.getHead()), wfsTrayLoadCompIvo),
+                wfsTrayLoadCompIvo.getBody());
+
+    }
 
 
     /**
@@ -51,7 +72,7 @@ public class EapFlowController {
     WfsAlarmReportImpl wfsAlarmReport;
 
     @PostMapping(WorkManMessageList.WFS_ALARM_REPORT)
-    public ApFlowProcessVo executeWfsAlarmReport(@RequestBody WfsAlarmReportIvo wfsAlarmReportIvo,
+    public ApFlowProcessVo execute(@RequestBody WfsAlarmReportIvo wfsAlarmReportIvo,
                                                  @RequestParam(value = "key") String trackingKey,
                                                  @RequestParam(value = "scenario") String scenarioType) throws Exception {
 

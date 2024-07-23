@@ -291,4 +291,25 @@
 		 WHERE WORK_ID = #{workId}
 	</delete>
 
+
+	<select id="selectWorkJobPort"
+			parameterType="com.abs.wfs.workman.dao.query.service.vo.SelectWorkJobPortVo"
+			resultType="com.abs.wfs.workman.dao.query.service.vo.SelectWorkJobPortVo">
+		SELECT
+			J.WORK_ID,
+			J.JOB_SEQ_ID,
+			J.LOT_ID,
+			J.IN_CARR_ID,
+			J.IN_PORT_ID,
+			P.PORT_TYP,
+			J.OUT_PORT_ID,
+			J.OUT_CARR_ID,
+			J.RCP_DEF_ID
+		FROM
+			WN_WORK_JOB J,
+			TN_RDS_PORT P
+		WHERE
+			J.WORK_ID = #{workId}
+		  AND J.IN_PORT_ID = P.PORT_ID
+	</select>
 </mapper>

@@ -32,6 +32,16 @@ public enum ApExceptionCode {
     WFS_ERR_CARR_RESV_INF_REGISTER("WFS_ERR_CARR_RESV_INF_REGISTER", "해당 CST (%s)로 등록된 예약 정보가 습니다. 예약 정보: %s"),
     WFS_ERR_LOT_RESV_ALREADY_REGISTER("WFS_ERR_LOT_RESV_ALREADY_REGISTER", "설비 (%s) 포트 (%s)에 예약된 다른 재공 [Lot: (%s), Carr: (%s)]이 존재합니다. "),  // 기존: ReservedLotAlreadyExist
 
+    /**
+     * NOTFOUND: 찾지 못하다.
+     */
+    WFS_ERR_LOT_INF_NOTFOUND("WFS_ERR_LOT_INF_NOTFOUND", "주어진 정보로 Lot을 찾을 수 없습니다. 주어진 정보: %s"),
+    WFS_ERR_PORT_INF_NOTFOUND("WFS_ERR_PORT_INF_NOTFOUND", "주어진 정보로 포트을 찾을 수 없습니다. [설비: (%s), 포트: (%s)]"),
+    WFS_ERR_PREV_SLOT_INF_NOTFOUND("WFS_ERR_PREV_SLOT_INF_NOTFOUND", "주어진 정보로 이전에 할당된 Slot 위치를 찾을 수 없습니다. [현재 CST Id: (%s), 포트: (%s)]"),
+    WFS_ERR_JOB_SLOT_INF_NOTFOUND("WFS_ERR_JOB_SLOT_INF_NOTFOUND", "주어진 Work (%s)로 생성된 Job Slot 정보를 찾을 수 없습니다. [현재 Lot Id: (%s), 설비: (%s)]"),
+    WFS_ERR_WORK_JOB_INF_NOTFOUND("WFS_ERR_WORK_JOB_INF_NOTFOUND", "주어진 Work (%s)로 생성된 Job 정보를 찾을 수 없습니다. [현재 Lot Id: (%s), 설비: (%s)]"),
+
+
 
 
 
