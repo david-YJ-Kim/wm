@@ -68,9 +68,13 @@ public class StateRuleManager {
         try {
             switch (validationType) {
                 case StateRuleList.ValidPort:
+                    log.info("Request validPort. Print params, siteId :{}, eqpId :{}, portId: {}, validType: {}, portVo:{}",
+                            siteId,eqpId,portId,validationType, queryPortVO.toString());
                     this.validPort(siteId, eqpId, portId, queryPortVO);
                     break;
                 case StateRuleList.FullAutoPort:
+                    log.info("Request FullAutoPort. Print params, siteId :{}, eqpId :{}, portId: {}, validType: {}, portVo:{}",
+                            siteId,eqpId,portId,validationType, queryPortVO.toString());
                     this.fullAutoPort(siteId, eqpId, portId, queryPortVO);
                     break;
                 default:
@@ -168,6 +172,20 @@ public class StateRuleManager {
     }
 
 
+    public List<WnStateRuleInfo> getStateRuleList(String ruleName) {
+
+//		return stateRuleList.stream().filter(item -> item.getRuleNm().equals(ruleName)).collect(Collectors.toList());
+
+        List<WnStateRuleInfo> filteredList = new ArrayList<WnStateRuleInfo>();
+
+        for(WnStateRuleInfo s : this.wnStateRuleInfoList) {
+            if(s.getRuleNm().equals(ruleName))
+                filteredList.add(s);
+        }
+
+        return filteredList;
+    }
+
     /**
      * Rule : Port Validation
      * @param siteId
@@ -178,6 +196,7 @@ public class StateRuleManager {
      * @throws Exception
      */
     public boolean validPort(String siteId, String eqpId, String portId, QueryPortVO portVO) throws Exception {
+
         log.info("StateRule Check : validPort");
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> portData = objectMapper.convertValue(portVO, Map.class);
@@ -185,8 +204,10 @@ public class StateRuleManager {
 
         log.info("query result. Port data: {} ", portData.toString());
 
+
+
         // ValidPort Rule Check
-        RuleChecker.RuleCheckResult checkResult = ruleChecker.checkRule(StateRuleList.ValidPort, portData, this.wnStateRuleInfoList);
+        RuleChecker.RuleCheckResult checkResult = ruleChecker.checkRule(StateRuleList.ValidPort, portData, this.getStateRuleList(StateRuleList.ValidPort));
 
         if(!checkResult.isResult()){
             log.error("Valid port : {}", checkResult.getResultList().toString());
