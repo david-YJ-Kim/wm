@@ -77,6 +77,8 @@ public class StateRuleManager {
                     throw new IllegalArgumentException("Invalid validation type: " + validationType);
             }
         } catch (Exception e) {
+            
+            // TODO Scenario Exception 처리하기
             throw new RuntimeException(e);
         }
     }
@@ -184,12 +186,15 @@ public class StateRuleManager {
 
         @SuppressWarnings("unchecked")
         Map<String, String> portData = objectMapper.convertValue(portVO, Map.class);
+        log.info("query result. Port data: {} ", portData.toString());
 
         // ValidPort Rule Check
         RuleChecker.RuleCheckResult checkResult = ruleChecker.checkRule(StateRuleList.ValidPort, portData, this.wnStateRuleInfoList);
 
-        if(!checkResult.isResult())
-            throw new Exception("ValidPort ERROR : "+checkResult.getResultList().toString());
+        if(!checkResult.isResult()){
+            log.error("Valid port : {}", checkResult.getResultList().toString());
+            throw new Exception("ValidPort ERROR : " + checkResult.getResultList().toString());
+        }
 
         return checkResult.isResult();
     }
