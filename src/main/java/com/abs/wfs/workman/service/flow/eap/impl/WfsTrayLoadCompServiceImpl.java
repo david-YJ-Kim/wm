@@ -96,7 +96,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
         String siteId = body.getSiteId(); String eqpId = body.getEqpId(); String carrId = body.getCarrId();
         String portId = body.getPortId(); String prodMtrlId = body.getProdMtrlId();
 
-        boolean isEmptyTray = (prodMtrlId == null || prodMtrlId.isEmpty()) ? true : false;
+        boolean isEmptyTray = prodMtrlId == null || prodMtrlId.isEmpty();
 
         /*
         Validate port status
