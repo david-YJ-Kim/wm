@@ -1,8 +1,11 @@
 package com.abs.wfs.workman.interfaces.rest.dao;
 
 
+import com.abs.wfs.workman.dao.query.eqp.service.EqpServiceImpl;
 import com.abs.wfs.workman.dao.query.model.IamMultiLangErrorCodeIVo;
 import com.abs.wfs.workman.dao.query.model.IamUserInfoIVo;
+import com.abs.wfs.workman.dao.query.model.QueryEqpVO;
+import com.abs.wfs.workman.dao.query.model.QueryPortVO;
 import com.abs.wfs.workman.dao.query.service.IamQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortInfoRequestIvo;
@@ -30,6 +33,21 @@ public class DaoQueryController {
 
         return this.wfsCommonQueryService.updatePortUnloadCompleted(ivo.getSiteId(),ivo.getCid(), ivo.getTid(), ivo.getUserId(), ivo.getStatCd(), ivo.getTrsfStatCd(), ivo.getEqpId(), ivo.getPortId());
 
+    }
+
+
+
+    @GetMapping("eqp/search/siteId/{siteId}/eqpId/{eqpId}/portId/{portId}")
+    public QueryPortVO getQueryPort(@PathVariable String siteId, @PathVariable String eqpId, @PathVariable String portId) throws Exception {
+
+        return this.wfsCommonQueryService.getQueryPortVO(siteId, eqpId, portId);
+    }
+
+
+    @GetMapping("eqp/search/siteId/{siteId}/eqpId/{eqpId}/")
+    public QueryEqpVO getQueryEqp(@PathVariable String siteId, @PathVariable String eqpId) throws Exception {
+
+        return this.wfsCommonQueryService.getQueryEqpVO(siteId, eqpId);
     }
 
 

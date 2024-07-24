@@ -180,12 +180,9 @@ public class StateRuleManager {
     public boolean validPort(String siteId, String eqpId, String portId, QueryPortVO portVO) throws Exception {
         log.info("StateRule Check : validPort");
         ObjectMapper objectMapper = new ObjectMapper();
-
-        //TN_POS_PORT Table Select
-//		Map<String, String> portData = CommonDAO.getInstance().getPort(siteId, eqpId, portId);
-
-        @SuppressWarnings("unchecked")
         Map<String, String> portData = objectMapper.convertValue(portVO, Map.class);
+
+
         log.info("query result. Port data: {} ", portData.toString());
 
         // ValidPort Rule Check
