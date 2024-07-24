@@ -143,7 +143,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
         }else {
 
-            WipLotProdMatDto wipLotProdMatDto = WipLotProdMatDto.builder().siteId(siteId).carrId(carrId).useStatCd(UseStatCd.Usable).build();
+            WipLotProdMatDto wipLotProdMatDto = WipLotProdMatDto.builder().siteId(siteId).prodMtrlId(prodMtrlId).useStatCd(UseStatCd.Usable).build();
             log.info("{} Query lot and prod material info with {}", apFlowProcessVo.printLog(), wipLotProdMatDto.toString());
 
             String lotId = "";
