@@ -91,12 +91,14 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
         WfsTrayLoadCompIvo.Body body = wfsTrayLoadCompIvo.getBody();
         apFlowProcessVo.setApMsgBody(body);
-        log.info("{} Set up message body: {}", apFlowProcessVo.printLog(), body.toString());
+        log.info("{} Set up message body: {}", apFlowProcessVo.printLog(), wfsTrayLoadCompIvo.toString());
 
         String siteId = body.getSiteId(); String eqpId = body.getEqpId(); String carrId = body.getCarrId();
         String portId = body.getPortId(); String prodMtrlId = body.getProdMtrlId();
 
         boolean isEmptyTray = prodMtrlId == null || prodMtrlId.isEmpty();
+        log.info("{} tray is loaded. is it empty: {}?", apFlowProcessVo.printLog(), isEmptyTray);
+
 
         /*
         Validate port status
@@ -109,7 +111,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
         }
         log.info("{} Port query result: {}", apFlowProcessVo.printLog(), queryPortVO.toString());
 
-        this.stateRuleManager.validatePortStateRule(siteId, eqpId, portId, StateRuleList.ValidPort, queryPortVO);
+        // this.stateRuleManager.validatePortStateRule(siteId, eqpId, portId, StateRuleList.ValidPort, queryPortVO);
 
 
         /*
@@ -144,7 +146,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
         }else {
 
             WipLotProdMatDto wipLotProdMatDto = WipLotProdMatDto.builder().siteId(siteId).prodMtrlId(prodMtrlId).useStatCd(UseStatCd.Usable).build();
-            log.info("{} Query lot and prod material info with {}", apFlowProcessVo.printLog(), wipLotProdMatDto.toString());
+            log.info("{} Query lot and pro d material info with {}", apFlowProcessVo.printLog(), wipLotProdMatDto.toString());
 
             String lotId = "";
             Optional<WipLotProdMatDto> queryLotIdWithCarr = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
