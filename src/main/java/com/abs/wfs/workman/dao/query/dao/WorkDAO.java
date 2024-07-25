@@ -394,7 +394,7 @@ public class WorkDAO {
 
 			logger.info("###### 5> CREATE WN_WORK_JOB Completed");
 			logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
-			createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, "1", prodMtrlId, "", mtrlFace, userId);
+			createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, prodMtrlList.get(1).getSlotNo(), prodMtrlId, "", mtrlFace, userId);
 
 
 		} catch (Exception e) {

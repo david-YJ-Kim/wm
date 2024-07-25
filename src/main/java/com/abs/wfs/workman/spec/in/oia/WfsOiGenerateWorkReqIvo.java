@@ -53,7 +53,9 @@ public class WfsOiGenerateWorkReqIvo extends ApMsgCommonVo {
     "prodDefId": "HB1-220101-09",
     "procDefId": "MF-HB-220101-09",
     "procSgmtId": "G2004",
-    "userId": "david.kim"
+    "userId": "david.kim",
+
+    "panelInputYn": "Y"
   }
 }
  */
