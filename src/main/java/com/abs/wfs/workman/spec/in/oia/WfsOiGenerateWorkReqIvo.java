@@ -23,6 +23,7 @@ public class WfsOiGenerateWorkReqIvo extends ApMsgCommonVo {
         String procDefId;
         String procSgmtId;
 
+        String slotNo; // measurement room (re-00) 전용 파라미터로, 투입할 CARR slot 위치, Tray 는 1 고정
         String panelInputYn;  // measurement room (re-00) 전용 파라미터로, 투입 작업 시 Y
     }
 

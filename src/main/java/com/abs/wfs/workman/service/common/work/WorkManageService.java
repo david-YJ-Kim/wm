@@ -1,6 +1,8 @@
 package com.abs.wfs.workman.service.common.work;
 
 
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WorkQueryService;
 import com.abs.wfs.workman.dao.query.util.CreateWorkRequestVo;
@@ -34,6 +36,9 @@ public class WorkManageService {
     @Autowired
     UtilCommonService utilCommonService;
 
+    @Autowired
+    TnProducedMaterialServiceImpl tnProducedMaterialService;
+
     /**
      * Measurement Room, 패널 이동 Work 생성
      *
@@ -50,6 +55,18 @@ public class WorkManageService {
         String siteId = body.getSiteId();
         String eqpId = body.getEqpId();
         String lotId = body.getLotId();
+        String slotNo = body.getSlotNo(); // 현재 작업 시작할 패널의 Slot 위치
+
+        if(slotNo.isEmpty()){
+
+            TnProducedMaterial mtrlInfo = this.tnProducedMaterialService.findByLotIdAndProdMtrlId(siteId, lotId, body.getProdMtrlId());
+            if(mtrlInfo == null || mtrlInfo.getSlotNo() == null){
+                // TODO throw Exception.
+                throw new Exception("Slot No is not defined");
+            }
+            slotNo = String.valueOf(mtrlInfo.getSlotNo());
+        }
+
         boolean isInputWork = body.getPanelInputYn().equals(UseYn.Y.name());
         log.info("{} Start to generate measurement panel moving work. isInputWork? :{}" +
                 "payload : {}", apFlowProcessVo.printLog(), wfsOiGenerateWorkReqIvo.toString(), isInputWork);
@@ -107,10 +124,11 @@ public class WorkManageService {
 
         WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "CreateWorkRequestVo", vo.toString());
 
+
         try{
 
             this.workQueryService.createWorkMeasureTrayLoader(vo, "N", "", "TTT",
-                    "Top", "Y", body.getProdMtrlId());
+                    "Top", "Y", body.getProdMtrlId(), slotNo);
         }catch (Exception e){
             e.printStackTrace();
             log.error("Error : {}", e);

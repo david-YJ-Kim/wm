@@ -193,7 +193,7 @@ public class WorkQueryService {
 	 * @throws Exception
 	 */
 	public int createWorkMeasureTrayLoader(CreateWorkRequestVo vo, String mtrlFaceFlag , String recipeListXML, String currenntMtrlLoadingSide,
-										   String nextWorkSide, String toolHasFlipperYn, String prodMtrlId) throws Exception {
+										   String nextWorkSide, String toolHasFlipperYn, String prodMtrlId, String slotNo) throws Exception {
 		try {
 
 
@@ -210,7 +210,7 @@ public class WorkQueryService {
 						vo.getWorkId(), vo.getBatchYn(), vo.getInlineYn(), vo.getEqpInlineId(), vo.getInlineStatCd(), vo.getDspWorkId(),
 						vo.getLotId(), vo.getBatchId(), vo.getCarrId(), vo.getInPortId(), vo.getInCarrId(), vo.getInCarrTyp(), vo.getLotQty(),
 						vo.getOutPortId(), vo.getOutCarrId(), vo.getOutCarrTyp(), vo.getProdDefId(), vo.getProcDefId(), vo.getProcSgmtId(),
-						vo.getSelfInspYn(), vo.getSelfInspCnt(), recipeListXML,prodMtrlId);
+						prodMtrlId, slotNo);
 			}
 
 

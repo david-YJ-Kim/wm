@@ -20,4 +20,17 @@ public class TnProducedMaterialServiceImpl {
     public Optional<List<TnProducedMaterial>> findBySiteIdAndLotIdAndUseStatCdOrderBySlotNo(String siteId, String lotId, UseStatCd useStatCd){
         return this.tnProducedMaterialRepository.findBySiteIdAndLotIdAndUseStatCdOrderBySlotNo(siteId, lotId, useStatCd);
     }
+
+    /**
+     * Lot Id와 ProdMtrl Id로 패널 정보 조회
+     * @param siteId
+     * @param lotId
+     * @param prodMtrlId
+     * @return
+     */
+    public TnProducedMaterial findByLotIdAndProdMtrlId(String siteId, String lotId, String prodMtrlId){
+        return this.tnProducedMaterialRepository.findBySiteIdAndLotIdAndProdMtrlIdAndUseStatCd(siteId, lotId, prodMtrlId,UseStatCd.Usable);
+    }
+
+
 }

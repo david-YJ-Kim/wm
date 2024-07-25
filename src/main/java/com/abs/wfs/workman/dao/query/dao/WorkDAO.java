@@ -341,16 +341,13 @@ public class WorkDAO {
 	 * @param prodDefId
 	 * @param procDefId
 	 * @param procSgmtId
-	 * @param selfInspYn
-	 * @param selfInspCnt
-	 * @param recipeListXML
 	 * @return
 	 * @throws Exception
 	 */
 	public int createWorkMeasTrayLoader(String siteId, String cid, String tid, String userId, String eqpId, String workId, String batchYn, String inlineYn, String eqpInlineId, String inlineStatCd, String dspWorkId,
 							 String lotId, String batchId, String carrId, String inPortId, String inCarrId, String inCarrTyp, String lotQty,
 							 String outPortId, String outCarrId, String outCarrTyp, String prodDefId, String procDefId, String procSgmtId,
-							 String selfInspYn, String selfInspCnt, String recipeListXML, String prodMtrlId) throws Exception {
+							 String prodMtrlId, String slotNo) throws Exception {
 
 
 
@@ -363,9 +360,6 @@ public class WorkDAO {
 		int resultCnt = -1;
 
 		try {
-			//select Panel List
-			List<TnPosProducedMaterial> prodMtrlList = wfsMapper.selectTnPosProducedMaterialByLotId(lotId);
-			logger.info("###### 1> PANEL LIST >> " + prodMtrlList.size());
 
 			//insert WN_WORK_STAT
 			createWorkStat( siteId, cid, tid, userId, workId, eqpId, batchYn, inlineYn, eqpInlineId, inlineStatCd, dspWorkId);
@@ -393,8 +387,7 @@ public class WorkDAO {
 					prodDefId, procDefId, procSgmtId, recipeId, "Y", mtrlFace, userId);
 
 			logger.info("###### 5> CREATE WN_WORK_JOB Completed");
-			logger.info("###### 6> PROD_MTRL_SIZE >> " +  prodMtrlList.size());
-			createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, prodMtrlList.get(1).getSlotNo(), prodMtrlId, "", mtrlFace, userId);
+			createWorkJobSlotInfo( siteId, cid, tid, workId, jobSeqId, lotId, slotNo, prodMtrlId, "", mtrlFace, userId);
 
 
 		} catch (Exception e) {
