@@ -212,8 +212,6 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                         apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getTargetSlotNo());
 
 
-                String workId = this.wfsCommonQueryService.getID("WORK");
-
                 /*
                 Work 생성 발송
                  */

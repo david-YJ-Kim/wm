@@ -78,10 +78,13 @@ public class WorkManageService {
                                                                 .portId(body.getPortId())
                                                                 .carrId(body.getCarrId())
                                                                 .prodMtrlId(body.getProdMtrlId())
+                                                                .panelInputYn(body.getPanelInputYn().equals(UseYn.Y.name()))
                                                                 .build();
+        log.info("{} Ready to get measure out carr info with request vo : {}.", apFlowProcessVo.printLog(), measureReqVo.toString());
+
         MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
-        log.info("{} Ready to make panel move work. from port: {}, target port: {}, target slot Not: {}",
-                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.getLinkedPortId(), measureOutCstPort.getTargetSlotNo());
+        log.info("{} Ready to make panel move work. from port: {}, measureOutInfo: {}",
+                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.toString());
 
 
 
