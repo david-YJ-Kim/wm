@@ -148,24 +148,17 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             WipLotProdMatDto wipLotProdMatDto = WipLotProdMatDto.builder().siteId(siteId).prodMtrlId(prodMtrlId).useStatCd(UseStatCd.Usable).build();
             log.info("{} Query lot and pro d material info with {}", apFlowProcessVo.printLog(), wipLotProdMatDto.toString());
 
-            String lotId = "";
-            Optional<WipLotProdMatDto> queryLotIdWithCarr = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
-            if(queryLotIdWithCarr.isPresent()){
+            WipLotProdMatDto queryLotIdWithCarr = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
 
-                if(WorkManCommonUtil.nullPointCheck(queryLotIdWithCarr.get().getLotId())){
-                    lotId = queryLotIdWithCarr.get().getLotId();
-                    apFlowProcessVo.getApMsgBody().setLotId(lotId);
-
-                }else{
-                    log.error("{} Lot is null with carr ({}).", apFlowProcessVo.printLog(), carrId);
-                    throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_LOT_INF_NOTFOUND, apFlowProcessVo.getLang()
-                            , new String[] {carrId});
-                }
-
-            }else{
+            if(queryLotIdWithCarr == null || queryLotIdWithCarr.getLotId().isEmpty()){
                 log.error("{} Lot is not found with carr ({}).", apFlowProcessVo.printLog(), carrId);
                 throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_LOT_INF_NOTFOUND, apFlowProcessVo.getLang()
-                        , new String[] {carrId});  }
+                        , new String[] {carrId});
+            }
+
+            String lotId = queryLotIdWithCarr.getLotId();
+            apFlowProcessVo.getApMsgBody().setLotId(lotId);
+
 
 
 
@@ -195,7 +188,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             if(eqpId.equals("AM-RE-00-01")){
                 log.info("{} Measurement room tray loader. eqpId: {}, portId: {}", apFlowProcessVo.printLog(), eqpId, portId);
 
-                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutCstPort(apFlowProcessVo, siteId, portId, carrId, prodMtrlId);
+                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, lotId, portId, carrId, prodMtrlId);
                 log.info("{} Ready to make panel move work. from port: {}, target port: {}, panel Id: {}, target slot Not: {}",
                         apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getPrevSlotNo());
 
