@@ -54,7 +54,7 @@ public class WorkManageService {
                 "payload : {}", apFlowProcessVo.printLog(), wfsOiGenerateWorkReqIvo.toString(), isInputWork);
 
 
-        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, body.getPortId(), body.getCarrId(), body.getProdMtrlId());
+        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, lotId, body.getPortId(), body.getCarrId(), body.getProdMtrlId());
         log.info("{} Ready to make panel move work. from port: {}, target port: {}, target slot Not: {}",
                 apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.getLinkedPortId(), measureOutCstPort.getPrevSlotNo());
 
