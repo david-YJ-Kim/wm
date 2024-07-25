@@ -287,14 +287,13 @@ public class WorkManCommonUtil {
      */
     public static ApFlowProcessVo initializeProcessVo(String cid, String trackingKey, String scenarioType, @Nullable ApMsgHead apMsgHead){
 
-
         return ApFlowProcessVo.builder()
                 .eventName(cid)
                 .trackingKey(trackingKey)
                 .scenarioType(scenarioType)
                 .executeStartTime(System.currentTimeMillis())
-                .tid(apMsgHead.getTid())
-                .lang(apMsgHead.getLang())
+                .tid((apMsgHead == null) ? trackingKey : apMsgHead.getTid())
+                .lang((apMsgHead == null) ? "en" : apMsgHead.getLang())
                 .build();
     }
 
