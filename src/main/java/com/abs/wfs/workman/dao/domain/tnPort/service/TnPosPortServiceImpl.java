@@ -25,7 +25,7 @@ public class TnPosPortServiceImpl {
      * @param siteId
      * @return
      */
-    public Optional<TnPosPort> findByPortIdAndSiteIdAndUseStatCd(String portId, String siteId){
+    public TnPosPort findByPortIdAndSiteIdAndUseStatCd(String portId, String siteId){
         return this.tnPosPortRepository.findByPortIdAndSiteIdAndUseStatCd(portId, siteId, UseStatCd.Usable);
     }
 

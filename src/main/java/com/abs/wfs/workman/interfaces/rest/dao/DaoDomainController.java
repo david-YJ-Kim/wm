@@ -71,7 +71,7 @@ public class DaoDomainController {
     TnPosPortServiceImpl tnPosPortService;
 
     @GetMapping("search/tnPort/siteId/{siteId}/portId/{portId}")
-    public Optional<TnPosPort> findByPortIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String portId) {
+    public TnPosPort findByPortIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String portId) {
 
         return this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(portId, siteId);
     }

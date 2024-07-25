@@ -8,6 +8,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.UtilCommonService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
+import com.abs.wfs.workman.service.common.vo.MeasureOutPortCarrInfoReqVo;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.oia.WfsOiGenerateWorkReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -54,9 +55,16 @@ public class WorkManageService {
                 "payload : {}", apFlowProcessVo.printLog(), wfsOiGenerateWorkReqIvo.toString(), isInputWork);
 
 
-        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, lotId, body.getPortId(), body.getCarrId(), body.getProdMtrlId());
+        MeasureOutPortCarrInfoReqVo measureReqVo = MeasureOutPortCarrInfoReqVo.builder()
+                                                                .siteId(siteId.isEmpty() ? "SVM" : siteId)
+                                                                .lotId(lotId)
+                                                                .portId(body.getPortId())
+                                                                .carrId(body.getCarrId())
+                                                                .prodMtrlId(body.getProdMtrlId())
+                                                                .build();
+        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
         log.info("{} Ready to make panel move work. from port: {}, target port: {}, target slot Not: {}",
-                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.getLinkedPortId(), measureOutCstPort.getPrevSlotNo());
+                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.getLinkedPortId(), measureOutCstPort.getTargetSlotNo());
 
 
 
@@ -77,7 +85,7 @@ public class WorkManageService {
         vo.setInPortId(body.getPortId());
 
         /** 배출 부 정리 **/
-        vo.setOutCarrId(measureOutCstPort.getPrevCarrId());
+        vo.setOutCarrId(measureOutCstPort.getTargetCarrId());
         vo.setOutCarrTyp("");
         vo.setOutPortId(measureOutCstPort.getLinkedPortId());
 

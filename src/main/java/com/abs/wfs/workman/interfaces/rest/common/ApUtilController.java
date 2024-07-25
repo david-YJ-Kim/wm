@@ -6,6 +6,7 @@ import com.abs.wfs.workman.config.ApPropertyObject;
 import com.abs.wfs.workman.dao.domain.ppsProdDef.model.TnPpsProdDef;
 import com.abs.wfs.workman.service.common.UtilCommonService;
 import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
+import com.abs.wfs.workman.service.common.vo.MeasureOutPortCarrInfoReqVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -76,7 +77,13 @@ public class ApUtilController {
         // TODO Utill 성 요청, ApFlowVo 생성 메소드 필요
 
         return this.utilCommonService.getMeasureOutPortCarrInfo(WorkManCommonUtil.initializeProcessVo("UITL_TRAY_LOADER_OUTPORT_INFO", "ABSCA-RANDOME", "UTIL", null),
-                                                            siteId.isEmpty() ? "SVM" : siteId, lotId, portId, carrId, prodMtrlId);
+                MeasureOutPortCarrInfoReqVo.builder()
+                        .siteId(siteId.isEmpty() ? "SVM" : siteId)
+                        .lotId(lotId)
+                        .portId(portId)
+                        .carrId(carrId)
+                        .prodMtrlId(prodMtrlId)
+                        .build());
 
     }
 

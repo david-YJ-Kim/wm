@@ -117,19 +117,15 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
                 log.info("Carr now at logistic eqp {}", sourcePort);
         }else{
 
-            Optional<TnPosPort> portInto = this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(sourcePort, body.getSiteId());
-            if(portInto.isPresent()){
-                TnPosPort tnPosPort = portInto.get();
-
-                if(!tnPosPort.getCarrId().equals(carrId)) {
-                    throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_CARR_INF_UNMATCHED, lang, new String[] {sourcePort, carrId, tnPosPort.getCarrId()});  }
-
-            }else{
-
-
+            TnPosPort portInto = this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(sourcePort, body.getSiteId());
+            if(portInto == null){
                 throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_INF_UNREGISTER, lang, new String[] {sourcePort});
-
             }
+            if(!portInto.getCarrId().equals(carrId)) {
+                throw  new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_PORT_CARR_INF_UNMATCHED, lang, new String[] {sourcePort, carrId, portInto.getCarrId()});
+            }
+
+
 
         }
 

@@ -9,6 +9,6 @@ public class MeasureOutInfo {
 
 
     String linkedPortId;
-    String prevSlotNo;
-    String prevCarrId;
+    String targetSlotNo;
+    String targetCarrId;
 }

@@ -15,6 +15,7 @@ import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.common.message.vo.WorkMessageSendReqVo;
 import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
 import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
+import com.abs.wfs.workman.service.common.vo.MeasureOutPortCarrInfoReqVo;
 import com.abs.wfs.workman.service.flow.eap.WfsTrayLoadComp;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
@@ -188,9 +189,18 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             if(eqpId.equals("AM-RE-00-01")){
                 log.info("{} Measurement room tray loader. eqpId: {}, portId: {}", apFlowProcessVo.printLog(), eqpId, portId);
 
-                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, lotId, portId, carrId, prodMtrlId);
+
+                MeasureOutPortCarrInfoReqVo measureReqVo = MeasureOutPortCarrInfoReqVo.builder()
+                                                    .siteId(siteId.isEmpty() ? "SVM" : siteId)
+                                                    .lotId(lotId)
+                                                    .portId(body.getPortId())
+                                                    .carrId(body.getCarrId())
+                                                    .prodMtrlId(body.getProdMtrlId())
+                                                    .build();
+
+                MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
                 log.info("{} Ready to make panel move work. from port: {}, target port: {}, panel Id: {}, target slot Not: {}",
-                        apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getPrevSlotNo());
+                        apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getTargetSlotNo());
 
 
                 String workId = this.wfsCommonQueryService.getID("WORK");
@@ -201,7 +211,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                 this.workQueryService.createWork(siteId, WfsTrayLoadCompIvo.cid, apFlowProcessVo.getTid(), ApSystemCodeConstant.WFS,
                                                     eqpId, workId, "N", "N", "","","",
                                                     lotId, portId, carrId, portId, carrId, "", "1", measureOutCstPort.getLinkedPortId(),
-                                                    measureOutCstPort.getPrevCarrId(), "BP", "", "" ,"" ,"N",
+                                                    measureOutCstPort.getTargetCarrId(), "BP", "", "" ,"" ,"N",
                                                     "", "", "TTT", "Top", "N", "N");
 
                 
