@@ -9,6 +9,7 @@ import com.abs.wfs.workman.dao.query.service.vo.UpdateCurrentEqpPortByCarrIdReqV
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortStatAndCarrierReqVo;
 import com.abs.wfs.workman.dao.query.wipLotProdMat.service.WipLotProdMatServiceImpl;
 import com.abs.wfs.workman.dao.query.wipLotProdMat.vo.WipLotProdMatDto;
+import com.abs.wfs.workman.service.common.ApMsgObjectGenerateService;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.UtilCommonService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
@@ -16,10 +17,12 @@ import com.abs.wfs.workman.service.common.message.vo.WorkMessageSendReqVo;
 import com.abs.wfs.workman.service.common.staterule.StateRuleManager;
 import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
 import com.abs.wfs.workman.service.common.vo.MeasureOutPortCarrInfoReqVo;
+import com.abs.wfs.workman.service.common.work.WorkManageService;
 import com.abs.wfs.workman.service.flow.eap.WfsTrayLoadComp;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsTrayLoadCompIvo;
+import com.abs.wfs.workman.spec.in.oia.WfsOiGenerateWorkReqIvo;
 import com.abs.wfs.workman.spec.out.brs.BrsLotCarrAssign;
 import com.abs.wfs.workman.spec.out.brs.BrsLotDeassignCarr;
 import com.abs.wfs.workman.spec.out.brs.common.Slots;
@@ -70,6 +73,12 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
     @Autowired
     WorkQueryService workQueryService;
+
+    @Autowired
+    WorkManageService workManageService;
+
+    @Autowired
+    ApMsgObjectGenerateService apMsgObjectGenerateService;
 
     /**
      * Tray Load Comp
@@ -208,20 +217,22 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                 /*
                 Work 생성 발송
                  */
-                this.workQueryService.createWork(siteId, WfsTrayLoadCompIvo.cid, apFlowProcessVo.getTid(), ApSystemCodeConstant.WFS,
-                                                    eqpId, workId, "N", "N", "","","",
-                                                    lotId, portId, carrId, portId, carrId, "", "1", measureOutCstPort.getLinkedPortId(),
-                                                    measureOutCstPort.getTargetCarrId(), "BP", "", "" ,"" ,"N",
-                                                    "", "", "TTT", "Top", "N", "N");
+                WfsOiGenerateWorkReqIvo.Body workReqBody = new WfsOiGenerateWorkReqIvo.Body();
+                workReqBody.setSiteId(siteId); workReqBody.setLotId(lotId); workReqBody.setPortId(portId); workReqBody.setCarrId(carrId);
+                workReqBody.setSlotNo("1"); workReqBody.setProcDefId(prodMtrlId);
+
+                this.workManageService.generateMeasurementRoomWork(apFlowProcessVo,
+                        this.apMsgObjectGenerateService.messageObject(apFlowProcessVo.getTid(), workReqBody)
+                );
+
+//                this.workQueryService.createWorkMeasureTrayLoader(siteId, WfsTrayLoadCompIvo.cid, apFlowProcessVo.getTid(), ApSystemCodeConstant.WFS,
+//                                                    eqpId, workId, "N", "N", "","","",
+//                                                    lotId, portId, carrId, portId, carrId, "", "1", measureOutCstPort.getLinkedPortId(),
+//                                                    measureOutCstPort.getTargetCarrId(), "BP", "", "" ,"" ,"N",
+//                                                    "", "", "TTT", "Top", "N", "N");
 
                 
                 
-                /*
-                Work 메시지 발송
-                 */
-                apFlowProcessVo.setWorkId(workId);
-                apFlowProcessVo.getApMsgBody().setLotId(lotId);
-                this.messageSendService.generateWorkMessageSend(apFlowProcessVo);
 
             }
             

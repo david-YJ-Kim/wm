@@ -57,7 +57,7 @@ public class WorkManageService {
         String lotId = body.getLotId();
         String slotNo = body.getSlotNo(); // 현재 작업 시작할 패널의 Slot 위치
 
-        if(slotNo.isEmpty()){
+        if(slotNo == null || slotNo.isEmpty()){
 
             TnProducedMaterial mtrlInfo = this.tnProducedMaterialService.findByLotIdAndProdMtrlId(siteId, lotId, body.getProdMtrlId());
             if(mtrlInfo == null || mtrlInfo.getSlotNo() == null){

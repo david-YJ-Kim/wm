@@ -59,6 +59,8 @@ public class ApPayloadGenerateService {
         return objectMapper.writeValueAsString(brsEqpStateChangeIvo);
     }
 
+    
+    // TODO Util로
     public ApMsgHead generateMessageHead(String tid, String cid, String targetSystem, String targetEqp){
 
         return this.generateMessageHead(tid, cid, ApSystemCodeConstant.WFS, targetSystem, targetEqp, null, null);
