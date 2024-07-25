@@ -196,7 +196,6 @@ public class UtilCommonService {
                 , apFlowProcessVo.printLog(), carrId, wipLotProdMatDto.toString());
         
         
-        // 배출할때 찾는 로직이고
         String targetSlotNo;
         String targetCarrId;
         if(isPanelInput){
