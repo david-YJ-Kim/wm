@@ -28,3 +28,36 @@ public class BrsLotCarrAssign extends ApMsgCommonVo {
 		List<Slots> slots;
 	}
 }
+/*
+{
+  "head": {
+    "cid": "BRS_LOT_CARR_ASSIGN",
+    "tid": "TID_20240724105022186490",
+    "osrc": "",
+    "otgt": "",
+    "src": "WFS",
+    "tgt": "BRS"
+  },
+  "body": {
+    "siteId": "SVM",
+    "lotId": "D24500098",
+    "eqpId": "AM-RE-00-01",
+    "portId": "AM-RE-00-01-BP03",
+    "carrId": "PTA0008",
+    "userId": "WFS",
+    "asgnQty": "1",
+    "slots": [
+      {
+        "slotNo": "11",
+        "prodMtrlId": "ET24400220"
+      }
+    ],
+    "isCheckClnStat": "false",
+    "isCheckSorterResv": "false",
+    "fnlEvntDt": "",
+    "mdfyUserId": "WFS",
+    "rsnCd": "",
+    "trnsCm": ""
+  }
+}
+ */

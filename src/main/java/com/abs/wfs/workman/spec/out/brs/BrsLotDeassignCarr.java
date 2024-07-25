@@ -35,3 +35,36 @@ public class BrsLotDeassignCarr extends ApMsgCommonVo {
 
 	}
 }
+/*
+{
+  "head": {
+    "cid": "BRS_LOT_CARR_DEASSIGN",
+    "tid": "TID_20240724105022186490",
+    "osrc": "",
+    "otgt": "",
+    "src": "WFS",
+    "tgt": "BRS"
+  },
+  "body": {
+    "siteId": "SVM",
+    "lotId": "D24500098",
+    "eqpId": "AM-RE-00-01",
+    "portId": "AM-RE-00-01-BP02",
+    "carrId": "CAA0052",
+    "userId": "WFS",
+    "deasgnQty": "1",
+    "slots": [
+      {
+        "slotNo": "10",
+        "prodMtrlId": "ET24400220"
+      }
+    ],
+    "isCheckClnStat": "false",
+    "isCheckSorterResv": "false",
+    "fnlEvntDt": "",
+    "mdfyUserId": "WFS",
+    "rsnCd": "",
+    "trnsCm": ""
+  }
+}
+ */

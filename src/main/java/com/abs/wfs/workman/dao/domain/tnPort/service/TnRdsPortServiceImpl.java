@@ -23,7 +23,7 @@ public class TnRdsPortServiceImpl {
      * @param portId
      * @return
      */
-    public Optional<TnRdsPort> findBySiteIdAndPortIdAndUseStatCd(String siteId, String portId){
+    public TnRdsPort findBySiteIdAndPortIdAndUseStatCd(String siteId, String portId){
         return this.tnRdsPortRepository.findBySiteIdAndPortIdAndUseStatCd(siteId, portId, UseStatCd.Usable);
     }
 

@@ -21,5 +21,5 @@ public interface WipLotProdMatMapper {
      * @param wipLotProdMatDto
      * @return
      */
-    Optional<WipLotProdMatDto> queryPanelLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto);
+    WipLotProdMatDto queryPanelLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto);
 }

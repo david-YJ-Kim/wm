@@ -157,49 +157,48 @@ public class UtilCommonService {
     @Autowired
     WipLotProdMatServiceImpl wipLotProdMatService;
 
-    public MeasureOutInfo getMeasureOutCstPort(ApFlowProcessVo apFlowProcessVo, String siteId, String cntInPortId, String trayId, String prodMtrlId){
+    public MeasureOutInfo getMeasureOutPortCarrInfo(ApFlowProcessVo apFlowProcessVo, String siteId, String lotId, String cntInPortId, String carrId, String prodMtrlId){
 
-        log.info("{} print parameter. siteId :{}, cntInPortId: {}, trayId : {}", apFlowProcessVo.printLog(), siteId, cntInPortId, trayId);
+        log.info("{} print parameter. siteId :{}, cntInPortId: {}, carrId : {} lotId: {}, prodMtrlId: {}"
+                , apFlowProcessVo.printLog(), siteId, cntInPortId, carrId, lotId, prodMtrlId);
 
-        String linkedPortId = "";
-        Optional<TnRdsPort> findBySiteIdAndPortId = this.tnRdsPortService.findBySiteIdAndPortIdAndUseStatCd(siteId, cntInPortId);
+        TnRdsPort findBySiteIdAndPortId = this.tnRdsPortService.findBySiteIdAndPortIdAndUseStatCd(siteId, cntInPortId);
 
-
-        if(findBySiteIdAndPortId.isPresent() && WorkManCommonUtil.nullPointCheck(findBySiteIdAndPortId.get().getLnkPortId())){
-            linkedPortId = findBySiteIdAndPortId.get().getLnkPortId();
-
-        }else{
+        if(findBySiteIdAndPortId == null || findBySiteIdAndPortId.getLnkPortId().isEmpty()){
             log.error("{} Tray port ({}) is not found Linked port.", apFlowProcessVo.printLog(), cntInPortId);
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_PORT_INF_NOTFOUND, apFlowProcessVo.getLang()
                     , new String[] {WorkManCommonUtil.extractEqpIdWithPortId(cntInPortId),cntInPortId});
         }
+
+        String linkedPortId = findBySiteIdAndPortId.getLnkPortId();
+        log.info("{} find linked port info. current port : {}, linked port : {}", apFlowProcessVo.printLog(), linkedPortId, linkedPortId);
+
 
 
         
         // 이전 패널 조회
         WipLotProdMatDto wipLotProdMatDto = WipLotProdMatDto.builder()
                                                             .siteId(siteId).useStatCd(UseStatCd.Usable)
-                                                            .lotId(apFlowProcessVo.getApMsgBody().getLotId())
+                                                            .lotId(lotId)
                                                             .prodMtrlId(prodMtrlId)
                                                             .build();
-        log.info("{} Request previous panel and slot info with tray id ({}). Request vo: {}", apFlowProcessVo.printLog(), trayId, wipLotProdMatDto.toString());
+        log.info("{} Request previous panel and slot info with tray id ({}). Request vo: {}"
+                , apFlowProcessVo.printLog(), carrId, wipLotProdMatDto.toString());
 
-        String prevSlotNo = "";
-        String prevCarrId = "";
-        Optional<WipLotProdMatDto> prevSlotCarrInfo = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
-        if(prevSlotCarrInfo.isPresent() && WorkManCommonUtil.nullPointCheck(prevSlotCarrInfo.get().getPrevSlotNo())
-                && WorkManCommonUtil.nullPointCheck(prevSlotCarrInfo.get().getPrevCarrId())){
-
-            prevSlotNo = prevSlotCarrInfo.get().getPrevSlotNo();
-            prevCarrId = prevSlotCarrInfo.get().getPrevCarrId();
-
-            log.info("{} get previous slot no : {} and previous carr id : {}", apFlowProcessVo.printLog(), prevSlotNo, prevCarrId);
-
-        }else{
+        WipLotProdMatDto prevSlotCarrInfo = this.wipLotProdMatService.queryPanelLotIdWithCarr(wipLotProdMatDto);
+        if(prevSlotCarrInfo == null || prevSlotCarrInfo.getLotId().isEmpty() ||
+                prevSlotCarrInfo.getProdMtrlId().isEmpty() || prevSlotCarrInfo.getPrevSlotNo().isEmpty()){
             log.error("{} Tray port ({}) is not found previous slot and carr info.", apFlowProcessVo.printLog(), cntInPortId);
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_PREV_SLOT_INF_NOTFOUND, apFlowProcessVo.getLang()
-                    , new String[] {trayId,cntInPortId});
+                    , new String[] {carrId,cntInPortId});
         }
+
+        String prevSlotNo = prevSlotCarrInfo.getPrevSlotNo();
+        String prevCarrId = prevSlotCarrInfo.getPrevCarrId();
+
+        log.info("{} Get previous slotNo ({})  and  carrId ({}) with current slot, carr info: {}",
+                apFlowProcessVo.printLog(), prevSlotNo, prevCarrId, wipLotProdMatDto.toString());
+
 
         return MeasureOutInfo.builder().linkedPortId(linkedPortId).prevSlotNo(prevSlotNo).prevCarrId(prevCarrId).build();
 

@@ -31,7 +31,7 @@ public class WipLotProdMatServiceImpl {
      * @param wipLotProdMatDto
      * @return
      */
-    public Optional<WipLotProdMatDto> queryPanelLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto){
+    public WipLotProdMatDto queryPanelLotIdWithCarr(WipLotProdMatDto wipLotProdMatDto){
         return this.wipLotProdMatMapper.queryPanelLotIdWithCarr(wipLotProdMatDto);
     }
 

@@ -15,5 +15,5 @@ public interface TnRdsPortRepository extends JpaRepository<TnRdsPort, String> {
      * @param useStatCd
      * @return
      */
-    Optional<TnRdsPort> findBySiteIdAndPortIdAndUseStatCd(String siteId, String portId, UseStatCd useStatCd);
+    TnRdsPort findBySiteIdAndPortIdAndUseStatCd(String siteId, String portId, UseStatCd useStatCd);
 }

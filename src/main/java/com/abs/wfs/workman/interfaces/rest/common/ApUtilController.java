@@ -5,8 +5,10 @@ import com.abs.cmn.seq.util.SequenceManageUtil;
 import com.abs.wfs.workman.config.ApPropertyObject;
 import com.abs.wfs.workman.dao.domain.ppsProdDef.model.TnPpsProdDef;
 import com.abs.wfs.workman.service.common.UtilCommonService;
+import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.abs.wfs.workman.util.code.UseStatCd;
@@ -59,6 +61,22 @@ public class ApUtilController {
 
 
         return topicName;
+
+    }
+
+
+
+    @GetMapping("/get/trayloader/OutPortCarrInfo")
+    public MeasureOutInfo send(@RequestParam(value = "siteId", required = false) String siteId,
+                               @RequestParam(value = "lotId", required = true) String lotId,
+                               @RequestParam(value = "portId", required = true) String portId,
+                               @RequestParam(value = "carrId", required = true) String carrId,
+                               @RequestParam(value = "prodMtrlId", required = true) String prodMtrlId) throws Exception {
+
+        // TODO Utill 성 요청, ApFlowVo 생성 메소드 필요
+
+        return this.utilCommonService.getMeasureOutPortCarrInfo(WorkManCommonUtil.initializeProcessVo("UITL_TRAY_LOADER_OUTPORT_INFO", "ABSCA-RANDOME", "UTIL", null),
+                                                            siteId.isEmpty() ? "SVM" : siteId, lotId, portId, carrId, prodMtrlId);
 
     }
 

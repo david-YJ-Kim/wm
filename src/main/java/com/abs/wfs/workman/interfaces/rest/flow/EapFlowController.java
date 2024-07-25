@@ -27,6 +27,39 @@ public class EapFlowController {
     WfsInspDataReportImpl wfsInspDataReportImpl;
 
 
+    public ResponseEntity<ApResponseIvo> execute(@RequestBody String payload,
+                                                 @RequestParam(value = "key") String trackingKey,
+                                                 @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+
+
+        String cid = WorkManMessageList.WFS_OI_CARR_MOVE_CRT;
+        ApFlowProcessVo apFlowProcessVo = this.wfsOiCarrMoveCrtService.initialize(cid, trackingKey, scenarioType, wfsOiCarrMoveCrtIvo.getHead());
+
+        try{
+            ApFlowProcessVo resultVo = this.wfsOiCarrMoveCrtService.execute(apFlowProcessVo, wfsOiCarrMoveCrtIvo);
+
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder().msgBody(wfsOiCarrMoveCrtIvo.getBody()).processInfo(resultVo)
+                            .build(),
+
+                    HttpStatus.OK);
+
+        }catch (ScenarioException se){
+            return new ResponseEntity<>(
+                    ApResponseIvo.builder().scenarioException(se).build(),
+                    HttpStatus.OK
+
+            );
+
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
 
 
     @PostMapping(WorkManMessageList.WFS_CARR_SLOTMAP_REPORT_REQ)

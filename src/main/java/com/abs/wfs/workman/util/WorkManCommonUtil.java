@@ -285,7 +285,7 @@ public class WorkManCommonUtil {
      * @param apMsgHead
      * @return
      */
-    public static ApFlowProcessVo initializeProcessVo(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead){
+    public static ApFlowProcessVo initializeProcessVo(String cid, String trackingKey, String scenarioType, @Nullable ApMsgHead apMsgHead){
 
 
         return ApFlowProcessVo.builder()

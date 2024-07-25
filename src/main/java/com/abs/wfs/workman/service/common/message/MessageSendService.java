@@ -88,7 +88,7 @@ public class MessageSendService {
         /* Work 테이블 생성 된 Slot 리스트 */
         List<WnWorkJobSlotInfo> slotInfoQueryList =  this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCd(workId, siteId);
 
-        if(slotInfoQueryList == null || slotInfoQueryList.size() == 0){
+        if(slotInfoQueryList == null || slotInfoQueryList.isEmpty()){
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_JOB_SLOT_INF_NOTFOUND, apFlowProcessVo.getLang()
                     , new String[] {workId, apFlowProcessVo.getApMsgBody().getLotId(), eqpId});
         }
@@ -101,7 +101,7 @@ public class MessageSendService {
         /* Work 테이블 생성된  Job 리스트 */
         List<SelectWorkJobPortVo> workJobInfoQuery = this.workDAO.selectWorkJobPort(selectWorkJobPortVo); // jobXml
 
-        if(workJobInfoQuery == null || workJobInfoQuery.size() == 0){
+        if(workJobInfoQuery == null || workJobInfoQuery.isEmpty()){
             throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_WORK_JOB_INF_NOTFOUND, apFlowProcessVo.getLang()
                 , new String[] {workId, apFlowProcessVo.getApMsgBody().getLotId(), eqpId});
         }
@@ -178,7 +178,7 @@ public class MessageSendService {
             if(jobSeqId.equals(slotVo.getJobSeqId())){
 
                 SlotMapVo vo = SlotMapVo.builder()
-                        .ppId((recipeId == null || !WorkManCommonUtil.nullPointCheck(recipeId)) ? "" : recipeId)
+                        .ppId((!WorkManCommonUtil.nullPointCheck(recipeId)) ? "" : recipeId)
                         .inCarrSlotNo(slotVo.getSlotNo())
                         .outCarrSlotNo(slotVo.getSlotNo())
                         .lotId(slotVo.getLotId())

@@ -11,6 +11,7 @@ import com.abs.wfs.workman.service.common.vo.MeasureOutInfo;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.oia.WfsOiGenerateWorkReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.UseYn;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,15 @@ public class WorkManageService {
         apFlowProcessVo.setApMsgBody(body);
         apFlowProcessVo.setWorkId(workId);
 
-
         String siteId = body.getSiteId();
         String eqpId = body.getEqpId();
         String lotId = body.getLotId();
+        boolean isInputWork = body.getPanelInputYn().equals(UseYn.Y.name());
+        log.info("{} Start to generate measurement panel moving work. isInputWork? :{}" +
+                "payload : {}", apFlowProcessVo.printLog(), wfsOiGenerateWorkReqIvo.toString(), isInputWork);
 
-        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutCstPort(apFlowProcessVo, siteId, body.getPortId(), body.getCarrId(), body.getProdMtrlId());
+
+        MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, siteId, body.getPortId(), body.getCarrId(), body.getProdMtrlId());
         log.info("{} Ready to make panel move work. from port: {}, target port: {}, target slot Not: {}",
                 apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.getLinkedPortId(), measureOutCstPort.getPrevSlotNo());
 

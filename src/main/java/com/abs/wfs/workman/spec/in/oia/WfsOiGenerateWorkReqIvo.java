@@ -22,6 +22,8 @@ public class WfsOiGenerateWorkReqIvo extends ApMsgCommonVo {
         String prodDefId;
         String procDefId;
         String procSgmtId;
+
+        String panelInputYn;  // measurement room (re-00) 전용 파라미터로, 투입 작업 시 Y
     }
 
 }
@@ -45,6 +47,7 @@ public class WfsOiGenerateWorkReqIvo extends ApMsgCommonVo {
     "inCarrTyp": "BP",
     "lotQty": "1",
     "carrId": "CAA0203",
+    "panelInputYn": "Y",
     "portId": "AM-RE-00-01-BP01",
     "prodMtrlId": "PANEL_23012501_020",
     "prodDefId": "HB1-220101-09",
