@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -310,5 +311,18 @@ public class WorkManCommonUtil {
         }
         return false;
     }
+
+
+    /**
+     * 랜덤 키 생성 메소드
+     * @return
+     */
+    public static String generateRandomKey(){
+
+
+        return (CommonDate.getCurrentDateTimeToString().substring(6) + UUID.randomUUID().toString()).replaceAll("-", "");
+
+    }
+
 
 }

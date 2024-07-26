@@ -58,13 +58,14 @@ public class OiFlowController {
 
     @PostMapping(WorkManMessageList.WFS_OI_GENERATE_WORK_REQ)
     public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsOiGenerateWorkReqIvo wfsOiGenerateWorkReqIvo,
-                                                 @RequestParam(value = "key") String trackingKey,
+                                                 @RequestParam(value = "key", required = false) String trackingKey,
                                                  @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
 
 
         return processRequest(() -> workManageService.generateMeasurementRoomWork(WorkManCommonUtil.initializeProcessVo(
                         WorkManMessageList.WFS_OI_GENERATE_WORK_REQ,
-                        trackingKey,
+                        (trackingKey == null || trackingKey.isEmpty()) ? WorkManCommonUtil.generateRandomKey()  : trackingKey,
                         scenarioType,
                         wfsOiGenerateWorkReqIvo.getHead()), wfsOiGenerateWorkReqIvo),
                 wfsOiGenerateWorkReqIvo.getBody());

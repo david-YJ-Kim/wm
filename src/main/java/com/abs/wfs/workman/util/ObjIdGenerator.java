@@ -10,11 +10,7 @@ import java.util.UUID;
 public class ObjIdGenerator implements IdentifierGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        String keyValueString = null;
-        UUID uuid = UUID.randomUUID();
-        String randomUuidString = uuid.toString();
-        keyValueString = CommonDate.getCurrentDateTimeToString() + randomUuidString;
 
-        return keyValueString.replaceAll("-", "");
+        return WorkManCommonUtil.generateRandomKey();
     }
 }
