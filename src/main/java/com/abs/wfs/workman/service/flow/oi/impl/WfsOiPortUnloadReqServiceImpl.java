@@ -64,10 +64,10 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
         log.info("{} update port unload able.", apFlowProcessVo.printLog());
 
         // WIp Status Standby로 변경
-        this.wfsQueryService.updateWorkStatusByLotId(siteId, apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(),
+        this.wfsQueryService.updateWorkStatusByCarrId(siteId, apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(),
                                                 body.getCarrId(), ApSystemCodeConstant.WFS, WorkStatCd.Standby.name(), false);
 
-        log.info("{} uppdate wip stat to standby.", apFlowProcessVo.printLog());
+        log.info("{} update wip stat to standby.", apFlowProcessVo.printLog());
 
 
 
