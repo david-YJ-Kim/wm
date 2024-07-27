@@ -217,7 +217,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                  */
                 WfsOiGenerateWorkReqIvo.Body workReqBody = new WfsOiGenerateWorkReqIvo.Body();
                 workReqBody.setSiteId(siteId); workReqBody.setLotId(lotId); workReqBody.setPortId(portId); workReqBody.setCarrId(carrId);
-                workReqBody.setSlotNo("1"); workReqBody.setProdMtrlId(prodMtrlId); workReqBody.setPanelInputYn(UseYn.N.name());
+                workReqBody.setSlotNo(measureOutCstPort.getTargetSlotNo()); workReqBody.setProdMtrlId(prodMtrlId); workReqBody.setPanelInputYn(UseYn.N.name());
                 workReqBody.setEqpId(eqpId);
 
                 this.workManageService.generateMeasurementRoomWork(apFlowProcessVo,
