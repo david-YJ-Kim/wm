@@ -1,6 +1,7 @@
 package com.abs.wfs.workman.service.flow.oi.impl;
 
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
+import com.abs.wfs.workman.dao.query.service.WfsQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortAutoUnloadYnReqVo;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
@@ -10,8 +11,10 @@ import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsUnloadReqIvo;
 import com.abs.wfs.workman.spec.in.oia.WfsOiPortUnloadReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.abs.wfs.workman.util.code.UseYn;
+import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,9 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
 
     @Autowired
     ApPayloadGenerateService apPayloadGenerateService;
+
+    @Autowired
+    WfsQueryService wfsQueryService;
 
 
     @Override
@@ -55,6 +61,14 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
                 .build();
         // TN POS 테이블 N으로 변경
         this.wfsCommonQueryService.updatePortAutoUnloadYn(updateVo);
+        log.info("{} update port unload able.", apFlowProcessVo.printLog());
+
+        // WIp Status Standby로 변경
+        this.wfsQueryService.updateWorkStatusByLotId(siteId, apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(),
+                                                body.getCarrId(), ApSystemCodeConstant.WFS, WorkStatCd.Standby.name(), false);
+
+        log.info("{} uppdate wip stat to standby.", apFlowProcessVo.printLog());
+
 
 
         // WFS로 UNLOAD REQ 발송
