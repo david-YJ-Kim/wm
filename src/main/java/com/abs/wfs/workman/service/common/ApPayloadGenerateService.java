@@ -380,7 +380,7 @@ public class ApPayloadGenerateService {
         WfsUnloadReqIvo ivo = new WfsUnloadReqIvo();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        ivo.setHead(this.generateMessageHead(tid, WfsUnloadReqIvo.cid, WfsUnloadReqIvo.system, body.getEqpId()));
+        ivo.setHead(this.generateMessageHead(tid, WfsUnloadReqIvo.cid, ApSystemCodeConstant.EAP, WfsUnloadReqIvo.system, body.getEqpId(), null, null));
         ivo.setBody(body);
 
         return objectMapper.writeValueAsString(ivo);
