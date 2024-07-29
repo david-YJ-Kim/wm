@@ -21,4 +21,14 @@ public interface TnProducedMaterialRepository extends JpaRepository<TnProducedMa
      * @return
      */
     TnProducedMaterial findBySiteIdAndLotIdAndProdMtrlIdAndUseStatCd(String siteId, String lotId, String prodMtrlId, UseStatCd useStatCd);;
+
+
+    /**
+     * 패널정보로 탐색하기
+     * @param siteId
+     * @param prodMtrlId
+     * @param useStatCd
+     * @return
+     */
+    TnProducedMaterial findBySiteIdAndProdMtrlIdAndUseStatCd(String siteId, String prodMtrlId, UseStatCd useStatCd);
 }

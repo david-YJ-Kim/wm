@@ -83,6 +83,7 @@ public final class WorkManMessageList {
     public static final String WFS_MANUAL_WORK_START = "WFS_MANUAL_WORK_START";
     public static final String WFS_QUANTITY_MATCH_STATE = "WFS_QUANTITY_MATCH_STATE";
     public static final String WFS_TRAY_LOAD_COMP = "WFS_TRAY_LOAD_COMP";
+    public static final String WFS_TRAY_UNLOAD_REQ = "WFS_TRAY_UNLOAD_REQ";
 
 
 

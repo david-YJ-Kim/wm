@@ -33,4 +33,15 @@ public class TnProducedMaterialServiceImpl {
     }
 
 
+    /**
+     * 패널정보로 탐색하기
+     * @param siteId
+     * @param prodMtrlId
+     * @return
+     */
+    public TnProducedMaterial findByProdMtrlId(String siteId, String prodMtrlId){
+        return this.tnProducedMaterialRepository.findBySiteIdAndProdMtrlIdAndUseStatCd(siteId, prodMtrlId,UseStatCd.Usable);
+    }
+
+
 }
