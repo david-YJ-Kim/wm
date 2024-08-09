@@ -1,7 +1,10 @@
 package com.abs.wfs.workman.service.flow.eap.impl;
 
 import com.abs.wfs.workman.dao.domain.tnPort.service.TnPosPortServiceImpl;
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
 import com.abs.wfs.workman.dao.query.model.QueryPortVO;
+import com.abs.wfs.workman.dao.query.model.TnPosProducedMaterial;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
 import com.abs.wfs.workman.dao.query.service.WorkQueryService;
@@ -80,6 +83,9 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
     @Autowired
     ApMsgObjectGenerateService apMsgObjectGenerateService;
 
+    @Autowired
+    TnProducedMaterialServiceImpl tnProducedMaterialService;
+
     /**
      * Tray Load Comp
      * : Tray Port에 carr가 도착 시점에 보고 되는 메시지
@@ -103,10 +109,26 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
         apFlowProcessVo.setApMsgBody(body);
         log.info("{} Set up message body: {}", apFlowProcessVo.printLog(), wfsTrayLoadCompIvo.toString());
 
-        String siteId = body.getSiteId(); String eqpId = body.getEqpId(); String carrId = body.getCarrId();
-        String portId = body.getPortId(); String prodMtrlId = body.getProdMtrlId();
+        String siteId = body.getSiteId();
+        String eqpId = body.getEqpId();
+        String carrId = body.getCarrId();
+        String portId = body.getPortId();
+        String prodMtrlId = body.getProdMtrlId();
 
         boolean isEmptyTray = prodMtrlId == null || prodMtrlId.isEmpty();
+
+        // 진성Empty인지 체크
+        if(isEmptyTray) {
+            TnProducedMaterial tnProducedMaterial = tnProducedMaterialService.findByCarrId(siteId, carrId);
+            if(tnProducedMaterial != null) {
+                prodMtrlId = tnProducedMaterial.getProdMtrlId();
+                isEmptyTray = false;
+                log.info("Not Empty Tray");
+
+            } else {
+                log.info("Real Empty Tray");
+            }
+        }
         log.info("{} tray is loaded. is it empty: {}?", apFlowProcessVo.printLog(), isEmptyTray);
 
 

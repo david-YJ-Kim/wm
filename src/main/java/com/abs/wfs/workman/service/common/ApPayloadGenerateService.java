@@ -104,6 +104,17 @@ public class ApPayloadGenerateService {
     /**
      * EAP
      */
+    public String generateBody(String tid, EapCarrCancelReq.Body body) throws JsonProcessingException {
+
+        EapCarrCancelReq eapCarrCancelReqIvo = new EapCarrCancelReq();
+
+        if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
+        eapCarrCancelReqIvo.setHead(this.generateMessageHead(tid, EapJobAbortReqIvo.cid, EapJobAbortReqIvo.system, body.getEqpId()));
+        eapCarrCancelReqIvo.setBody(body);
+
+        return objectMapper.writeValueAsString(eapCarrCancelReqIvo);
+    }
+
     public String generateBody(String tid, EapJobAbortReqIvo.EapJobAbortReqBody body) throws JsonProcessingException {
 
 

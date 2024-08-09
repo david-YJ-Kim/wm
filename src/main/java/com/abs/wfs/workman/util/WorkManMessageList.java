@@ -134,4 +134,6 @@ public final class WorkManMessageList {
     public static final String BRS_LOT_CARR_DEASSIGN = "BRS_LOT_CARR_DEASSIGN";
     public static final String BRS_LOT_CARR_ASSIGN = "BRS_LOT_CARR_ASSIGN";
 
+    public static final String EAP_CARR_CANCEL_REQ = "EAP_CARR_CANCEL_REQ";
+
 }
