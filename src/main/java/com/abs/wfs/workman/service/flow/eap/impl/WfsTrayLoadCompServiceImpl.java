@@ -201,16 +201,6 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
              */
 
 
-            BrsLotDeassignCarr.Body lotDgnVo = new BrsLotDeassignCarr.Body();
-            List<Slots> slots = new ArrayList<>();
-            slots.add(Slots.builder().slotNo("1").prodMtrlId(prodMtrlId).build());
-
-            lotDgnVo.setSiteId(body.getSiteId()) ; lotDgnVo.setEqpId(eqpId); lotDgnVo.setPortId(portId); lotDgnVo.setCarrId(carrId);
-            lotDgnVo.setLotId(lotId); lotDgnVo.setDeasgnQty("1"); lotDgnVo.setSlots(slots);
-
-            this.messageSendService.sendMessageSend(BrsLotDeassignCarr.system, BrsLotDeassignCarr.cid,
-                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), lotDgnVo));
-            
             
             /*
             RE-00-01, Measurement Room Tray loader 시나리오
@@ -256,8 +246,16 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                 
 
             }
-            
 
+            BrsLotDeassignCarr.Body lotDgnVo = new BrsLotDeassignCarr.Body();
+            List<Slots> slots = new ArrayList<>();
+            slots.add(Slots.builder().slotNo("1").prodMtrlId(prodMtrlId).build());
+
+            lotDgnVo.setSiteId(body.getSiteId()) ; lotDgnVo.setEqpId(eqpId); lotDgnVo.setPortId(portId); lotDgnVo.setCarrId(carrId);
+            lotDgnVo.setLotId(lotId); lotDgnVo.setDeasgnQty("1"); lotDgnVo.setSlots(slots);
+
+            this.messageSendService.sendMessageSend(BrsLotDeassignCarr.system, BrsLotDeassignCarr.cid,
+                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), lotDgnVo));
 
         }
 

@@ -83,8 +83,8 @@ public class WorkManageService {
         log.info("{} Ready to get measure out carr info with request vo : {}.", apFlowProcessVo.printLog(), measureReqVo.toString());
 
         MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
-        log.info("{} Ready to make panel move work. from port: {}, measureOutInfo: {}",
-                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.toString());
+        log.info("{} Ready to make panel move work. from port: {}, measureOutInfo: {}, measureOutTargetCarr: {}",
+                apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.toString(), measureOutCstPort.getTargetCarrId());
 
 
 
