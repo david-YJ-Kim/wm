@@ -123,7 +123,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             if(tnProducedMaterial != null) {
                 prodMtrlId = tnProducedMaterial.getProdMtrlId();
                 isEmptyTray = false;
-                log.info("Not Empty Tray");
+                log.info("Not Empty Tray : {}", prodMtrlId);
 
             } else {
                 log.info("Real Empty Tray");
