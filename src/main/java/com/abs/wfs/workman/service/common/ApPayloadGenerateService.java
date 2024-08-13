@@ -109,7 +109,7 @@ public class ApPayloadGenerateService {
         EapCarrCancelReq eapCarrCancelReqIvo = new EapCarrCancelReq();
 
         if(body.getUserId() == null || body.getUserId().isEmpty()) {body.setUserId(ApSystemCodeConstant.WFS);}
-        eapCarrCancelReqIvo.setHead(this.generateMessageHead(tid, EapJobAbortReqIvo.cid, EapJobAbortReqIvo.system, body.getEqpId()));
+        eapCarrCancelReqIvo.setHead(this.generateMessageHead(tid, EapCarrCancelReq.cid, EapCarrCancelReq.system, body.getEqpId()));
         eapCarrCancelReqIvo.setBody(body);
 
         return objectMapper.writeValueAsString(eapCarrCancelReqIvo);
