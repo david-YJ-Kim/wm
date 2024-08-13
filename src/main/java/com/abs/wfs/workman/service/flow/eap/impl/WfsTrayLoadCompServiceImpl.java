@@ -123,7 +123,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
             if(tnProducedMaterial != null) {
                 prodMtrlId = tnProducedMaterial.getProdMtrlId();
                 isEmptyTray = false;
-                log.info("Not Empty Tray : {}", prodMtrlId);
+                log.info("Not Empty Tray : {},{}", prodMtrlId, isEmptyTray);
 
             } else {
                 log.info("Real Empty Tray");
@@ -226,7 +226,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                                                     .lotId(lotId)
                                                     .portId(body.getPortId())
                                                     .carrId(body.getCarrId())
-                                                    .prodMtrlId(body.getProdMtrlId())
+                                                    .prodMtrlId(prodMtrlId)
                                                     .build();
 
                 MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
