@@ -33,7 +33,7 @@
             resultType="com.abs.wfs.workman.dao.query.wipLotProdMat.vo.WipLotProdMatDto">
         SELECT
         WIP.LOT_ID,
-        WIP.CARR_ID,
+        MAP.CARR_ID,
         MAT.PROD_MTRL_ID,
         POS.HOLD_YN,
         MAT.SLOT_NO ,
