@@ -9,6 +9,7 @@ public class MeasureOutPortCarrInfoReqVo {
 
     String siteId;
     String lotId;
+    String eqpId;
     String portId;
     String carrId;
     String prodMtrlId;

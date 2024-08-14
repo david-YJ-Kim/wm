@@ -1,5 +1,6 @@
 package com.abs.wfs.workman.service.flow.eap.impl;
 
+import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
 import com.abs.wfs.workman.dao.domain.tnPort.service.TnPosPortServiceImpl;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
@@ -85,6 +86,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
     @Autowired
     TnProducedMaterialServiceImpl tnProducedMaterialService;
+
 
     /**
      * Tray Load Comp
@@ -214,12 +216,14 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
                 MeasureOutPortCarrInfoReqVo measureReqVo = MeasureOutPortCarrInfoReqVo.builder()
                                                     .siteId(siteId.isEmpty() ? "SVM" : siteId)
                                                     .lotId(lotId)
+                                                    .eqpId(body.getEqpId())
                                                     .portId(body.getPortId())
                                                     .carrId(body.getCarrId())
                                                     .prodMtrlId(prodMtrlId)
                                                     .build();
 
                 MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
+
                 log.info("{} Ready to make panel move work. from port: {}, target port: {}, panel Id: {}, target slot Not: {}",
                         apFlowProcessVo.printLog(), portId, measureOutCstPort.getLinkedPortId(), prodMtrlId, measureOutCstPort.getTargetSlotNo());
 

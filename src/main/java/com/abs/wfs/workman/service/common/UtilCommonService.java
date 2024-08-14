@@ -166,8 +166,12 @@ public class UtilCommonService {
     public MeasureOutInfo getMeasureOutPortCarrInfo(ApFlowProcessVo apFlowProcessVo, MeasureOutPortCarrInfoReqVo vo) throws Exception {
 
 
-        String siteId = vo.getSiteId(); String cntInPortId = vo.getPortId(); String carrId = vo.getCarrId(); String lotId = vo.getLotId();
-        String prodMtrlId = vo.getProdMtrlId(); boolean isPanelInput = vo.isPanelInputYn();
+        String siteId = vo.getSiteId();
+        String cntInPortId = vo.getPortId();
+        String carrId = vo.getCarrId();
+        String lotId = vo.getLotId();
+        String prodMtrlId = vo.getProdMtrlId();
+        boolean isPanelInput = vo.isPanelInputYn();
 
         log.info("{} print parameter. siteId :{}, cntInPortId: {}, carrId : {} lotId: {}, prodMtrlId: {}"
                 , apFlowProcessVo.printLog(), siteId, cntInPortId, carrId, lotId, prodMtrlId);
@@ -224,6 +228,16 @@ public class UtilCommonService {
 
             targetSlotNo = prevSlotCarrInfo.getPrevSlotNo();
             targetCarrId = prevSlotCarrInfo.getPrevCarrId();
+
+            /**
+             * 2024.08.14
+             * Tray -> CST 시 linkedPort 무시 carr기준 Port로 배출하도록 수정
+             */
+            TnPosPort outPort =  tnPosPortService.findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(siteId, vo.getEqpId(), targetCarrId);
+            linkedPortId= outPort.getPortId();
+            log.info("## Out CST Port : {}",linkedPortId );
+
+
         }
 
 

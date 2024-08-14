@@ -30,7 +30,7 @@ public interface TnProducedMaterialRepository extends JpaRepository<TnProducedMa
      * @param useStatCd
      * @return
      */
-    TnProducedMaterial findBySiteIdAndProdMtrlIdAndUseStatCd(String siteId, String prodMtrlId, UseStatCd useStatCd);
+    Optional<TnProducedMaterial> findBySiteIdAndProdMtrlIdAndUseStatCd(String siteId, String prodMtrlId, UseStatCd useStatCd);
 
     /**
      *

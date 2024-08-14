@@ -75,6 +75,7 @@ public class WorkManageService {
         MeasureOutPortCarrInfoReqVo measureReqVo = MeasureOutPortCarrInfoReqVo.builder()
                                                                 .siteId(siteId.isEmpty() ? "SVM" : siteId)
                                                                 .lotId(lotId)
+                                                                .eqpId(body.getEqpId())
                                                                 .portId(body.getPortId())
                                                                 .carrId(body.getCarrId())
                                                                 .prodMtrlId(body.getProdMtrlId())

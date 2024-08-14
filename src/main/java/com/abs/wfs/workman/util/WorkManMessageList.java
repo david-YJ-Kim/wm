@@ -136,4 +136,11 @@ public final class WorkManMessageList {
 
     public static final String EAP_CARR_CANCEL_REQ = "EAP_CARR_CANCEL_REQ";
 
+    /**
+     *
+     */
+    public static final String WFS_PANEL_MOVE_IN = "WFS_PANEL_MOVE_IN";
+    public static final String WFS_PANEL_MOVE_OUT = "WFS_PANEL_MOVE_OUT";
+    public static final String WFS_EQP_PANEL_IMPORT = "WFS_EQP_PANEL_IMPORT";
+    public static final String WFS_EQP_PANEL_EXPORT = "WFS_EQP_PANEL_EXPORT";
 }

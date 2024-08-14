@@ -28,4 +28,13 @@ public interface TnPosPortRepository extends JpaRepository<TnPosPort, String> {
      * @return
      */
     TnPosPort findByPortIdAndSiteIdAndUseStatCd(String portId, String siteId, UseStatCd useStatCd);
+
+    /**
+     *
+     * @param siteId
+     * @param eqpId
+     * @param useStatCd
+     * @return
+     */
+    TnPosPort findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(String siteId, String eqpId, String carrId, UseStatCd useStatCd);
 }

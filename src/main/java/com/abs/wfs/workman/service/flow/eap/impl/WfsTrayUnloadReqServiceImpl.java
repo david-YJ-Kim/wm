@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -42,10 +43,12 @@ public class WfsTrayUnloadReqServiceImpl implements WfsTrayUnloadReq {
         apFlowProcessVo.setApMsgBody(body);
 
 
-        TnProducedMaterial materialInf = tnProducedMaterialService.findByProdMtrlId(body.getSiteId(), body.getProdMtrlId());
-
-        if(materialInf == null) {
+        Optional<TnProducedMaterial> optMaterialInf = tnProducedMaterialService.findByProdMtrlId(body.getSiteId(), body.getProdMtrlId());
+        TnProducedMaterial materialInf;
+        if(!optMaterialInf.isPresent()) {
             throw new Exception("MTRL not found");
+        } else {
+            materialInf = optMaterialInf.get();
         }
 
         log.debug("{} print prodMtrl query info: {}", apFlowProcessVo.printLog(), materialInf.toString());

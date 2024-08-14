@@ -1,6 +1,7 @@
 package com.abs.wfs.workman.interfaces.rest.flow;
 
 
+import com.abs.wfs.workman.service.flow.eap.WfsEqpPanelImport;
 import com.abs.wfs.workman.service.flow.eap.impl.*;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
@@ -618,6 +619,56 @@ public class EapFlowController {
         return this.wfsEfemControlStateReport.execute(apFlowProcessVo, wfsEfemControlStateReportIvo);
 
     }
+
+    @Autowired
+    WfsPanelMoveInImpl wfsPanelMoveIn;
+    @PostMapping(WorkManMessageList.WFS_PANEL_MOVE_IN)
+    public ApFlowProcessVo executeEvent(@RequestBody  WfsPanelMoveInIvo wfsPanelMoveInIvo,
+                                        @RequestParam(value = "key") String trackingKey,
+                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+        String cid = WorkManMessageList.WFS_PANEL_MOVE_IN;
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsPanelMoveInIvo.getHead());
+
+        return this.wfsPanelMoveIn.execute(apFlowProcessVo, wfsPanelMoveInIvo);
+    }
+
+    @Autowired
+    WfsPanelMoveOutImpl wfsPanelMoveOut;
+    @PostMapping(WorkManMessageList.WFS_PANEL_MOVE_OUT)
+    public ApFlowProcessVo executeEvent(@RequestBody  WfsPanelMoveOutIvo wfsPanelMoveOutIvo,
+                                        @RequestParam(value = "key") String trackingKey,
+                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+        String cid = WorkManMessageList.WFS_PANEL_MOVE_OUT;
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsPanelMoveOutIvo.getHead());
+
+        return this.wfsPanelMoveOut.execute(apFlowProcessVo, wfsPanelMoveOutIvo);
+    }
+
+    @Autowired
+    WfsEqpPanelImportImpl wfsEqpPanelImport;
+    @PostMapping(WorkManMessageList.WFS_EQP_PANEL_IMPORT)
+    public ApFlowProcessVo executeEvent(@RequestBody  WfsEqpPanelImportIvo wfsEqpPanelImportIvo,
+                                        @RequestParam(value = "key") String trackingKey,
+                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+        String cid = WorkManMessageList.WFS_EQP_PANEL_IMPORT;
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsEqpPanelImportIvo.getHead());
+
+        return this.wfsEqpPanelImport.execute(apFlowProcessVo, wfsEqpPanelImportIvo);
+    }
+
+    @Autowired
+    WfsEqpPanelExportImpl wfsEqpPanelExport;
+    @PostMapping(WorkManMessageList.WFS_EQP_PANEL_EXPORT)
+    public ApFlowProcessVo executeEvent(@RequestBody  WfsEqpPanelExportIvo wfsEqpPanelExportIvo,
+                                        @RequestParam(value = "key") String trackingKey,
+                                        @RequestParam(value = "scenario") String scenarioType) throws Exception {
+        String cid = WorkManMessageList.WFS_EQP_PANEL_EXPORT;
+        ApFlowProcessVo apFlowProcessVo = this.wfsEfemControlStateReport.initialize(cid, trackingKey, scenarioType, wfsEqpPanelExportIvo.getHead());
+
+        return this.wfsEqpPanelExport.execute(apFlowProcessVo, wfsEqpPanelExportIvo);
+    }
+
 
 
 }

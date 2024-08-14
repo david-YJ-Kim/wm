@@ -40,7 +40,7 @@ public class TnProducedMaterialServiceImpl {
      * @param prodMtrlId
      * @return
      */
-    public TnProducedMaterial findByProdMtrlId(String siteId, String prodMtrlId){
+    public Optional<TnProducedMaterial> findByProdMtrlId(String siteId, String prodMtrlId){
         return this.tnProducedMaterialRepository.findBySiteIdAndProdMtrlIdAndUseStatCd(siteId, prodMtrlId,UseStatCd.Usable);
     }
 

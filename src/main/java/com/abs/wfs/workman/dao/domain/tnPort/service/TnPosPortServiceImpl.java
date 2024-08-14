@@ -39,4 +39,15 @@ public class TnPosPortServiceImpl {
         return this.tnPosPortRepository.findByEqpIdAndSiteIdAndUseStatCd(eqpId, siteId, UseStatCd.Usable);
     }
 
+    /**
+     * Carr 기준 Port ID 조회
+     * @param siteId
+     * @param eqpId
+     * @param carrId
+     * @return
+     */
+    public TnPosPort findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(String siteId, String eqpId, String carrId) {
+        return this.tnPosPortRepository.findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(siteId, eqpId, carrId, UseStatCd.Usable);
+    }
+
 }
