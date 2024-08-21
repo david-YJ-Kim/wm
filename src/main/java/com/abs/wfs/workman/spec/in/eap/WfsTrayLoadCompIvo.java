@@ -17,6 +17,7 @@ public class WfsTrayLoadCompIvo extends ApMsgCommonVo {
     public static class Body extends ApMsgBody {
 
         String prodMtrlId;
+        String prodMtrlExist; // Tray에 Panel 존재 유무(Y/N)
     }
 }
 /*

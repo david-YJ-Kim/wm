@@ -107,6 +107,9 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsTrayLoadCompIvo wfsTrayLoadCompIvo) throws Exception {
 
+        log.info("TrayLoadComp Sleep : 1000ms");
+        Thread.sleep(1000);
+        
         WfsTrayLoadCompIvo.Body body = wfsTrayLoadCompIvo.getBody();
         apFlowProcessVo.setApMsgBody(body);
         log.info("{} Set up message body: {}", apFlowProcessVo.printLog(), wfsTrayLoadCompIvo.toString());
@@ -116,6 +119,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
         String carrId = body.getCarrId();
         String portId = body.getPortId();
         String prodMtrlId = body.getProdMtrlId();
+        String prodMtrlExist = body.getProdMtrlExist();
 
         boolean isEmptyTray = prodMtrlId == null || prodMtrlId.isEmpty();
 
