@@ -62,6 +62,28 @@ public class EapFlowController {
 //    }
 
 
+    /**
+     * WFS_TOOL_VER
+     */
+    @Autowired
+    WfsToolVerReportServiceImpl wfsToolVerReportService;
+
+    @PostMapping(WorkManMessageList.WFS_TOOL_VER_REPORT)
+    public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsToolVerReportIvo wfsToolVerReportIvo,
+                                                 @RequestParam(value = "key") String trackingKey,
+                                                 @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+
+        return processRequest(() -> wfsToolVerReportService.execute(wfsToolVerReportService.initialize(
+                        WorkManMessageList.WFS_TOOL_VER_REPORT,
+                        trackingKey,
+                        scenarioType,
+                        wfsToolVerReportIvo.getHead()), wfsToolVerReportIvo),
+                wfsToolVerReportIvo.getBody());
+
+    }
+
+
 
 
     @PostMapping(WorkManMessageList.WFS_CARR_SLOTMAP_REPORT_REQ)
