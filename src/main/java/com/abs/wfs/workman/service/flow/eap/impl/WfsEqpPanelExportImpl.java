@@ -12,6 +12,7 @@ import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsEqpPanelExportIvo;
 import com.abs.wfs.workman.spec.in.eap.WfsPanelMoveInIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.PanelMoveCode;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.abs.wfs.workman.util.exception.ApExceptionCode;
 import com.abs.wfs.workman.util.exception.ScenarioException;
@@ -113,6 +114,10 @@ public class WfsEqpPanelExportImpl implements WfsEqpPanelExport {
         cnPosProdMtrlMove.setPrevEvntNm(cnPosProdMtrlMove.getEvntNm());
         cnPosProdMtrlMove.setEvntNm(wfsEqpPanelExportIvo.getHead().getCid());
         cnPosProdMtrlMove.setTid(wfsEqpPanelExportIvo.getHead().getTid());
+
+        cnPosProdMtrlMove.setPrevCstmEvntNm(cnPosProdMtrlMove.getCstmEvntNm());
+        cnPosProdMtrlMove.setCstmEvntNm(PanelMoveCode.ProdEqpExport.toString());
+        cnPosProdMtrlMove.setUseStatCd(UseStatCd.Usable.toString());
 
 
         cnPosProdMtrlMoveService.saveCnPosProdMtrlMoveRepository(cnPosProdMtrlMove);

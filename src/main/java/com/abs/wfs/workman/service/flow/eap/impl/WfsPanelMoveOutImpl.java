@@ -12,6 +12,7 @@ import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.WfsPanelMoveOutIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.PanelMoveCode;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.abs.wfs.workman.util.exception.ApExceptionCode;
 import com.abs.wfs.workman.util.exception.ScenarioException;
@@ -119,6 +120,10 @@ public class WfsPanelMoveOutImpl implements WfsPanelMoveOut {
         cnPosProdMtrlMove.setPrevEvntNm(cnPosProdMtrlMove.getEvntNm());
         cnPosProdMtrlMove.setEvntNm(wfsPanelMoveOutIvo.getHead().getCid());
         cnPosProdMtrlMove.setTid(wfsPanelMoveOutIvo.getHead().getTid());
+
+        cnPosProdMtrlMove.setPrevCstmEvntNm(cnPosProdMtrlMove.getCstmEvntNm());
+        cnPosProdMtrlMove.setCstmEvntNm(PanelMoveCode.ProdCarrOut.toString());
+        cnPosProdMtrlMove.setUseStatCd(UseStatCd.Usable.toString());
 
         cnPosProdMtrlMoveService.saveCnPosProdMtrlMoveRepository(cnPosProdMtrlMove);
 
