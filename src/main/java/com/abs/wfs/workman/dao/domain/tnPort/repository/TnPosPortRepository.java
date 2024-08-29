@@ -1,7 +1,7 @@
 package com.abs.wfs.workman.dao.domain.tnPort.repository;
 
 import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
-import com.abs.wfs.workman.util.code.UseStatCd;
+import com.abs.wfs.workman.util.code.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -37,4 +37,18 @@ public interface TnPosPortRepository extends JpaRepository<TnPosPort, String> {
      * @return
      */
     TnPosPort findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(String siteId, String eqpId, String carrId, UseStatCd useStatCd);
+
+    /**
+     *
+     * @param siteId
+     * @param eqpId
+     * @param statCd
+     * @param carrId
+     * @param trsfStatCd
+     * @param acesModeCd
+     * @param ctrlModeCd
+     * @param useStatCd
+     * @return
+     */
+    Optional<List<TnPosPort>> findBySiteIdAndEqpIdAndStatCdAndCarrIdAndTrsfStatCdAndAcesModeCdAndCtrlModeCdAndUseStatCd(String siteId, String eqpId, PortStatCd statCd, String carrId, TrsfStatCd trsfStatCd, AcesModeCd acesModeCd, PortCtrlModeCd ctrlModeCd, UseStatCd useStatCd);
 }

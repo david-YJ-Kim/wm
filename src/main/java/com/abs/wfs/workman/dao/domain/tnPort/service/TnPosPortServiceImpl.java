@@ -3,7 +3,7 @@ package com.abs.wfs.workman.dao.domain.tnPort.service;
 import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
 import com.abs.wfs.workman.dao.domain.tnPort.repository.TnPosPortRepository;
 import com.abs.wfs.workman.dao.domain.tnPort.vo.TnPosPortUpdateRequestDto;
-import com.abs.wfs.workman.util.code.UseStatCd;
+import com.abs.wfs.workman.util.code.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +48,16 @@ public class TnPosPortServiceImpl {
      */
     public TnPosPort findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(String siteId, String eqpId, String carrId) {
         return this.tnPosPortRepository.findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(siteId, eqpId, carrId, UseStatCd.Usable);
+    }
+
+    /**
+     * Port 내 진행 가능 Port List Return
+     * @param siteId
+     * @param eqpId
+     * @return
+     */
+    public Optional<List<TnPosPort>> findByAvailPortList(String siteId, String eqpId) {
+        return this.tnPosPortRepository.findBySiteIdAndEqpIdAndStatCdAndCarrIdAndTrsfStatCdAndAcesModeCdAndCtrlModeCdAndUseStatCd(siteId,eqpId, PortStatCd.Empty, null, TrsfStatCd.ReadyToLoad, AcesModeCd.Auto, PortCtrlModeCd.InService, UseStatCd.Usable);
     }
 
 }
