@@ -56,9 +56,16 @@ public class WfsNpgProcReqImpl implements WfsNpgProcReq {
 
         dspWorkReqVo.setSiteId(body.getSiteId());
         dspWorkReqVo.setDspType("NPG");
+        dspWorkReqVo.setLotId("");
         dspWorkReqVo.setEqpId(body.getEqpId());
         dspWorkReqVo.setPortId(port.getPortId());
-        dspWorkReqVo.setUserId("WFS");
+        dspWorkReqVo.setCarrId("");
+        dspWorkReqVo.setProdDefId("");
+        dspWorkReqVo.setProcDefId("");
+        dspWorkReqVo.setRsltCm("");
+        dspWorkReqVo.setRsnCd("");
+        dspWorkReqVo.setEvntCm("");
+        dspWorkReqVo.setEvntUserId(body.getUserId());
 
         this.messageSendService.sendMessageSend(RtdDspWorkReqIvo.system, RtdDspWorkReqIvo.cid,
                 this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), dspWorkReqVo));

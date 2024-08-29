@@ -21,6 +21,8 @@ public class RtdDspWorkReqIvo extends ApMsgCommonVo {
 		private String dspType;
 		private String prodDefId;
 		private String procDefId;
+		private String rsltCm;
+		private String rsnCd;
 		private String evntCm;
 		private String evntUserId;
 
