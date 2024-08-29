@@ -99,6 +99,9 @@ public final class WorkManMessageList {
     public static final String WFS_OI_GENERATE_WORK_REQ = "WFS_OI_GENERATE_WORK_REQ";
     public static final String WFS_OI_PORT_UNLOAD_REQ = "WFS_OI_PORT_UNLOAD_REQ";
 
+    public static final String WFS_NPG_PROC_REQ = "WFS_NPG_PROC_REQ";
+
+
 
     /**
      * SPEC - OUT
