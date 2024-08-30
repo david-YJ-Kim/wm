@@ -56,15 +56,36 @@ public class CnPosToolVerServiceImpl implements CnPosToolVerService{
 
         }else{
 
-            // 기존 정보 업데이트
-            crntToolVer.setVersion(body.getVersion());
-            crntToolVer.setPrevEvntNm(crntToolVer.getEvntNm());
-            crntToolVer.setEvntNm(WfsToolVerReportIvo.cid);
-            crntToolVer.setMdfyDt(Timestamp.from(Instant.now()));
-            crntToolVer.setFnlEvntDt(Timestamp.from(Instant.now()));
+            String reportedVersion = body.getVersion().trim();
+            String crntVersion = crntToolVer.getVersion();
+            boolean isSameVersion = false;
+            if(reportedVersion.equals(crntVersion)){
+                log.info("Sample version has been reported.");
+                isSameVersion = true;
+
+                crntToolVer.setMdfyDt(Timestamp.from(Instant.now()));
+                crntToolVer.setFnlEvntDt(Timestamp.from(Instant.now()));
+
+
+            }else {
+
+                // 기존 정보 업데이트
+                crntToolVer.setVersion(reportedVersion);
+                crntToolVer.setPrevVersion(crntVersion);
+
+                crntToolVer.setVersionUpdateDt(Timestamp.from(Instant.now()));
+
+                crntToolVer.setPrevEvntNm(crntToolVer.getEvntNm());
+                crntToolVer.setEvntNm(WfsToolVerReportIvo.cid);
+                crntToolVer.setMdfyDt(Timestamp.from(Instant.now()));
+                crntToolVer.setFnlEvntDt(Timestamp.from(Instant.now()));
+            }
+
+            log.info("Current row has been updated : {}", crntToolVer);
             this.cnPosToolVerRepository.save(crntToolVer);
 
-            this.insertHistoryRecord(crntToolVer);
+            if(!isSameVersion) this.insertHistoryRecord(crntToolVer);
+
             return crntToolVer;
 
         }

@@ -35,12 +35,15 @@ public class ChPosToolVer {
     private PortType portTyp;
 
     private String version;
+    private String prevVersion;
     private String evntNm;
     private String prevEvntNm;
     private String cstmEvntNm;
     private String prevCstmEvntNm;
     private String rsnCd;
     private String trnsCm;
+
+    private Timestamp versionUpdateDt;
 
     @Enumerated(EnumType.STRING)
     private UseStatCd useStatCd;
@@ -53,13 +56,14 @@ public class ChPosToolVer {
     private String tid;
 
     @Builder
-    public ChPosToolVer(String objId, String refObjId, String siteId, String eqpId, AlarmEqpType toolTyp, PortType portTyp, String version, String evntNm, String prevEvntNm, String cstmEvntNm, String prevCstmEvntNm, String rsnCd, String trnsCm, UseStatCd useStatCd, String crtUserId, Timestamp crtDt, String mdfyUserId, Timestamp mdfyDt, Timestamp fnlEvntDt, String tid) {
+    public ChPosToolVer(String objId, String refObjId, String siteId, String eqpId, AlarmEqpType toolTyp, PortType portTyp, String prevVersion, String version, String evntNm, String prevEvntNm, String cstmEvntNm, String prevCstmEvntNm, String rsnCd, String trnsCm, UseStatCd useStatCd, String crtUserId, Timestamp versionUpdateDt, Timestamp crtDt, String mdfyUserId, Timestamp mdfyDt, Timestamp fnlEvntDt, String tid) {
         this.objId = objId;
         this.refObjId = refObjId;
         this.siteId = siteId;
         this.eqpId = eqpId;
         this.toolTyp = toolTyp;
         this.portTyp = portTyp;
+        this.prevVersion = prevVersion;
         this.version = version;
         this.evntNm = evntNm;
         this.prevEvntNm = prevEvntNm;
@@ -67,6 +71,7 @@ public class ChPosToolVer {
         this.prevCstmEvntNm = prevCstmEvntNm;
         this.rsnCd = rsnCd;
         this.trnsCm = trnsCm;
+        this.versionUpdateDt = versionUpdateDt;
         this.useStatCd = useStatCd;
         this.crtUserId = crtUserId;
         this.crtDt = crtDt;
