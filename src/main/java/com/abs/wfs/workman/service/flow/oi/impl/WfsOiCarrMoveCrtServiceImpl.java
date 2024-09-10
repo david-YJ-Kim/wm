@@ -131,7 +131,7 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
         TransferJobReqVo transferJobReqVo = TransferJobReqVo.builder()
                                             .siteId(body.getSiteId())
-                                            .userId(ApSystemCodeConstant.WFS)
+                                            .userId(body.getUserId())
                                             .carrId(carrId)
                                             .srcEqpId(sourceEqp)
                                             .srcPortId(sourcePort)
