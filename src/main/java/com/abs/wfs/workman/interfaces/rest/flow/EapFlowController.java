@@ -243,14 +243,17 @@ public class EapFlowController {
     WfsInitPortStateReportImpl wfsInitPortStateReportImpl;
 
     @PostMapping(WorkManMessageList.WFS_INIT_PORT_STATE_REPORT)
-    public ApFlowProcessVo executeEvent(@RequestBody WfsInitPortStateReportIvo wfsEqpControlStateReportIvo,
+    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsInitPortStateReportIvo wfsEqpControlStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
-        String cid = WorkManMessageList.WFS_INIT_PORT_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsInitPortStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead());
+        return processRequest(() -> wfsInitPortStateReportImpl.execute(wfsInitPortStateReportImpl.initialize(
+                        WorkManMessageList.WFS_INIT_PORT_STATE_REPORT,
+                        trackingKey,
+                        scenarioType,
+                        wfsEqpControlStateReportIvo.getHead()), wfsEqpControlStateReportIvo),
+                wfsEqpControlStateReportIvo.getBody());
 
-        return this.wfsInitPortStateReportImpl.execute(apFlowProcessVo, wfsEqpControlStateReportIvo);
 
     }
 
