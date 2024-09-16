@@ -95,11 +95,27 @@ public final class WorkManMessageList {
     public static final String WFS_VMS_LOT_TRACK_OUT_REQ = "WFS_VMS_LOT_TRACK_OUT_REQ";
 
 
+    /**
+     * OI MESSAGE ===========================================================
+     */
     public static final String WFS_OI_CARR_MOVE_CRT = "WFS_OI_CARR_MOVE_CRT";
     public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
     public static final String WFS_OI_GENERATE_WORK_REQ = "WFS_OI_GENERATE_WORK_REQ";
     public static final String WFS_OI_PORT_UNLOAD_REQ = "WFS_OI_PORT_UNLOAD_REQ";
+    public static final String WFS_WORK_PROGRESS_OI = "WFS_WORK_PROGRESS_OI";
+    public static final String WFS_RECHUCK_OI = "WFS_RECHUCK_OI";
+    public static final String WFS_MANUAL_TRACK_OUT_OI = "WFS_MANUAL_TRACK_OUT_OI";
+    public static final String WFS_JOB_ABORT_OI = "WFS_JOB_ABORT_OI";
+    public static final String WFS_DSP_INFO_CREATE_OI = "WFS_DSP_INFO_CREATE_OI";
+    public static final String WFS_WORK_CANCEL = "WFS_WORK_CANCEL";
+    public static final String WFS_WORK_INITIALIZE = "WFS_WORK_INITIALIZE";
+    public static final String WFS_CARR_MOVE_CRT_OI = "WFS_CARR_MOVE_CRT_OI";
+    public static final String WFS_SORTER_MODE_CHG_OI = "WFS_SORTER_MODE_CHG_OI";
+    public static final String WFS_INIT_EQP_STATE_REQ_OI = "WFS_INIT_EQP_STATE_REQ_OI";
 
+    /**
+     * NPG
+     */
     public static final String WFS_NPG_PROC_REQ = "WFS_NPG_PROC_REQ";
 
 
