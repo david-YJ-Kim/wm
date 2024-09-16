@@ -25,7 +25,7 @@ public class CnPosEqpGrpRelServiceImpl {
         return this.cnPosEqpGrpRelRepository.findBySiteIdAndUseStatCdAndEqpGrpId(site, useStatCd, eqpGrpId);
     }
 
-    public Optional<CnPosEqpGrpRel> findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(String site, UseStatCd useStatCd, String eqpGrpId, String eqpId){
+    public CnPosEqpGrpRel findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(String site, UseStatCd useStatCd, String eqpGrpId, String eqpId){
         return this.cnPosEqpGrpRelRepository.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(site, useStatCd, eqpGrpId, eqpId);
     }
 }

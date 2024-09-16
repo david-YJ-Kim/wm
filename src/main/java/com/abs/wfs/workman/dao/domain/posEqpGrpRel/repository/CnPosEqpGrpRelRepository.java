@@ -37,5 +37,5 @@ public interface CnPosEqpGrpRelRepository extends JpaRepository<CnPosEqpGrpRel, 
      * @param eqpId
      * @return
      */
-    Optional<CnPosEqpGrpRel> findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(String siteId, UseStatCd useStatCd, String eqpGrpId, String eqpId);
+    CnPosEqpGrpRel findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(String siteId, UseStatCd useStatCd, String eqpGrpId, String eqpId);
 }

@@ -194,48 +194,36 @@ public class EapFlowController {
     @Autowired
     WfsEqpStateReportImpl wfsEqpStateReportImpl;
 
-    @PostMapping(WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT)
+    @PostMapping(WorkManMessageList.WFS_EQP_STATE_REPORT)
     public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsEqpStateReportIvo wfsEqpStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
 
-        String cid = WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpStateReportIvo.getHead());
-
-
-        try{
-            return new ResponseEntity<>(
-
-                    ApResponseIvo.builder()
-                            .msgBody(wfsEqpStateReportIvo.getBody())
-                            .processInfo(this.wfsEqpStateReportImpl.execute(apFlowProcessVo, wfsEqpStateReportIvo))
-                    .build(),
-
-                    HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-
-
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+        return processRequest(() -> wfsEqpStateReportImpl.execute(wfsEqpStateReportImpl.initialize(
+                        WorkManMessageList.WFS_EQP_STATE_REPORT,
+                        trackingKey,
+                        scenarioType,
+                        wfsEqpStateReportIvo.getHead()), wfsEqpStateReportIvo),
+                wfsEqpStateReportIvo.getBody());
     }
 
 
     @Autowired
     WfsEqpControlStateReportImpl wfsEqpControlStateReportImpl;
 
-    @PostMapping(WorkManMessageList.WFS_EQP_STATE_REPORT)
-    public ApFlowProcessVo executeEvent(@RequestBody WfsEqpControlStateReportIvo wfsEqpControlStateReportIvo,
+    @PostMapping(WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT)
+    public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsEqpControlStateReportIvo wfsEqpControlStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
 
-        String cid = WorkManMessageList.WFS_EQP_STATE_REPORT;
-        ApFlowProcessVo apFlowProcessVo = this.wfsEqpControlStateReportImpl.initialize(cid, trackingKey, scenarioType, wfsEqpControlStateReportIvo.getHead());
-
-        return this.wfsEqpControlStateReportImpl.execute(apFlowProcessVo, wfsEqpControlStateReportIvo);
+        return processRequest(() -> wfsEqpControlStateReportImpl.execute(wfsEqpControlStateReportImpl.initialize(
+                        WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT,
+                        trackingKey,
+                        scenarioType,
+                        wfsEqpControlStateReportIvo.getHead()), wfsEqpControlStateReportIvo),
+                wfsEqpControlStateReportIvo.getBody());
 
     }
 

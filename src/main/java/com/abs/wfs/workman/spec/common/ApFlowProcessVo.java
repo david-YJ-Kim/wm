@@ -7,6 +7,7 @@ import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -43,6 +44,22 @@ public class ApFlowProcessVo {
 
 
     private HashMap<String, String> additionData;
+
+    private ArrayList<ApFlowProcessVo> subFlowCalledProcess; // Process 진행 중 Sub Process를 호출 하는 경우 저장. EQP STATE REPORT 하위 EFEM State Report
+
+
+    /**
+     * Sub Flow Process 를 저장함
+     * @param vo
+     * @return
+     */
+    public ArrayList<ApFlowProcessVo> addSubFlowProcess(ApFlowProcessVo vo){
+        if(subFlowCalledProcess == null){
+            subFlowCalledProcess = new ArrayList<>();
+        }
+        subFlowCalledProcess.add(vo);
+        return subFlowCalledProcess;
+    }
 
 
 

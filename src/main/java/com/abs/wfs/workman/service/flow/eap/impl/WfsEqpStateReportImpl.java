@@ -48,14 +48,15 @@ public class WfsEqpStateReportImpl implements WfsEqpStateReport {
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsEqpStateReportIvo wfsEqpStateReportIvo) throws Exception {
 
         WfsEqpStateReportIvo.Body body = wfsEqpStateReportIvo.getBody();
-        String siteId = body.getSiteId(); String eqpId = body.getEqpId(); String portId = body.getPortId();
-
         apFlowProcessVo.setApMsgBody(wfsEqpStateReportIvo.getBody());
 
+        if(body.getEqpStateCd().isEmpty()){
+            log.warn("State is empty. No need to report state.");
+        }
 
         BrsEqpStateChangeIvo.BrsEqpStateChangeBody modeChangeBody = new BrsEqpStateChangeIvo.BrsEqpStateChangeBody();
-        modeChangeBody.setSiteId(siteId);
-        modeChangeBody.setEqpId(eqpId);
+        modeChangeBody.setSiteId(body.getSiteId());
+        modeChangeBody.setEqpId(body.getEqpId());
         modeChangeBody.setStatCd(wfsEqpStateReportIvo.getBody().getEqpStateCd());
         modeChangeBody.setUserId(wfsEqpStateReportIvo.getBody().getUserId());
 
@@ -65,36 +66,16 @@ public class WfsEqpStateReportImpl implements WfsEqpStateReport {
                 this.apPayloadGenerateService.generateBody(wfsEqpStateReportIvo.getHead().getTid(), modeChangeBody) );
 
 
-        Optional<CnPosEqpGrpRel> cnPosEqpGrpRel =  this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(
+
+        CnPosEqpGrpRel cnPosEqpGrpRel =  this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(
                 ApPropertyObject.getInstance().getSiteName(), UseStatCd.Usable,
                 ApEqpGrpCodeConstant.EfemSpecial,
-                wfsEqpStateReportIvo.getBody().getEqpId());
+                body.getEqpId());
 
-
-        if(cnPosEqpGrpRel.isPresent()){
-            log.info("EFEM Special tool. use same as efem control mode.");
-
-
-            WfsEfemControlStateReportIvo.Body efemBody = new WfsEfemControlStateReportIvo().getBody();
-            efemBody.setSiteId(siteId); efemBody.setEqpId(eqpId); efemBody.setUserId(body.getUserId());
-            efemBody.setEqpCommStateCd(body.getEqpStateCd()); efemBody.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
-
-            WfsEfemControlStateReportIvo reportIvo = this.apPayloadGenerateService.generateMessageObject(apFlowProcessVo.getTid(), efemBody);
-            try{
-                ApFlowProcessVo efemControlVo = this.wfsEfemControlStateReport.execute(
-
-                        WorkManCommonUtil.initializeProcessVo(
-                                WorkManMessageList.WFS_EFEM_STATE_REPORT, apFlowProcessVo.getTrackingKey(), apFlowProcessVo.getScenarioType(), reportIvo.getHead()
-                        ),
-                        reportIvo);
-                WorkManCommonUtil.completeFlowProcessVo(efemControlVo);
-
-            } catch (Exception e){
-                throw e;
-            }
-
+        if(cnPosEqpGrpRel != null){
+            log.info("EfemSpecial eqp: {}", cnPosEqpGrpRel);
+            this.callEfemStateReport(apFlowProcessVo, body);
         }
-
 
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
 
@@ -103,5 +84,42 @@ public class WfsEqpStateReportImpl implements WfsEqpStateReport {
     @Override
     public ApFlowProcessVo initialize(String cid, String trackingKey, String scenarioType, ApMsgHead apMsgHead) {
         return  WorkManCommonUtil.initializeProcessVo(cid, trackingKey, scenarioType, apMsgHead);
+    }
+
+
+    private ApFlowProcessVo callEfemStateReport(ApFlowProcessVo apFlowProcessVo, WfsEqpStateReportIvo.Body body) throws Exception {
+
+
+
+        log.info("EFEM Special tool. use same as efem control mode.");
+
+        // Generate Efem Control State Report.
+        WfsEfemControlStateReportIvo.Body efemBody = new WfsEfemControlStateReportIvo().getBody();
+        efemBody.setSiteId(body.getSiteId()); efemBody.setEqpId(body.getEqpId());
+        efemBody.setUserId(body.getUserId()); efemBody.setEqpCommStateCd(body.getEqpStateCd());
+        efemBody.setPortType(WorkManCommonUtil.extractPortTypWithPortId(body.getPortId()));
+
+        WfsEfemControlStateReportIvo reportIvo = this.apPayloadGenerateService.generateMessageObject(apFlowProcessVo.getTid(), efemBody);
+        try{
+            ApFlowProcessVo efemControlVo = this.wfsEfemControlStateReport.execute(
+
+                    WorkManCommonUtil.initializeProcessVo(
+                            WorkManMessageList.WFS_EFEM_STATE_REPORT, apFlowProcessVo.getTrackingKey(),
+                            apFlowProcessVo.getScenarioType(), reportIvo.getHead()
+                    ),
+                    reportIvo);
+
+            apFlowProcessVo.addSubFlowProcess(efemControlVo);
+            log.info("EFEM State report process has been added in eqp State Report. {}", apFlowProcessVo);
+
+            WorkManCommonUtil.completeFlowProcessVo(efemControlVo);
+
+        } catch (Exception e){
+            log.error(e.getMessage());
+            throw e;
+        }
+
+        return apFlowProcessVo;
+
     }
 }
