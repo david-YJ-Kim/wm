@@ -312,4 +312,16 @@
 			J.WORK_ID = #{workId}
 		  AND J.IN_PORT_ID = P.PORT_ID
 	</select>
+
+	<select id="selectWorkExist"
+			parameterType="hashMap"
+			resultType="hashMap">
+		SELECT w.WORK_ID, w.EQP_ID, j.IN_PORT_ID, j.IN_CARR_ID
+		  FROM WN_WORK_STAT w, WN_WORK_JOB j
+		 WHERE w.SITE_ID = j.SITE_ID
+		   AND w.WORK_ID = j.WORK_ID
+		   AND w.SITE_ID = #{siteId}
+		   AND w.EQP_ID = #{eqpId}
+		   AND j.LOT_ID = #{lotId}
+	</select>
 </mapper>

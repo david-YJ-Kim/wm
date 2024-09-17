@@ -3435,7 +3435,27 @@ public class WorkDAO {
 		
 		return resultCnt;
    }
-   
+
+   public List<Map<String,String>> selectWorkExist(String siteId, String eqpId, String lotId) {
+	   WorkMapper mapper = this.workMapper;
+
+	   try {
+		   Map<String,String> param = new HashMap<String,String>();
+
+		   param.put("siteId", siteId);
+		   param.put("eqpId", eqpId);
+		   param.put("lotId", lotId);
+
+		   return mapper.selectWorkExist(param);
+
+	   } catch (Exception e) {
+		   logger.error(e.getMessage());
+		   e.printStackTrace();
+		   throw e;
+	   } finally {
+
+	   }
+   }
    
 
 }

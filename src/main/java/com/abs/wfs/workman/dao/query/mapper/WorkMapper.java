@@ -1,6 +1,7 @@
 package com.abs.wfs.workman.dao.query.mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.abs.wfs.workman.dao.query.model.WnDspWorkInfo;
@@ -128,7 +129,5 @@ public interface WorkMapper {
 	
 	int deleteWnDspWorkInfo(String objId);
 
-
-	
-	
+	List<Map<String,String>> selectWorkExist(Map<String, String> map);
 }
