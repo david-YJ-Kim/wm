@@ -58,7 +58,7 @@ public class DaoDomainController {
     }
 
     @GetMapping("search/eqpGroup/{groupName}/eqpId/{eqpId}")
-    public Optional<CnPosEqpGrpRel> searchEqpGroupWithEqpId(@PathVariable String groupName, @PathVariable String eqpId) {
+    public CnPosEqpGrpRel searchEqpGroupWithEqpId(@PathVariable String groupName, @PathVariable String eqpId) {
 
         return this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(ApPropertyObject.getInstance().getSiteName(),
                 UseStatCd.Usable, groupName, eqpId);

@@ -3,16 +3,11 @@ package com.abs.wfs.workman.util;
 import com.abs.wfs.workman.config.ApSharedVariable;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
-import com.abs.wfs.workman.util.code.RecipeTypeCode;
-import com.abs.wfs.workman.util.code.SelfInspectionCd;
-import com.abs.wfs.workman.util.code.SuccessYn;
-import com.abs.wfs.workman.util.code.WorkManScenarioList;
+import com.abs.wfs.workman.util.code.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -322,6 +317,47 @@ public class WorkManCommonUtil {
 
         return (CommonDate.getCurrentDateTimeToString().substring(6) + UUID.randomUUID().toString()).replaceAll("-", "");
 
+    }
+
+    /**
+     * WFS 발송용 Message Head 생성
+     * @param tid
+     * @param cid
+     * @param targetSystem
+     * @param targetEqp
+     * @return
+     */
+    public static ApMsgHead generateMessageHead(String tid, String cid, String targetSystem, String targetEqp){
+
+        return WorkManCommonUtil.generateMessageHead(tid, cid, ApSystemCodeConstant.WFS, targetSystem, targetEqp, null, null);
+    }
+    
+    /**
+     * Message Head 생성하기
+     * @param tid
+     * @param cid
+     * @param sourceSystem
+     * @param targetSystem
+     * @param targetEqp
+     * @param osrc
+     * @param otgt
+     * @return
+     */
+    public static ApMsgHead generateMessageHead (String tid, String cid, String sourceSystem, String targetSystem, String targetEqp, @Nullable  String osrc, @Nullable String otgt){
+        ApMsgHead apMsgHead = ApMsgHead.builder()
+                .tid(tid)
+                .cid(cid)
+                .osrc(osrc == null ? "" : osrc)
+                .otgt(otgt == null ? "" : otgt)
+                .src(sourceSystem)
+                .tgt(targetSystem)
+                .build();
+
+        if(!targetSystem.equals(ApSystemCodeConstant.MCS)){
+            apMsgHead.setTgtEqp(targetEqp == null ? new ArrayList<>() : Collections.singletonList(targetEqp));
+        }
+
+        return apMsgHead;
     }
 
 

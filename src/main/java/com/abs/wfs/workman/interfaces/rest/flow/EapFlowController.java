@@ -211,7 +211,6 @@ public class EapFlowController {
 
     @Autowired
     WfsEqpControlStateReportImpl wfsEqpControlStateReportImpl;
-
     @PostMapping(WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT)
     public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsEqpControlStateReportIvo wfsEqpControlStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
@@ -226,6 +225,7 @@ public class EapFlowController {
                 wfsEqpControlStateReportIvo.getBody());
 
     }
+
 
     @Autowired
     WfsInitPortStateReportImpl wfsInitPortStateReportImpl;

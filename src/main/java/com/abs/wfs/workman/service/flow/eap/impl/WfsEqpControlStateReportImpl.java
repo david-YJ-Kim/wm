@@ -51,11 +51,12 @@ public class WfsEqpControlStateReportImpl implements WfsEqpControlStateReport {
                 this.apPayloadGenerateService.generateBrsEqpControlModeChangeIvo(modeChangeBody) );
 
 
-        Optional<CnPosEqpGrpRel> cnPosEqpGrpRel =  this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(
+        CnPosEqpGrpRel cnPosEqpGrpRel =  this.cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(
                 ApPropertyObject.getInstance().getSiteName(), UseStatCd.Usable,
                 ApEqpGrpCodeConstant.EfemSpecial,
                 wfsEqpControlStateReportIvo.getBody().getEqpId());
-        if(cnPosEqpGrpRel.isPresent()){
+
+        if(cnPosEqpGrpRel != null){
             log.info("EFEM Special tool. use same as efem control mode.");
 
             // TODO CALL EFEM CONTROL MODE

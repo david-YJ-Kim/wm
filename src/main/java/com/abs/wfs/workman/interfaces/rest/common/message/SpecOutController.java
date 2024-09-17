@@ -8,6 +8,7 @@ import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.brs.WfsManualWorkStartIvo;
+import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -69,7 +70,7 @@ public class SpecOutController {
         String tid = SequenceManageUtil.generateMessageID();
 
         WfsManualWorkStartIvo payload = new WfsManualWorkStartIvo();
-        ApMsgHead head = this.apPayloadGenerateService.generateMessageHead(tid, WfsManualWorkStartIvo.cid, WfsManualWorkStartIvo.system, toolCode);
+        ApMsgHead head = WorkManCommonUtil.generateMessageHead(tid, WfsManualWorkStartIvo.cid, WfsManualWorkStartIvo.system, toolCode);
         payload.setHead(head);
         payload.setBody(body);
         String payloadString = objectMapper.writeValueAsString(payload);
