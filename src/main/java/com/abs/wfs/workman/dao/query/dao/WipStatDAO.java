@@ -46,8 +46,8 @@ public class WipStatDAO {
 		try {
 			
 			WnWipStat param = new WnWipStat();
-			param.setSiteId(siteId);
-			param.setLotId(lotId);
+			param.setpSiteId(siteId);
+			param.setpLotId(lotId);
 			
 			wipStatList = wipStatMapper.selectWnWipStat(param);
 		} catch (Exception e) {
@@ -1876,4 +1876,6 @@ public class WipStatDAO {
 		
 		return updateCnt;
 	}
+
+
 }
