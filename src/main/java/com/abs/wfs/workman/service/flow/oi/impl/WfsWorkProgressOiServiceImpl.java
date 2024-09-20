@@ -6,6 +6,7 @@ import com.abs.wfs.workman.dao.domain.posManlResv.model.CnPosManlResv;
 import com.abs.wfs.workman.dao.domain.posManlResv.service.CnPosManlResvServiceImpl;
 import com.abs.wfs.workman.dao.domain.ppsEqpSchd.model.CnPpsEqpSchd;
 import com.abs.wfs.workman.dao.domain.ppsEqpSchd.service.CnPpsEqpSchdServiceImpl;
+import com.abs.wfs.workman.dao.query.dao.CommonDAO;
 import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.eqp.service.EqpServiceImpl;
@@ -14,6 +15,7 @@ import com.abs.wfs.workman.dao.query.model.TnPosEqp;
 import com.abs.wfs.workman.dao.query.model.WnWipStat;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
+import com.abs.wfs.workman.dao.query.service.WorkQueryService;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
@@ -31,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,6 +58,9 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
     WorkDAO workDAO;
 
     @Autowired
+    CommonDAO commonDAO;
+
+    @Autowired
     WipStatDAO wipStatDAO;
 
     @Autowired
@@ -68,6 +74,9 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
 
     @Autowired
     WfsCommonQueryService commonQueryService;
+
+    @Autowired
+    WorkQueryService workQueryService;
 
     @Override
     public ApFlowProcessVo execute(ApFlowProcessVo apFlowProcessVo, WfsWorkProgressOiIvo wfsWorkProgressOiIvo) throws Exception {
@@ -91,9 +100,9 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
         // Lot 예약 현황 - Auto Track In 요청
         else {
             log.info("UserId : {}, Track In Request Operation", userId);
-            Optional<CnPosEqpGrpRel> autoTrackInExclusion = cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(body.getSiteId(), UseStatCd.Usable, "AutoTrackInExclusion", body.getEqpId());
+            CnPosEqpGrpRel autoTrackInExclusion = cnPosEqpGrpRelService.findBySiteIdAndUseStatCdAndEqpGrpIdAndEqpId(body.getSiteId(), UseStatCd.Usable, "AutoTrackInExclusion", body.getEqpId());
 
-            if(autoTrackInExclusion.isPresent()) {
+            if(autoTrackInExclusion != null) {
                 log.info("Auto TrackIn Exclusion EQP : {}", body.getEqpId());
             }
             else {
@@ -143,15 +152,80 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
                                                 break;
                                             case WorkManScenarioList.INOUT_SINGLE:
                                                 log.info(WorkManScenarioList.INOUT_SINGLE);
+
+                                                Map<String,String> resvOpCarr = commonDAO.selectNoneResvOPCarr(body.getSiteId(), w.getCrntEqpId(), w.getCarrId());
+
+                                                if(resvOpCarr != null){
+                                                    //In
+                                                    wfsQueryService.updateWipStatForDispatchigNormal(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                            , w.getCarrId(), body.getLotId(), ApSystemCodeConstant.WFS, w.getCrntEqpId(), w.getCrntPortId(), dspId, resvOpCarr.get("CARR_ID"), resvOpCarr.get("PORT_ID"));
+
+                                                    //Out
+                                                    wfsQueryService.updateWipStatForDispatchigNormal(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                            , resvOpCarr.get("CARR_ID"), "-", ApSystemCodeConstant.WFS, w.getCrntEqpId(), resvOpCarr.get("PORT_ID"), dspId, resvOpCarr.get("CARR_ID"), resvOpCarr.get("PORT_ID"));
+
+                                                    //Out Wip Ready
+                                                    wfsQueryService.updateWorkStatusByCarrId(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                            , resvOpCarr.get("CARR_ID"), ApSystemCodeConstant.WFS, WorkStatCd.Ready.name(), false);
+                                                } else {
+                                                    log.info("INOUT DSP Resv Info Create >> Out Port : No Empty Carr");
+                                                }
+
                                                 break;
                                             case WorkManScenarioList.INOUT_INLINE_SINGLE:
                                                 log.info(WorkManScenarioList.INOUT_INLINE_SINGLE);
+
+                                                List<Map<String,String>> inlineEqpList = commonDAO.selectInlineEqpList(body.getSiteId(), eqpVo.getEqpInlineId());
+                                                if(inlineEqpList != null) {
+                                                    String lastEqpId = inlineEqpList.get(inlineEqpList.size()-1).get("EQP_ID");
+
+                                                    Map<String,String> inlineLastEqpResvOpCarr = commonDAO.selectNoneResvOPCarr(body.getSiteId(), lastEqpId, w.getCarrId());
+
+                                                    if(inlineLastEqpResvOpCarr != null) {
+
+                                                        //In
+                                                        wfsQueryService.updateWipStatForDispatchigNormal(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                                , w.getCarrId(), body.getLotId(), ApSystemCodeConstant.WFS, w.getCrntEqpId(), w.getCrntPortId(), dspId, inlineLastEqpResvOpCarr.get("CARR_ID"), inlineLastEqpResvOpCarr.get("PORT_ID"));
+
+                                                        //Out
+                                                        wfsQueryService.updateWipStatForDispatchigNormal(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                                , inlineLastEqpResvOpCarr.get("CARR_ID"), "-", ApSystemCodeConstant.WFS, lastEqpId, inlineLastEqpResvOpCarr.get("PORT_ID"), dspId, inlineLastEqpResvOpCarr.get("CARR_ID"), inlineLastEqpResvOpCarr.get("PORT_ID"));
+
+                                                        //Out Wip Ready
+                                                        wfsQueryService.updateWorkStatusByCarrId(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid()
+                                                                , inlineLastEqpResvOpCarr.get("CARR_ID"), ApSystemCodeConstant.WFS, WorkStatCd.Ready.name(), false);
+
+
+                                                        for(int i = 0; i < inlineEqpList.size(); i++) {
+                                                            Map<String,String> eqp = inlineEqpList.get(i);
+                                                            String portId ="";
+                                                            if(i == 0)
+                                                                portId =  w.getCrntPortId();
+                                                            else if (i + 1 == inlineEqpList.size())
+                                                                portId = inlineLastEqpResvOpCarr.get("PORT_ID");
+                                                            else
+                                                                portId = "";
+                                                            workQueryService.createDspWorkInfo(body.getSiteId(), apFlowProcessVo.getEventName(), apFlowProcessVo.getTid(),
+                                                                    ApSystemCodeConstant.WFS, dspId, eqp.get("EQP_ID"), portId, body.getLotId(), "");
+                                                        }
+                                                    }
+                                                    else {
+                                                        log.info("INOUT Inline DSP Resv Info Create >> Out Port : No Empty Carr");
+                                                    }
+                                                }
+                                                else {
+                                                    log.info("EQP : {} has no Eqp Inline ID" + body.getEqpId());
+                                                }
                                                 break;
                                             default:
+                                                log.info("Model Type Not Exist : {}", eqpVo.getModelTyp());
                                                 break;
                                         }
                                     }
                                     sendToolCondReq = true;
+                                }
+                                else {
+                                    log.info("Lot Location Mismatch [ Event Eqp : {}, Wip Current Eqp : {}", body.getEqpId(), w.getCrntEqpId());
                                 }
                             }
                         }
@@ -171,13 +245,14 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
 
 
         if(sendToolCondReq) {
+            List<WnWipStat> wipStatList = wipStatDAO.selectByLotId(body.getSiteId(), body.getLotId());
             //TOOL_COND_REQ Send
             log.info("TOOL_COND_REQ Send(eqpId : {})", body.getEqpId());
             EapToolCondReqIvo.Body toolCondReqIvoBody = new EapToolCondReqIvo.Body();
             toolCondReqIvoBody.setSiteId(body.getSiteId());
             toolCondReqIvoBody.setEqpId(body.getEqpId());
-            toolCondReqIvoBody.setInPortId(w.getResvPortId());
-            toolCondReqIvoBody.setOutPortId(w.getResvOutPortId());
+            toolCondReqIvoBody.setInPortId(wipStatList.get(0).getResvPortId());
+            toolCondReqIvoBody.setOutPortId(wipStatList.get(0).getResvOutPortId());
             toolCondReqIvoBody.setUserId(ApSystemCodeConstant.WFS);
 
             messageSendService.sendMessageSend(EapToolCondReqIvo.system, EapToolCondReqIvo.cid,

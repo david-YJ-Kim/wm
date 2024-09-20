@@ -1,8 +1,11 @@
 package com.abs.wfs.workman.dao.query.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.abs.wfs.workman.util.code.StatCd;
+import com.abs.wfs.workman.util.code.TrsfStatCd;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -820,6 +823,103 @@ public class CommonDAO {
 		}
 		
 		return resultVal;
+	}
+
+	public Map<String, String> selectNoneResvOPCarr(String siteId, String eqpId, String carrId) throws Exception {
+		Map<String, String> returnVal = null;
+
+		try {
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("siteId", siteId);
+			param.put("eqpId", eqpId);
+			param.put("acesModeCd", "Auto");
+			param.put("ctrlModeCd", "InService");
+			param.put("statCd", "Occupied");
+			param.put("portTyp", "OP");
+			param.put("useStatCd", UseStatCd.Usable.name());
+			param.put("trsfStatCd", TrsfStatCd.LoadCompleted.name());
+			param.put("carrStatCd", StatCd.Active.name());
+
+			List<Map<String,String>> result = wfsMapper.selectNoneResvOPCarr(param);
+			if(result.isEmpty()) {
+				return null;
+			}
+
+			returnVal = result.get(0);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+		return returnVal;
+	}
+
+	public Map<String, String> selectInlineEqp(String siteId, String eqpInlineId) throws Exception {
+		Map<String, String> returnVal = null;
+
+		try {
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("siteId", siteId);
+			param.put("eqpInlineId", eqpInlineId);
+
+			List<Map<String,String>> result = wfsMapper.selectInlineLastEqp(param);
+			if(result.isEmpty()) {
+				return null;
+			}
+
+			returnVal = result.get(0);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+		return returnVal;
+	}
+
+	public List<Map<String, String>> selectInlineEqpList(String siteId, String eqpInlineId) throws Exception {
+
+		try {
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("siteId", siteId);
+			param.put("eqpInlineId", eqpInlineId);
+
+			List<Map<String,String>> result = wfsMapper.selectInlineEqpList(param);
+			if(result.isEmpty()) {
+				return null;
+			}
+
+			return result;
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	public Map<String, String> selectInlineLastEqp(String siteId, String eqpInlineId) throws Exception {
+		Map<String, String> returnVal = null;
+
+		try {
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("siteId", siteId);
+			param.put("eqpInlineId", eqpInlineId);
+
+			List<Map<String,String>> result = wfsMapper.selectInlineLastEqp(param);
+			if(result.isEmpty()) {
+				return null;
+			}
+
+			returnVal = result.get(0);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+		return returnVal;
 	}
 	
 	

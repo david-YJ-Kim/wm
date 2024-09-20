@@ -42,5 +42,11 @@ public interface WfsMapper {
 	List<Map<String,String>> selectProdMtrlList(Map<String, String> map);
 	
 	List<Map<String,String>> selectTargetGlassList(Map<String, String> map);
+
+	List<Map<String,String>> selectNoneResvOPCarr(Map<String, String> map);
+
+	List<Map<String,String>> selectInlineLastEqp(Map<String, String> map);
+
+	List<Map<String,String>> selectInlineEqpList(Map<String, String> map);
 	
 }

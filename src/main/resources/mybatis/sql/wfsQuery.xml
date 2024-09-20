@@ -548,5 +548,47 @@
 		  <if test="mtrlFaceCd != null">AND j.MTRL_FACE_CD = #{mtrlFaceCd}</if>
 		ORDER BY TO_NUMBER(p.SLOT_NO)
 	</select>
+
+	<select id="selectNoneResvOPCarr" parameterType="hashMap" resultType="hashMap">
+		SELECT RDS.PORT_ID, POS.CARR_ID, RDS.CARR_TYP, RDS.PORT_TYP, POS.ACES_MODE_CD,
+			   POS.CTRL_MODE_CD, POS.STAT_CD, POS.TRSF_STAT_CD, WIP.WORK_STAT_CD
+		FROM TN_RDS_PORT RDS, TN_POS_PORT POS, WN_WIP_STAT WIP, TN_POS_CARRIER CAR
+		WHERE 1=1
+		  AND POS.SITE_ID = RDS.SITE_ID AND POS.EQP_ID = RDS.EQP_ID AND POS.PORT_ID = RDS.PORT_ID
+		  AND POS.USE_STAT_CD = RDS.USE_STAT_CD
+		  AND POS.SITE_ID = #{siteId}
+		  AND POS.EQP_ID = #{eqpId}
+		  AND POS.ACES_MODE_CD = #{acesModeCd}
+		  AND POS.CTRL_MODE_CD = #{ctrlModeCd}
+		  AND POS.CARR_ID IS NOT NULL
+		  AND POS.STAT_CD = #{statCd}
+		  AND RDS.PORT_TYP = #{portTyp}
+		  AND POS.USE_STAT_CD = #{useStatCd}
+		  AND WIP.CARR_ID = POS.CARR_ID
+		  AND POS.TRSF_STAT_CD =#{trsfStatCd}
+		  AND WIP.RESV_EQP_ID IS NULL
+		  AND WIP.RESV_PORT_ID IS NULL
+		  AND WIP.RESV_GRP_ID IS NULL
+		  AND CAR.CARR_ID = WIP.CARR_ID
+		  AND CAR.STAT_CD = #{carrStatCd}
+	</select>
+
+	<select id="selectInlineLastEqp" parameterType="hashMap" resultType="hashMap">
+		SELECT EQP_ID, INLINE_YN, EQP_INLINE_ID, EQP_INLINE_SEQ
+		FROM TN_RDS_EQP
+		WHERE EQP_INLINE_SEQ = (
+			SELECT MAX(EQP_INLINE_SEQ)
+			FROM TN_RDS_EQP
+			WHERE EQP_INLINE_ID = #{eqpInlineId}
+			  AND SITE_ID = #{siteId})
+	</select>
+
+	<select id="selectInlineEqpList" parameterType="hashMap" resultType="hashMap">
+		SELECT EQP_ID, INLINE_YN, EQP_INLINE_ID, EQP_INLINE_SEQ
+		FROM TN_RDS_EQP
+		WHERE SITE_ID = #{siteId}
+	      AND EQP_INLINE_ID = #{eqpInlineId}
+		ORDER BY EQP_INLINE_SEQ
+	</select>
 	
 </mapper>

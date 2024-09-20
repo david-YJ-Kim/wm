@@ -28,6 +28,7 @@
         <mapper resource="mybatis/sql/eqpQuery.xml" />
         <mapper resource="mybatis/sql/ToolQuery.xml" />
         <mapper resource="mybatis/sql/LotQuery.xml" />
+        <mapper resource="mybatis/sql/dspWorkInfoQuery.xml" />
     </mappers>
 
 </configuration>

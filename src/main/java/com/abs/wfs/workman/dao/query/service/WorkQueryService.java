@@ -706,6 +706,14 @@ public class WorkQueryService {
 	}
 	
 	//WN_DSP_WORK_INFO
+
+	public int createDspWorkInfo(String siteId, String cid, String tid, String userId, String dspWorkId, String eqpId, String portId, String lotId, String dspStatCd)  throws Exception{
+		try {
+			return this.workDAO.createDspWorkInfo(siteId, cid, tid, userId, dspWorkId, eqpId, portId, lotId, dspStatCd);
+		} catch(Exception e) {
+			throw e;
+		}
+	}
 	
 	public int deleteDspWorkInfo(String siteId, String cid, String dspWorkId) throws Exception{
 		try {
