@@ -408,6 +408,13 @@ public class ApPayloadGenerateService {
 
     }
 
+    public String generateBody(String tid, EapRechuckReqIvo.Body rechuckReqBody) throws JsonProcessingException {
+        EapRechuckReqIvo eapRechuckReqIvo = new EapRechuckReqIvo();
+        eapRechuckReqIvo.setHead(WorkManCommonUtil.generateMessageHead(tid, EapRechuckReqIvo.cid, EapRechuckReqIvo.system, rechuckReqBody.getEqpId()));
+
+        return objectMapper.writeValueAsString(rechuckReqBody);
+    }
+
 //
 //
 //    public String getBRS_LOT_TRACK_IN_CNFM_CANCEL(String siteId, String tid, String eqpId, String lotId)

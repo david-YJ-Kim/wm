@@ -131,6 +131,8 @@ public final class WorkManMessageList {
     public static final String EAP_BUZZER_REQ = "EAP_BUZZER_REQ";
     public static final String EAP_WORK_ORDER_REQ = "EAP_WORK_ORDER_REQ";
 
+    public static final String EAP_RECHUCK_REQ = "EAP_RECHUCK_REQ";
+
 
     public static final String FIS_FILE_REPORT = "FIS_FILE_REPORT";
 

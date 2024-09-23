@@ -10,8 +10,6 @@ import com.abs.wfs.workman.dao.query.dao.CommonDAO;
 import com.abs.wfs.workman.dao.query.dao.WipStatDAO;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
 import com.abs.wfs.workman.dao.query.eqp.service.EqpServiceImpl;
-import com.abs.wfs.workman.dao.query.model.QueryEqpVO;
-import com.abs.wfs.workman.dao.query.model.TnPosEqp;
 import com.abs.wfs.workman.dao.query.model.WnWipStat;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
@@ -19,21 +17,20 @@ import com.abs.wfs.workman.dao.query.service.WorkQueryService;
 import com.abs.wfs.workman.dao.query.tool.vo.QueryEqpVo;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
-import com.abs.wfs.workman.service.common.work.WorkManageService;
 import com.abs.wfs.workman.service.flow.oi.WfsWorkProgressOi;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.oia.WfsWorkProgressOiIvo;
-import com.abs.wfs.workman.spec.out.brs.BrsLotDeassignCarr;
 import com.abs.wfs.workman.spec.out.eap.EapToolCondReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
-import com.abs.wfs.workman.util.code.*;
-import com.netflix.discovery.converters.Auto;
+import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
+import com.abs.wfs.workman.util.code.UseStatCd;
+import com.abs.wfs.workman.util.code.WorkManScenarioList;
+import com.abs.wfs.workman.util.code.WorkStatCd;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,13 +115,13 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
                         log.info("CN_PPS_EQP_SCHD Info Exist");
 
                         List<Map<String,String>> work = workDAO.selectWorkExist(body.getSiteId(), body.getEqpId(), body.getLotId());
-                        if(work.size() > 0) {
+                        if(!work.isEmpty()) {
                             log.info("Work Already Exist");
                         }
                         else {
                             List<WnWipStat> wipStatList = wipStatDAO.selectByLotId(body.getSiteId(), body.getLotId());
 
-                            if(wipStatList.size() > 0) {
+                            if(!wipStatList.isEmpty()) {
                                 w = wipStatList.get(0);
                                 if(w.getCrntEqpId().equals(body.getEqpId())) {
                                     if(w.getResvGrpId() == null) {
@@ -214,7 +211,7 @@ public class WfsWorkProgressOiServiceImpl implements WfsWorkProgressOi {
                                                     }
                                                 }
                                                 else {
-                                                    log.info("EQP : {} has no Eqp Inline ID" + body.getEqpId());
+                                                    log.info("EQP : {} has no Eqp Inline ID", body.getEqpId());
                                                 }
                                                 break;
                                             default:
