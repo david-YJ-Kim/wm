@@ -1,4 +1,4 @@
 package com.abs.wfs.workman.dao.domain.transferJob.vo;
 
-public class WhTransferJob {
+public class WnTransferJobVo {
 }

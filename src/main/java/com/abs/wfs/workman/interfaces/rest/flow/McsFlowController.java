@@ -1,6 +1,9 @@
 package com.abs.wfs.workman.interfaces.rest.flow;
 
 
+import com.abs.wfs.workman.dao.domain.transferJob.service.WnTransferJobServiceImpl;
+import com.abs.wfs.workman.dao.domain.transferJob.vo.CancelTransferJobResultVo;
+import com.abs.wfs.workman.service.common.transferJob.TransferJobService;
 import com.abs.wfs.workman.service.flow.brs.impl.WfsManualWorkStartImpl;
 import com.abs.wfs.workman.service.flow.mcs.WfsCarrDataRep;
 import com.abs.wfs.workman.service.flow.mcs.impl.*;
@@ -11,6 +14,8 @@ import com.abs.wfs.workman.util.WorkManMessageList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -50,6 +55,7 @@ public class McsFlowController {
         return this.wfsCarrMoveCnclCompService.execute(apFlowProcessVo, wfsCarrMoveCnclCompIvo);
 
     }
+
     @Autowired
     WfsCarrDataQryServiceImpl wfsCarrDataQryService;
 
@@ -263,4 +269,19 @@ public class McsFlowController {
 
         return this.wfsSysStatRepService.execute(apFlowProcessVo,wfsSysStatRepIvo);
     }
+
+    @Autowired
+    WnTransferJobServiceImpl transferJobService;
+
+    @PostMapping(WorkManMessageList.WFS_OI_CARR_MOVE_CANCEL_REQ)
+    public ResponseEntity<CancelTransferJobResultVo> execute(
+                                    @RequestParam(value = "siteId") String siteId,
+                                    @RequestParam(value = "portId") String portId) throws Exception {
+
+        CancelTransferJobResultVo resultVo = this.transferJobService.cancelTransferJob(siteId, portId);
+        log.info(resultVo.toString());
+
+        return new ResponseEntity<>(resultVo, HttpStatus.OK);
+    }
+
 }

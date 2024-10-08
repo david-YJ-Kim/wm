@@ -15,7 +15,7 @@ public interface WnTransferJobRepository extends JpaRepository<WnTransferJob, St
      * @param useStatCd
      * @return
      */
-    Optional<WnTransferJob> findByObjIdAndUseStatCdAndSiteId(String objId, UseStatCd useStatCd, String siteId);
+    WnTransferJob findByObjIdAndUseStatCdAndSiteId(String objId, UseStatCd useStatCd, String siteId);
 
 
     /**
@@ -24,7 +24,7 @@ public interface WnTransferJobRepository extends JpaRepository<WnTransferJob, St
      * @param useStatCd
      * @return
      */
-    Optional<List<WnTransferJob>> findByJobIdAndUseStatCdAndSiteId(String jobId, UseStatCd useStatCd, String siteId);
+    List<WnTransferJob> findByJobIdAndUseStatCdAndSiteId(String jobId, UseStatCd useStatCd, String siteId);
 
 
     /**
@@ -35,7 +35,25 @@ public interface WnTransferJobRepository extends JpaRepository<WnTransferJob, St
      * @param useStatCd
      * @return
      */
-    Optional<List<WnTransferJob>> findByCarrIdAndUseStatCdAndSiteId(String carrId, UseStatCd useStatCd, String siteId);
+    List<WnTransferJob> findByCarrIdAndUseStatCdAndSiteId(String carrId, UseStatCd useStatCd, String siteId);
 
 
+    /**
+     * Source 포트 기준으로 생성된 반송 잡 조회
+     * @param srcPortId
+     * @param useStatCd
+     * @param siteId
+     * @return
+     */
+    List<WnTransferJob> findBySrcPortIdAndUseStatCdAndSiteId(String srcPortId, UseStatCd useStatCd, String siteId);
+
+
+    /**
+     * 목적지 포트 기준으로 생성된 반송 잡 조회
+     * @param destPortId
+     * @param useStatCd
+     * @param siteId
+     * @return
+     */
+    List<WnTransferJob> findByDestPortIdAndUseStatCdAndSiteId(String destPortId, UseStatCd useStatCd, String siteId);
 }

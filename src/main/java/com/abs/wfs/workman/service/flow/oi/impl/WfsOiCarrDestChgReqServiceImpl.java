@@ -55,16 +55,17 @@ public class WfsOiCarrDestChgReqServiceImpl implements WfsOiCarrDestChgReq {
 
             // 진행 중인 Transfer 잡이 있는 지 확인
             AtomicBoolean isRunningTransferJobExist = new AtomicBoolean(false);
-            Optional<List<WnTransferJob>> transferJobList = this.wnTransferJobService.findByCarrIdAndUseStatCd(body.getSiteId(), carrId, UseStatCd.Usable);
+            List<WnTransferJob> transferJobList = this.wnTransferJobService.findByCarrIdAndUseStatCd(body.getSiteId(), carrId, UseStatCd.Usable);
             List<MoveStatCd> deniedMoveStatCds = Arrays.asList(MoveStatCd.Created, MoveStatCd.Queued, MoveStatCd.Started);
-            transferJobList.ifPresent(jobs -> {
-                jobs.stream()
+
+            if(transferJobList != null && !transferJobList.isEmpty()){
+                transferJobList.stream()
                         .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                         .forEach(job -> {
                             isRunningTransferJobExist.set(true);
                             commId.set(job.getJobId());
                         });
-            });
+            }
 
 
             if(isRunningTransferJobExist.get()) {

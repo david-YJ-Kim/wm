@@ -60,10 +60,11 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
         String carrId = body.getCarrId();
 
         // 진행 중인 Transfer 잡이 있는 지 확인
-        Optional<List<WnTransferJob>> transferJobList = this.wnTransferJobService.findByCarrIdAndUseStatCd(body.getSiteId(), carrId, UseStatCd.Usable);
+        List<WnTransferJob> transferJobList = this.wnTransferJobService.findByCarrIdAndUseStatCd(body.getSiteId(), carrId, UseStatCd.Usable);
         List<MoveStatCd> deniedMoveStatCds = Arrays.asList(MoveStatCd.Created, MoveStatCd.Queued, MoveStatCd.Started);
-        transferJobList.ifPresent(jobs -> {
-            jobs.stream()
+
+        if(transferJobList != null || !transferJobList.isEmpty()) {
+            transferJobList.stream()
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
 
@@ -71,11 +72,12 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
                         WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "commId", transJobId);
 
                         throw new ScenarioException(apFlowProcessVo, body,
-                                                    ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
-                                                    new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}
-                                                    );
+                                ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
+                                new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}
+                        );
                     });
-        });
+        }
+
 
         log.info("Transfer job is empty. check location.");
 

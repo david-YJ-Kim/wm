@@ -102,6 +102,7 @@ public final class WorkManMessageList {
     public static final String WFS_OI_CARR_DEST_CHG_REQ = "WFS_OI_CARR_DEST_CHG_REQ";
     public static final String WFS_OI_GENERATE_WORK_REQ = "WFS_OI_GENERATE_WORK_REQ";
     public static final String WFS_OI_PORT_UNLOAD_REQ = "WFS_OI_PORT_UNLOAD_REQ";
+    public static final String WFS_OI_CARR_MOVE_CANCEL_REQ = "WFS_OI_CARR_MOVE_CANCEL_REQ";
     public static final String WFS_WORK_PROGRESS_OI = "WFS_WORK_PROGRESS_OI";
     public static final String WFS_RECHUCK_OI = "WFS_RECHUCK_OI";
     public static final String WFS_MANUAL_TRACK_OUT_OI = "WFS_MANUAL_TRACK_OUT_OI";
@@ -112,6 +113,8 @@ public final class WorkManMessageList {
     public static final String WFS_CARR_MOVE_CRT_OI = "WFS_CARR_MOVE_CRT_OI";
     public static final String WFS_SORTER_MODE_CHG_OI = "WFS_SORTER_MODE_CHG_OI";
     public static final String WFS_INIT_EQP_STATE_REQ_OI = "WFS_INIT_EQP_STATE_REQ_OI";
+
+
 
     /**
      * NPG
@@ -140,6 +143,7 @@ public final class WorkManMessageList {
 
     public static final String MCS_CARR_MOVE_REQ = "MCS_CARR_MOVE_REQ";
     public static final String MCS_CARR_DEST_CHG_REQ = "MCS_CARR_DEST_CHG_REQ";
+    public static final String MCS_CARR_MOVE_CNCL_REQ = "MCS_CARR_MOVE_CNCL_REQ";
 
 
     public static final String RTD_DSP_WORK_REQ = "RTD_DSP_WORK_REQ";

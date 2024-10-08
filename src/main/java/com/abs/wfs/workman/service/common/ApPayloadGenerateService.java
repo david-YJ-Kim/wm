@@ -1,12 +1,12 @@
 package com.abs.wfs.workman.service.common;
 
 
-import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgHead;
 import com.abs.wfs.workman.spec.in.eap.*;
 import com.abs.wfs.workman.spec.out.brs.*;
 import com.abs.wfs.workman.spec.out.eap.*;
 import com.abs.wfs.workman.spec.out.fis.FisFileReportIvo;
+import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveCnclReqIvo;
 import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveReqIvo;
 import com.abs.wfs.workman.spec.out.rtd.RtdDspWorkReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
@@ -407,6 +407,27 @@ public class ApPayloadGenerateService {
 
 
     }
+
+
+    /**
+     * MCS
+     * mcs는 tgtEqp는 null
+     * userId 는 null
+     */
+    public String generateBody(String tid, McsCarrMoveCnclReqIvo.Body body) throws JsonProcessingException {
+
+
+        McsCarrMoveCnclReqIvo mcsCarrMoveCnclReqIvo = new McsCarrMoveCnclReqIvo();
+
+        mcsCarrMoveCnclReqIvo.setHead(WorkManCommonUtil.generateMessageHead(tid, McsCarrMoveReqIvo.cid, McsCarrMoveReqIvo.system, null));
+        mcsCarrMoveCnclReqIvo.setBody(body);
+
+        return objectMapper.writeValueAsString(mcsCarrMoveCnclReqIvo);
+
+
+    }
+
+
 
     public String generateBody(String tid, EapRechuckReqIvo.Body rechuckReqBody) throws JsonProcessingException {
         EapRechuckReqIvo eapRechuckReqIvo = new EapRechuckReqIvo();

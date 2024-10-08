@@ -125,7 +125,7 @@ ap:
   seq:
     rule:
 #      path: C:\\codespace\\
-      path: C:\\workspace\\abs\\
+      path: C:\\Workspace\\Workflow\\wm\\src\\main\\resources\\
 #      path: C:\\codespace\\abs\\wm\\src\\main\\resources\\seqlib\\
       name: SequenceRule.json
   shutdown:

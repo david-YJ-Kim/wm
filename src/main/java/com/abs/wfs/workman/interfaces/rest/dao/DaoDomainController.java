@@ -92,7 +92,7 @@ public class DaoDomainController {
     WnTransferJobServiceImpl wnTransferJobService;
 
     @GetMapping("search/transfer/siteId/{siteId}/objId/{objId}")
-    public Optional<WnTransferJob> findByObjIdAndUseStatCd(@PathVariable String siteId, @PathVariable String objId) {
+    public WnTransferJob findByObjIdAndUseStatCd(@PathVariable String siteId, @PathVariable String objId) {
 
         return this.wnTransferJobService.findByObjIdAndUseStatCd(siteId, objId, UseStatCd.Usable);
     }
@@ -100,7 +100,7 @@ public class DaoDomainController {
 
 
     @GetMapping("search/transfer/siteId/{siteId}/jobId/{jobId}")
-    public Optional<List<WnTransferJob>> findByJobIdAndUseStatCd(@PathVariable String siteId, @PathVariable String jobId) {
+    public List<WnTransferJob> findByJobIdAndUseStatCd(@PathVariable String siteId, @PathVariable String jobId) {
 
         return this.wnTransferJobService.findByJobIdAndUseStatCd(siteId, jobId, UseStatCd.Usable);
     }
@@ -108,7 +108,7 @@ public class DaoDomainController {
 
 
     @GetMapping("search/transfer/siteId/{siteId}/carrId/{carrId}")
-    public Optional<List<WnTransferJob>> findByCarrIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId) {
+    public List<WnTransferJob> findByCarrIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId) {
 
         return this.wnTransferJobService.findByCarrIdAndUseStatCd(siteId, carrId, UseStatCd.Usable);
     }

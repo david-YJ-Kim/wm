@@ -60,6 +60,5 @@ public class TransferJobService {
                 this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), carrMoveReqBody));
 
 
-
     }
 }
