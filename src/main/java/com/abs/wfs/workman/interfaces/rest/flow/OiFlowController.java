@@ -1,6 +1,8 @@
 package com.abs.wfs.workman.interfaces.rest.flow;
 
 
+import com.abs.wfs.workman.dao.domain.transferJob.service.WnTransferJobServiceImpl;
+import com.abs.wfs.workman.dao.domain.transferJob.vo.CancelTransferJobResultVo;
 import com.abs.wfs.workman.service.common.work.WorkManageService;
 import com.abs.wfs.workman.service.flow.oi.impl.*;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
@@ -23,6 +25,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/flow/oi/")
 @RequiredArgsConstructor
 public class OiFlowController {
+
+
+    @Autowired
+    WnTransferJobServiceImpl transferJobService;
+
+    @PostMapping(WorkManMessageList.WFS_OI_CARR_MOVE_CANCEL_REQ)
+    public ResponseEntity<CancelTransferJobResultVo> execute(
+            @RequestParam(value = "siteId") String siteId,
+            @RequestParam(value = "portId") String portId) throws Exception {
+
+        CancelTransferJobResultVo resultVo = this.transferJobService.cancelTransferJob(siteId, portId);
+        log.info(resultVo.toString());
+
+        return new ResponseEntity<>(resultVo, HttpStatus.OK);
+    }
 
 
     @Autowired

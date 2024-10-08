@@ -55,7 +55,7 @@ public class WfsWorkAbortImpl implements WfsWorkAbort {
 
         Optional<WnWorkJob> SelectWorkJobQuery = this.wnWorkJobService.findByWorkIdAndSiteIdAndJobStatCdAndUseStatCd(workId, siteId);
 
-        Optional<WnWipStat> SelfInspYn = this.wipStatService.findByLotIdAndSiteIdAndUseStatCd(body.getLotId(), siteId);
+        WnWipStat SelfInspYn = this.wipStatService.findByLotIdAndSiteIdAndUseStatCd(body.getLotId(), siteId);
 
         Optional<List<WnWorkJobSlotInfo>> ProdStartQuery =
                     this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCdAndProdMtrlStrtTmIsNotNull(workId, siteId);
@@ -64,9 +64,9 @@ public class WfsWorkAbortImpl implements WfsWorkAbort {
                 this.wnWorkJobSlotInfoService.findByWorkIdAndSiteIdAndUseStatCdAndSelfInspYn(workId, siteId);
 
 
-        if(SelfInspYn.isPresent()) {
+        if(SelfInspYn != null) {
 
-            if(SelfInspYn.get().getSelfInspYn().equals(UseYn.Y) && SelectWorkStat.get().getRsnCd().equals(SelfInspectionCd.ONE_MORE)){
+            if(SelfInspYn.getSelfInspYn().equals(UseYn.Y) && SelectWorkStat.get().getRsnCd().equals(SelfInspectionCd.ONE_MORE)){
 
                 log.info("Self Inspection one  more log.");
 

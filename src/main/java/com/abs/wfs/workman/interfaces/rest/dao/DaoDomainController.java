@@ -123,13 +123,13 @@ public class DaoDomainController {
     WipStatServiceImpl wipStatService;
 
     @GetMapping("search/wipStat/siteId/{siteId}/lotId/{lotId}")
-    public Optional<WnWipStat> findByLotIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId) {
+    public WnWipStat findByLotIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId) {
 
         return this.wipStatService.findByLotIdAndSiteIdAndUseStatCd(lotId, siteId);
     }
 
     @GetMapping("search/wipStat/siteId/{siteId}/lotId/{lotId}/resvEqpId/{resvEqpId}/resvPortId/{resvPortId}")
-    public Optional<WnWipStat> findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId,
+    public WnWipStat findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(@PathVariable String siteId, @PathVariable String lotId,
                                                                                                        @PathVariable String resvEqpId, @PathVariable String resvPortId) {
 
         return this.wipStatService.findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(lotId, siteId, resvEqpId, resvPortId);
@@ -137,7 +137,7 @@ public class DaoDomainController {
 
 
     @GetMapping("search/wipStat/siteId/{siteId}/carrId/{carrId}")
-    public Optional<WnWipStat> findByOnlyCarrIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId) {
+    public WnWipStat findByOnlyCarrIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId) {
 
         return this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, siteId);
     }
@@ -146,7 +146,7 @@ public class DaoDomainController {
 
 
     @GetMapping("search/wipStat/siteId/{siteId}/carrId/{carrId}/lotId/{lotId}")
-    public Optional<WnWipStat> findByCarrIdAndLotIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId, @PathVariable String lotId) {
+    public WnWipStat findByCarrIdAndLotIdAndSiteIdAndUseStatCd(@PathVariable String siteId, @PathVariable String carrId, @PathVariable String lotId) {
 
         return this.wipStatService.findByCarrIdAndLotIdAndSiteIdAndUseStatCd(carrId, lotId, siteId);
     }

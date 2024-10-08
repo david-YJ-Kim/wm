@@ -89,9 +89,9 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
             throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_TOOL_PORT_INF_INVALID,  lang,null);
         }
 
-        Optional<WnWipStat> wipStatCarrInfo = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, body.getSiteId());
-        if(wipStatCarrInfo.isPresent()){
-            WnWipStat wipStat = wipStatCarrInfo.get();
+        WnWipStat wipStatCarrInfo = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, body.getSiteId());
+        if(wipStatCarrInfo != null){
+            WnWipStat wipStat = wipStatCarrInfo;
 
             if(wipStat.getCrntEqpId() != null && !sourceEqp.equals(wipStat.getCrntEqpId())) {
                 throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_CARR_SRC_LOC_UNMATCHED, lang, new String[] {carrId, sourceEqp, wipStat.getCrntEqpId()});

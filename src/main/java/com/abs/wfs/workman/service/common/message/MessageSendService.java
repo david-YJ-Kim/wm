@@ -37,17 +37,22 @@ import java.util.Optional;
 @Slf4j
 public class MessageSendService {
 
-    public void sendMessageSend(String targetSystem, String eventName, String payload) throws JCSMPException {
+    public void sendMessageSend(String targetSystem, String eventName, String payload) {
 
         log.info("Message send to System: {}, EventName: {}, Payload: {}", targetSystem, eventName, payload);
         this.sendMessageSend(targetSystem, eventName, payload,
                             ApPropertyObject.getInstance().getSequenceManager().getTargetName(targetSystem, eventName, payload));
     }
 
-    public void sendMessageSend(String targetSystem, String eventName, String payload, String topicName) throws JCSMPException {
+    public void sendMessageSend(String targetSystem, String eventName, String payload, String topicName)  {
 
         log.info("Message send to System: {}, EventName: {}, Payload: {}, topicName: {}", targetSystem, eventName, payload, topicName);
-        InterfaceSolacePub.getInstance().sendTopicMessage(eventName, payload, topicName);
+        try {
+            InterfaceSolacePub.getInstance().sendTopicMessage(eventName, payload, topicName);
+        } catch (JCSMPException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);  // TODO 솔라스 메시지 샌드 에러 처리
+        }
     }
 
 

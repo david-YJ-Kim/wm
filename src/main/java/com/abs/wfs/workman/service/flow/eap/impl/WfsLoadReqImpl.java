@@ -68,9 +68,9 @@ public class WfsLoadReqImpl implements WfsLoadReq {
         WorkManCommonUtil.executeAsyncTasks(validatePortTasks);
 
 
-        Optional<List<WnWipStat>> resvWipQuery = this.wipStatService.findByResvEqpIdAndResvPortIdAndUseStatCd(siteId, eqpId, portId);
-        if(resvWipQuery.isPresent()) {
-            for(WnWipStat wnWipStat : resvWipQuery.get()) {
+        List<WnWipStat> resvWipQuery = this.wipStatService.findByResvEqpIdAndResvPortIdAndUseStatCd(siteId, eqpId, portId);
+        if(resvWipQuery != null) {
+            for(WnWipStat wnWipStat : resvWipQuery) {
                 if(!wnWipStat.getLotId().equals("-") && !wnWipStat.getCarrId().equals("-")) {
                     log.error("Other carr: {} is reserved with eqp ({}) and port ({}).", wnWipStat.getCarrId(), wnWipStat.getResvEqpId(), wnWipStat.getResvPortId());
                     throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_LOT_RESV_ALREADY_REGISTER, wfsLoadReqIvo.getHead().getLang(),

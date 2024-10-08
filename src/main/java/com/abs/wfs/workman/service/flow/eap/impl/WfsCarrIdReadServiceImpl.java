@@ -173,7 +173,7 @@ public class WfsCarrIdReadServiceImpl implements WfsCarrIdRead {
 
 
         // GetPortResvCarr
-        Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> getPortResvCarr = this.wipStatService.findResvEqpIdAndResvPortIdAndLotId(siteId, eqpId, portId, "-");
+        com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat getPortResvCarr = this.wipStatService.findResvEqpIdAndResvPortIdAndLotId(siteId, eqpId, portId, "-");
 
 
         /**
@@ -237,12 +237,12 @@ public class WfsCarrIdReadServiceImpl implements WfsCarrIdRead {
         /**
          *  CARR ID로 다른 설비 예약 검증
          */
-        if(getPortResvCarr.isPresent()){
+        if(getPortResvCarr != null){
 
-            if(!WorkManCommonUtil.compareStringWords(carrId, getPortResvCarr.get().getCarrId())){
+            if(!WorkManCommonUtil.compareStringWords(carrId, getPortResvCarr.getCarrId())){
                 log.error("Other data searched by carr id: {} with report EqpId: {} and port : {}", carrId, eqpId, portId);
                 throw new ScenarioException(apFlowProcessVo, body, ApExceptionCode.WFS_ERR_LOT_RESV_ALREADY_REGISTER, lang,
-                        new String[] {eqpId, portId, getPortResvCarr.get().getLotId(), getPortResvCarr.get().getCarrId()});
+                        new String[] {eqpId, portId, getPortResvCarr.getLotId(), getPortResvCarr.getCarrId()});
             }
 
         }else {

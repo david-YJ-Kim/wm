@@ -419,7 +419,7 @@ public class ApPayloadGenerateService {
 
         McsCarrMoveCnclReqIvo mcsCarrMoveCnclReqIvo = new McsCarrMoveCnclReqIvo();
 
-        mcsCarrMoveCnclReqIvo.setHead(WorkManCommonUtil.generateMessageHead(tid, McsCarrMoveReqIvo.cid, McsCarrMoveReqIvo.system, null));
+        mcsCarrMoveCnclReqIvo.setHead(WorkManCommonUtil.generateMessageHead(tid, McsCarrMoveCnclReqIvo.cid, McsCarrMoveCnclReqIvo.system, null));
         mcsCarrMoveCnclReqIvo.setBody(body);
 
         return objectMapper.writeValueAsString(mcsCarrMoveCnclReqIvo);

@@ -134,18 +134,11 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
             String carrId = job.getCarrId();
             String commId = job.getJobId();
 
-            // WIP 조회하여,
-            WnWipStat wnWipStat = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, siteId);
-
-
             try {
                 this.sendMcsCancelTransferJob(siteId, carrId, commId);
+
             } catch (JsonProcessingException e) {
                 log.error(e.getMessage());
-                throw new RuntimeException(e);
-
-            } catch (JCSMPException e) {
-                log.error(e.getMessage()); // TODO 솔라스 메시지 재 시도
                 throw new RuntimeException(e);
             }
 
@@ -202,7 +195,7 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
      * @param carrId
      * @param commId
      */
-    private void sendMcsCancelTransferJob(String siteId, String carrId, String commId) throws JsonProcessingException, JCSMPException {
+    private void sendMcsCancelTransferJob(String siteId, String carrId, String commId) throws JsonProcessingException {
 
         McsCarrMoveCnclReqIvo.Body body = new McsCarrMoveCnclReqIvo.Body();
         body.setSiteId(siteId);

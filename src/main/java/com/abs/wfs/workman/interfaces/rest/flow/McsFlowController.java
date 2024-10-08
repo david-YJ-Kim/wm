@@ -276,18 +276,4 @@ public class McsFlowController {
         return this.wfsSysStatRepService.execute(apFlowProcessVo,wfsSysStatRepIvo);
     }
 
-    @Autowired
-    WnTransferJobServiceImpl transferJobService;
-
-    @PostMapping(WorkManMessageList.WFS_OI_CARR_MOVE_CANCEL_REQ)
-    public ResponseEntity<CancelTransferJobResultVo> execute(
-                                    @RequestParam(value = "siteId") String siteId,
-                                    @RequestParam(value = "portId") String portId) throws Exception {
-
-        CancelTransferJobResultVo resultVo = this.transferJobService.cancelTransferJob(siteId, portId);
-        log.info(resultVo.toString());
-
-        return new ResponseEntity<>(resultVo, HttpStatus.OK);
-    }
-
 }
