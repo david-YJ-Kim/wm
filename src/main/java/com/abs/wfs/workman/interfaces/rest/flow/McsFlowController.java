@@ -70,6 +70,8 @@ public class McsFlowController {
         return this.wfsCarrDataQryService.execute(apFlowProcessVo, wfsCarrDataQryIvo);
 
     }
+
+
     @Autowired
     WfsCarrDataRepServiceImpl wfsCarrDataRepService;
 
@@ -98,6 +100,8 @@ public class McsFlowController {
         return this.wfsCarrDestChgRepService.execute(apFlowProcessVo, wfsCarrDestChgRepIvo);
 
     }
+
+
     @Autowired
     WfsCarrLocChgServiceImpl wfsCarrLocChgService;
 
@@ -111,6 +115,8 @@ public class McsFlowController {
 
         return this.wfsCarrLocChgService.execute(apFlowProcessVo, wfsCarrLocChgIvo);
     }
+
+
     @Autowired
     WfsCarrMoveCnclRepServiceImpl wfsCarrMoveCnclRepService;
 

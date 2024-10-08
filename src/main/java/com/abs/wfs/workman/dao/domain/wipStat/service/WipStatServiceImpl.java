@@ -34,7 +34,7 @@ public class WipStatServiceImpl implements WipStatService{
      * @param lotId
      * @return
      */
-    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findResvEqpIdAndResvPortIdAndLotId(String siteId, String resvEqpId, String resvPortId, String lotId){
+    public com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat findResvEqpIdAndResvPortIdAndLotId(String siteId, String resvEqpId, String resvPortId, String lotId){
         return this.wnWipStatRepository.findBySiteIdAndResvEqpIdAndResvPortIdAndLotIdAndUseStatCd(siteId, resvEqpId, resvPortId, lotId, UseStatCd.Usable);
     }
 
@@ -47,7 +47,7 @@ public class WipStatServiceImpl implements WipStatService{
      * @param portId
      * @return
      */
-    public Optional<List<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat>> findByResvEqpIdAndResvPortIdAndUseStatCd(String siteId, String eqpId, String portId){
+    public List<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByResvEqpIdAndResvPortIdAndUseStatCd(String siteId, String eqpId, String portId){
 
         return this.wnWipStatRepository.findBySiteIdAndResvEqpIdAndResvPortIdAndUseStatCd(siteId, eqpId, portId, UseStatCd.Usable);
     }
@@ -60,7 +60,7 @@ public class WipStatServiceImpl implements WipStatService{
      * @param siteId
      * @return
      */
-    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByOnlyCarrIdAndSiteIdAndUseStatCd(String carrId, String siteId){
+    public com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat findByOnlyCarrIdAndSiteIdAndUseStatCd(String carrId, String siteId){
 
         return this.wnWipStatRepository.findByCarrIdAndLotIdAndSiteIdAndUseStatCd(carrId, "-", siteId, UseStatCd.Usable);
     }
@@ -72,18 +72,18 @@ public class WipStatServiceImpl implements WipStatService{
      * @param siteId
      * @return
      */
-    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByCarrIdAndLotIdAndSiteIdAndUseStatCd(String carrId, String lotId,String siteId){
+    public com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat findByCarrIdAndLotIdAndSiteIdAndUseStatCd(String carrId, String lotId,String siteId){
 
         return this.wnWipStatRepository.findByCarrIdAndLotIdAndSiteIdAndUseStatCd(carrId, lotId,siteId, UseStatCd.Usable);
     }
 
 
-    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByLotIdAndSiteIdAndUseStatCd(String lotId, String siteId){
+    public com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat findByLotIdAndSiteIdAndUseStatCd(String lotId, String siteId){
 
         return this.wnWipStatRepository.findByLotIdAndSiteIdAndUseStatCd(lotId, siteId, UseStatCd.Usable);
     }
 
-    public Optional<com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat> findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(String lotId, String siteId, String resvEqpId, String resvPortId){
+    public com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortIdAndUseStatCd(String lotId, String siteId, String resvEqpId, String resvPortId){
         return this.wnWipStatRepository.findByLotIdAndSiteIdAndUseStatCdAndResvEqpIdAndResvPortId(lotId, siteId, UseStatCd.Usable, resvEqpId, resvPortId);
     }
 

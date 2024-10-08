@@ -4,11 +4,14 @@ package com.abs.wfs.workman.dao.domain.transferJob.service;
 import com.abs.wfs.workman.dao.domain.transferJob.model.WnTransferJob;
 import com.abs.wfs.workman.dao.domain.transferJob.repository.WnTransferJobRepository;
 import com.abs.wfs.workman.dao.domain.transferJob.vo.CancelTransferJobResultVo;
+import com.abs.wfs.workman.dao.domain.wipStat.model.WnWipStat;
+import com.abs.wfs.workman.dao.domain.wipStat.service.WipStatServiceImpl;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveCnclReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
 import com.abs.wfs.workman.util.code.UseStatCd;
+import com.abs.wfs.workman.util.code.UseYn;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.solacesystems.jcsmp.JCSMPException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,9 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
 
     @Autowired
     MessageSendService messageSendService;
+
+    @Autowired
+    WipStatServiceImpl wipStatService;
 
     /**
      * Object Id로 조회
@@ -109,14 +115,28 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
                 , portId, srcTransferJobs, tgtTransferJobs);
 
 
+        List<WnTransferJob> cancelTargetJobs = new ArrayList<>();
+        
+        // 위치에 맞게 조건을 넣어서 필터링
+        srcTransferJobs.stream()
+                .filter(jobs -> this.checkJobDeleteYn(siteId, jobs, UseYn.Y))
+                .forEach(cancelTargetJobs::add);
+        log.info("Filter delete able from source transfer job. {}", cancelTargetJobs.size());
+
+        tgtTransferJobs.stream()
+                        .filter(jobs -> this.checkJobDeleteYn(siteId, jobs, UseYn.N))
+                        .forEach(cancelTargetJobs::add);
+        log.info("Filter delete able from target transfer job. {}", cancelTargetJobs.size());
 
 
-        List<WnTransferJob> cancelTargetJobs = new ArrayList<>(srcTransferJobs);
-        cancelTargetJobs.addAll(tgtTransferJobs);
 
         for(WnTransferJob job : cancelTargetJobs){
             String carrId = job.getCarrId();
             String commId = job.getJobId();
+
+            // WIP 조회하여,
+            WnWipStat wnWipStat = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, siteId);
+
 
             try {
                 this.sendMcsCancelTransferJob(siteId, carrId, commId);
@@ -139,6 +159,40 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
                 .canceledDstTransferJobs(tgtTransferJobs)
                 .totalCanceledCount(cancelTargetJobs.size())
                 .build();
+
+    }
+
+
+    /**
+     * 삭제 대상 반송 잡 여부 확인
+     * @param siteId
+     * @param wnTransferJob
+     * @param isSrcTyp
+     * @return
+     */
+    private boolean checkJobDeleteYn(String siteId, WnTransferJob wnTransferJob, UseYn isSrcTyp){
+
+        String carrId = wnTransferJob.getCarrId();
+        WnWipStat wipStat = this.wipStatService.findByOnlyCarrIdAndSiteIdAndUseStatCd(carrId, siteId);
+
+        switch (isSrcTyp){
+            case Y:
+                log.info("");
+                if(wipStat.getCrntEqpId().equals(wnTransferJob.getCrntEqpId()) &&
+                    wipStat.getCrntPortId().equals(wnTransferJob.getCrntEqpId())){
+                    log.info("Source dest and current location is same. now delete it");
+                    return true;
+                }
+
+            case N:
+                log.info("If target dest port is now un-available. Cancel all the job.");
+                return true;
+
+            default:
+                return false;
+        }
+
+
 
     }
 
