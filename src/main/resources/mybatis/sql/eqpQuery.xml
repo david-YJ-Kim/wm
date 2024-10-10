@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.abs.wfs.workman.dao.query.eqp.mapper.EqpMyMapper">
+<mapper namespace = "com.abs.wfs.workman.dao.query.mapper.EqpMapper">
 	<update id="updateTnPosPort" parameterType="com.abs.wfs.workman.dao.query.model.TnPosPort">
 		UPDATE TN_POS_PORT
 		<set>
@@ -320,7 +320,7 @@
 		   AND P.USE_STAT_CD = #{useStatCd}
 		   AND R.USE_STAT_CD = #{useStatCd}
 	</select>
-	
+
 	<select id="selectQueryPortVO" parameterType="hashMap" resultType="com.abs.wfs.workman.dao.query.model.QueryPortVO">
 		SELECT R.PORT_ID
 		  	  ,R.PORT_TYP
