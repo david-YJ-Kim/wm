@@ -93,7 +93,7 @@ ap:
   info:
     group: WFS
     site: SVM
-    env: PROD
+    env: DEV
     sequence: 1
   worker:
     pool-size:

@@ -211,10 +211,13 @@ public class EapFlowController {
 
     @Autowired
     WfsEqpControlStateReportImpl wfsEqpControlStateReportImpl;
+
     @PostMapping(WorkManMessageList.WFS_EQP_CONTROL_STATE_REPORT)
     public ResponseEntity<ApResponseIvo> executeEvent(@RequestBody WfsEqpControlStateReportIvo wfsEqpControlStateReportIvo,
                                         @RequestParam(value = "key") String trackingKey,
                                         @RequestParam(value = "scenario") String scenarioType) throws Exception {
+
+        log.info(wfsEqpControlStateReportIvo.toString());
 
 
         return processRequest(() -> wfsEqpControlStateReportImpl.execute(wfsEqpControlStateReportImpl.initialize(

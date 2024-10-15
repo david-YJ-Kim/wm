@@ -69,7 +69,7 @@ public class InterfaceSolacePub {
             prod.send(txtMsg, createTopic(topicName));
 
         }catch (Exception e){
-
+            log.error(e.getMessage());
             e.printStackTrace();
         }
     }

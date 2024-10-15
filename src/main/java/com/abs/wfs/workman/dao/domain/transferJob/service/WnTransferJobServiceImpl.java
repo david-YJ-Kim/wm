@@ -10,6 +10,7 @@ import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.spec.out.mcs.McsCarrMoveCnclReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.abs.wfs.workman.util.code.UseYn;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -201,6 +202,7 @@ public class WnTransferJobServiceImpl implements WnTransferJobService {
         body.setSiteId(siteId);
         body.setCarrId(carrId);
         body.setCommId(commId);
+        body.setEventUserId(ApSystemCodeConstant.WFS);
         body.setEventComment("Cancel transfer job because of unmatched port state."); // TODO 에러 코드 정의
 
         this.messageSendService.sendMessageSend(

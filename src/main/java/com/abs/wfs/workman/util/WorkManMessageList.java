@@ -169,4 +169,12 @@ public final class WorkManMessageList {
     public static final String WFS_PANEL_MOVE_OUT = "WFS_PANEL_MOVE_OUT";
     public static final String WFS_EQP_PANEL_IMPORT = "WFS_EQP_PANEL_IMPORT";
     public static final String WFS_EQP_PANEL_EXPORT = "WFS_EQP_PANEL_EXPORT";
+
+
+
+
+    /**
+     * 장애 대응 Fix 메시지 ===========================================================
+     */
+    public static final String WFS_FIX_EVENT_REQ = "WFS_FIX_EVENT_REQ";
 }
