@@ -274,6 +274,14 @@ public class WorkManCommonUtil {
 
 
     /**
+     * 임시 키 생성
+     * @return
+     */
+    public static String generateTemporaryKey(){
+        return "TEMP" + String.valueOf(System.currentTimeMillis());
+    }
+
+    /**
      * 이벤트 처리에 초기화 메소드
      * @param cid
      * @param trackingKey
@@ -285,7 +293,7 @@ public class WorkManCommonUtil {
 
         return ApFlowProcessVo.builder()
                 .eventName(cid)
-                .trackingKey(trackingKey)
+                .trackingKey((trackingKey == null || trackingKey.isEmpty()) ? WorkManCommonUtil.generateRandomKey()  : trackingKey)
                 .scenarioType(scenarioType)
                 .executeStartTime(System.currentTimeMillis())
                 .tid((apMsgHead == null) ? trackingKey : apMsgHead.getTid())
@@ -359,6 +367,28 @@ public class WorkManCommonUtil {
 
         return apMsgHead;
     }
+
+
+    /**
+     * Prefix의 값을 삭제 하고 뒤에 값만 가져오기
+     * @param input
+     * @param prefix
+     * @return
+     */
+    public static String removePrefix(String input, String prefix) {
+        // prefix의 길이
+        int prefixLength = prefix.length();
+
+        // prefix가 문자열의 시작 부분에 있는지 확인
+        if (input.startsWith(prefix)) {
+            // prefix를 제외한 나머지 부분 반환
+            return input.substring(prefixLength);
+        }
+
+        // prefix가 없으면 원래 문자열 반환
+        return input;
+    }
+
 
 
 }

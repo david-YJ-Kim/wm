@@ -135,6 +135,21 @@ public class ApPayloadGenerateService {
     }
 
 
+    public String generateBody(String tid, EapInitEqpStateReqIvo.Body body) throws JsonProcessingException {
+
+
+        EapInitEqpStateReqIvo ivo = new EapInitEqpStateReqIvo();
+
+        if (body.getUserId() == null || body.getUserId().isEmpty()) {
+            body.setUserId(ApSystemCodeConstant.WFS);
+        }
+        ivo.setHead(WorkManCommonUtil.generateMessageHead(tid, EapInitEqpStateReqIvo.cid, EapInitEqpStateReqIvo.system, body.getEqpId()));
+        ivo.setBody(body);
+
+        return objectMapper.writeValueAsString(ivo);
+    }
+
+
     public String generateBody(String tid, WfsEfemControlStateReportIvo.Body body) throws JsonProcessingException {
 
 

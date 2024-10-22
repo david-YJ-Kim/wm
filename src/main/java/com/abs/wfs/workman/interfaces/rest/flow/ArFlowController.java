@@ -1,12 +1,10 @@
 package com.abs.wfs.workman.interfaces.rest.flow;
 
 
-import com.abs.wfs.workman.service.flow.eap.impl.*;
-import com.abs.wfs.workman.service.flow.fix.WfsFixEventReqServiceImpl;
+import com.abs.wfs.workman.service.flow.far.impl.WfsArRequestServiceImpl;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.common.ApMsgBody;
-import com.abs.wfs.workman.spec.in.eap.*;
-import com.abs.wfs.workman.spec.in.fix.WfsFixEventReqIvo;
+import com.abs.wfs.workman.spec.in.fix.WfsArRequestIvo;
 import com.abs.wfs.workman.util.WorkManMessageList;
 import com.abs.wfs.workman.util.exception.ScenarioException;
 import com.abs.wfs.workman.util.vo.ApResponseIvo;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/flow/fix/")
+@RequestMapping("/flow/far/")
 @RequiredArgsConstructor
-public class FixFlowController {
+public class ArFlowController {
 
 
 
@@ -30,21 +28,21 @@ public class FixFlowController {
      * WFS_TOOL_VER
      */
     @Autowired
-    WfsFixEventReqServiceImpl fixEventReqService;
+    WfsArRequestServiceImpl wfsArRequestService;
 
-    @PostMapping(WorkManMessageList.WFS_FIX_EVENT_REQ)
-    public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsFixEventReqIvo fixEventReqIvo,
+    @PostMapping(WorkManMessageList.WFS_AR_REQUEST)
+    public ResponseEntity<ApResponseIvo> execute(@RequestBody WfsArRequestIvo ivo,
                                                  @RequestParam(value = "key") String trackingKey,
                                                  @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
-        log.info(fixEventReqIvo.toString());
+        log.info(ivo.toString());
 
-        return processRequest(() -> fixEventReqService.execute(fixEventReqService.initialize(
-                        WorkManMessageList.WFS_FIX_EVENT_REQ,
+        return processRequest(() -> wfsArRequestService.execute(wfsArRequestService.initialize(
+                        WorkManMessageList.WFS_AR_REQUEST,
                         trackingKey,
                         scenarioType,
-                        fixEventReqIvo.getHead()), fixEventReqIvo),
-                fixEventReqIvo.getBody());
+                        ivo.getHead()), ivo),
+                ivo.getBody());
 
     }
 
@@ -55,7 +53,6 @@ public class FixFlowController {
             ApFlowProcessVo apFlowProcessVo = executor.execute();
             return new ResponseEntity<>(
                     ApResponseIvo.builder()
-                            .msgBody(body)
                             .processInfo(apFlowProcessVo)
                             .build(),
                     HttpStatus.OK);

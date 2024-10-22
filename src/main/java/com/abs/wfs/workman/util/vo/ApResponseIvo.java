@@ -11,6 +11,8 @@ import com.abs.wfs.workman.util.exception.ScenarioException;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class ApResponseIvo extends ApMsgCommonVo {
 
@@ -35,8 +37,9 @@ public class ApResponseIvo extends ApMsgCommonVo {
     /**
      * 추후 변경될 데이터 객체
      */
-    ApFlowProcessVo processInfo;
-    ApMsgBody msgBody;
+    ApFlowProcessVo processInfo;            // ApFlowProcessVo를 assign 해야하는 변수, 너무 많음... // TODO 추후 삭제 및 축소
+    Map<String, String> additionData;       // ApFlowProcessVo 진행하면서 추가된 항목
+    ApMsgBody msgBody;                      // 요청이 들어온 메시지
 
 
     MsgReasonVo reason;
@@ -49,8 +52,12 @@ public class ApResponseIvo extends ApMsgCommonVo {
         /* 정상 처리 */
         if(scenarioException == null){
 
-            this.msgBody = msgBody;
+            this.setIndividualElement(processInfo, processInfo.getApMsgBody());
             this.processInfo = processInfo;
+            this.additionData = processInfo.getAdditionData();
+
+            this.errorCode = "0";
+
             this.reason = MsgReasonVo.builder()
                     .reasonCode("0")
                     .build();
@@ -58,16 +65,23 @@ public class ApResponseIvo extends ApMsgCommonVo {
         /* 비정상 처리 */
         else{
 
+            String errorComment = WorkManCommonUtil.generateMultiLangExceptionMessage(scenarioException.getCode(),
+                    scenarioException.getLang(),
+                    scenarioException.getArgs());
+
             this.msgBody = scenarioException.getMsgBody();
             this.processInfo = scenarioException.getProcessInfo();
-            this.setIndividualErrorElement(scenarioException.getProcessInfo(), scenarioException.getMsgBody());
+
+            this.errorCode = scenarioException.getCode();
+            this.errorComment = errorComment;
+
+            this.setIndividualElement(scenarioException.getProcessInfo(), scenarioException.getMsgBody());
+            this.additionData = scenarioException.getProcessInfo().getAdditionData();
 
             this.reason = MsgReasonVo.builder()
                     .reasonCode(scenarioException.getCode())
-                    .reasonComment(WorkManCommonUtil.generateMultiLangExceptionMessage(scenarioException.getCode(),
-                                                                                scenarioException.getLang(),
-                                                                                scenarioException.getArgs()))
-                                                                                .build();
+                    .reasonComment(errorComment)
+                    .build();
         }
     }
 
@@ -83,7 +97,7 @@ public class ApResponseIvo extends ApMsgCommonVo {
 
 
 
-    private void setIndividualErrorElement(ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody){
+    private void setIndividualElement(ApFlowProcessVo apFlowProcessVo, ApMsgBody apMsgBody){
 
         this.messageKey = apFlowProcessVo.getTrackingKey();
         this.scenarioTyp = apFlowProcessVo.getScenarioType();

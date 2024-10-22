@@ -41,11 +41,6 @@ public class WfsMaterialKitdekitReportImpl implements WfsMaterialKitdekitReport 
             // send kit
             log.info("Kit report, send request message to get all material/durable list.");
 
-            EapDurableInfoReqIvo.Body durableInfoReq = new EapDurableInfoReqIvo.Body() ;
-            durableInfoReq.setSiteId(siteId); durableInfoReq.setEqpId(eqpId); durableInfoReq.setSpecInfo("ALL");
-
-            this.messageSendService.sendMessageSend(EapDurableInfoReqIvo.system, EapDurableInfoReqIvo.cid,
-                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), durableInfoReq));
 
         }else {
             log.info("De-Kit report, send report message to BRS.");

@@ -161,6 +161,7 @@ public final class WorkManMessageList {
     public static final String BRS_LOT_CARR_ASSIGN = "BRS_LOT_CARR_ASSIGN";
 
     public static final String EAP_CARR_CANCEL_REQ = "EAP_CARR_CANCEL_REQ";
+    public static final String EAP_INIT_EQP_STATE_REQ = "EAP_INIT_EQP_STATE_REQ";
 
     /**
      *
@@ -176,5 +177,5 @@ public final class WorkManMessageList {
     /**
      * 장애 대응 Fix 메시지 ===========================================================
      */
-    public static final String WFS_FIX_EVENT_REQ = "WFS_FIX_EVENT_REQ";
+    public static final String WFS_AR_REQUEST = "WFS_AR_REQUEST";
 }

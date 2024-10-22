@@ -34,4 +34,5 @@ public class ApStringConstant {
 
 
     public static final String Active = "Active";
+    public static final String DepthDelimeter = ">";
 }
