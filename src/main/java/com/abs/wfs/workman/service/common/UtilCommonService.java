@@ -7,7 +7,10 @@ import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
 import com.abs.wfs.workman.dao.domain.tnPort.model.TnRdsPort;
 import com.abs.wfs.workman.dao.domain.tnPort.service.TnPosPortServiceImpl;
 import com.abs.wfs.workman.dao.domain.tnPort.service.TnRdsPortServiceImpl;
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
+import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
 import com.abs.wfs.workman.dao.query.dao.WorkDAO;
+import com.abs.wfs.workman.dao.query.model.TnPosProducedMaterial;
 import com.abs.wfs.workman.dao.query.service.vo.SearchProdStartedPanelReqVo;
 import com.abs.wfs.workman.dao.query.service.vo.WorkInfoQueryRequestVo;
 import com.abs.wfs.workman.dao.query.wipLot.service.WipLotQueryServiceImpl;
@@ -48,6 +51,9 @@ public class UtilCommonService {
 
     @Autowired
     TnPosLotServiceImpl tnPosLotService;
+
+    @Autowired
+    TnProducedMaterialServiceImpl tnProducedMaterialService;
 
     @Autowired
     WipLotQueryServiceImpl wipLotQueryService;
@@ -215,6 +221,15 @@ public class UtilCommonService {
             }
 
             targetCarrId = tnPosPort.getCarrId();
+            TnProducedMaterial prodMtrl = tnProducedMaterialService.findByCarrId(siteId, targetCarrId);
+
+            if(prodMtrl != null) {
+                log.error("{} TRAY is Not Empty Tray", targetCarrId);
+                throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED, apFlowProcessVo.getLang()
+                        , new String[] {targetCarrId});
+            }
+
+
 
         }else {
 

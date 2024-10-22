@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -84,9 +85,11 @@ public class MessageSendService {
         String workId = apFlowProcessVo.getWorkId();
         String eqpId = apFlowProcessVo.getApMsgBody().getEqpId();
         String lotId = apFlowProcessVo.getApMsgBody().getLotId();
+        Map<String,String> additionData = apFlowProcessVo.getAdditionData();
+        String panleInputYn = additionData.get("PanelInputYn");
 
 
-        log.info("{} Print paramters. workId: {}, eqpId: {}, lotId: {}", apFlowProcessVo.printLog(), workId, eqpId, lotId);
+        log.info("{} Print paramters. workId: {}, eqpId: {}, lotId: {}, panelInputYn: {}", apFlowProcessVo.printLog(), workId, eqpId, lotId, panleInputYn);
 
 
 
@@ -128,7 +131,7 @@ public class MessageSendService {
         body.setSiteId(siteId); body.setEqpId(eqpId); body.setUserId(ApSystemCodeConstant.WFS);
         body.setWorkId(workId); body.setProdDefId(tnPosLot.get().getProdDefId());
         body.setProcDefId(tnPosLot.get().getProcDefId()); body.setProcSgmtId(tnPosLot.get().getProcSgmtId());
-        body.setWork(this.generateWorkObject(workJobInfoQuery, slotInfoQueryList));
+        body.setWork(this.generateWorkObject(workJobInfoQuery, slotInfoQueryList, panleInputYn));
 
 
         this.sendMessageSend(EapWorkOrderReq.system, EapWorkOrderReq.cid, this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), body));
@@ -142,7 +145,7 @@ public class MessageSendService {
      * @param wnWorkJobSlotInfos
      * @return
      */
-    private List<Work> generateWorkObject(List<SelectWorkJobPortVo> selectWorkJobPortVos, List<WnWorkJobSlotInfo> wnWorkJobSlotInfos){
+    private List<Work> generateWorkObject(List<SelectWorkJobPortVo> selectWorkJobPortVos, List<WnWorkJobSlotInfo> wnWorkJobSlotInfos, String panelInputYn){
 
         List<Work> workList = new ArrayList<>();
         for(SelectWorkJobPortVo workVo: selectWorkJobPortVos){
@@ -158,7 +161,7 @@ public class MessageSendService {
                     .outCarrId(workVo.getOutCarrId())
                     .portType(workVo.getPortTyp())
                     .scanYn(UseYn.N.name())     // TODO Work의 성격에 따라서 Scan 진행하는 경우 생길 수도  있음.
-                    .slotMap(this.generateSlotMapObject(jobSeqId, recipeId, wnWorkJobSlotInfos))
+                    .slotMap(this.generateSlotMapObject(jobSeqId, recipeId, wnWorkJobSlotInfos, panelInputYn))
                     .build();
 
             workList.add(work);
@@ -175,7 +178,7 @@ public class MessageSendService {
      * @param wnWorkJobSlotInfos
      * @return
      */
-    private List<SlotMapVo> generateSlotMapObject(String jobSeqId, String recipeId, List<WnWorkJobSlotInfo> wnWorkJobSlotInfos){
+    private List<SlotMapVo> generateSlotMapObject(String jobSeqId, String recipeId, List<WnWorkJobSlotInfo> wnWorkJobSlotInfos, String panelInputYn){
 
         List<SlotMapVo> slotMapVos = new ArrayList<>();
         for(WnWorkJobSlotInfo slotVo : wnWorkJobSlotInfos){
@@ -184,8 +187,8 @@ public class MessageSendService {
 
                 SlotMapVo vo = SlotMapVo.builder()
                         .ppId((!WorkManCommonUtil.nullPointCheck(recipeId)) ? "" : recipeId)
-                        .inCarrSlotNo(slotVo.getSlotNo())
-                        .outCarrSlotNo(slotVo.getSlotNo())
+                        .inCarrSlotNo(panelInputYn.equals(UseYn.N.name()) ? "1" : slotVo.getSlotNo())
+                        .outCarrSlotNo(panelInputYn.equals(UseYn.Y.name()) ? "1" : slotVo.getSlotNo())
                         .lotId(slotVo.getLotId())
                         .prodMtrlId(slotVo.getProdMtrlId())
                         .slotState("")

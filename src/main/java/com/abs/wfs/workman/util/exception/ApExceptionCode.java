@@ -17,6 +17,8 @@ public enum ApExceptionCode {
     WFS_ERR_PORT_CARR_INF_UNMATCHED("WFS_ERR_PORT_CARR_INF_UNMATCHED", "해당 포트 (%s)에 요청한 CST(%s)가 아닌 다른 CST(%s)가 등록되어 있습니다."),
     WFS_ERR_PORT_TYP_UNMATCHED("WFS_ERR_PORT_TYP_UNMATCHED", "현재 요청된 포트 타입(%s)이 존재하지 않습니다."),  // 기존 UnmatchedPortTyp
 
+    WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED("WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED", "해당 TRAY (%S)의 상태가 EMPTY가 아닙니다."),
+
     /**
      * UNREGISTER: 등록되어 있지 않다.
      */
