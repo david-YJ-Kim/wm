@@ -124,9 +124,11 @@ public class WorkManageService {
         vo.setDspWorkId("");
         vo.setBatchYn("N");
         vo.setBatchId("");
+
         log.info("{} Ready to generate work. Req vo: {}", apFlowProcessVo.printLog(), vo.toString());
 
         WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "CreateWorkRequestVo", vo.toString());
+        WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "PanelInputYn", body.getPanelInputYn());
 
 
         try{
