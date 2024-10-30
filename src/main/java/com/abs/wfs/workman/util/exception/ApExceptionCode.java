@@ -38,6 +38,7 @@ public enum ApExceptionCode {
     /**
      * NOTFOUND: 찾지 못하다.
      */
+    WFS_ERR_INF_NOTFOUND("WFS_ERR_INF_NOTFOUND", "주어진 정보로 조회를 할 수 없습니다. 조회 파라미터: %s"),
     WFS_ERR_LOT_INF_NOTFOUND("WFS_ERR_LOT_INF_NOTFOUND", "주어진 정보로 Lot을 찾을 수 없습니다. 주어진 정보: %s"),
     WFS_ERR_PORT_INF_NOTFOUND("WFS_ERR_PORT_INF_NOTFOUND", "주어진 정보로 포트을 찾을 수 없습니다. [설비: (%s), 포트: (%s)]"),
     WFS_ERR_PREV_SLOT_INF_NOTFOUND("WFS_ERR_PREV_SLOT_INF_NOTFOUND", "주어진 정보로 이전에 할당된 Slot 위치를 찾을 수 없습니다. [현재 CST Id: (%s), 포트: (%s)]"),

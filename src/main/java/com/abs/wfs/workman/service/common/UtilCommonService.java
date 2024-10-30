@@ -221,8 +221,9 @@ public class UtilCommonService {
             }
 
             targetCarrId = tnPosPort.getCarrId();
-            TnProducedMaterial prodMtrl = tnProducedMaterialService.findByCarrId(siteId, targetCarrId);
+            log.info("{} target carr Id : {}", apFlowProcessVo.printLog(), targetCarrId);
 
+            TnProducedMaterial prodMtrl = tnProducedMaterialService.findByCarrId(siteId, targetCarrId);
             if(prodMtrl != null) {
                 log.error("{} TRAY is Not Empty Tray", targetCarrId);
                 throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED, apFlowProcessVo.getLang()
@@ -249,7 +250,12 @@ public class UtilCommonService {
              * Tray -> CST 시 linkedPort 무시 carr기준 Port로 배출하도록 수정
              */
             TnPosPort outPort =  tnPosPortService.findBySiteIdAndEqpIdAndCarrIdAndUseStatCd(siteId, vo.getEqpId(), targetCarrId);
-            linkedPortId= outPort.getPortId();
+            if(outPort == null) {
+                throw new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_INF_NOTFOUND, apFlowProcessVo.getLang()
+                        , new String[] {String.format("%s:%s,%s:%s,%s:%s", "siteId", siteId, "eqpId", vo.getEqpId(), "targetCarrId",targetCarrId)});
+            }
+
+            linkedPortId = outPort.getPortId();
             log.info("## Out CST Port : {}",linkedPortId );
 
 
