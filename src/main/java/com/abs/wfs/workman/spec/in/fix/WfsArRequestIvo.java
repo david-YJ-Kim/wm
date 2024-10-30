@@ -58,7 +58,7 @@ public class WfsArRequestIvo extends ApMsgCommonVo {
     "eqpId": "AP-PD-01-01",
     "portId": "AP-PD-01-01-BP01",
     "errCd": "IsLoadedPort",
-    "errCm": "IsLoadedPort ERROR : [TN_POS_PORT[STAT_CD=Occupied(Occupied:eq)]- OK, TN_POS_PORT[TRSF_STAT_CD=LoadCompleted(LoadCompleted:eq)]- OK, TN_POS_PORT[CTRL_MODE_CD=OutService(InService:eq)]- NG]"
+    "errCm": "IsLoadedPort ERROR : [TN_POS_PORT[STAT_CD=Occupied(Occupied:eq)]- OK, TN_POS_PORT[TRSF_STAT_CD=LoadCompleted(LoadCompleted:eq)]- OK, TN_POS_PORT[CTRL_MODE_CD=OutService(InService:eq)]- NG]",
     "duplicatedIssueCnt": 0,
   }
 }
