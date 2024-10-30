@@ -3,6 +3,7 @@ package com.abs.wfs.workman.service.flow.oi.impl;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortAutoUnloadYnReqVo;
+import com.abs.wfs.workman.dao.query.service.vo.UpdateWipStatEventNmByCarrIdVo;
 import com.abs.wfs.workman.service.common.ApPayloadGenerateService;
 import com.abs.wfs.workman.service.common.message.MessageSendService;
 import com.abs.wfs.workman.service.flow.oi.WfsOiPortUnloadReq;
@@ -48,10 +49,11 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
         apFlowProcessVo.setApMsgBody(body);
 
         String siteId = body.getSiteId(); String portId = body.getPortId(); String eqpId = body.getEqpId();
+        String userId = body.getUserId();
+        String carrId = body.getCarrId();
 
 
         UpdatePortAutoUnloadYnReqVo updateVo = UpdatePortAutoUnloadYnReqVo.builder()
-
                 .siteId(siteId)
                 .cid(apFlowProcessVo.getEventName())
                 .tid(apFlowProcessVo.getTid())
@@ -70,30 +72,48 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
 
         log.info("{} update wip stat to standby.", apFlowProcessVo.printLog());
 
+        if(eqpId.equals("AM-RE-00-01")){
+            log.info("OI_PORT_UNLOAD_REQ >> AM-RE-00-01");
+            //EAP로 CARR_CANCEL_REQ 발송
+            EapCarrCancelReq.Body carrCancelReqIvo = new EapCarrCancelReq.Body();
+
+            carrCancelReqIvo.setSiteId(siteId);
+            carrCancelReqIvo.setEqpId(eqpId);
+            carrCancelReqIvo.setPortId(portId);
+            carrCancelReqIvo.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
+            carrCancelReqIvo.setCarrId(body.getCarrId());
+            carrCancelReqIvo.setUserId(body.getUserId());
+
+            this.messageSendService.sendMessageSend(EapCarrCancelReq.system, EapCarrCancelReq.cid,
+                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), carrCancelReqIvo));
+
+        } else {
+            // WFS로 UNLOAD REQ 발송
+            WfsUnloadReqIvo.Body unloadReqIvo = new WfsUnloadReqIvo.Body();
+            unloadReqIvo.setSiteId(siteId); unloadReqIvo.setEqpId(eqpId); unloadReqIvo.setPortId(portId);
+            unloadReqIvo.setUserId(body.getUserId()); unloadReqIvo.setCarrId(body.getCarrId());
+            unloadReqIvo.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
+
+            this.messageSendService.sendMessageSend(WfsUnloadReqIvo.system, WfsUnloadReqIvo.cid,
+                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), unloadReqIvo));
+
+            //WN_WIP_STAT Event Update
+
+            this.wfsQueryService.updateWipStatEventNmByCarrId(UpdateWipStatEventNmByCarrIdVo.builder()
+                    .siteId(siteId)
+                    .cid(apFlowProcessVo.getEventName())
+                    .tid(apFlowProcessVo.getTid())
+                    .carrId(carrId)
+                    .mdfyUserId(userId)
+                    .build());
+        }
 
 
-        // WFS로 UNLOAD REQ 발송
-//        WfsUnloadReqIvo.Body unloadReqIvo = new WfsUnloadReqIvo.Body();
-//        unloadReqIvo.setSiteId(siteId); unloadReqIvo.setEqpId(eqpId); unloadReqIvo.setPortId(portId);
-//        unloadReqIvo.setUserId(body.getUserId()); unloadReqIvo.setCarrId(body.getCarrId());
-//        unloadReqIvo.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
-//
-//        this.messageSendService.sendMessageSend(WfsUnloadReqIvo.system, WfsUnloadReqIvo.cid,
-//                this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), unloadReqIvo));
 
 
-        //EAP로 CARR_CANCEL_REQ 발송
-        EapCarrCancelReq.Body carrCancelReqIvo = new EapCarrCancelReq.Body();
 
-        carrCancelReqIvo.setSiteId(siteId);
-        carrCancelReqIvo.setEqpId(eqpId);
-        carrCancelReqIvo.setPortId(portId);
-        carrCancelReqIvo.setPortType(WorkManCommonUtil.extractPortTypWithPortId(portId));
-        carrCancelReqIvo.setCarrId(body.getCarrId());
-        carrCancelReqIvo.setUserId(body.getUserId());
 
-        this.messageSendService.sendMessageSend(EapCarrCancelReq.system, EapCarrCancelReq.cid,
-                this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), carrCancelReqIvo));
+
 
         return WorkManCommonUtil.completeFlowProcessVo(apFlowProcessVo);
     }

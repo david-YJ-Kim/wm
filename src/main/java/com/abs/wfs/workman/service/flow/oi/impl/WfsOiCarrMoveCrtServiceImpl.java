@@ -61,10 +61,26 @@ public class WfsOiCarrMoveCrtServiceImpl implements WfsOiCarrMoveCrt {
 
         // 진행 중인 Transfer 잡이 있는 지 확인
         List<WnTransferJob> transferJobList = this.wnTransferJobService.findByCarrIdAndUseStatCd(body.getSiteId(), carrId, UseStatCd.Usable);
+        List<WnTransferJob> destPorttransferJobList = this.wnTransferJobService.findByDestPortIddAndSiteId(body.getDestPortId(), body.getSiteId());
         List<MoveStatCd> deniedMoveStatCds = Arrays.asList(MoveStatCd.Created, MoveStatCd.Queued, MoveStatCd.Started);
 
         if(transferJobList != null || !transferJobList.isEmpty()) {
             transferJobList.stream()
+                    .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
+                    .forEach(job -> {
+
+                        String transJobId = job.getJobId();
+                        WorkManCommonUtil.setAdditionalData(apFlowProcessVo, "commId", transJobId);
+
+                        throw new ScenarioException(apFlowProcessVo, body,
+                                ApExceptionCode.WFS_ERR_TRAN_JOB_STAT_UNMATCHED, lang,
+                                new String[] {job.getCarrId(), job.getJobId(), job.getMoveStatCd().name()}
+                        );
+                    });
+        }
+
+        if(destPorttransferJobList != null || !destPorttransferJobList.isEmpty()) {
+            destPorttransferJobList.stream()
                     .filter(job -> deniedMoveStatCds.contains(job.getMoveStatCd()))
                     .forEach(job -> {
 
