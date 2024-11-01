@@ -15,6 +15,8 @@ public enum ApExceptionCode {
     WFS_ERR_TRAN_JOB_STAT_UNMATCHED("WFS_ERR_TRAN_JOB_STAT_UNMATCHED", "해당 CST (%s)로 생성된 반송 잡 (%s) 상태가 기댓값과 다릅니다. 현재 상태 %s"),
     WFS_ERR_CARR_SRC_LOC_UNMATCHED("WFS_ERR_CARR_SRC_LOC_UNMATCHED", "해당 CST (%s)의 요청 받은 위치와 현재 위치가 다릅니다. 요청 위치 (%s),  현재 위치 (%s)"),
     WFS_ERR_PORT_CARR_INF_UNMATCHED("WFS_ERR_PORT_CARR_INF_UNMATCHED", "해당 포트 (%s)에 요청한 CST(%s)가 아닌 다른 CST(%s)가 등록되어 있습니다."),
+
+    WFS_ERR_PORT_LOADCOMPLETED_UNMATCHED("WFS_ERR_PORT_LOADCOMPLETED_UNMATCHED", "해당 포트(%s)의 상태가 LoadCompleted가 아닙니다 [설비: (%s), 포트: (%s)]"),
     WFS_ERR_PORT_TYP_UNMATCHED("WFS_ERR_PORT_TYP_UNMATCHED", "현재 요청된 포트 타입(%s)이 존재하지 않습니다."),  // 기존 UnmatchedPortTyp
 
     WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED("WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED", "해당 TRAY (%S)의 상태가 EMPTY가 아닙니다."),

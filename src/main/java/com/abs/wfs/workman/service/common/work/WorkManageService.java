@@ -1,6 +1,8 @@
 package com.abs.wfs.workman.service.common.work;
 
 
+import com.abs.wfs.workman.dao.domain.tnPort.model.TnPosPort;
+import com.abs.wfs.workman.dao.domain.tnPort.service.TnPosPortServiceImpl;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.model.TnProducedMaterial;
 import com.abs.wfs.workman.dao.domain.tnProducedMaterial.service.TnProducedMaterialServiceImpl;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
@@ -14,7 +16,10 @@ import com.abs.wfs.workman.service.common.vo.MeasureOutPortCarrInfoReqVo;
 import com.abs.wfs.workman.spec.common.ApFlowProcessVo;
 import com.abs.wfs.workman.spec.in.oia.WfsOiGenerateWorkReqIvo;
 import com.abs.wfs.workman.util.WorkManCommonUtil;
+import com.abs.wfs.workman.util.code.TrsfStatCd;
 import com.abs.wfs.workman.util.code.UseYn;
+import com.abs.wfs.workman.util.exception.ApExceptionCode;
+import com.abs.wfs.workman.util.exception.ScenarioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +37,9 @@ public class WorkManageService {
     WfsCommonQueryService wfsCommonQueryService;
     @Autowired
     ApPayloadGenerateService apPayloadGenerateService;
+
+    @Autowired
+    TnPosPortServiceImpl tnPosPortService;
 
     @Autowired
     UtilCommonService utilCommonService;
@@ -71,6 +79,24 @@ public class WorkManageService {
         log.info("{} Start to generate measurement panel moving work. isInputWork? :{}" +
                 "payload : {}", apFlowProcessVo.printLog(), wfsOiGenerateWorkReqIvo.toString(), isInputWork);
 
+        TnPosPort tnPosPort = this.tnPosPortService.findByPortIdAndSiteIdAndUseStatCd(body.getPortId(), siteId);
+        if(tnPosPort == null) { // TODO THROW
+            throw new Exception("");
+        }
+        if(tnPosPort.getCarrId().isEmpty()){
+            // TODO THROW
+            log.error("{} port has no carr. Check port and carr. Query Result: {}", apFlowProcessVo.printLog(), tnPosPort.toString());
+        }
+
+        /**
+         * 2024.10.31 RE00 CST Port Validation 로직추가
+         */
+        if(!tnPosPort.getTrsfStatCd().equals(TrsfStatCd.LoadCompleted)) {
+            log.error("{} port TrsfStatCd is Not LoadCompleted. Check Port TrsfStatCd. Query Result: {}", apFlowProcessVo.printLog(), tnPosPort.toString());
+            throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_PORT_LOADCOMPLETED_UNMATCHED, apFlowProcessVo.getLang()
+                    , new String[] {body.getEqpId(), body.getPortId()});
+        }
+
 
         MeasureOutPortCarrInfoReqVo measureReqVo = MeasureOutPortCarrInfoReqVo.builder()
                                                                 .siteId(siteId.isEmpty() ? "SVM" : siteId)
@@ -86,6 +112,8 @@ public class WorkManageService {
         MeasureOutInfo measureOutCstPort = this.utilCommonService.getMeasureOutPortCarrInfo(apFlowProcessVo, measureReqVo);
         log.info("{} Ready to make panel move work. from port: {}, measureOutInfo: {}, measureOutTargetCarr: {}",
                 apFlowProcessVo.printLog(), body.getPortId(), measureOutCstPort.toString(), measureOutCstPort.getTargetCarrId());
+
+
 
 
 
