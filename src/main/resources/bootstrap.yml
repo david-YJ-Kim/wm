@@ -21,45 +21,8 @@ eureka:
     lease-expiration-duration-in-seconds: 10
 
 
-#Config Server
----
-spring:
-  profiles: dev
-  cloud:
-    config:
-      uri: http://localhost:10001
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:10002/eureka/
-      healthcheck:
-        enabled: true
-
----
-spring:
-  profiles: product
-  cloud:
-    config:
-      uri: http://10.184.50.51:10001, http://10.184.50.52:10001
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://10.184.50.51:10002/eureka/, http://10.184.50.52:10002/eureka/
-      healthcheck:
-        enabled: true
-
----
-spring:
-  profiles: cloud
-  cloud:
-    config:
-      uri: http://config:10001
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:10002/eureka/
-      healthcheck:
-        enabled: true
-
-
-#Gen Date: 2020-07-07 오후 3:18:28
+server:
+  port: 15001
+  shutdown: graceful
+  servlet:
+    contextPath: /wm

@@ -1,12 +1,13 @@
 property:
-  type: product
+  type: dev
 
-server:
-  port: 15001
-  shutdown: graceful
-  servlet:
-    contextPath: /wm
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:10002/eureka/
+      healthcheck:
+        enabled: true
 
 
 logging:
@@ -90,7 +91,7 @@ ap:
   info:
     group: WFS
     site: SVM
-    env: PROD
+    env: DEV
     sequence: 1
   worker:
     pool-size:
@@ -109,7 +110,7 @@ ap:
       connect:
         trial-count: 2
       reconnect:
-        trial-count: 20
+        trial-count: 1
         per-host: 5
     destination:
       send:

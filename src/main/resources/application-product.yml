@@ -1,11 +1,14 @@
 property:
   type: product
 
-server:
-  port: 15001
-  shutdown: graceful
-  servlet:
-    contextPath: /wm
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.184.50.51:10002/eureka/, http://10.184.50.52:10002/eureka/
+      healthcheck:
+        enabled: true
+
 
 
 
@@ -101,7 +104,7 @@ ap:
       prefix: WM-ASYNC-
   interface:
     solace:
-      host: 10.184.50.81:55555,10.184.50.82:55555
+      host: "10.184.50.81:55555,10.184.50.82:55555"
       vpn: MES
       client:
         username: default
@@ -109,7 +112,7 @@ ap:
       connect:
         trial-count: 2
       reconnect:
-        trial-count: 20
+        trial-count: 1
         per-host: 5
     destination:
       send:
