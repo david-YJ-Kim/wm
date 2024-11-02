@@ -24,7 +24,7 @@ eureka:
 #Config Server
 ---
 spring:
-  profiles: server
+  profiles: dev
   cloud:
     config:
       uri: http://localhost:10001

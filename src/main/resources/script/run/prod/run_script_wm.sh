@@ -22,7 +22,7 @@ start()
         echo "${PROC_NAME} is already running"
     else
 
-        echo "java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
+        echo "java -jar  ${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "${DAEMON}""
         nohup java -jar -Dspring.config.additional-location=${CONF} -Dspring.profiles.active=${PROFILE} -Dname=${PROC_NAME} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./ -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=256m -XX:MetaspaceSize=128m -XX:+UseG1GC -Dcom.sun.management.jmxremote.port=15021 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false ${DAEMON} > /dev/null 2>&1 &
         local PID=${!}
 

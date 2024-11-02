@@ -101,7 +101,7 @@ ap:
       prefix: WM-ASYNC-
   interface:
     solace:
-      host: 10.180.243.56:55555,10.184.243.90:55555
+      host: "10.180.243.56:55555,10.184.243.90:55555"
       vpn: MES
       client:
         username: default
