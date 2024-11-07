@@ -22,8 +22,7 @@ public class BrsFlowController {
     @Autowired
     WfsManualWorkStartImpl wfsManualWorkStart;
 
-    @Autowired
-    WfsNpgProcReqImpl wfsNpgProcReq;
+
 
     @PostMapping(WorkManMessageList.WFS_MANUAL_WORK_START)
     public ApFlowProcessVo executeWfsAlarmReport(@RequestBody WfsManualWorkStartIvo wfsManualWorkStartIvo,
@@ -38,14 +37,5 @@ public class BrsFlowController {
 
     }
 
-    @PostMapping(WorkManMessageList.WFS_NPG_PROC_REQ)
-    public ApFlowProcessVo executeWfsNpgProcReq(@RequestBody WfsNpgProcReqIvo wfsNpgProcReqIvo,
-                                                @RequestParam(value = "key") String trackingKey,
-                                                @RequestParam(value = "scenario") String scenarioType) throws Exception {
 
-        String cid = WorkManMessageList.WFS_NPG_PROC_REQ;
-        ApFlowProcessVo apFlowProcessVo = this.wfsNpgProcReq.initialize(cid, trackingKey, scenarioType, wfsNpgProcReqIvo.getHead());
-
-        return this.wfsNpgProcReq.execute(apFlowProcessVo, wfsNpgProcReqIvo);
-    }
 }
