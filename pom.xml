@@ -22,7 +22,7 @@
         <mybatis.version>2.0.1</mybatis.version>
         <cloud.version>2.0.2.RELEASE</cloud.version>
 <!--        <seqlib.version>[1.0.0,)</seqlib.version> &lt;!&ndash; 최신 빌드 파일 가져오기 &ndash;&gt;-->
-        <seqlib.version>1.0.1</seqlib.version>
+        <seqlib.version>1.0</seqlib.version>
     </properties>
 
 
