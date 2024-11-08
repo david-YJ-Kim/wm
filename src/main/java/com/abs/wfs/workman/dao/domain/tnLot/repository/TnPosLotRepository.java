@@ -22,4 +22,6 @@ public interface TnPosLotRepository extends JpaRepository<TnPosLot, String> {
      */
     Optional<List<TnPosLot>> findBySiteIdAndEqpIdAndUseStatCd(String siteId, String eqpId, UseStatCd useStatus);
 
+    Optional<TnPosLot> findBySiteIdAndCarrIdAndUseStatCd(String siteId, String carrId, UseStatCd useStatus);
+
 }

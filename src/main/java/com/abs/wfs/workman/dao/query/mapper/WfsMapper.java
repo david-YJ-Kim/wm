@@ -48,5 +48,7 @@ public interface WfsMapper {
 	List<Map<String,String>> selectInlineLastEqp(Map<String, String> map);
 
 	List<Map<String,String>> selectInlineEqpList(Map<String, String> map);
+
+	List<Map<String,String>> selectLotQtyInfo(Map<String, String> map);
 	
 }

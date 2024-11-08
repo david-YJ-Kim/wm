@@ -35,6 +35,10 @@ public class TnPosLotServiceImpl {
         return this.tnPosLotRepository.findBySiteIdAndLotIdAndUseStatCd(siteId, lotId, useStatCd);
     }
 
+    public Optional<TnPosLot> findBySiteIdAndCarrIdAndUseStatCd(String siteId, String carrId, UseStatCd useStatCd) {
+        return this.tnPosLotRepository.findBySiteIdAndCarrIdAndUseStatCd(siteId, carrId, useStatCd);
+    }
+
 
 
 }

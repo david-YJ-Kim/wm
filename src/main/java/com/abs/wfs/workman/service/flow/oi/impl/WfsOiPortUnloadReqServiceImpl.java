@@ -1,5 +1,9 @@
 package com.abs.wfs.workman.service.flow.oi.impl;
 
+import com.abs.wfs.workman.dao.domain.tnLot.model.TnPosLot;
+import com.abs.wfs.workman.dao.domain.tnLot.service.TnPosLotServiceImpl;
+import com.abs.wfs.workman.dao.query.dao.CommonDAO;
+import com.abs.wfs.workman.dao.query.lot.service.LotQueryServiceImpl;
 import com.abs.wfs.workman.dao.query.service.WfsCommonQueryService;
 import com.abs.wfs.workman.dao.query.service.WfsQueryService;
 import com.abs.wfs.workman.dao.query.service.vo.UpdatePortAutoUnloadYnReqVo;
@@ -17,9 +21,15 @@ import com.abs.wfs.workman.util.code.ApSystemCodeConstant;
 import com.abs.wfs.workman.util.code.UseStatCd;
 import com.abs.wfs.workman.util.code.UseYn;
 import com.abs.wfs.workman.util.code.WorkStatCd;
+import com.abs.wfs.workman.util.exception.ApExceptionCode;
+import com.abs.wfs.workman.util.exception.ScenarioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -40,6 +50,12 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
 
     @Autowired
     WfsQueryService wfsQueryService;
+
+    @Autowired
+    TnPosLotServiceImpl tnPosLotService;
+
+    @Autowired
+    CommonDAO commonDAO;
 
 
     @Override
@@ -74,6 +90,27 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
 
         if(eqpId.equals("AM-RE-00-01")){
             log.info("OI_PORT_UNLOAD_REQ >> AM-RE-00-01");
+
+            Optional<TnPosLot> tnPosLot = tnPosLotService.findBySiteIdAndCarrIdAndUseStatCd(body.getSiteId(), body.getCarrId(), UseStatCd.Usable);
+            if(!tnPosLot.isPresent() || tnPosLot.get().getLotId() == null){
+                throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_LOT_INF_NOTFOUND, apFlowProcessVo.getLang()
+                        , new String[] {"carrId : " + body.getCarrId()});
+
+            }
+
+            List<Map<String,String>> lotQtyInfo = commonDAO.selectLotQtyInfo(body.getSiteId(), body.getCarrId());
+
+            if(lotQtyInfo != null) {
+                int qty = Integer.parseInt(lotQtyInfo.get(0).get("QTY"));
+                int cnt = Integer.parseInt(lotQtyInfo.get(0).get("CNT"));
+
+                if(qty != cnt) {
+                    log.info("{} carr QTY is not Valid Lot Qty[{}], CARR Exist QTy[{}]", body.getCarrId(), qty, cnt);
+                    throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_CST_PANEL_QTY_UNMATCHED, apFlowProcessVo.getLang()
+                            , new String[] {"carrId : " + body.getCarrId()});
+                }
+            }
+
 
             //EAP로 CARR_CANCEL_REQ 발송
             EapCarrCancelReq.Body carrCancelReqIvo = new EapCarrCancelReq.Body();

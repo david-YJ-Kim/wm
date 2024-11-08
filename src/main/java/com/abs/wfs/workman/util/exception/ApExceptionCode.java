@@ -21,6 +21,7 @@ public enum ApExceptionCode {
 
     WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED("WFS_ERR_TRAY_NOT_EMPTY_UNMATCHED", "해당 TRAY (%S)의 상태가 EMPTY가 아닙니다."),
 
+    WFS_ERR_CST_PANEL_QTY_UNMATCHED("WFS_ERR_CST_PANEL_QTY_UNMATCHED", "해당 CST (%S)의 PANEL 수량이 맞지 않습니다."),
     /**
      * UNREGISTER: 등록되어 있지 않다.
      */

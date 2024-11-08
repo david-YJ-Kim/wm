@@ -921,7 +921,27 @@ public class CommonDAO {
 		}
 		return returnVal;
 	}
-	
-	
+
+	public List<Map<String, String>> selectLotQtyInfo(String siteId, String carrId) throws Exception {
+
+		try {
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("siteId", siteId);
+			param.put("carrId", carrId);
+			param.put("useStatCd", UseStatCd.Usable.name());
+
+			List<Map<String,String>> result = wfsMapper.selectLotQtyInfo(param);
+			if(result.isEmpty()) {
+				return null;
+			}
+
+			return result;
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 }
