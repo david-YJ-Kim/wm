@@ -590,5 +590,16 @@
 	      AND EQP_INLINE_ID = #{eqpInlineId}
 		ORDER BY EQP_INLINE_SEQ
 	</select>
+
+	<select id="selectLotQtyInfo" parameterType="hashMap" resultType="hashMap">
+		SELECT l.LOT_ID, TO_CHAR( l.QTY) QTY , TO_CHAR(r.CNT) CNT
+		FROM TN_POS_LOT l,
+			 (SELECT LOT_ID, CARR_ID, count(*) CNT FROM TN_POS_LOT_CARRIER_REL t WHERE USE_STAT_CD= #{useStatCd}  GROUP BY LOT_ID,CARR_ID) r
+		WHERE l.LOT_ID = r.lot_id
+		  AND l.CARR_ID = r.CARR_ID
+		  AND l.SITE_ID = #{siteId}
+		  AND l.USE_STAT_CD = #{useStatCd}
+		  AND l.CARR_ID = #{carrId}
+	</select>
 	
 </mapper>
