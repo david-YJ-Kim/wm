@@ -74,6 +74,7 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
 
         if(eqpId.equals("AM-RE-00-01")){
             log.info("OI_PORT_UNLOAD_REQ >> AM-RE-00-01");
+
             //EAP로 CARR_CANCEL_REQ 발송
             EapCarrCancelReq.Body carrCancelReqIvo = new EapCarrCancelReq.Body();
 
