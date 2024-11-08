@@ -105,7 +105,7 @@ public class WfsOiPortUnloadReqServiceImpl implements WfsOiPortUnloadReq {
                 int cnt = Integer.parseInt(lotQtyInfo.get(0).get("CNT"));
 
                 if(qty != cnt) {
-                    log.info("{} carr QTY is not Valid Lot Qty[{}], CARR Exist QTy[{}]", body.getCarrId(), qty, cnt);
+                    log.info("{} carr QTY is not Valid Lot Qty[{}], CARR Exist Qty[{}]", body.getCarrId(), qty, cnt);
                     throw  new ScenarioException(apFlowProcessVo, apFlowProcessVo.getApMsgBody(), ApExceptionCode.WFS_ERR_CST_PANEL_QTY_UNMATCHED, apFlowProcessVo.getLang()
                             , new String[] {"carrId : " + body.getCarrId()});
                 }
