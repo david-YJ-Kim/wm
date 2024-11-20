@@ -123,7 +123,7 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
         boolean isEmptyTray = prodMtrlId == null || prodMtrlId.isEmpty();
 
-        // 진성Empty인지 체크
+        // 진성 Empty 인지 체크
         if(isEmptyTray) {
             TnProducedMaterial tnProducedMaterial = tnProducedMaterialService.findByCarrId(siteId, carrId);
             if(tnProducedMaterial != null) {
@@ -255,15 +255,16 @@ public class WfsTrayLoadCompServiceImpl implements WfsTrayLoadComp {
 
             }
 
-            BrsLotDeassignCarr.Body lotDgnVo = new BrsLotDeassignCarr.Body();
-            List<Slots> slots = new ArrayList<>();
-            slots.add(Slots.builder().slotNo("1").prodMtrlId(prodMtrlId).build());
-
-            lotDgnVo.setSiteId(body.getSiteId()) ; lotDgnVo.setEqpId(eqpId); lotDgnVo.setPortId(portId); lotDgnVo.setCarrId(carrId);
-            lotDgnVo.setLotId(lotId); lotDgnVo.setDeasgnQty("1"); lotDgnVo.setSlots(slots);
-
-            this.messageSendService.sendMessageSend(BrsLotDeassignCarr.system, BrsLotDeassignCarr.cid,
-                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), lotDgnVo));
+            // TODO RE00 Assign-Deassign 시점 변경으로 임시 주석 처리
+//            BrsLotDeassignCarr.Body lotDgnVo = new BrsLotDeassignCarr.Body();
+//            List<Slots> slots = new ArrayList<>();
+//            slots.add(Slots.builder().slotNo("1").prodMtrlId(prodMtrlId).build());
+//
+//            lotDgnVo.setSiteId(body.getSiteId()) ; lotDgnVo.setEqpId(eqpId); lotDgnVo.setPortId(portId); lotDgnVo.setCarrId(carrId);
+//            lotDgnVo.setLotId(lotId); lotDgnVo.setDeasgnQty("1"); lotDgnVo.setSlots(slots);
+//
+//            this.messageSendService.sendMessageSend(BrsLotDeassignCarr.system, BrsLotDeassignCarr.cid,
+//                    this.apPayloadGenerateService.generateBody(apFlowProcessVo.getTid(), lotDgnVo));
 
         }
 
